@@ -6,12 +6,11 @@
 	#	     getSequence(seq) retourne un vecteur de char	     		    #
 	#            getFrag(seq,begin,end) retourne un vecteur de caractères               #
 	#            getLength(seq) retourne un "entier"                                    #
-	#            getName(seq) retourne une chaîne                                       #
-	#            getProp(seq) retourne une liste nommée                                 #
+	#            getName(seq) retourne une chaîne                                       #               
 	#	     getAnnot(seq,nl) reourne un vecteur de string                          #   
         #            getExon(seq) retourne la position des exons                            # 
      	#	     getKeyword(seq) retourne les mots-clef associés à une séquence         #
-	#	     getTrans(seq) retourne un vecteur de char                             # 
+	#	     getTrans(seq) retourne un vecteur de char                              # 
 	#####################################################################################
 
 
@@ -39,10 +38,6 @@ getLength.default = function(object){
 
 getName.default = function(object){
  	stop("no name")
-}
-
-getProp.default = function(object){
- 	stop("no property")
 }
 
 getAnnot.default = function(object,nbl){ 
@@ -83,12 +78,6 @@ getName =  function(object) {
 	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getName.default(object)}
 	else UseMethod("getName")
 }
-
-getProp =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getProp.default(object)}
-	else UseMethod("getProp")
-}
-
 
 getAnnot = function(object,nbl) {
 	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
@@ -153,10 +142,6 @@ getName.SeqFastadna = function(object){
 	return(attr(object,"name"))
 }
 
-getProp.SeqFastadna = function(object){
-	return(list(seqtype="DNA"))
-}
-
 getAnnot.SeqFastadna = function(object,nbl){
 	return(attr(object,"Annot"))
 }
@@ -210,11 +195,6 @@ getLength.SeqFastaAA = function(object){
 
 getName.SeqFastaAA = function(object){
 	return(attr(object,"name"))
-}
-
-
-getProp.SeqFastaAA = function(object){
-	return(list(seqtype="AA"))
 }
 
 getAnnot.SeqFastaAA = function(object,nbl){
@@ -297,12 +277,6 @@ getLength.SeqAcnucWeb = function( object ){
 }
 
 
-getProp.SeqAcnucWeb = function(object){
-
-	return( getAttribut.socket(attr(object,"socket"),object) ) 
-
-}
-
 getAnnot.SeqAcnucWeb = function(object, nbl ){
 		
 	return( readAnnots.socket( socket= attr(object,"socket"),name = object, nl = nbl) ) 
@@ -370,11 +344,6 @@ getLength.SeqFrag = function(object){
 getName.SeqFrag = function(object){
 	return(attr(object,"seqMother"))
 }
-
-getProp.SeqFrag = function(object){
-	return(list())
-}
-
 
 getTrans.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
 	translate(seq, frame = frame, sens = sens, numcode = numcode)
