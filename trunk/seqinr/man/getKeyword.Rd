@@ -2,7 +2,7 @@
 \alias{getKeyword}
 \alias{getKeyword.SeqAcnucWeb}
 \alias{getKeyword.SeqAcnucLocal}
-\alias{getKeyword.socket}
+\alias{getKeywordsocket}
 \alias{getKeyword.default}
 \title{ Generic Function to get keyword associated to a sequence }
 \description{
