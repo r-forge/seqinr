@@ -52,10 +52,14 @@ Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a n
 
 \seealso{\code{\link{query}},\code{\link{choosebank}}}
 \examples{
+
+# Warning: you will create a database structured under ACNUC in your working directory. 	
+
   \dontrun{fileseq = system.file("sequences/felis.seq", package = "seqinr")}  
  \dontrun{mkbank("felis",fileseq)}
   \dontrun{choosebank("felis")}
   \dontrun{toto=2}
+
 }
 \keyword{ utilities }
 

@@ -25,8 +25,8 @@ summary.SeqAcnucLocal(object,...)
 }
 \author{ D. Charif }
 \examples{
-  choosebank(bank="demo")
-  query("coli","sp=esherichia coli")
-  is.SeqAcnucLocal(coli$req[[1]])
+  \dontrun{choosebank(bank="demo")}
+  \dontrun{query("coli","sp=esherichia coli")}
+  \dontrun{is.SeqAcnucLocal(coli$req[[1]])}
 }
 \keyword{utilities}
