@@ -63,4 +63,4 @@ Monterey, CA: Wadsworth. }
 \dontrun{dotchart.uco(global, main = title) }
 
 }
-\keyword{Graphics}
+\keyword{hplot}
