@@ -2,10 +2,10 @@ Package: seqinr
 Version: 1.0
 Date: 2003-01-26
 Title: seqinr
-Author: Delphine Charif <charif@biomserv.univ-lyon1.fr>
+Author: Delphine Charif <charif@biomserv.univ-lyon1.fr> and Jean Lobry <lobry@biomserv.univ-lyon1.fr>
 Maintainer: seqinr <seqteam@biomserv.univ-lyon1.fr> 
 Description: Exploratory data analysis and data visualization
   for biological sequence (DNA and protein) data. Include also
   utilities for sequence data manadgment under the ACNUC system.
 License: GPL version 2 or newer
-
+URL: http://pbil.univ-lyon1.fr/software/SeqinR/seqinr_home.php, Mailing list: http://pbil.univ-lyon1.fr/software/SeqinR/seqinr3_angl.php

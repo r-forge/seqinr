@@ -1,24 +1,27 @@
 
-#
-# Compiler et installer seqinr.
-#
+################################
+# Compiler et installer seqinR #
+################################
 
 
 cd $HOME/seqinr
 
-#mkdir $HOME/seqinr/library
+# Création du dossier library qui accueillera seqinr
 
-#$HOME/seqinr/src/.exec/make
+mkdir $HOME/seqinr/library
+
+# La variable d'environnement R_LIBS indique le dossier contenant les packages R 
+
+export R_LIBS=$HOME/seqinr/library
+
+# Verification de la structure du package
 
 R CMD check $HOME/seqinr/
 
-#cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
-#cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
+# Création du package binaire
 
-R CMD build --force $HOME/seqinr/seqinr.Rcheck/seqinr/
+R CMD build --binary $HOME/seqinr/seqinr.Rcheck/seqinr/
 
-mv $HOME/seqinr/seqinr_1.0.tar.gz $HOME/seqinr/library/seqinr_1.0.tar.gz
+# Installation du package (par défaut dans le dossier R_LIBS)
 
 R CMD INSTALL $HOME/seqinr/library/seqinr_1.0.tar.gz
-
-#export R_LIBS=$HOME/seqinr/library
