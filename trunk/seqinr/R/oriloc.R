@@ -1,13 +1,28 @@
+########################################################################
+#                         oriloc
 #
+# Prediction of replication boundaries in unannotated genomes
 #
-# oriloc.c -> oriloc.R
-#
+########################################################################
+
 oriloc <- function(
   seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
   g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
-  oldoriloc = FALSE)
+  oldoriloc = FALSE,
+  gbk = NULL,
+  clean.tmp.files = TRUE)
 {
-  seq <- tolower( read.fasta( seq.fasta )[[1]])
+  if( !missing(gbk) ) # Work directly with genbank file
+  {
+    tmpgbk <- tempfile(pattern = "oriloc_gbk")
+    seq.fasta <- tempfile(pattern = "oriloc_fasta")
+    g2.coord <- tempfile(pattern = "oriloc_g2")
+    download.file( gbk, destfile = tmpgbk )
+    gb2fasta( tmpgbk, seq.fasta )
+    gbk2g2( tmpgbk, g2.coord )
+  } 
+ 
+  seq <- tolower(unlist(strsplit(readLines(seq.fasta)[-1], split="")))
   lseq <- length(seq)
   g2 <- readLines( g2.coord )
 #
@@ -142,6 +157,17 @@ oriloc <- function(
     CDS.excess, skew, x, y) )
   names(result) <- c("g2num", "start.kb", "end.kb", "CDS.excess",
     "skew","x","y")
+#
+# Delete temporary files if requested:
+#
+  if( !missing(gbk) && clean.tmp.files)
+  {
+    file.remove(tmpgbk)
+    file.remove(seq.fasta)
+    file.remove(g2.coord)
+  } 
+#
+# the end
+#
   return(result)
 }
-
