@@ -21,6 +21,6 @@ tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE)
 
 \seealso{ \code{\link{translate}} }
 \examples{
- \dontrun{tablecode()}
+ tablecode()
 }
 \keyword{ utilities }
