@@ -2,7 +2,7 @@
 \alias{translate}
 \title{ Translate nucleic acid sequences }
 \description{
-   This function translate nucleic acid sequences to the corresponding peptide sequence. It can translate in any of the 3 forward or three reverse sense frames. It can translate using the standard (Universal) genetic code and also with a selection of non-standard codes. 
+   This function translates nucleic acid sequences to the corresponding peptide sequence. It can translate in any of the 3 forward or three reverse sense frames. It can translate using the standard (Universal) genetic code and also with a selection of non-standard codes. 
 }
 \usage{
 translate(seq, frame = 0, sens = "F", numcode = 1)
@@ -18,7 +18,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
 \details{
 
  The following genetic codes are described here. The number preceding each code corresponds to \code{numcode}. 
-\arguments{	
+\itemize{	
   \item{1}{ standard }
   \item{2}{ vertebrate.mitochondrial }
   \item{3}{ yeast.mitochondrial }
@@ -39,10 +39,13 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
 } 
 }
 \value{
-  \code{translate} returns a vector of character containig the peptide sequence in the standard one-letter IUPAC code. Termination (STOP) codons are translated as the character '*'.
+  \code{translate} returns a vector of character containing the peptide sequence in the standard one-letter IUPAC code. Termination (STOP) codons are translated as the character '*'.
 }
 \references{
-    The genetic codes have been taken from the ncbi taxonomy database: \url{ http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. Last update October 05, 2000.}
+    The genetic codes have been taken from the ncbi taxonomy database: \url{ http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. Last update October 05, 2000.\cr
+The IUPAC one-letter code for aminoacids is described at: 
+\url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}
+}
  
 \author{ D. CHARIF }
 
