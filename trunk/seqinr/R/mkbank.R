@@ -22,7 +22,8 @@ mkbank = function(bankname,fileseq,bank="genbank",format="flatfiles"){
 #
 # Génération de la banque vide par le programme initf
 #
-	if(format=="gcg") form=format
+	if(format=="gcg") form="gcg"
+	else(form = "")
 	com=paste(paste(path4,bank,form,sep=" "),paste("div",substr(fileseq,1,b-1),sep="="),sep=" ")
 	system(paste(paste("cd",path3,sep=" "),com,sep=" ;"))
 

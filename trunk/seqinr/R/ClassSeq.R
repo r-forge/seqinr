@@ -269,15 +269,16 @@ getProp.SeqReq = function(SeqReq){
 
 
 
-
-deftype = function(seq){
-	c1=c("A","C","G","T")
-	c2=c("A","C","G","U")
-	if(sum(as.numeric(seq %in% c1))==length(seq)) seqtype="DNA"
-	else if(sum(as.numeric(seq %in% c2))==length(seq)) seqtype="RNA"
-	else if(sum(as.numeric(seq %in% SEQINR.UTIL$CODON.AA$L))==length(seq)) seqtype="AA"
-	return(seqtype)
-	}
+#
+#deftype = function(seq){
+#	c1=c("A","C","G","T")
+#	c2=c("A","C","G","U")
+#	if(sum(as.numeric(seq %in% c1))==length(seq)) seqtype="DNA"
+#	else if(sum(as.numeric(seq %in% c2))==length(seq)) seqtype="RNA"
+#	else if(sum(as.numeric(seq %in% SEQINR.UTIL$CODON.AA$L))==length(seq)) seqtype="AA"
+#	return(seqtype)
+#	}
+#
 
 AApropr = function(SeqFastaAA){
 	s=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
