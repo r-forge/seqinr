@@ -16,11 +16,8 @@ uco = function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE, RSCU = FALS
 	ll = split(as.character(SEQINR.UTIL$CODON.AA$CODON),SEQINR.UTIL$CODON.AA$AA)
 	l.sum = lapply(l,sum)
 	l.nb = lapply(l,length)
-        res1=list()
-        res2=list()
-	for(i in 1:length(l)){ 
-	res1[[i]]=round(l[[i]]/l.sum[[i]],3)
-	res2[[i]]=round(res1[[i]]/(1/l.nb[[i]]),3)
+	res1 = lapply(1:21,function(x){round(l[[x]]/unlist(l.sum[[x]]),3)})
+	res2 = lapply(1:21,function(x){round(res1[[x]]/l.nb[[x]],3)})
 	}
 	if( RSCU == TRUE){
 	data.frame(codons=unlist(ll),eff=unlist(l),RSCU=unlist(res2))
@@ -28,20 +25,8 @@ uco = function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE, RSCU = FALS
 	else{
 	data.frame(codons=unlist(ll),eff=unlist(l))
 	}
-	}
 }
 
-#uco <- function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE){
-#	sq<-splitseq(seq,frame)
-#	eff<-table(factor(sq,levels=SEQINR.UTIL$CODON.AA$CODON))
-#	if(freq == TRUE) eff<-round(eff/(floor(length(seq)/3)),4)
-#	if(as.data.frame == TRUE){
-#	eff=as.data.frame(cbind(as.character(SEQINR.UTIL$CODON.AA$AA),as.character(SEQINR.UTIL$CODON.AA$CODON),as.vector(eff)))
-#	if(freq == TRUE) names(eff)=c("aa","codon","freq")
-#	else names(eff)=c("aa","codon","eff")
-#	}
-#	eff
-#} 
 
 dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7, 
   alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), 
