@@ -232,11 +232,12 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   SEXP d;
   int MAXNSEQS;
   char **seq;
-  int i, j, k, n,totseqs, seq_long, nbases;
+  int i, j, k, n,totseqs, seq_long, nbases,tutu;
   int mat_number, seq_type;
 
 
-  MAXNSEQS = INTEGER_VALUE(nbseq)+1;
+  tutu=0;
+  MAXNSEQS = INTEGER_VALUE(nbseq);
   int ndiff[MAXNSEQS][MAXNSEQS];
   double dist[MAXNSEQS][MAXNSEQS];
   int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5,
@@ -276,9 +277,10 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
 
   seq = (char **)malloc(totseqs*sizeof(char *));
    
-  for(i=0;i<=totseqs;i++){
+  for(i=0;i<totseqs;i++){
     seq[i] = CHAR(STRING_ELT(sequences,i));
   }
+
 
   /*********************************************************/
   /*     Computing distance between sequences i and j      */
@@ -301,7 +303,7 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
             {
 	      
 	      if(seq_type == 1){
-	
+	 
 		/***************************/
                 /* DNA/RNA sequences       */
 		/***************************/
