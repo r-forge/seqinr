@@ -21,4 +21,3 @@ comp(seq)
    comp(b)
 }
 \keyword{ manip }
-

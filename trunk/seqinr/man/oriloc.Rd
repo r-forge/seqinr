@@ -23,7 +23,6 @@ of the oriloc program }
   \item{gbk}{ the URL of a file in GenBank format}
   \item{clean.tmp.files}{ Logical, if TRUE temporary files are removed }
   \item{rot}{ Integer, with zero default value, used to permute circurlarly the genome. }
-
 }
 \details{
 The method builds on the fact that there are compositional asymmetries between
@@ -62,7 +61,6 @@ for the detection of replication origins in bacteria. \emph{Biochimie},
 \bold{78}:323-326.
 }
 \author{ J.R. Lobry and A.C. Frank}
-
 \note{ The method works only for genomes having a single origin of replication 
 from which the replication is bidirectional. To detect the composition changes,
 a DNA-walk is performed. In a 2-dimensional DNA walk, a C in the sequence 
@@ -82,13 +80,9 @@ one or two peaks. Positive peak means origin, and negative means terminus.
 In the case of only one peak, the sequence starts at the origin or terminus 
 site. }
 \examples{
-  \dontrun{
     out <- oriloc()
-  }
-  \dontrun{
     plot(out$st, out$sk, type="l", xlab="Map position in Kb",
     ylab = "Cumulated composite skew", 
     main=expression(italic(Chlamydia~~trachomatis)~~complete~~genome))
-  }
 }
 \keyword{utilities}

@@ -9,7 +9,6 @@ function is based on \code{regexp} allowing thus for complex motif searches.
 \usage{
 words.pos(pattern, text, extended = TRUE, perl = FALSE)
 }
-
 \arguments{
   \item{pattern}{character string containing a regular expression to be
 matched in the given character vector.}
@@ -27,14 +26,13 @@ argument, unless `perl = TRUE' when they are those of PCRE, \url{
 ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/}.\cr
 `perl=TRUE' will only be available if R was compiled against 
  PCRE: this is detected at configure time.  All Unix and Windows
-system should have it.}
-
+system should have it.
+}
 \value{
 a vector of positions for which the motif \code{pattern} was
 found in the sequence \code{text}.
 }
 \author{ J.R. Lobry }
-
 \seealso{ \code{\link{regexpr}} }
 \examples{
 myseq <- "tatagaga"
@@ -45,4 +43,3 @@ words.pos("ga", myseq)  # Should be 5 7
 words.pos("[ct][ag]", myseq) # Should be 1 3
 }
 \keyword{ utilities }
-

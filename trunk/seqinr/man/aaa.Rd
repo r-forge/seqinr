@@ -7,7 +7,6 @@ into the three-letter one, for instance "A" into "Ala".}
 \usage{
 aaa(aa)
 }
-
 \arguments{
   \item{aa}{ A vector of single characters }
 }
@@ -23,7 +22,6 @@ The IUPAC one-letter code for aminoacids is described at:
 \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/} 
 }
 \author{ J.R. Lobry }
-
 \seealso{ \code{\link{translate}}, \code{\link{a}} }
 \examples{
   # show all allowed values

@@ -8,23 +8,15 @@ as "BigBang" into a vector of chars such as "B" "i" "g" "B" "a" "n" "g"
 \usage{
 s2c(string)
 }
-
 \arguments{
   \item{string}{ a string of chars }
 }
-
 \value{
   a vector of chars
 }
 \author{ J.R. Lobry }
-
-\section{WARNING }{ Does not check its argument }
-
 \seealso{ \code{\link{c2s}} }
-
 \examples{
 s2c( "BigBang" )
 }
 \keyword{utilities}
-
-

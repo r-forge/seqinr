@@ -23,6 +23,6 @@ Fitch, W.M. (1966) Mutation values for the interconversion of amino acid pair.
 \seealso{  \code{\link{read.alignment} } }
 \examples{
  s = read.alignment(File=system.file("sequences/test.mase", package = "seqinr"), format="mase")
- dist.alignment( s, matrix = "identity" )
+ \dontrun{dist.alignment( s, matrix = "identity" )}
 }
 \keyword{ manip }

@@ -28,10 +28,9 @@ a kind of isomorphism between the paste operator on DNA chars and
 the + operator on integer coding for DNA chars. By this way, you can
 work either in the char set, either in the integer set, depending
 on what is more convenient for your purpose, and then switch from one 
-set to the other one as you like.}
-
+set to the other one as you like.
+}
 \seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{unclass}} }
-
 \examples{
 #example of default behaviour
 urndna <- c("a","c","g","t")

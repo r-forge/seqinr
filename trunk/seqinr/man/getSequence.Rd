@@ -10,7 +10,6 @@
 \alias{getseq}
 \alias{getSequenceSocket}
 \alias{getseq2}
-
 \title{ Generic Function To Get a sequence }
 \description{
    Method for the classes of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} and \code{SeqFrag}. 

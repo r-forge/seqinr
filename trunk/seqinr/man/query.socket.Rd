@@ -8,14 +8,12 @@ This is a major command of the package. It executes all sequence retrievals usin
 \usage{
 query.socket(socket,listname,query)
 }
-
 \arguments{
   \item{socket}{a socket of class connection}
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request
 with the syntax given in the details section}
 }
-
 \details{
 Each selection criterion is written using the following syntax:
 
@@ -136,7 +134,6 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
 \item{F = file name}{ sequences whose names are in a specified file.}                                
 \item{FA = file name}{ sequences whose accesion numbers are in a specified file.} 
 }
-
 \value{
   A list with the following components:
   \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
@@ -159,7 +156,6 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \author{J.R. Lobry & D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
-
 \seealso{ \code{\link{choosebank.socket}}, \code{\link{getSequence}}, \code{\link{plot.SeqAcnucWeb}} }
 \examples{
  \dontrun{s = choosebank.socket("genbank")}

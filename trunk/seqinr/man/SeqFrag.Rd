@@ -23,7 +23,6 @@
   \item{begin}{ the position of the first base of the fragment on the mother sequence}
   \item{end}{ the position of the last base of the fragment on the mother sequence }
   \item{class}{ \code{SeqFrag} which is the newest class of the sequence } 
-  
   \code{is.SeqFrag} returns TRUE if the object is of class Seqfrag. 
 }
 \author{ D. Charif }

@@ -7,7 +7,7 @@ Draw a Cleveland dot plot for codon usage tables
 \usage{
 dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("tcag"),
  pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"),
-lcolor = "gray", ...)
+lcolor = "gray", xlim, ...)
 }
 \arguments{
   \item{x}{table of codon usage as computed by \code{uco}. }
@@ -22,6 +22,7 @@ acids. If FALSE use the one-letter code for amino-acids. }
   \item{color}{the color(s) to be used for points an labels. }
   \item{gcolor}{the single color to be used for group labels and values.}
   \item{lcolor}{the color(s) to be used for the horizontal lines.}
+  \item{xlim}{horizontal range for the plot }	
   \item{\dots}{graphical parameters can also be specified as arguments}
 }
 \value{

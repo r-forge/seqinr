@@ -1,6 +1,5 @@
 \name{tablecode}
 \alias{tablecode}
-
 \title{ to plot genetic code as in textbooks }
 \description{
 This function plots a genetic code table as in textbooks, that is
@@ -10,7 +9,6 @@ are almost always in the same boxes.
 \usage{
 tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE)
 }
-
 \arguments{
   \item{numcode}{ The genetic code number as in \code{translate} }
   \item{urn.rna}{ The letters to display codons, use c("t","c",
@@ -18,7 +16,6 @@ tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE)
   \item{dia}{ to produce a yellow/blue plot for slides }
 }
 \author{J.R. Lobry }
-
 \seealso{ \code{\link{translate}} }
 \examples{
  tablecode()

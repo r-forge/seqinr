@@ -10,13 +10,11 @@ produces the list of all sequences that fit the required criteria.
 \usage{
 query(listname, request)
 }
-
 \arguments{
   \item{listname}{The name of the list as a quoted string of chars}
   \item{request}{A quoted string of chars containing the request
 with the syntax given in the details section}
 }
-
 \details{
 Each selection criterion is written using the following syntax:
 
@@ -161,7 +159,6 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \author{J.R. Lobry & D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
-
 \seealso{ \code{\link{choosebank}} }
 \examples{
 # Select demo database:

@@ -13,7 +13,6 @@ also represented
 dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500,
        sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000)
 }
-
 \arguments{
   \item{fit}{ integer value. If \code{fit == O} no normal fit
 is produced, if \code{fit == 2} try to fit a superposition of
@@ -29,16 +28,13 @@ superposition of three normal distribution.
   \item{m3}{ initial guess for the mean of the third population. }
   \item{sd3}{initial guess for the standard deviation of the second population. }
 }
-
 \value{
   An invisible dataframe with three components:
   \item{comp1 }{genus name}
   \item{comp2 }{species names}
   \item{comp3 }{genome size in Kb}
 }
-
 \author{ J.R. Lobry }
-
 \seealso{ \code{\link{density}} }
 \examples{
   \dontrun{dia.bactgensize()}

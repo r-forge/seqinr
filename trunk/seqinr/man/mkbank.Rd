@@ -1,6 +1,5 @@
 \name{mkbank}
 \alias{mkbank}
-
 \title{ To create your own ACNUC data base }
 \description{
   \code{mkbank} create an ACNUC data base which can be request using the \code{choosebank} and \code{query} functions.
@@ -39,27 +38,22 @@ EXTRACT\cr
 
 Thirdly, the gbemgener program will generate the ACNUC data base and fill the index files.
 }
-
 \value{
   An ACNUC data base is created in the current working directory. During the programs execution, some comments will appear.    
 }
-
 \references{\url{http://pbil.univ-lyon1.fr/databases/acnuc.html}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr }
-\author{ D. CHARIF }
+\author{ D. Charif }
 \note{ Most of the documentation was imported from ACNUC help files written by Manolo Gouy }
-
 \seealso{\code{\link{query}},\code{\link{choosebank}}}
 \examples{
 
 # Warning: you will create a database structured under ACNUC in your working directory. 	
 
   \dontrun{fileseq = system.file("sequences/felis.seq", package = "seqinr")}  
- \dontrun{mkbank("felis",fileseq)}
+  \dontrun{mkbank("felis",fileseq)}
   \dontrun{choosebank("felis")}
   \dontrun{toto=2}
-
 }
 \keyword{ utilities }
-

@@ -22,11 +22,9 @@ The algorithm is quite the same as the one which is implemented at the following
 \note{ 
 Protein pI is calculated using pK values of amino acids described in  Bjellqvist et al. See also \code{SEQINR.UTIL} for more details.
  }
-
 \seealso{\code{\link{SEQINR.UTIL}} }
 \examples{
-
-	ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
-	computePI(ss[[1]]) 
+ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
+computePI(ss[[1]]) 
 }
 \keyword{manip}

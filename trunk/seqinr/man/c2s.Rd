@@ -9,23 +9,16 @@ as "merged".
 \usage{
 c2s(chars = c("m", "e", "r", "g", "e", "d"))
 }
-
 \arguments{
   \item{chars}{ a vector of chars }
 }
-
 \value{
   a string
 }
 \author{ J.R. Lobry }
-
 \section{WARNING }{ Does not check its argument }
-
 \seealso{ \code{\link{s2c}} }
-
 \examples{
 c2s( c("m","e","r","g","e","d") )
 }
 \keyword{utilities}
-
-

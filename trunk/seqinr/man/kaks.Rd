@@ -10,9 +10,6 @@ kaks(x)
 \arguments{
   \item{x}{ An object of class \code{alignment} }
 }
-\details{
- 
-}
 \value{
   \item{ ks }{ matrix of ks values }
   \item{ ka }{ matrix of ka values }
