@@ -1,8 +1,10 @@
 \name{dotchart.uco}
 \alias{dotchart.uco}
 
-\title{Draw a Cleveland dot plot for codon usage tables }
-
+\title{Cleveland plot for codon usage tables }
+\description{
+Draw a Cleveland dot plot for codon usage tables
+}
 \usage{
 dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("TCAG"), pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"), lcolor = "gray", xlim = c(0, max(x)), main = NULL, xlab = NULL, ylab = NULL, ...)
 }
