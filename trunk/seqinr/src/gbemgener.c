@@ -2240,7 +2240,3 @@ erreur = mdshrt(ksub, seq, 4, num, NULL);
 if(erreur != 2) fast_add_seq_to_keyw(num, seq);
 #undef KEY_WIDTH
 }
-
-
-
-
