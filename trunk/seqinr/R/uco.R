@@ -86,3 +86,34 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
 
   return( invisible(result) ) 
 }
+
+
+
+uco2 = function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE, RSCU = FALSE){
+	
+	sequence <- splitseq( seq, frame)
+	eff <- table(factor( sequence , levels=SEQINR.UTIL$CODON.AA$CODON) )
+	
+	if(as.data.frame==FALSE){
+		if(freq==FALSE){
+		return(eff)
+		}
+		else return(round(eff/(floor(length(seq)/3)),4))
+	}
+	else{
+	 l = split(as.numeric(as.vector(eff)),SEQINR.UTIL$CODON.AA$AA)
+	ll = split(as.character(SEQINR.UTIL$CODON.AA$CODON),SEQINR.UTIL$CODON.AA$AA)
+	l.sum = lapply(l,sum)
+	l.nb = lapply(l,length)
+	for(i in 1:length(l)){ 
+	res1[[i]]=round(l[[i]]/l.sum[[i]],3)
+	res2[[i]]=round(res1[[i]]/(1/l.nb[[i]]),3)
+	}
+	if( RSCU == TRUE){
+	data.frame(codons=unlist(ll),eff=unlist(l),RSCU=unlist(res2))
+	}
+	else{
+	data.frame(codons=unlist(ll),eff=unlist(l))
+	}
+	}
+}
