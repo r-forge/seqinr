@@ -10,8 +10,12 @@ lseqinr()
 \value{
   The list of objects in the package seqinr  
 }
-\author{ J.R. Lobry }
-
+\note{ 
+Use \code{library(help=seqinr)} to have a summary of the functionc available in the package.
+}
+\author{
+J.R. Lobry 
+}
 \examples{
 lseqinr()
 }

@@ -33,9 +33,10 @@ read.alignment(File, format)
 }
 \references{ The source code of the C functions that are used to read the differents formats have been taken from SeaView \url{ http://pbil.univ-lyon1.fr/software/seaview.html} 
 }
-\author{ D. CHARIF  }
+\author{ D. Charif }
 \examples{
-	s = read.alignment(File=system.file("sequences/test.mase",package = "seqinr"),
- format="mase")
+	mase = read.alignment(File=system.file("sequences/test.mase",package = "seqinr"), format="mase")
+	phylip = read.alignment(File=system.file("sequences/test.phylip",package = "seqinr"), format="phylip")
+	msf = read.alignment(File=system.file("sequences/test.msf",package = "seqinr"), format="msf")
 }
 \keyword{ manip }

@@ -27,8 +27,6 @@ Protein pI is calculated using pK values of amino acids described in  Bjellqvist
 \examples{
 
 	ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
-	
-	seqAA = ss[[1]][-length(ss[[1]])]
-	computePI(seqAA) 
+	computePI(ss[[1]]) 
 }
 \keyword{manip}

@@ -39,19 +39,19 @@ Monterey, CA: Wadsworth. }
 \seealso{ \code{\link{dotchart}}, \code{\link{uco}}, \code{\link{aaa}},
 \code{\link{translate}} }
 \examples{
-\dontrun{# Load dataset:}
-\dontrun{data(ec999)}
-\dontrun{# Compute codon usage for all coding sequences:}
-\dontrun{ec999.uco <- lapply(ec999, uco) }
-\dontrun{# Put it in a dataframe:}
-\dontrun{df <- as.data.frame(lapply(ec999.uco, as.vector)) }
-\dontrun{# Add codon names:}
-\dontrun{row.names(df) <- names(ec999.uco[[1]])}
-\dontrun{# Compute global codon usage:}
-\dontrun{global <- rowSums(df)}
-\dontrun{# Choose a title for the graph:}
-\dontrun{title <- "Codon usage in 999 E. coli coding sequences"}
-\dontrun{# Plot data:}
-\dontrun{dotchart.uco(global, main = title) }
+# Load dataset:
+data(ec999)
+# Compute codon usage for all coding sequences:
+ec999.uco <- lapply(ec999, uco, index="eff") 
+# Put it in a dataframe:
+df <- as.data.frame(lapply(ec999.uco, as.vector)) 
+# Add codon names:
+row.names(df) <- names(ec999.uco[[1]])
+# Compute global codon usage:
+global <- rowSums(df)
+# Choose a title for the graph:
+title <- "Codon usage in 999 E. coli coding sequences"
+# Plot data:
+dotchart.uco(global, main = title) 
 }
 \keyword{hplot}

@@ -1,9 +1,9 @@
 \name{query.socket}
 \alias{query.socket}
 \alias{print.qaw}
-\title{To get a sequences in an ACNUC data base located on the web}
+\title{To get a list of sequence names from an ACNUC data base located on the web}
 \description{
-This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequences that fit the required criteria.
+This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
 query.socket(socket,listname,query)
@@ -142,9 +142,8 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
   \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
   \item{call}{original call}
   \item{name}{list name}
-  \item{req}{a list of sequence names that fit the required criteria}
+  \item{req}{a list of sequence names  that fit the required criteria}
 }
-
 \references{ 
 \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
@@ -161,7 +160,7 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
 
-\seealso{ \code{\link{choosebank.socket}} }
+\seealso{ \code{\link{choosebank.socket}}, \code{\link{getSequence}}, \code{\link{plot.SeqAcnucWeb}} }
 \examples{
  \dontrun{s = choosebank.socket("genbank")}
  \dontrun{query.socket(s$socket,"ecoli","sp=escherichia coli@")}

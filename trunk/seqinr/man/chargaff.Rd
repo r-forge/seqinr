@@ -120,18 +120,5 @@ for( i in 1:4 )
 }
 # Clean up
 par(op)
-rm("PR2")
-rm("direct")
-rm("i")
-rm("iname")
-rm ("invers")
-rm("j")       
-rm("jname")
-rm("k")        
-rm("lseg")
-rm("op")
-rm("string")  
-rm("xlim")
-rm("ylim")
 }
 \keyword{datasets}

@@ -2,7 +2,7 @@
 \alias{SeqFrag}
 \alias{is.SeqFrag}
 \alias{as.SeqFrag}
-\title{Fragment of Sequence}
+\title{Class for sub-sequences}
 \description{
   \code{as.SeqFrag} is called by all methods of \code{getFrag}, but not directly by the users. It creates an object sequence of class \code{SeqFrag}. 
 }

@@ -5,22 +5,21 @@
 \alias{getLocation.default}
 \alias{getLocationSocket}
 \alias{getExon}
-\title{ Generic Function for obtaining the position of a sequence on the parent sequence }
+\title{ Generic Function To obtain the Position of a Sequence on the Parent Sequence }
 \description{
-  Methods for the class of sequences: \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. If the sequence is a coding sequence, the function will return the position of each exon on the parent sequence.
+  Methods for the class of sequences: \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. If the sequence is a subsequence (e.g. coding sequence), the function will return the position of each exon on the parent sequence.
 }
 \usage{
 getLocation(object)
 }
 \arguments{
-  \item{object}{ one of this object used to select a method }
+  \item{object}{ an object of class \code{SeqAcnucWeb} or \code{SeqAcnucLocal}.}
 }
-
 \value{
-  a list giving the position of the sequence on the parent sequence.
+  a list giving the positions of the sequence on the parent sequence.
 }
 \author{ D. Charif } 
-\seealso{ \code{\link{SeqAcnucWeb}}, \code{\link{SeqAcnucLocal}}  }
+\seealso{ \code{\link{SeqAcnucWeb}}, \code{\link{SeqAcnucLocal}}, \code{\link{query.socket}} }
 \examples{
   methods(getLocation)
 }

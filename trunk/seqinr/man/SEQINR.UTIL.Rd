@@ -1,19 +1,19 @@
 \name{SEQINR.UTIL}
 \alias{SEQINR.UTIL}
 \docType{data}
-\title{some utility data for seqinr}
+\title{utility data for seqinr}
 \description{
-  This data set gives the genetics code, the name of each codon, the IUPAC one-letter code for aminoacids and the physico-chemical class of amino acid.                                                                                                              
+  This data set gives the genetics code, the name of each codon, the IUPAC one-letter code for aminoacids and the physico-chemical class of amino acid and the pK values of amino acids described in  Bjellqvist \emph{et al.} (1993).                                                                                                            
 }
 \usage{data(SEQINR.UTIL)}
 \format{
- 	\code{SEQINR.UTIL} is a list containing the 3 following objects:  
+ 	\code{SEQINR.UTIL} is a list containing the 4 following objects:  
 	\enumerate{	
  	\item{CODES.NCBI}{is a data frame containing the genetics code : The standard ('Universal') genetic code with a selection of non-standard codes. } 
  	\item{CODON.AA}{is a three columns data frame. The first column is a factor containing the codon. The second column is a factor giving the aminoacids names for each codon. The last column is a factor giving the IUPAC one-letter code for aminoacids}
  	\item{AA.PROPERTY}{is a list giving the physico-chemical class of amino acid. The differents classes are the following one : Tiny, Small, Aliphatic, Aromatic, Non.polar, Polar, Charged, Basic, Acidic }
  } 	
-	\item{pK}{is a data frame. It gives the pK values of amino acids described in  Bjellqvist et al., which were defined by examining polypeptide migration between pH 4.5 to 7.3 in an immobilised pH gradient gel environment with 9.2M and 9.8M urea at 15°C or 25°C }
+	\item{pK}{is a data frame. It gives the pK values of amino acids described in  Bjellqvist \emph{et al.} (1993) , which were defined by examining polypeptide migration between pH 4.5 to 7.3 in an immobilised pH gradient gel environment with 9.2M and 9.8M urea at 15 degree or 25 degree}
 	
 }
 \source{

@@ -24,7 +24,7 @@ The IUPAC one-letter code for aminoacids is described at:
 }
 \author{ J.R. Lobry }
 
-\seealso{ \code{\link{translate}} }
+\seealso{ \code{\link{translate}}, \code{\link{a}} }
 \examples{
   # show all allowed values
   allowed <- s2c("*ACDEFGHIKLMNPQRSTVWY")

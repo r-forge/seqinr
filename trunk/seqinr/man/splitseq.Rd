@@ -1,6 +1,6 @@
 \name{splitseq}
 \alias{splitseq}
-\title{ split a sequence in sub-sequences }
+\title{ split a sequence into sub-sequences }
 \description{
  Split a sequence into sub-sequences of 3 (the default size) with no overlap between the sub-sequences. 
 }
@@ -9,24 +9,17 @@ splitseq(seq, frame = 0, word = 3)
 }
 \arguments{
   \item{seq}{ a vector of chars }
-  \item{frame}{ an integer giving the frame to split the sequence }
+  \item{frame}{ an integer giving the starting position to split the sequence }
   \item{word}{ an integer giving the size of the sub-sequences }
 }
-
 \value{
   This function returns a vector which contains the sub-sequences.
 }
-
-\author{ D. CHARIF }
-
+\author{ D. Charif }
 \seealso{ \code{\link{split}} }
-
 \examples{
-
 a=s2c("aacgttgcaggtcgctcgctacgtagctactgttt")
 ## To obtain the codon sequence in frame 0:
 splitseq(a)
-
 }
 \keyword{ manip }
-

@@ -2,7 +2,7 @@
 \alias{translate}
 \title{ Translate nucleic acid sequences }
 \description{
-   This function translates nucleic acid sequences to the corresponding peptide sequence. It can translate in any of the 3 forward or three reverse sense frames. It can translate using the standard (Universal) genetic code and also with a selection of non-standard codes. 
+   This function translates nucleic acid sequences to the corresponding peptide sequence. It can translate in any of the 3 forward or three reverse sense frames. In the case of reverse sense, the reverse-complement of the sequence is taken. It can translate using the standard (Universal) genetic code and also with a selection of non-standard codes. 
 }
 \usage{
 translate(seq, frame = 0, sens = "F", numcode = 1)
@@ -13,10 +13,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for revers sense. }
   \item{numcode}{ The number of the code to use. By default the standard genetic code is used. }
 }
-
-
 \details{
-
  The following genetic codes are described here. The number preceding each code corresponds to \code{numcode}. 
 \itemize{	
   \item{1}{ standard }
@@ -46,14 +43,11 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
 The IUPAC one-letter code for aminoacids is described at: 
 \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}
 }
- 
-\author{ D. CHARIF }
-
+\author{ D. Charif }
+\seealso{\code{\link{SEQINR.UTIL}} }
 \examples{
-
 a=read.fasta(File=system.file("sequences/malM.fasta",package ="seqinr"))
 translate(a[[1]])
 translate(a[[1]],3,"R",6)
 }
 \keyword{ manip }
-

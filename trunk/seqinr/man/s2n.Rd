@@ -22,7 +22,7 @@ FALSE at 1}
   a vector of integers
 }
 \author{J.R. Lobry }
-\note{ EXPERIMENTAL 
+\note{
 The idea of starting numbering at 0 by default is that it enforces 
 a kind of isomorphism between the paste operator on DNA chars and 
 the + operator on integer coding for DNA chars. By this way, you can

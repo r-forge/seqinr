@@ -12,7 +12,7 @@ according to the lexical order: \code{0 -> "a"}, \code{1 -> "c"}, \code{ 2 -> "g
 n2s(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 }
 \arguments{
-  \item{nseq}{a vector of integers }
+  \item{nseq}{A vector of integers }
   \item{levels}{the translation vector }
   \item{base4}{when this logical is true, the numerical encoding of
 \code{levels} starts at 0, when it is false the numerical encoding of 
@@ -22,10 +22,7 @@ n2s(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 a vector of characters
 }
 \author{ J.R. Lobry }
-\note{EXPERIMENTAL}
-
 \seealso{ \code{\link{s2n}} }
-
 \examples{
 ##example of the default behaviour:
 nseq <- sample(x = 0:3, size = 100, replace = TRUE)

@@ -11,23 +11,22 @@
 \alias{getSequenceSocket}
 \alias{getseq2}
 
-\title{ Generic Function for obtaining a sequence }
+\title{ Generic Function To Get a sequence }
 \description{
-   Methods for the class of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
+   Method for the classes of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} and \code{SeqFrag}. 
 }
 \usage{
 getSequence(object)
 }
 \arguments{
-  \item{object}{ one of this object used to select a method }
+  \item{object}{an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} or \code{SeqFrag}.}
 }
 \value{
- a vector of chars containing the sequence
+ A vector of chars containing the sequence
 }
 \author{ D. Charif } 
-\seealso{ \code{\link{getFrag}} }
+\seealso{ \code{\link{getFrag}}, \code{\link{c2s}} }
 \examples{
  methods(getSequence)
 }
 \keyword{ utilities }
-

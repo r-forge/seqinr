@@ -7,7 +7,6 @@
 \usage{
 uco( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE) 
 }
-
 \arguments{
   \item{seq}{ a vector of chars }
   \item{frame}{ an integer (0,1,2) giving the frame }
@@ -19,10 +18,8 @@ uco( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE)
 	}
   \item{as.data.frame}{ logical. If \code{TRUE}: The eff, freq and rscu index will be returned in a data frame.}
 }
-
 \value{
-  
-  If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
+    If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
   \item{ aa }{ a vector containing the name of amino-acid }
   \item{ codon }{ a vector containing the corresponding codon }
   \item{ eff }{ a numeric vector containing effectifs of codons }
@@ -33,18 +30,12 @@ uco( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE)
   \item{ freq }{  a factor containing frequencies of codons }	
   \item{ rscu }{ a factor containing the relative synonymous codon usage}
 }
-
-\author{ D. CHARIF }
-
+\author{ D. Charif }
 \examples{
-
 s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
 uco( s[[1]], index="freq")
 uco( s[[1]], index="eff")
 uco( s[[1]], index="rscu")
 uco( s[[1]], as.data.frame = TRUE)
-
 }
-
 \keyword{ manip }
-

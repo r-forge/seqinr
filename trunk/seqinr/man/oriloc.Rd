@@ -81,9 +81,6 @@ at the y-axis. Depending on where the sequence starts, such a plot will display
 one or two peaks. Positive peak means origin, and negative means terminus. 
 In the case of only one peak, the sequence starts at the origin or terminus 
 site. }
-
-\section{WARNING }{First release, exprimental !!! }
-
 \examples{
   \dontrun{
     out <- oriloc()

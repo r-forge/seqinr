@@ -9,7 +9,7 @@
 \alias{getAnnots}
 \title{ Generic Function to obtain annotation for a sequence }
 \description{
-  Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. 
+  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. 
 }
 \usage{
 getAnnot(object, nbl)

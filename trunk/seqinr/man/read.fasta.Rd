@@ -15,9 +15,9 @@ read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype=
   By default \code{read.fasta}  
 }
 \value{
-  return a list of vector of chars. Each element is a sequence object of th class \code{SeqFastadna} or \code{SeqFastaAA}.
+  return a list of vector of chars. Each element is a sequence object of the class \code{SeqFastadna} or \code{SeqFastaAA}.
 }
-\author{ D. CHARIF }
+\author{ D. Charif }
 \examples{
 s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
 ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")

@@ -8,13 +8,13 @@
 \alias{getFrag.default}
 \title{ Generic Function to obtain a fragment of a sequence }
 \description{
-  Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
+  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
 }
 \usage{
 getFrag(object, begin, end)
 }
 \arguments{
-  \item{object}{ one of this object used to select a method}
+  \item{object}{ an object of the class \code{SeqFastadna}, \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} or \code{SeqFrag} }
   \item{begin}{ First base }
   \item{end}{ Last base }
 }
@@ -23,7 +23,7 @@ getFrag(object, begin, end)
   \item{seqMother}{ the name of the sequence from which the sequence comes}
   \item{begin}{ the position of the first base of the fragment on the mother sequence}
   \item{end}{ the position of the last base of the fragment on the mother sequence }
-  \item{class}{ \code{SeqFrag} which is the newest class of the sequence } 
+  \item{class}{ the class of the new sequence i.e. \code{SeqFrag} } 
 }
 \author{ D. Charif } 
 \seealso{ \code{\link{getSequence}} }
@@ -31,4 +31,3 @@ getFrag(object, begin, end)
   methods(getFrag)
 }
 \keyword{ utilities }
-

@@ -3,9 +3,9 @@
 \alias{as.SeqAcnucWeb}
 \alias{is.SeqAcnucWeb}
 \alias{parser.socket}
-\title{Sequence coming from ACNUC data bases located on the web}
+\title{Sequence coming from an ACNUC data bases located on the web}
 \description{
-    \code{as.SeqAcnucWeb} is called by many functions as \code{query.SeqAcnucWeb} but not directly by the user. It creates an object of class \code{SeqAcnucWeb}. 
+    \code{as.SeqAcnucWeb} is called by many functions, for instance by \code{query.SeqAcnucWeb}, and should not directly be called by the user. It creates an object of class \code{SeqAcnucWeb}. 
   \code{is.SeqAcnucWeb} returns TRUE if the object is of class \code{SeqAcnucWeb}. 
 }
 \usage{
