@@ -12,7 +12,7 @@
 \usage{
 as.SeqFastaAA(object)
 is.SeqFastaAA(object)
-summary.SeqFastaAA(SeqFastaAA)
+summary.SeqFastaAA(object,...)
 }
 \arguments{
   \item{object}{ a vector of chars representing a biological sequence}
