@@ -15,6 +15,17 @@
 # comment.
 #
 #
+Dear oracle,
+
+the doubling in dia.db.growth() is very close to the famous
+Moore's doubling time (18 months) for computer CPU performances.
+It would be nice to have an option (Moore=TRUE) to plot this
+on the same graph. Actual data should be available somewhere
+on the net, or even in one of R contributed package.
+
+Yours.
+
+
 Dear oracle, 
 
 I would like so much that in the function read.fasta() the sequence 
