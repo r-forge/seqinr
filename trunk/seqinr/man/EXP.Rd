@@ -9,9 +9,7 @@ if \code{codfreq} is a vector of codon frequencies then
 in third codon positions. Base order is the lexical order: a,
 c, g, t (or u).
 }
-
 \usage{data(EXP)}
-
 \format{ List of 42 vectors of coefficients
 \describe{
   \item{A   }{num [1:4] 1 0 0 0 }
