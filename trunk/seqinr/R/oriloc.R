@@ -10,7 +10,8 @@ oriloc <- function(
   g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
   oldoriloc = FALSE,
   gbk = NULL,
-  clean.tmp.files = TRUE)
+  clean.tmp.files = TRUE,
+  rot = 0)
 {
   if( !missing(gbk) ) # Work directly with genbank file
   {
@@ -40,7 +41,42 @@ oriloc <- function(
 
   if( length(start) != length(end) )
     stop("start and end vector must be the same length")
+#
+# Rotate the genome if required
+#
+  if( rot != 0 )
+  {
+    #
+    # Circular permutation of a vector
+    #
+    rotate <- function(x, rot=0) 
+    {
+      n <- length(x)
+      rot <- rot %% n
+      if(rot == 0)
+      {
+        x
+      } 
+      else 
+      {
+        c(x[(rot+1):n],x[1:rot])
+      }
+    } 
+    seq <- rotate(x  = seq, rot = rot )
+    start <- start - rot
+    end <- end - rot
+    
+    start[ start < 1 ] <- start[ start < 1 ] + lseq
+    end[ end < 1] <- end[ end < 1 ] + lseq
+    
+    gnum <- gnum[order(start)]
+    end <- end[order(start)]
 
+    start <- sort(start)
+  }
+#
+#
+#
   pos <- (start + end)/2000    # Mid gene position in Kb
   ncds <- length(pos)
 #
