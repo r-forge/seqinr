@@ -29,8 +29,7 @@
 \author{ D. Charif }
 \seealso{\code{\link{getFrag}} }
 \examples{
- \dontrun{choosebank(bank="demo")}
- \dontrun{query("ecoli","sp=escherichia coli et t=cds")}
- \dontrun{getFrag(ecoli$req[[1]],3,100)}	
+ s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
+ getFrag(s[[1]],1,10) 	
 }
 \keyword{utilities}
