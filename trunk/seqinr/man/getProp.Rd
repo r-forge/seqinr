@@ -5,6 +5,7 @@
 \alias{getProp.SeqFastadna}
 \alias{getProp.SeqFastaAA}
 \alias{getProp.SeqFrag}
+\alias{getProp.default}
 \title{ Generic Function to obtain some property of a sequence }
 \description{
   Methods for the class of sequences:\code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

@@ -5,6 +5,7 @@
 \alias{getName.SeqFastadna}
 \alias{getName.SeqFastaAA}
 \alias{getName.SeqFrag}
+\alias{getName.default}
 \title{ Generic Function for obtaining the name of a sequence }
 \description{
   Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
