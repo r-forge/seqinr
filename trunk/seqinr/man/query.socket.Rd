@@ -6,13 +6,13 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequences that fit the required criteria.
 }
 \usage{
-query.socket(object,listname, request)
+query.socket(object,listname,query)
 }
 
 \arguments{
   \item{object}{a socket of class connection}
   \item{listname}{The name of the list as a quoted string of chars}
-  \item{request}{A quoted string of chars containing the request
+  \item{query}{A quoted string of chars containing the request
 with the syntax given in the details section}
 }
 
