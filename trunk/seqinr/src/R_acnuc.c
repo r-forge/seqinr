@@ -1,11 +1,32 @@
+/*################################################################################################# */
+/* Programme: R_acnuc.c                                                                             */
+/*                                                                                                  */
+/* But: Fonctions pour l'interfaçage entre R et ACNUC                                               */
+/*                                                                                                  */
+/* Fonctions disponibles: Racnucopen, Racnucclose, getreq, getseq, getseq2, getAttribut, getExon,   */
+/*                        translateCDS, getAnnots, s2c, getKey.                                     */
+/*                                                                                                  */
+/* Auteur: Delphine Charif                                                                          */
+/*                                                                                                  */
+/*################################################################################################# */
+
+
+
+
 #include "requete_acnuc.h"
 #include "dir_acnuc.h"
 #include <Rinternals.h>
 #include <R.h>
 #include <Rdefines.h>
+#define VRAI 1
+#define FAUX 0
+#define MAXMOT 100
 
 
 
+/*################################################################################################# */
+/*#  Ouverture du système ACNUC                                                                     */
+/*################################################################################################# */
 
 
 void Racnucopen(char **acnuc,char **gcgacnuc){
@@ -19,6 +40,10 @@ void Racnucopen(char **acnuc,char **gcgacnuc){
 
 
 
+/*################################################################################################# */
+/*#  Fermeture du système ACNUC                                                                   # */
+/*################################################################################################# */
+
 
 
 void Racnucclose(){
@@ -27,6 +52,9 @@ void Racnucclose(){
 }
 
 
+/*################################################################################################# */
+/*#   Effectuer une requete                                                                       # */
+/*################################################################################################# */
 
 
 SEXP getreq(SEXP nom,SEXP req){
@@ -37,6 +65,7 @@ SEXP getreq(SEXP nom,SEXP req){
   int numliste,num,total,*debut_liste,erreur,i;
   SEXP chaine;
   
+  /*Passages des objets R (paramètres) dans des variables C */ 
   nom_liste=CHAR(STRING_ELT(nom,0));
   requete=CHAR(STRING_ELT(req,0));
   
@@ -48,8 +77,8 @@ SEXP getreq(SEXP nom,SEXP req){
   }
 
   total = defllen[numliste];
-  //printf("\nNbre de seqs selectionnees = %d\n", total);
-
+  
+  /*Création d'une liste de chaine de caractère, objet R destiné à contenir les mnémoniques*/ 
   PROTECT(chaine=allocVector(VECSXP,total));
 
   debut_liste = defbitlist + numliste*lenw;
@@ -64,6 +93,9 @@ SEXP getreq(SEXP nom,SEXP req){
 	 return(chaine);
 	 }
 
+/*############################################################################################################################*/
+/*#   Récupération des attributs d'une séquence à partir de son mnémonique : longueure, phase de lecture, code génétique     #*/
+/*############################################################################################################################*/
 
 
 SEXP getAttribut(SEXP nom){
@@ -81,7 +113,9 @@ SEXP getAttribut(SEXP nom){
   return(l);
 }
 
-
+/*############################################################*/
+/*#   Récupération de la séquence à partir de son mnémonique #*/
+/*############################################################*/
 
 
 SEXP getseq(SEXP nom){
@@ -106,6 +140,12 @@ SEXP getseq(SEXP nom){
   return(chaine);
 }
 
+/*##########################################################################*/
+/*#   Récupération d'un fragment de la séquence à partir de son mnémonique #*/
+/*##########################################################################*/
+
+
+
 SEXP getseq2(SEXP nom, SEXP b1, SEXP b2){
   //char seq[10001];
   char *seq;
@@ -118,7 +158,7 @@ SEXP getseq2(SEXP nom, SEXP b1, SEXP b2){
   borne2=REAL(b2)[0];
   name=CHAR(STRING_ELT(nom,0));
 
-  /*obtention du numero de la sequence dans acnuc, rendu avec sa longueur,
+  /*obtention du numero de la sequence dans acnuc, rendu avec sa longueure,
   sa frame (ici NULL) et son code genetique (ici NULL)*/
   num=gsnuml(name,&lseq,NULL,NULL);
   if(num==0) error("ce mnemo est invalide");
@@ -131,6 +171,13 @@ SEXP getseq2(SEXP nom, SEXP b1, SEXP b2){
   UNPROTECT(1);
   return(chaine);
 }
+
+
+/*##############################*/
+/*# Traduction de la séquence  #*/
+/*##############################*/
+
+
 
 SEXP translateCDS(SEXP nom){
   
@@ -151,6 +198,9 @@ SEXP translateCDS(SEXP nom){
 
   }
 
+/*####################################################*/
+/*# Obtention des mots clefs associés un mnémonique  #*/
+/*####################################################*/
 
 
 SEXP getKey(SEXP nom){
@@ -191,6 +241,11 @@ SEXP getKey(SEXP nom){
   UNPROTECT(1);
   return(chaine);
 }
+
+
+/*#######################*/
+/*# Position des Exons  #*/
+/*#######################*/
 
 
 SEXP getExon(SEXP nom){
@@ -253,6 +308,9 @@ SEXP getExon(SEXP nom){
  return(Exon);
 }
 
+/*########################################################*/
+/*# Obtention des annotations associées à un mnémonique  #*/
+/*########################################################*/
 
 
 SEXP getAnnots(SEXP name, SEXP nligne){
@@ -282,6 +340,9 @@ SEXP getAnnots(SEXP name, SEXP nligne){
 }	
  
 
+/*##################################################*/
+/*# Convertir une string en vecteur de caractères  #*/
+/*##################################################*/
 
 
 SEXP s2c(SEXP seq){
@@ -307,5 +368,51 @@ SEXP s2c(SEXP seq){
   UNPROTECT(1);
   return(chaine);
 }
+
+
+
+/* ==================================================================== */
+/* retourne un pointeur sur le nieme mot d'une phrase, chaque mot       */
+/* etant separe par un des caracteres contenus dans la chaine separat   */
+/* ==================================================================== */
+
+
+char *nieme_mot(string, n, separat)
+char *string;
+int n;
+char *separat;
+
+{
+
+int ii;
+char *mot;
+char  *phrase;
+char buffer[MAXMOT];
+
+if((phrase = (char*) malloc((1+strlen(string)) * sizeof(char))) == NULL){
+	printf("malloc a echoue: phrase in fonction: nieme_mot \n");
+	exit(3);
+	}
+
+strcpy(phrase,string);
+
+mot = strtok(phrase, separat);
+for(ii = 1; ii < n; ii++) 
+	if(mot != NULL)
+		mot = strtok(NULL, separat);
+if(mot != NULL)	
+  if(strlen(mot) >= MAXMOT -1) {
+     printf("Erreur dans nieme_mot! le mot est de longueur >= %d\n", MAXMOT -1);
+     exit(1);
+     }
+
+if(mot != NULL) strncpy(buffer, mot, MAXMOT);
+else strcpy(buffer, "\0");
+
+free(phrase);
+
+return(buffer);
+}
+
 
 
