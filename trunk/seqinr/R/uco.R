@@ -5,3 +5,5 @@ uco<-function(seq,phase=0,freq=FALSE,as.data.frame=FALSE){
 	if(as.data.frame == TRUE) eff=as.data.frame(cbind(as.character(AA),as.character(CODON),as.vector(eff)))
 	eff
 } 
+
+

@@ -5,3 +5,4 @@ splitseq<-function(sq,phase=0,nombre=3){
 	for(i in 2:nombre) sq1=paste(sq1,sq[seq(phase+i,l,nombre)],sep="")
 	sq1
 }
+

@@ -17,3 +17,5 @@ translate<-function(sq,phase=0,sens="+",numcode=1)
 }
 
 
+
+

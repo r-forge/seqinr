@@ -8,3 +8,5 @@ count<-function(seq,nombre){
 	table(factor(s,levels=levels(as.factor(alphabet(nombre)))))
 	}
     }
+
+
