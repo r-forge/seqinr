@@ -1,9 +1,18 @@
 choosebank <- function( bankname = "demo")
 {
 #
+# Define a function to print something when we are unable
+# to locate the requested bank
+#
+  failure.warning <- function( bankname )
+  {
+    warning(paste("Unable to get environment variable ", bankname))
+    warning("seting ACNUC bank to local demo in sequences/entero")
+  }
+#
 # Set defaults to local bank demo:
 #
-  assign("bankname",bankname,.GlobalEnv)	
+  assign("bankname", bankname, .GlobalEnv)	
   acnuc <- system.file("sequences/entero", package = "seqinr")
   gcgacnuc <- acnuc
 #
@@ -11,21 +20,44 @@ choosebank <- function( bankname = "demo")
 #
   if( missing( bankname ) )
   {
-    print("bankname argument is missing")
-    print("seting ACNUC bank to local demo in sequences/entero")
+    warning("bankname argument is missing")
+    warning("seting ACNUC bank to local demo in sequences/entero")
   }
 #
-# Look for local bank location:
+# Try to find bank location:
 #
   else
   {
     ad <- Sys.getenv( bankname )
-    if( ad == "" )
+    if( ad == "" ) # We were unable to get bank location
     {
-      print(paste("Unable to get environment variable ", bankname))
-      print("seting ACNUC bank to local demo in sequences/entero")
+      if( Sys.info()["user"] == "ADE-User" & Sys.info()["nodename"] == "pbil" )
+      {
+        #
+        # seqinr was run from Rweb at the URL:
+        # http://pbil.univ-lyon1.fr/Rweb/Rweb.general.html
+        #
+        banklocs <- readLines("/misc/pub/banques_acnuc")
+        targetbank <- grep( bankname, banklocs )
+        if( length( targetbank ) == 0 )
+        {
+          failure.warning( bankname )
+        }
+        else
+        {
+           line <- banklocs[targetbank]
+           words <- unlist( strsplit(line, split = " ") )
+           words <- words[nchar(words)>0]
+           acnuc <- substr(words[3], 2, nchar(words[3]))
+           gcgacnuc <- substr(words[4], 1, nchar(words[4]) - 1)
+        }
+      }
+      else
+      {
+        failure.warning( bankname )
+      }
     }
-    else
+    else # We were able to get bank location
     {
       var <- unlist(strsplit(ad, " "))
       acnuc <- var[1]
@@ -36,6 +68,23 @@ choosebank <- function( bankname = "demo")
 # Open ACNUC database:
 #
   .C("Racnucopen", acnuc, gcgacnuc)
+#
+# print ACNUC database content
+#
+  helpfile <- paste(acnuc, "/HELP", sep = "")
+  if( file.exists( helpfile ) )
+  {
+    help <- readLines(helpfile, n = 100)
+    words <- unlist(strsplit(help[1], split = " "))
+    words <- words[nchar(words)>0]
+    nlines <- as.numeric(words[length(words)])
+    for( i in 2:(nlines+1) )
+      print( help[i] )
+  }
+  else
+  {
+    warning(paste("HELP file not found in folder",acnuc))
+  }
 }
 
 choixbanque <- choosebank # Just an alias for compatibility
