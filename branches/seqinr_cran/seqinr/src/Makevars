@@ -1,0 +1,3 @@
+PKG_CPPFLAGS = -I.exec
+PKG_LIBS = -L.exec -lcacnuc
+
