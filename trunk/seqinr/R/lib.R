@@ -1,5 +1,5 @@
 .First.lib <- function(lib, pkg)
 {
-  library.dynam("package", pkg, lib)
+  library.dynam("seqinr", pkg, lib)
 }
 
