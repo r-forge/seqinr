@@ -29,21 +29,11 @@ getreq <- function(nomliste,requete)
 	print.requete(toto)
 }
 
-
-
 getseq <- function(name, as.string = TRUE)
 {
- 	if(as.string == TRUE){
- 	x=.Call("getseq",name)
-	class(x)=sequence
-	x
-	}
-	else{
-  	tata<-.Call("getseq",name)
-  	seq <- unlist(strsplit(tata,""))
-	class(tata)=sequence
-  	toupper(seq)
-	}
+  x <- .Call("getseq", name)
+  class(x) <- c("sequence")
+  ifelse( as.string, return(x), return(s2c(x)) )
 }
 
 getseq2 <- function(name,B1,B2,as.string = TRUE)
