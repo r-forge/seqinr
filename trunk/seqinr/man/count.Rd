@@ -26,7 +26,7 @@ count(seq,word,frame=0)
 
 \examples{
 
-a=c("A","C","G","A","C","G","T","T","A","G","T","A","G")
+a=s2c("acgggtqcggtcccqtcgqt")
 ##To count the occurences of dinucleotides of a:
 count(a,2)
 ##To count the occurences of trinucleotides of a in frame 2:

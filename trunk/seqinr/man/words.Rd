@@ -23,8 +23,8 @@ A vector of string whith \code{length} characters.
 \examples{
 ## Get all codons
 words()
-## Get all codons with A C G U for bases
-words(alphabet = c("A", "C", "G", "U"))
+## Get all codons with a c g u for bases
+words(alphabet = c("a", "c", "g", "u"))
 ## Get all tetranucleotides
 words(length = 4)
 ## Get all dipeptides
