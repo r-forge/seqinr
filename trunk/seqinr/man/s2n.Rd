@@ -23,7 +23,7 @@ s2n(seq, levels, ...)
 \note{ EXPERIMENTAL }
 
 
-\seealso{ \code{\link{factor}}, \code{\link{codes}} }
+\seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{codes}} }
 
 \examples{
 urn <- c("a","c","g","t")
