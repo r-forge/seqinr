@@ -1,29 +1,20 @@
-uco = function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE, RSCU = FALSE){
+uco = function( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE){
 	
+	choice <-  match.arg(index)
+
 	sequence <- splitseq( seq, frame)
 	eff <- table(factor( sequence , levels=SEQINR.UTIL$CODON.AA$CODON) )
+	freq <- round(eff/(floor(length(seq)/3)),4)
+	T <- split(freq,SEQINR.UTIL$CODON.AA$AA)
+	rscu <- lapply(T,function(x){return(x/((1/length(x))*sum(x)))})
+	names(rscu) <- NULL
+	rscu <- round(unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)],4)
 
-         if(as.data.frame == FALSE && RSCU == TRUE) stop("as.data.frame must be TRUE")
-        
-	if(as.data.frame==FALSE){
-		if(freq==FALSE){
-		return(eff)
-		}
-		else return(round(eff/(floor(length(seq)/3)),4))
-	}
+	if( as.data.frame == FALSE) return(switch(choice,eff=eff,freq=freq,rscu=rscu))
 	else{
-	 l = split(as.numeric(as.vector(eff)),SEQINR.UTIL$CODON.AA$AA)
-	ll = split(as.character(SEQINR.UTIL$CODON.AA$CODON),SEQINR.UTIL$CODON.AA$AA)
-	l.sum = lapply(l,sum)
-	l.nb = lapply(l,length)
-	res1 = lapply(1:21,function(x){round(l[[x]]/unlist(l.sum[[x]]),3)})
-	res2 = lapply(1:21,function(x){round(res1[[x]]/l.nb[[x]],3)})
-	}
-	if( RSCU == TRUE){
-	data.frame(codons=unlist(ll),eff=unlist(l),RSCU=unlist(res2))
-	}
-	else{
-	data.frame(codons=unlist(ll),eff=unlist(l))
+	 df=data.frame(SEQINR.UTIL$CODON.AA$AA,eff=eff,freq=as.vector(freq),RSCU=rscu)
+	 names(df)=c("AA","codon","eff","freq","RSCU")	
+	 return(df)
 	}
 }
 
