@@ -13,16 +13,15 @@ get.ncbi(repository = .BACTNCBI)
   \item{repository}{ Where to look for data }
 }
 \value{
-Returns a data frame contains with the following columns:
-  \describe{
-    \item{species}{The species name as given by the corresponding folder
-    name in the repository (\emph{e.g.} Yersinia_pestis_KIM).}
-    \item{accession}{The accession number as given by the common prefix
-    of file names in the repository (\emph{e.g.} NC_004088).}
-    \item{size.bp}{The size of the sequence in bp (\emph{e.g.} 4600755). }
-    \item{type}{A factor with two levels (plasmid or chromosome) temptatively
-    deduced from the description of the sequence.}
-  }
+Returns a data frame which contains the following columns:
+    \code{species} The species name as given by the corresponding folder
+    name in the repository (\emph{e.g.} Yersinia_pestis_KIM).
+    \code{accession}The accession number as given by the common prefix
+    of file names in the repository (\emph{e.g.} NC_004088).
+    \code{size.bp}The size of the sequence in bp (\emph{e.g.} 4600755).
+    \code{type}A factor with two levels (plasmid or chromosome) temptatively
+    deduced from the description of the sequence.
+ 
 }
 
 \author{J.R. Lobry }
@@ -39,3 +38,4 @@ this problem is circumvented here in a rather crude way.
 \dontrun{summary(bacteria)}
 }
 \keyword{utilities}
+
