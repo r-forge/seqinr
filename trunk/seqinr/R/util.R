@@ -34,12 +34,12 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 # is independent of locale.
 ###############################
 
-s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE, ... )
+s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
-    codes(factor(seq, levels = levels , ...) ) - 1
+    unclass(factor(seq, levels = levels ) ) - 1
   else
-    codes(factor(seq, levels = levels , ...) )
+    unclass(factor(seq, levels = levels ) )
 }
 
 ################################

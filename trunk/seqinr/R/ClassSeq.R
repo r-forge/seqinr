@@ -8,8 +8,10 @@
 	#            getLength(seq) retourne un "entier"                                    #
 	#            getName(seq) retourne une chaîne                                       #
 	#            getProp(seq) retourne une liste nommée                                 #
-	#	     getAnnot(seq,nl) reourne un vecteur de string                          #
-	#	     Translate(seq) retourne un vecteur de char                             #
+	#	     getAnnot(seq,nl) reourne un vecteur de string                          #   
+        #            getExon(seq) retourne la position des exons                            # 
+     	#	     getKeyword(seq) retourne les mots-clef associés à une séquence         #
+	#	     Translate(seq) retourne un vecteur de char                             # 
 	#####################################################################################
 
 
@@ -45,6 +47,14 @@ getProp.default = function(object){
 
 getAnnot.default = function(object,nbl){ 
  	stop("no annotation for this sequence")
+}
+
+getExon.default = function(object){
+ 	stop("no information about exon")
+}
+
+getKeyword.default = function(object){
+ 	stop("no keyword for this sequence")
 }
 
 Translate.default = function(seq,frame=0, sens= "F", numcode=1){
@@ -84,6 +94,17 @@ getAnnot = function(object,nbl) {
 	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
 	else UseMethod("getAnnot")
 }
+
+getExon = function(object) {
+		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getExon.default(object)}
+	else UseMethod("getExon")
+}
+
+getKeyword = function(object) {
+		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getKeyword.default(object)}
+	else UseMethod("getKeyword")
+}
+
 
 Translate = function(seq,frame=0, sens= "F", numcode=1){
 	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {Translate.default(seq,frame=0, sens= "F", numcode=1)}
@@ -266,6 +287,18 @@ getAnnot.SeqAcnucLocal = function(object,nbl){
 }
 
 
+getKeyword.SeqAcnucLocal = function(object){
+	
+	return( getKeyword(object) )
+}
+
+getExon.SeqAcnucLocal = function(object){ 
+	
+	return( getExon(object) )
+}
+
+
+
 Translate.SeqAcnucLocal = function(seq,frame=0, sens= "F", numcode=1){
 	seq = translateCDS(seq)
 	return(s2c(seq))
@@ -318,7 +351,7 @@ is.SeqAcnucWeb = function( object ){
 
 getSequence.SeqAcnucWeb = function(object){
 	b=getLength( object )
-	getsequence.socket(attr(object,"socket"),object,start=1,length=b)
+	getSequence.socket(attr(object,"socket"),object,start=1,length=b)
 }
 
 
@@ -328,7 +361,7 @@ getFrag.SeqAcnucWeb = function(object ,begin, end ){
 	b = getLength(object)
 	if((end > b) || (begin > b)) stop("born out of limits")  
 	bb=end-begin+1
-	newSeq = getsequence.socket(attr(object,"socket"),object,start=begin,length=bb)
+	newSeq = getSequence.socket(attr(object,"socket"),object,start=begin,length=bb)
 	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=TRUE,name=getName(object))
 	return(newSeq)
 }
@@ -359,6 +392,19 @@ getAnnot.SeqAcnucWeb = function(object, nbl ){
 	return( readAnnots.socket( socket= attr(object,"socket"),name=object, nl=nbl) ) 
 
 }
+
+
+getKeyword.SeqAcnucWeb = function(object){
+	
+	return( getKeyword.socket( socket= attr(object,"socket"), name=object))
+}
+
+getExon.SeqAcnucWeb = function(object){ 
+	
+	return( getExon.socket( socket= attr(object,"socket"), name=object))
+}
+
+
 
 
 Translate.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
