@@ -9,10 +9,10 @@ dist.mase(mase, matrix = "similarity")
 }
 \arguments{
   \item{mase}{ object of class \code{SeqMase} }
-  \item{matrix}{ the euclidean matrix distance to be used }
+  \item{matrix}{ the euclidean matrix distance to be used : "similarity" (by default) or "identity" }
 }
 \value{
-  The distance matrix, obect of class \code{dist}, computed by using the specified distance measure.
+  The distance matrix, object of class \code{dist}, computed by using the specified distance measure.
 }
 \references{ 
 Fitch, W.M. (1966) Mutation values for the interconversion of amino acid pair. 
