@@ -36,11 +36,8 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
   char **seqIn;
   char **seq;
   float *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
-  char  buff[40];
-  int i, j, ii, jj, kk, k, l, lg, totseqs, lgseq, *aa, m, n,  *listbranche[maxnseqs], option2;
-  float *ka[100], *ks[100], *bootka[100], *bootks[100], *rl[21], a, b, *vka[100], *vks[100];
-  FILE *nuc;
-  char *fname; 
+  int i, j, totseqs, lgseq, n;
+  float *ka[100], *ks[100],  *rl[21], a, b, *vka[100], *vks[100];
   
  float mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
@@ -69,7 +66,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
   SEXP rks;
   SEXP rvka;
   SEXP rvks;
-  SEXP toto;
   SEXP res;
   SEXP SEQINIT;
 
@@ -96,16 +92,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
    }
    
    
-   // for(i=0;i<totseqs;i++){
-   //seq[i] = CHAR(STRING_ELT(sequences,i));
-   //}
-   
-   // for(i=0;i<totseqs;i++){
-   //seqIn[i]= strcpy(seqIn[i],seq[i]);
-   // }
-   
-   
-
    PROTECT(res=allocVector(VECSXP,5));
    PROTECT(rka=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rks=NEW_NUMERIC(totseqs*totseqs));
@@ -160,8 +146,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	}
 
 
-	//lgseq = strlen(seq[0]);
-
 	for (i=0;i<totseqs;i++){
 		for(j=0;j<lgseq;j++){
 			if ((*(seq[i]+j)!='A') && (*(seq[i]+j)!='G') && (*(seq[i]+j)!='C') && (*(seq[i]+j)!='T') && (*(seq[i]+j)!='-') ) {
@@ -188,14 +172,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 
 	
 	reresh(seq,totseqs,0);
-	
-	
-	//	for (i = 0; i <= totseqs; i++) {
-	//	ka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-	//	vka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-	//	ks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-	//	vks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-	//}
 	
 	for (i = 0; i < totseqs; i++) {
 	  ka[i] = (float *) malloc((totseqs ) * sizeof(float));
@@ -287,9 +263,9 @@ int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tt
 
 	const float     trois = 3.0;
 	float           l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
-	                aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2,es3,es4,es5,es6,es7,es8;
-	char            ci1, ci2, ci3, cj1, cj2, cj3, cod1[3], cod2[3];
-	int             i, j, ii, jj, nbdiff, cat, pos[3], num1, num2,
+	                aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
+	char            cod1[3], cod2[3];
+	int             i, j, ii, num1, num2,
 	                sat, sat1, sat2;
 
 	sat = sat1 = sat2 = 2;

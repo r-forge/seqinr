@@ -51,6 +51,42 @@ void free_mase(struct SEQMASE * aln, int nbsq)
 /******************************** end free_mase ************************/
 
 
+int one_more_seq_found(int count1, char ***pseq, char ***pseqname, char ***pcomments)
+{
+  static int max_count;
+  char **seq, **seqname, **comments;
+
+  if(count1 == -1) max_count = 0;
+  
+  if(count1 + 1 < max_count) return count1 + 1;
+
+  count1++;
+  if(max_count == 0) {
+    max_count = 100;
+    seq = (char **)malloc(max_count * sizeof(char *));
+    if(seq == NULL) return -1;
+    seqname = (char **)malloc(max_count * sizeof(char *));
+    if(seqname == NULL) return -1;
+    comments = (char **)malloc(max_count * sizeof(char *));
+    if(comments == NULL) return -1;
+  }
+  else {
+    seq = *pseq; seqname = *pseqname; comments = *pcomments;
+    max_count = 3 * max_count;
+    seq = (char **)realloc(seq, max_count * sizeof(char *));
+    if(seq == NULL) return -1;
+    seqname = (char **)realloc(seqname, max_count * sizeof(char *));
+    if(seqname == NULL) return -1;
+    comments = (char **)realloc(comments, max_count * sizeof(char *));
+    if(comments == NULL) return -1;
+  }
+  
+  *pseq = seq; *pseqname = seqname; *pcomments = comments;
+  return count1;
+}
+
+/******************************** end one_more_seq_found ************************/
+
 /***********************************************************************************************************************/
 /*  lit un fichier MASE, renvoie une liste (objet R) contenant les séquences, les commentaies et les noms des espèces. */
 /***********************************************************************************************************************/
@@ -65,7 +101,7 @@ SEXP read_mase(SEXP nomfic)
   int lg_max = 0, lg, lgs, lgc;
   char string[MAXSTRING + 1];
   char c1, c2;
-  int i,ii, jj, kk, numline, maxcom = 0;
+  int i,ii, jj, kk = 0, numline, maxcom = 0;
  
   SEXP listseq;
   SEXP essai;
@@ -854,36 +890,3 @@ SEXP read_clustal_align(SEXP ficname)
 }
 
 
-int one_more_seq_found(int count1, char ***pseq, char ***pseqname, char ***pcomments)
-{
-  static int max_count;
-  char **seq, **seqname, **comments;
-
-  if(count1 == -1) max_count = 0;
-  
-  if(count1 + 1 < max_count) return count1 + 1;
-
-  count1++;
-  if(max_count == 0) {
-    max_count = 100;
-    seq = (char **)malloc(max_count * sizeof(char *));
-    if(seq == NULL) return -1;
-    seqname = (char **)malloc(max_count * sizeof(char *));
-    if(seqname == NULL) return -1;
-    comments = (char **)malloc(max_count * sizeof(char *));
-    if(comments == NULL) return -1;
-  }
-  else {
-    seq = *pseq; seqname = *pseqname; comments = *pcomments;
-    max_count = 3 * max_count;
-    seq = (char **)realloc(seq, max_count * sizeof(char *));
-    if(seq == NULL) return -1;
-    seqname = (char **)realloc(seqname, max_count * sizeof(char *));
-    if(seqname == NULL) return -1;
-    comments = (char **)realloc(comments, max_count * sizeof(char *));
-    if(comments == NULL) return -1;
-  }
-  
-  *pseq = seq; *pseqname = seqname; *pcomments = comments;
-  return count1;
-}
