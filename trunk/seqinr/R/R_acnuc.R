@@ -5,9 +5,20 @@ choosebank <- function( bank = "demo")
 # Test if a bank is already in use
 #
 
- if( exists("bankname",envir=globalenv()) && (get("bankname",envir=globalenv()) != bank )) 
- stop("An ACNUC data base is already in use, you must change the data base using changebank()")
-
+ if( exists("bankname",envir=globalenv()) && (get("bankname",envir=globalenv()) != bank ))
+{ 
+# stop("An ACNUC data base is already in use, you must change the data base using changebank()")
+#
+.C("Racnucclose")
+}
+else
+{	
+if( exists("bankname",envir=globalenv()) && get("bankname",envir=globalenv()) == bank )
+{ 
+stop("this data base is already in use")
+}
+}
+ 
 #
 # Define a function to print something when we are unable
 # to locate the requested bank
@@ -94,6 +105,7 @@ choosebank <- function( bank = "demo")
     warning(paste("HELP file not found in folder",acnuc))
   }
 }
+
 
 choixbanque <- choosebank # Just an alias for compatibility
 
