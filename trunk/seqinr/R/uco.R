@@ -21,7 +21,8 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
 #
   x <- sort(x)
   labels <- names(x)
-  groups <- as.factor(translate(s2c(labels), numcode =  numcode))
+  stringlabel = paste(labels, sep="", collapse="")
+  groups <- as.factor(translate(s2c(stringlabel), numcode =  numcode))
   gdata <- sapply(split(x, groups), sum)
 #
 # Now, sorting by aa order
@@ -36,7 +37,8 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
 
   x <- x[order(xidx)]
   labels <- names(x)
-  aa <- translate(s2c(labels), numcode =  numcode)
+  stringlabel = paste(labels, sep="", collapse="")
+  aa <- translate(s2c(stringlabel), numcode =  numcode)
   groups <- factor(aa, levels = unique(aa))
   gdata <- sapply(split(x, groups), sum)
 
@@ -45,7 +47,6 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
   {
     levels(groups) <- aaa(levels(groups))
   }
-
   dotchart(x = x, labels = labels, groups = groups, gdata = gdata,
    cex = cex, pch = pch, gpch = gpch, bg = bg, color = color,
    gcolor = gcolor, lcolor = lcolor, xlim = xlim, main = main, 
