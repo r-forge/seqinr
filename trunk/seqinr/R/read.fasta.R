@@ -8,7 +8,7 @@ read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqin
   {
     nomseq[[i]]<-unlist(strsplit(seq[ind[i]]," "))[1]
     nomseq[[i]]=substr(nomseq[[i]],2,nchar(nomseq))	
-    sequences[[i]]<-unlist(strsplit(seq[(ind[i]+1):(ind[i+1]-1)],split=NULL))
+    sequences[[i]]<-s2c(paste(seq[(ind[i]+1):(ind[i+1]-1)],collapse=""))
     attributes(sequences[[i]])=list(name=nomseq[[i]])
   }
   names(sequences)=nomseq
