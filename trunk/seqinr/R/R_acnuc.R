@@ -81,4 +81,8 @@ print.requete <- function(x)
 	cat("\n")
 }
 
+translateCDS <- function(name)
+{
+	.Call("translateCDS",name)
+}
 
