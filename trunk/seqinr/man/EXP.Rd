@@ -1,7 +1,7 @@
 \name{EXP}
 \alias{EXP}
 \docType{data}
-\title{ Vectors of coefficients to compute linear forms }
+\title{ Vectors of coefficients to compute linear forms. }
 \description{
 This dataset is used to compute linear forms on codon frequencies:
 if \code{codfreq} is a vector of codon frequencies then
@@ -59,11 +59,19 @@ c, g, t (or u).
   }
 }
 \details{
-Note that it's better to work directly directly at the amino-acid level
+It's better to work directly at the amino-acid level
 when computing linear forms on amino-acid frequencies so as to have
 a single coefficient vector. For instance EXP$KD to compute the Kyte
 and Doolittle hydrophaty index from codon frequencies is valid only
-for the standard genetic code.
+for the standard genetic code.\cr
+\cr
+An alternative for \code{drop(freq \%*\% EXP$CG3)} is \code{
+sum( freq * EXP$CG3 )}, but this is less efficient in terms of CPU
+time. The advantage of the latter, however, is that thanks to
+recycling rules you can use either \code{ sum( freq * EXP$A )}
+or \code{ sum( freq * EXP$A3 )}. To do the same with the \%*\%
+operator you have to explicit the recycling rule as in \code{
+drop( freq \%*\% rep(EXP$A, 16))}.
 }
 \source{
 ANALSEQ EXPFILEs for command EXP.\cr
@@ -73,32 +81,34 @@ ANALSEQ EXPFILEs for command EXP.\cr
   To be completed...
 \describe{
   \item{AGZ }{ ? }
-  \item{ARG }{ ? }
-  \item{AU3 }{ ? }
-  \item{BC  }{ ? }
-  \item{CAI }{ ? }
+  \item{ARG }{ Arg content ? }
+  \item{AU3 }{ (1-CG3)? }
+  \item{BC  }{ Good choice (Bon choix) ? }
+  \item{CAI }{Sharp, P.M., Li, W.-H. (1987) The codon adaptation index -
+a measure of directionam synonymous codon usage bias, and its potential
+applications. \emph{Nucleic Acids Research},\bold{15}:1281-1295.}
   \item{CU  }{ ? }
   \item{DEN }{ ? }
   \item{ECM }{ ? }
-  \item{ECO }{ ? }
+  \item{ECO }{ NMD E. coli ? Ref these Manolo ? }
   \item{F1  }{From Table 2 in Lobry, J.R., Gautier, C. (1994) Hydrophobicity,
 expressivity and aromaticity are the major trends of amino-acid usage in
 999 \emph{Escherichia coli} chromosome-encode genes. \emph{Nucleic Acids
 Research},\bold{22}:3174-3180.}
   \item{FD  }{ ? }
   \item{FN  }{ ? }
-  \item{GP  }{ ? }
-  \item{HI  }{ ? }
+  \item{GP  }{ Guy Perriere? }
+  \item{HI  }{ Haemophilus influenzae? }
   \item{KD  }{Kyte, J., Doolittle, R.F. (1982) A simple method for displaying
 the hydropathic character of a protein. \emph{J. Mol. Biol.},\bold{157}
 :105-132.}
   \item{LEC }{ ? }
   \item{LEV }{ ? }
-  \item{MG  }{ ? }
+  \item{MG  }{ Mycoplasma genitalium? }
   \item{MG2 }{ ? }
   \item{NUM }{ ? }
   \item{OP  }{ ? }
-  \item{SUB }{ ? }
+  \item{SUB }{ Subcellular GP ? }
   }
 }
 \examples{
