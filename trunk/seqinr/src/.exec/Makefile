@@ -14,7 +14,7 @@ LIBFULLNAME = lib$(LIBNAME).a
 
 LIB_OBJS = utilquery.o utilgener.o utilgener2.o arbrebin.o gestion_acnuc.o \
 	use_acnuc.o dynlist.o lngbit.o mdshrt_lng.o bit.o dir_io.o hashacc.o \
-	prep_acnuc_requete.o two_banks.o proc_requete.o
+	prep_acnuc_requete.o two_banks.o timing.o proc_requete.o
 
 
 #each of these is a possible target of this makefile
