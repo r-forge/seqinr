@@ -1,12 +1,22 @@
 #
+# Constant for the location of the complete bacterial genome sequences
+# at ncbi ftp repository site
+#
+
+.BACTNCBI <- "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"
+
+########################################################################
 #                        get.ncbi
 #
 # Try to connect to ncbi to get a list of complete bacterial genomes.
-# Returns an n by 2 dataframe with species names in first column and
-# genbank accession numbers in second colum.
+# Returns an n by 4 dataframe with 
+#   species names
+#   accesion number
+#   size in bp
+#   type (chromosome or plasmid)
 #
-
-get.ncbi <- function()
+#########################################################################
+get.ncbi <- function(repository = .BACTNCBI)
 {
   #
   # First of all, check that this computer is not off the net:
@@ -33,63 +43,124 @@ get.ncbi <- function()
 # END Proxy problem
 #  
 
-  brut <- readLines("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/gbk")
+  #
+  # Try to get list of folder in ncbi repository. Note that R build-in ftp
+  # does not allow to do this directly, so we rely on a system call that
+  # will run only under Unix systems
+  #
+  cmd <- sprintf("echo \"ls\" | ftp %s", repository)
+  brut <- readLines(pipe(cmd))
+  
+  
+  #
+  # Keep only lines corresponding to folders:
+  #
+  brut <- brut[grep("dr-xr-xr-x", brut)]
+
 
   #
-  # Now there should be a vector of chr in "brut", one element per
-  # line in the "gbk" file, each line looking like:
+  # Now there should be a vector of chr in "brut", each line looking like:
   #
-  # "Aeropyrum_pernix   NC_000854.gbk"
+  # "dr-xr-xr-x   2 ftp      anonymous     4096 Jul 15 15:41 Aeropyrum_pernix"
   #
 
   brut <- sapply( brut, strsplit, split=" ")
+  names(brut) <- NULL
 
   #
   # Now each element in "brut" should be splited as in:
   #
-  # "Aeropyrum_pernix" ""                 ""                 "NC_000854.gbk"
+  # [1] "dr-xr-xr-x"       ""                 ""                 "2"               
+  # [5] "ftp"              ""                 ""                 ""                
+  # [9] ""                 ""                 "anonymous"        ""                
+  # [13] ""                 ""                 ""                 "4096"            
+  # [17] "Jul"              "15"               "15:41"            "Aeropyrum_pernix"
   #
 
-  brut <- sapply( brut, unlist)
+  get.last <- function( vector )
+  {
+    return( vector[length(vector)] )
+  }
+  brut <- sapply( brut, get.last)
 
   #
-  # Now "brut" should be an 4 by n matrix as in:
-  # > brut[ ,1]
-  # [1] "Aeropyrum_pernix" ""                 ""                 "NC_000854.gbk"
+  # Now "brut" should contains folders names as in:
+  # > brut[1:5]
+  # [1] "Aeropyrum_pernix"                     
+  # [2] "Agrobacterium_tumefaciens_C58_Cereon" 
+  # [3] "Agrobacterium_tumefaciens_C58_UWash"  
+  # [4] "Aquifex_aeolicus"                     
+  # [5] "Archaeoglobus_fulgidus"               
   #
 
-  brut <- brut[c(1,4),]
-
   #
-  # Now "brut" should be an 2 by n matrix as in:
-  # > brut[ ,1]
-  # [1] "Aeropyrum_pernix" "NC_000854.gbk" 
+  # Set vector types for results:
   #
-
-  brut <- t(brut)
-  names(brut) <- NULL
-  row.names(brut) <- NULL
-  brut <- as.data.frame(brut)
-  names(brut) <- c("species","gbk.acc.nbr")
-
+  
+  species <- character(0)
+  accession <- character(0)
+  size.bp <- integer(0)
+  type <- character(0)
+  
   #
-  # Now "brut" should be an n by 2 data.frame as in:
-  # > brut[1, ] 
-  #           species   gbk.acc.nbr
-  # 1 Aeropyrum_pernix NC_000854.gbk
+  # Main loop on folders to see what's inside
   #
+  for( folder in brut )
+  {
+    where <- paste(repository, folder, "/", sep="", collapse="")
+    cmd <- sprintf("echo \"ls\" | ftp %s", where)
+    whatsin <- readLines(pipe(cmd))
+    closeAllConnections()
+    whatsin <- whatsin[ grep("\\.gbk", whatsin)]
+    
+    for( i in seq(from=1, to=length(whatsin), by=1 )) # Loop on sequences data
+    {
+      accname <- unlist(strsplit(whatsin[i], split=" "))
+      accname <- accname[length(accname)]
+      accname <- unlist(strsplit(accname, split="\\."))
+      accname <- accname[1] # The accession number should be in this variable
+      #
+      # Try to get the size of this entry:
+      #
+      entry <- paste(repository, folder, "/", accname, ".gbk", sep="", collapse="")
+      header <- readLines(entry, n=2)
+      closeAllConnections()
+      bp <- unlist(strsplit(header[1], split=" "))
+      bp <- bp[nchar(bp) > 0]
+      bp <- bp[3] # size in bp should be there
+      species <- c(species, folder)
+      accession <- c(accession, accname)
+      size.bp <- c(size.bp, as.integer(bp))
+      #
+      # Try to get the type (chromosome versus plasmid) of this entry:
+      #
+      if( length(grep("plasmid", tolower(header[2]))) != 0 )
+        def <- "plasmid"
+      else if(length(grep("chromosome", tolower(header[2]))) != 0)
+        def <- "chromosome"
+      else if(length(grep("genome", tolower(header[2]))) != 0)
+        def <- "chromosome"
+      else
+        def <- NA
+      type <- c(type, def)
+      cat("\n",folder,accname,bp,def,"\n")
+    }
+  }
 
 # shouldn't ftp_proxy be restored there ?
-
-  return(brut)
+  return(data.frame(I(species), I(accession), size.bp, type))
 }
 
-#
+
+
+
+########################################################################
 #             ncbi.fna.url 
 #
 #  Try to build urls to access complete genome sequences data
 #  in fasta format from get.ncbi() output
 #
+########################################################################
 
 ncbi.fna.url <- function( get.ncbi.out = get.ncbi() )
 {
@@ -104,10 +175,12 @@ ncbi.fna.url <- function( get.ncbi.out = get.ncbi() )
   apply( get.ncbi.out, 1, build.url )  
 }
 
+########################################################################
 #
 #  Try to build urls to access complete genome sequences data
 #  in genbank format from get.ncbi() output
 #
+########################################################################
 
 ncbi.gbk.url <- function( get.ncbi.out = get.ncbi() )
 {
@@ -118,10 +191,11 @@ ncbi.gbk.url <- function( get.ncbi.out = get.ncbi() )
   }
   apply( get.ncbi.out, 1, build.url )  
 }
-#
+########################################################################
 #  Try to build urls to access complete genome sequences data
 #  file *.ptt from get.ncbi() output
 #
+########################################################################
 
 ncbi.ptt.url <- function( get.ncbi.out = get.ncbi() )
 {
@@ -136,9 +210,11 @@ ncbi.ptt.url <- function( get.ncbi.out = get.ncbi() )
   apply( get.ncbi.out, 1, build.url )  
 }
 
+########################################################################
 #
 # Try to get the number of cds and genome size
 #
+########################################################################
 
 ncbi.stats <- function( get.ncbi.out = get.ncbi() )
 {
