@@ -118,7 +118,7 @@ getSequence.SeqFastadna = function(object){
 getFrag.SeqFastadna = function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(object))
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=TRUE,name=getName(object))
 	return(newSeq)
 	}
 
@@ -173,7 +173,7 @@ getSequence.SeqFastaAA = function(object){
 getFrag.SeqFastaAA = function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(object))
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=TRUE,name=getName(object))
 	return(newSeq)
 	}
 
@@ -240,7 +240,7 @@ getFrag.SeqAcnucLocal = function(object,begin,end){
 	else{  
 	s = .Call("getseq2",object,begin,(end-begin+1))
 	seq = s2c(s)
-	return(as.SeqFrag(seq,begin,end,compl=T,name=getName(object)))
+	return(as.SeqFrag(seq,begin,end,compl=TRUE,name=getName(object)))
 	}
 }
 
@@ -329,7 +329,7 @@ getFrag.SeqAcnucWeb = function(object ,begin, end ){
 	if((end > b) || (begin > b)) stop("born out of limits")  
 	bb=end-begin+1
 	newSeq = getsequence.socket(attr(object,"socket"),object,start=begin,length=bb)
-	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=T,name=getName(object))
+	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=TRUE,name=getName(object))
 	return(newSeq)
 }
 
@@ -397,7 +397,7 @@ getFrag.SeqFrag = function(object,begin,end){
         newBegin = attr(object,"begin")+begin-1
         newEnd = attr(object,"begin")+end-1
 	newSeq = object[begin:end]
-        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(object))
+        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=TRUE,name=getName(object))
 	return(newSeq)
         }
 
