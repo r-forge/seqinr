@@ -14,7 +14,8 @@ choosebank(bank = "demo")
   ACNUC databases are made of a series of flat text files (called divisions) containing annotations and sequences and a series of index files allowing efficient access to sequence data.
 }
 \value{
-  \item{socket}{
+  \item{socket}{ an object of class socket }
+  \item{bankname}{ the name of the bank }
 }
 \references{ 
 \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}\cr
