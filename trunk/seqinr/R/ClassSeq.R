@@ -21,7 +21,7 @@ if(is.null(attr(x,"class"))) {getFragC(x,y,z)}
 else UseMethod("getFrag")
 }
 
-getSequenceC = function(x){
+getSequence = function(x){
 if(is.null(attr(x,"class"))) {getSequenceC(x)}
 else UseMethod("getSequence")
 }
