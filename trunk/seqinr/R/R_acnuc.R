@@ -3,6 +3,7 @@ choosebank <- function( bankname )
 #
 # Set defaults to local bank demo:
 #
+  assign(bankname,.Globalenv)	
   acnuc <- system.file("sequences/entero", package = "seqinr")
   gcgacnuc <- acnuc
 #
@@ -47,7 +48,8 @@ getreq <- function(nomliste,requete)
 	liste<-strsplit(liste,"")
 	p<-function(m) paste(m[m!=" "],collapse="")
 	liste<-lapply(liste,p)
-	toto=list(call=requete,name=nomliste,req=liste)
+	liste = lapply(liste,initSeqReq)	
+	toto=list(call = match.call(),name=nomliste,req=liste)
 	class(toto)=c("requete")
 	assign(nomliste,toto,env = .GlobalEnv)
 	print.requete(toto)
@@ -76,7 +78,7 @@ getseq2 <- function(name,B1,B2,as.string = TRUE)
 changebanque <- function(nombanque)
 {
 	.C("Racnucclose")
-	choixbanque.R(nombanque)
+	choixbanque(nombanque)
 }
 
 
