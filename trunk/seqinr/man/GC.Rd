@@ -1,17 +1,18 @@
 \name{GC}
 \alias{GC}
-\title{content in G+C from DNA sequences}
+\title{Calculates the fractional GC content of nucleic acid sequences}
 \description{
-  This function computes the percentage of G+C in a DNA sequence.
+This calculates the fraction of G+C bases of the input nucleic acid sequence(s)
+It reads in nucleic acid sequences, sums the number of 'G' and 'C' bases and writes out the result as the fraction (in the interval 0.0 to 1.0) of the length of the whole sequence. 
 }
 \usage{
 GC(seq)
 }
 \arguments{
-  \item{seq}{an object containig a DNA sequence}
+  \item{seq}{any nucleic acid sequence}
 }
 \value{
-  It returns a numeric vector
+  It returns the fraction of G+C as a numeric vector
 }
 \author{D. Charif }
 \examples{

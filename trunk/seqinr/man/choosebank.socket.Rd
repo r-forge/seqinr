@@ -13,7 +13,7 @@ choosebank.socket(bank, host = "pbil.univ-lyon1.fr", port = 5558))
   \item{port}{ The TCP port number}
 }
 \details{
-  ACNUC databases are made of a series of flat text files (called divisions) containing annotations and sequences and a series of index files allowing efficient access to sequence data.
+  ACNUC databases are made of a series of flat text files (called divisions) containing annotations and sequences and a series of index files allowing efficient access to sequence data. 
 }
 \value{
   \item{socket}{ an object of class socket }
