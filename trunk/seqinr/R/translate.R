@@ -11,7 +11,7 @@ translate <- function(seq, frame=0, sens="F", numcode=1)
 	b <- seq(frame+2,l+frame,3)
 	c <- seq(frame+3,l+frame,3)
 	tra <- 16*seq[a]+4*seq[b]+seq[c]+1
-	code <- unlist(strsplit(as.vector(.SEQINR.UTIL$CODES.NCBI$CODES[numcode]),""))	
+	code <- unlist(strsplit(as.vector(SEQINR.UTIL$CODES.NCBI$CODES[numcode]),""))	
 	code[tra]
 }
 
