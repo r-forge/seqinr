@@ -25,8 +25,10 @@ summary.SeqFastadna(object,...)
 }
 \author{D. Charif}
 \examples{
+dontrun{
   s = read.fasta(system.file("sequences/malM.fasta",package="seqinr"))
   is.SeqFastadna(s[[1]])
   summary(s[[1]])
+}
 }
 \keyword{utilities}

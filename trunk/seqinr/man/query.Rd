@@ -166,6 +166,7 @@ files written by Manolo Gouy}
 
 \seealso{ \code{\link{choosebank}} }
 \examples{
+dontrun{
 # Select demo database:
 choosebank(bank="demo")
 # Select 12 sequences from bacteria:
@@ -201,5 +202,6 @@ query("cg0100","ac=CG0100")
 # Select 43,690 coding sequences that are not partial
 # by combining two previously computed lists:
 query("cdsfull","cds et no partial")
+}
 }
 \keyword{utilities}

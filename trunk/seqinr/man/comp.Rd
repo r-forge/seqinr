@@ -17,7 +17,7 @@ comp(seq)
 \author{ D. CHARIF }
 
 \examples{
-   a=s2c("acgtgctcgtqtqtqtqtgccc")
+   a=s2c("acgtgctcgtatatatatgccc")
    comp(a)		
 }
 
