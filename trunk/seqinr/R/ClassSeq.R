@@ -143,8 +143,8 @@ summary.SeqFastadna = function(object){
 	return(list(composition=compo,GC=GC(object)))
 }
 
-Translate.SeqFastadna =  function(object, frame=0, sens= "F", numcode=1){
-	translate(object, frame=0, sens= "F", numcode=1)
+Translate.SeqFastadna =  function(seq, frame=0, sens= "F", numcode=1){
+	translate(seq, frame=0, sens= "F", numcode=1)
 }
 	
 
@@ -266,8 +266,8 @@ getAnnot.SeqAcnucLocal = function(object,nbl){
 }
 
 
-Translate.SeqAcnucLocal = function(object){
-	seq = translateCDS(object)
+Translate.SeqAcnucLocal = function(seq,frame=0, sens= "F", numcode=1){
+	seq = translateCDS(seq)
 	return(s2c(seq))
 }
 
@@ -361,8 +361,8 @@ getAnnot.SeqAcnucWeb = function(object, nbl ){
 }
 
 
-Translate.SeqAcnucWeb = function(object,frame=0, sens= "F", numcode=1){
-	translate(object, frame=0, sens= "F", numcode=1)
+Translate.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
+	translate(seq, frame=0, sens= "F", numcode=1)
 }
 
 
