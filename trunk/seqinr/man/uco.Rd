@@ -5,7 +5,7 @@
   \code{uco} calculates a codon frequencies or count table.
 }
 \usage{
-uco( seq, phase = 0, freq = FALSE, as.data.frame = FALSE)
+uco( seq, frame = 0, freq = FALSE, as.data.frame = FALSE)
 }
 
 \arguments{
