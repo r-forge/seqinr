@@ -27,5 +27,5 @@ rect(0,length(tutu)+1,length(seq),1,lwd=2)
 res1 = lapply(tutu,function(x){length(x)/length(seq)})
 res2 = table(factor(seq,levels = levels(SEQINR.UTIL$CODON.AA$L)))
 res3 = computePI(seq)
-return(list(res2,res1,PI=res3))
+return(list(Compo=res2,Prop=res1,Pi=res3))
 }
