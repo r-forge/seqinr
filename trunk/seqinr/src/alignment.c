@@ -32,7 +32,7 @@ SEXP read_mase(SEXP nomfic)
 
 
   if((fic = fopen(fic_name, "r")) == NULL) {
-    error("impossible to open file");
+    error("Can't open file");
   }
   
   
@@ -163,9 +163,9 @@ for(i=0;i<nb_seq;i++){
  SET_ELEMENT(essai,3,listcom);
  
   
-
- UNPROTECT(5);
  free_mase(aln,nb_seq);
+ UNPROTECT(5);
+ //free_mase(aln,nb_seq);
 
  return(essai);
 
@@ -229,12 +229,15 @@ void free_mase(struct SEQMASE * aln, int nbsq)
 
 SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
 
+  printf("cocu\n");
   SEXP d;
   int MAXNSEQS;
   char **seq;
   int i, j, k, n,totseqs, seq_long, nbases;
   int mat_number, seq_type;
 
+
+  MAXNSEQS = INTEGER_VALUE(nbseq)+1;
   int ndiff[MAXNSEQS][MAXNSEQS];
   double dist[MAXNSEQS][MAXNSEQS];
   int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5,
@@ -265,7 +268,7 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   
 
  
-  MAXNSEQS = INTEGER_VALUE(nbseq)+1;
+ 
   totseqs = INTEGER_VALUE(nbseq);
   mat_number= INTEGER_VALUE(matNumber);
   seq_type = INTEGER_VALUE(seqtype);
