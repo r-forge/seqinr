@@ -108,7 +108,8 @@ SEXP getseq2(SEXP nom, SEXP b1, SEXP b2){
   borne2=REAL(b2)[0];
   name=CHAR(STRING_ELT(nom,0));
 
-  /*obtention du numero de la sequence dans acnuc, rendu avec sa longueur, sa frame (ici NULL) et son code genetique (ici NULL)*/
+  /*obtention du numero de la sequence dans acnuc, rendu avec sa longueur,
+  sa frame (ici NULL) et son code genetique (ici NULL)*/
   num=gsnuml(name,&lseq,NULL,NULL);
   if(num==0) error("ce mnemo est invalide");
 
