@@ -1,9 +1,9 @@
-Package: seqinr
+Package: package
 Version: 1.0
 Date: 2003-01-26
-Title: seqinr
+Title: package
 Author: Delphine Charif <charif@biomserv.univ-lyon1.fr>
 Maintainer: Delphine Charif <charif@biomserv.univ-lyon1.fr> 
-Description: seqinr
+Description: package
 License: GPL version 2 or newer
 
