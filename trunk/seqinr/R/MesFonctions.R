@@ -73,15 +73,6 @@ for(i in 1:l)s=paste(s,num2base(v[i]),sep="",collapse="")
 return(s)
 }
 
-
-#transforme une chaine en tableau de caractres (auteur Jean Lobry)
-
-s2c <- function( string = "BigBang" )
-{
-  return( unlist( strsplit( string, split = "" ) ) )
-}
-
-
 # frequences des motifs de longueur donn l, avec un pas de p, en debutant ˆ d
 # la sequence est sous forme d'un vecteur numrique
 # permet de calculer:
