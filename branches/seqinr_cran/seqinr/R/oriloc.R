@@ -176,10 +176,10 @@ oriloc <- function(
 #
 # Project DNAwalk points (x,y) onto orthogonal regression line
 #
-    require(ade4)
-    pca <- dudi.pca( cbind(x,y), scann = FALSE, nf = 1, scale = FALSE, center = FALSE )
-    rec <- reconst(pca)
-    skew <- sign(rec$x)*sqrt(rec$x^2+rec$y^2)
+    if (!require(ade4)) stop("oriloc requires ade4, but ade4 couldn't be loaded")
+    	pca <- dudi.pca( cbind(x,y), scann = FALSE, nf = 1, scale = FALSE, center = FALSE )
+    	rec <- reconst(pca)
+    	skew <- sign(rec$x)*sqrt(rec$x^2+rec$y^2)
   }
 #
 # Try to get get a correct orientation (same as GC skew)
