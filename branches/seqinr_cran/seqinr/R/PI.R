@@ -1,5 +1,5 @@
 computePI = function(seq){
-	seq = seq[- which(seq=="*")]
+	if(length(which(seq=="*")) != 0) seq = seq[- which(seq=="*")]
 	compoAA=table(factor(seq,levels=toupper(letters)))
 	nTermR = which(toupper(letters)==seq[1])
 	cTermR = which(toupper(letters)==seq[length(seq)])
