@@ -11,9 +11,14 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 # string to char
 ############################
 
-s2c <- function(string){
-	return(.Call("s2c",string,PACKAGE="seqinr"))
+s2c = function (string) 
+{
+  if(is.character(string) & is.vector(string)){
+  return(.Call("s2c", string, PACKAGE = "seqinr"))
 }
+  else stop("non-character argument in s2c()")
+}
+
 
 
 ###########################
