@@ -9,7 +9,7 @@ discriminate between codon positions.
 }
 \usage{
 oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"), g2.coord = system.file("sequences/ct.coord", package = "seqinr"), 
-oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE)
+oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{
   \item{seq.fasta}{ the name of a file which contains the dna sequence
@@ -21,6 +21,8 @@ glimmer2 program}
 of the oriloc program }
   \item{gbk}{ the URL of a file in GenBank format}
   \item{clean.tmp.files}{ Logical, if TRUE temporary files are removed }
+  \item{rot}{ Integer, with zero default value, used to permute circurlarly the genome. }
+
 }
 \details{
 The method builds on the fact that there are compositional asymmetries between
