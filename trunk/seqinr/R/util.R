@@ -12,7 +12,7 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 ############################
 
 s2c <- function(string){
-	return(.Call("s2c",string))
+	return(.Call("s2c",string,PACKAGE="seqinr"))
 }
 
 

@@ -58,11 +58,11 @@ parser.socket = function(p)
 	p1=s2c(p)
 	b=grep("=",p1)
   	a=c(grep("&",p1),length(p1)+1)
-	return(unlist(lapply(1:length(a),function(x){substr(m,(b[x]+1),(a[x]-1))})))
+	return(unlist(lapply(1:length(a),function(x){substr(p,(b[x]+1),(a[x]-1))})))
 }
 	
 
-getSequence.socket = function( socket, name, start, length){
+getSequenceSocket = function( socket, name, start, length){
 	
 	request2 = paste("gfrag&name=", name,"&start=", start, "&length=", length, sep= "")
 	writeLines( request2, socket, sep="\n" )
@@ -200,7 +200,7 @@ getKeyword.socket <- function( socket, name){
 } 
 
 
-getLocation.socket <- function( socket, name){
+getLocationSocket <- function( socket, name){
 
 	 writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
          res = readLines( socket , n=1 )
@@ -248,32 +248,32 @@ getType.socket = function(socket){
 }
 
 
-plot.SeqAcnucWeb = function(name){
+plot.SeqAcnucWeb = function(x, ...){
 
-	if(! inherits(name,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
-	socket = attr(name,"socket")
+	if(! inherits(x,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
+	socket = attr(x,"socket")
 	par(mfrow=c(2,1))
-	q = paste("me n=",name,sep="")
+	q = paste("me n=",x,sep="")
 	query.socket(socket,listname= "me",query = q)
 	l=getLength(me$req[[1]])
-	x=c(0,l+(1/10)*l)
-	y = c(0,15)
-	plot(x,y,ann=FALSE,type="n",axes=FALSE)
+	cx=c(0,l+(1/10)*l)
+	cy = c(0,15)
+	plot(cx,cy,ann=FALSE,type="n",axes=FALSE)
 	axis(1, col.axis = "blue")
 	title(main= paste("Physical position (base) of the subsequences","\n","on the parent sequence", me$req[[1]], sep=" "),font.main=3, col.main="blue")
 	mtext(paste("(length of the parent sequence = ", l, ")", sep=""), cex = 0.7, font = 3)
 
-	if(me$req[[1]] != name){
+	if(me$req[[1]] != x){
 		cat("It is a subsequence\n")
-		p = getLocation.socket(socket,name)
+		p = getLocationSocket(socket,name)
 		kk=lapply(p,function(x){rect(x[1],0,x[2],1,col="red", border="red" )})
 		plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
 		title("Legend",font.main=4)
-		legend(9,legend=name,fill="red",bg="cornsilk",ncol = 1)
+		legend(9,legend=x,fill="red",bg="cornsilk",ncol = 1)
 	}
 
 	else{ 
-		q = paste("fi n=",name,sep="")
+		q = paste("fi n=",x,sep="")
 		query.socket(socket = socket, listname = "filles", query = q )
 		type = getType.socket(socket)
 		t = lapply(type,function(x){ substring(x[1],4,nchar(x[1])-1) } )
@@ -299,7 +299,7 @@ plot.SeqAcnucWeb = function(name){
 	q=paste("filles et t=",t[[f]],sep="")
 	query.socket(socket = socket, listname = "tmp", query = q ) 
 
-	if(is.na(tmp$req[[1]]) || tmp$req[[1]] == name ){ 
+	if(is.na(tmp$req[[1]]) || tmp$req[[1]] == x ){ 
 	cat("There is no",type[[f]][2],"on this parent sequence\n")
 	cou=cou-1
 	}

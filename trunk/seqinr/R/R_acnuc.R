@@ -8,7 +8,7 @@ choosebank <- function( bank = "demo")
 if( exists("bankname",envir=globalenv()))
 {
  rm(bankname, envir=globalenv())  
-.C("Racnucclose")
+.C("Racnucclose",PACKAGE="seqinr")
 }
 
 #
@@ -78,7 +78,7 @@ if( exists("bankname",envir=globalenv()))
 #
 # Open ACNUC database:
 #
-  .C("Racnucopen", acnuc, gcgacnuc)
+  .C("Racnucopen", acnuc, gcgacnuc,PACKAGE="seqinr")
 #
 # print ACNUC database content
 #
@@ -114,7 +114,7 @@ query <- function(listname,request)
 #	
 # call to the C funcion getreq() to obtain the list of sequences name 
 #
-	liste<-.Call("getreq",listname,request)
+	liste<-.Call("getreq",listname,request,PACKAGE="seqinr")
 	liste<-as.character(liste)
 	liste<-lapply(liste,s2c)
 	p<-function(m) paste(m[m!=" "],collapse="")
@@ -128,17 +128,17 @@ query <- function(listname,request)
 
 getseq <- function(name, as.string = TRUE)
 {
-  x <- .Call("getseq", name)
+  x <- .Call("getseq", name,PACKAGE="seqinr")
   ifelse( as.string, return(x), return(s2c(x)) )
 }
 
 getseq2 <- function(name,B1,B2,as.string = TRUE)
 {
  	if(as.string == TRUE){
- 	.Call("getseq2",name,B1,B2)
+ 	.Call("getseq2",name,B1,B2,PACKAGE="seqinr")
 	}
 	else{
- 	seq <- .Call("getseq2",name,B1,B2)
+ 	seq <- .Call("getseq2",name,B1,B2,PACKAGE="seqinr")
  	return(s2c(seq))
 	}
 }
@@ -146,7 +146,7 @@ getseq2 <- function(name,B1,B2,as.string = TRUE)
 
 changebank <- function(bankname)
 {
-	.C("Racnucclose")
+	.C("Racnucclose",PACKAGE="seqinr")
 	choosebank(bankname)
 }
 
@@ -173,12 +173,13 @@ print.qal <- function(x, ...)
 
 translateCDS <- function(name)
 {
-	.Call("translateCDS",name)
+	.Call("translateCDS",name,PACKAGE="seqinr")
+
 }
 
 getKeyword <- function(object)
 {
-	k = .Call("getKey",object)
+	k = .Call("getKey",object,PACKAGE="seqinr")
 	k = as.character(k)
 	k = as.list(k)
 	k =strsplit(k," ")
@@ -191,7 +192,7 @@ getKeyword <- function(object)
 
 getExon <- function(object)
 {
-	a=.Call("getExon",object)
+	a=.Call("getExon",object,PACKAGE="seqinr")
 	deb=a[seq(1,length(a),2)]
 	fin=a[seq(2,length(a),2)]	
 	b=as.list(rep(0,(length(a)/2)))
@@ -202,7 +203,7 @@ getExon <- function(object)
 
 getAttribut <- function(name)
 {
-	res = .Call("getAttribut",name)
+	res = .Call("getAttribut",name,PACKAGE="seqinr")
 	att = list(lseq=res[1],frame=res[2],gencode=res[3])		
 	return(att)
 }
@@ -211,7 +212,7 @@ getAttribut <- function(name)
 getAnnots <-function(name,ligne)
 {
 
-	res = .Call("getAnnots",name,ligne)
+	res = .Call("getAnnots",name,ligne,PACKAGE="seqinr")
 	res = as.character(res)
 	res
 }

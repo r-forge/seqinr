@@ -50,7 +50,7 @@ getAnnot.default = function(object,nbl){
 }
 
 getLocation.default = function(object){
- 	stop("no information about exon")
+ 	stop("no information about the position")
 }
 
 getKeyword.default = function(object){
@@ -259,7 +259,7 @@ getFrag.SeqAcnucLocal = function(object,begin,end){
 	b = getLength(object)
 	if((end > b) || (begin > b)) stop("born out of limits")
 	else{  
-	s = .Call("getseq2",object,begin,(end-begin+1))
+	s = .Call("getseq2",object,begin,(end-begin+1),PACKAGE="seqinr")
 	seq = s2c(s)
 	return(as.SeqFrag(seq,begin,end,compl=TRUE,name=getName(object)))
 	}
@@ -351,7 +351,7 @@ is.SeqAcnucWeb = function( object ){
 
 getSequence.SeqAcnucWeb = function(object){
 	b=getLength( object )
-	getSequence.socket(attr(object,"socket"),object,start=1,length=b)
+	getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
 }
 
 
@@ -361,7 +361,7 @@ getFrag.SeqAcnucWeb = function(object ,begin, end ){
 	b = getLength(object)
 	if((end > b) || (begin > b)) stop("born out of limits")  
 	bb=end-begin+1
-	newSeq = getSequence.socket(attr(object,"socket"),object,start=begin,length=bb)
+	newSeq = getSequenceSocket(attr(object,"socket"),object,start=begin,length=bb)
 	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=TRUE,name=getName(object))
 	return(newSeq)
 }
@@ -401,7 +401,7 @@ getKeyword.SeqAcnucWeb = function(object){
 
 getLocation.SeqAcnucWeb = function(object){ 
 	
-	return( getLocation.socket( socket= attr(object,"socket"), name=object))
+	return( getLocationSocket( socket= attr(object,"socket"), name=object))
 }
 
 
