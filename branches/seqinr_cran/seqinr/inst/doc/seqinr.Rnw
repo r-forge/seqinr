@@ -170,6 +170,104 @@ As a rule of thumb, after compression one nucleotide needs one octet
 of disk space storage (because you need also the annotations corresponding
 to the sequences), so that most likely you won't have enough space on
 your computer to work with a local copy of a complete DNA database. 
+\\
+\\
+\begin{enumerate}
+	\item Firstly, you have to select the database to be queried using the {\bfseries choosebank()} function.
+	This function initiates remote access to an acnuc database.
+\\
+<<choixbanque1>>=
+mybank = choosebank()
+mybank
+@
+\\
+<<choixbanque2>>=
+bank = choosebank(mybank[1])
+bank
+@
+\\
+{\bfseries choosebank()} returns a list with the following components:
+The details of the socket connection.
+totseqs, totspec, totkey which are respectively the total number of sequences, species, keywords in the opened database.
+\\
+\\ 
+	\item Secondly, you have to compose your query.  
+In the example below, genbank was choosen, and we want to select sequences from cat (\textit{ sp=felis catus}) that are also (\textit{et}) coding sequences (\textit{t=cds}) and that are not (\textit{et no}) partial sequences (\textit{k=partial}). We want the result to be stored in an object called list1.
+\\
+<<query1>>=
+query(bank$socket,"list1","sp=felis catus et t=cds et no k=partial")
+@
+\\
+\\
+The sequence names that fit the request are given in the req component of our object list1. We can see that the first sequence that fits our request is AB000483.PE1:
+\\
+<<query2>>=
+list1$req[[1]]
+@
+\\
+We can see that the first and second sequences that fit our request are AB000483.PE1 and AB000484.PE1 
+\\
+<<query3>>=
+list1$req[1:2]
+@
+
+An important point is that the component call of our object list1 keep a trace of the way we have selected the sequences. At this stage you can quit your R session saving the workspace image. The next time we open an R session restauring the workspace image, there will be an object called list1, and looking into its call component will tell us that it contains the names of complete coding sequences from Felis catus.
+
+
+\end{enumerate}
+
+
+\section{How to deals with sequence}
+
+\subsection{Sequence classes}
+
+
+There are at present three classes of sequences, depending on the way they were obtained:
+
+\begin{itemize}
+      \item {\bfseries seqFasta} is the class for the sequences that were imported from a fasta file
+      \item {\bfseries seqAcnucWeb} is the class for the sequences coming from an ACNUC database server
+      \item {\bfseries seqFrag} is the class for the sequences that are fragments of other sequences
+\end{itemize}
+
+\subsection{Generic methods for sequences}
+
+All sequence classes are sharing a common interface, so that there are very few method names we have to remember. 
+In addition, all classes have their specific as.ClassName method that return an instance of the class,
+and is.ClassName method to check whether an object belongs or not to the class. 
+Available methods are: 
+\\
+\\
+\begin{tabular}{|@{} c @{}|@{} c @{}|@{} c @{}|}
+\hline
+{\bfseries Methods} & {\bfseries Result} & {\bfseries Type of result} \\
+\hline \hline
+{\bfseries getFrag} & a sequence fragment & a sequence fragment \\
+\hline
+{\bfseries getSequence} & the sequence & vector of characters \\
+\hline
+{\bfseries getName} & the name of a sequence & string \\
+\hline
+{\bfseries getLength} & the length of a sequence & numeric vector \\
+\hline
+{\bfseries getTrans} & translation into amino-acids & vector of characters \\
+\hline
+{\bfseries getAnnot} & sequence annotations & vector of string \\
+\hline
+{\bfseries getLocation} & the Position of a Sequence on the Parent Sequence & list of numeric vector \\
+\hline
+\end{tabular}
+
+\subsection{Internal representation of sequences}
+
+The current mode of sequence storage is done with vectors of characters instead of strings.
+This is very convenient for the user because all R tools to manipulate vectors are immediatly available. 
+The price to pay is that this storage mode is extremly expensive in terms of memory.
+They are two utilities called s2c and c2s that allows to convert strings into vector of characters, 
+and vice-versa, respectively.
+
+
+
 %
 % Sequence analyses
 %
