@@ -272,7 +272,7 @@ getName.SeqAcnucWeb = function(object ){
 
 getLength.SeqAcnucWeb = function( object ){
 
-	return( getAttribut.socket(attr(object,"socket"),object)[[1]] )
+	return( getAttributsocket(attr(object,"socket"),object)[[1]] )
 
 }
 

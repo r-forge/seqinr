@@ -67,7 +67,7 @@ getSequenceSocket = function( socket, name, start, length){
 	
 
 
-getAttribut.socket = function( socket, name){
+getAttributsocket = function( socket, name){
 	
 	# Récupération des attributs d'une séquence
 	
@@ -221,7 +221,7 @@ getLocationSocket <- function( socket, name){
 
 
 
-getType.socket = function(socket){
+getType = function(socket){
 	writeLines( "readfirstrec&type=SMJ",socket, sep="\n" ) 
 	s = readLines(socket,n=1)
 	rep = parser.socket(s)
@@ -246,7 +246,7 @@ plot.SeqAcnucWeb = function(x,  type = "all", ...){
   if(! inherits(x,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
   socket = attr(x,"socket")
 
-  types = unlist(lapply(getType.socket(socket),function(x) x[1]))
+  types = unlist(lapply(getType(socket),function(x) x[1]))
   
   if(type == "all") ptype = types
   else{
