@@ -137,7 +137,6 @@ query <- function(listname,request)
 getseq <- function(name, as.string = TRUE)
 {
   x <- .Call("getseq", name)
-  class(x) <- c("sequence")
   ifelse( as.string, return(x), return(s2c(x)) )
 }
 

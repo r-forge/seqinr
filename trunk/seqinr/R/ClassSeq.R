@@ -260,8 +260,7 @@ getFrag.SeqReq = function(SeqReq,born1=1,born2){
 
 
 getSequence.SeqReq = function(SeqReq){
-	s=return(.Call("getseq"))
-	return(s2c(s))
+	return(getseq(SeqReq,as.string=F))
 	}
 
 
