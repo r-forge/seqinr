@@ -7,7 +7,9 @@
 	#            getFrag(seq,begin,end) retourne un vecteur de caractères               #
 	#            getLength(seq) retourne un "entier"                                    #
 	#            getName(seq) retourne une chaîne                                       #
-	#            getProp(seq) retourne une liste nommée                                 # 
+	#            getProp(seq) retourne une liste nommée                                 #
+	#	     getAnnot(seq,nl) reourne un vecteur de string                          #
+	#	     Translate(seq) retourne un vecteur de char                             #
 	#####################################################################################
 
 
@@ -46,6 +48,9 @@ getAnnot.default = function(x,y){
  	stop("no annotation for this sequence")
 }
 
+Translate.default = function(seq,frame=0, sens= "F", numcode=1){
+	translate(seq,frame,sens,numcode)
+}
 
 ##################################################################
 
@@ -81,8 +86,10 @@ getAnnot = function(x,y) {
 	else UseMethod("getAnnot")
 }
 
-
-
+Translate = function(seq,frame=0, sens= "F", numcode=1){
+	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {Translate.default(seq,frame=0, sens= "F", numcode=1)}
+	else UseMethod("Translate")
+}
 
 
 
@@ -128,7 +135,7 @@ getProp.SeqFastadna = function(Seqfastadna){
 	return(list(seqtype="DNA"))
 }
 
-getAnnot.SeqFastadna = function(Seqfastadna){
+getAnnot.SeqFastadna = function(SeqFastadna){
 	return(attr(SeqFastadna,"Annot"))
 }
 
@@ -136,6 +143,14 @@ summary.SeqFastadna = function(SeqFastadna){
 	compo=count(SeqFastadna,1)
 	return(list(composition=compo,GC=GC(SeqFastadna)))
 }
+
+Translate.SeqFastadna =  function(SeqFastadna, frame=0, sens= "F", numcode=1){
+	translate(SeqFastadna, frame=0, sens= "F", numcode=1)
+}
+	
+
+
+	
 
 
 	###############################################################################
@@ -178,7 +193,7 @@ getProp.SeqFastaAA = function(SeqfastaAA){
 	return(list(seqtype="AA"))
 }
 
-getAnnot.SeqFastadna = function(Seqfastadna){
+getAnnot.SeqFastaAA = function(Seqfastadna){
 	return(attr(SeqFastaAA,"Annot"))
 }
 
@@ -252,9 +267,14 @@ getAnnot.SeqAcnucLocal = function(SeqAcnucLocal,nbl){
 }
 
 
-#summary.SeqAcnucLocal = function(SeqAcnucLocal){
-# 	return(list(mnemo=getName(SeqAcnucLocal),GC.percent=GC(SeqAcnucLocal),base.count=count(SeqAcnucLocal,1)))
-#	}
+Translate.SeqAcnucLocal = function(SeqAcnucLocal){
+	translateCDS(SeqAcnucLocal)
+}
+
+
+summary.SeqAcnucLocal = function(SeqAcnucLocal){
+ 	return(list(name=getName(SeqAcnucLocal),GC.percent=GC(SeqAcnucLocal),base.count=count(SeqAcnucLocal,1)))
+	}
 
 
 
@@ -340,6 +360,10 @@ getAnnot.SeqAcnucWeb = function( SeqAcnucWeb, nbl ){
 }
 
 
+Translate.SeqAcnucWeb = function(SeqAcnucWeb,frame=0, sens= "F", numcode=1){
+	translate(SeqAcnucWeb, frame=0, sens= "F", numcode=1)
+}
+
 
 	############################################################################
 	#		Classe de sequences SeqFrag et ses méthodes:               #
@@ -389,7 +413,9 @@ getprop.SeqFrag = function(seq){
 }
 
 
-
+Translate.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
+	translate(Seq, frame=0, sens= "F", numcode=1)
+}
 
 
 
