@@ -11,7 +11,7 @@ choosebank.socket = function( bank ){
 	
 	# ouverture d'un "client socket" sur le serveur pbil et sur le port 5557 (non définitif :  plus tard 5558)
  
-    	socket = socketConnection( host = "pbil", port = 5557, server = F, blocking=T)
+    	socket = socketConnection( host = "pbil.univ-lyon1.fr", port = 5557, server = F, blocking=T)
 	rep1 = readLines(socket, n=1)
 
 	# vérification du bon fonctionnement de la connection et ouverture de la banque
