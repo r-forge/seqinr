@@ -23,7 +23,7 @@ s2c(string = "BigBang")
 \seealso{ \code{\link{c2s}} }
 
 \examples{
-c2s( "BigBang" )
+s2c( "BigBang" )
 }
 \keyword{utilities}
 
