@@ -20,4 +20,3 @@ closebank.socket(socket)
  \dontrun{closebank.socket(s$socket)}
 }
 \keyword{utilities}
-
