@@ -2,7 +2,10 @@
 # Conversion of the numeric encoding of a DNA sequence into
 # a vector of chars
 #
-n2s <- function(nseq, levels = c("a", "c", "g", "t"))
+n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
-  levels[nseq]
+  if( base4 )
+    levels[nseq + 1]
+  else
+    levels[nseq]
 }
