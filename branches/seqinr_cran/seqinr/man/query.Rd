@@ -1,18 +1,17 @@
 \name{query}
 \alias{query}
-\alias{print.qal}
-\title{To select sequences in an ACNUC data base}
+\alias{print.qaw}
+\title{To get a list of sequence names from an ACNUC data base located on the web}
 \description{
-This is a major command of the package. It executes all sequence           
-retrievals using any selection criteria the data base allows. The command       
-produces the list of all sequences that fit the required criteria.
+This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(listname, request)
+query(socket,listname,query)
 }
 \arguments{
+  \item{socket}{a socket of class connection}
   \item{listname}{The name of the list as a quoted string of chars}
-  \item{request}{A quoted string of chars containing the request
+  \item{query}{A quoted string of chars containing the request
 with the syntax given in the details section}
 }
 \details{
@@ -37,13 +36,12 @@ fragment complexe requests into simple requests. For instance, here are
 two equivalent ways to get all coding sequences from \emph{Escherichia coli} 
 that are not partial:
 
-\preformatted{choosebank("genbank")}
-\code{query("final","sp=escherichia coli ET t=cds ET NO k=partial")}
-
-\preformatted{choosebank("genbank")}
-\code{query("eco","sp=escherichia coli")}
-\preformatted{query("ecocds","eco ET t=cds")}
-\code{query("final","ecocds ET NO k=partial")}
+\preformatted{s=choosebank("genbank")}
+\code{query(s$socket,"final","sp=escherichia coli ET t=cds ET NO k=partial")}
+\preformatted{s=choosebank("genbank")}
+\code{query(s$socket,"eco","sp=escherichia coli")}
+\preformatted{query(s$socket,"ecocds","eco ET t=cds")}
+\code{query(s$socket,"final","ecocds ET NO k=partial")}
 
 }
 
@@ -60,21 +58,21 @@ sequences associated to keywords further down in tree.
 
 \item{R = reference code}{sequences from a given reference. References are specified as follows depending on the type of document:}
 
- \tabular{lll}{
-   Document \tab Format \tab Example\cr
-   Journal article \tab journal\_code/volume/1st\_page \tab jme/34/17\cr
-   Book  \tab book/year/1st_author \tab book/1980/broker\cr
-   Thesis \tab  thesis/year/1st\_author \tab thesis/1984/wildgruber\cr
-   Patent \tab patent/patent\_coded\_number \tab patent/ep0238993\cr
-   Unpublished, or submitted \tab unpubl/year/1st\_author \tab unpubl/1993/cho
+ \tabular{rlll}{
+   \tab Document \tab Format \tab Example\cr
+   \tab Journal article \tab journal\_code/volume/1st\_page \tab jme/34/17\cr
+   \tab Book  \tab book/year/1st_author \tab book/1980/broker\cr
+   \tab Thesis \tab  thesis/year/1st\_author \tab thesis/1984/wildgruber\cr
+   \tab Patent \tab patent/patent\_coded\_number \tab patent/ep0238993\cr
+   \tab Unpublished, or submitted \tab unpubl/year/1st\_author \tab unpubl/1993/cho
 }
-
                     
-\item{J = journal name}{sequences published in a given journal.}                                  
-\item{Y =y ear}{sequences published in given year (e.g. 1982).}
+\item{J = journal name}{sequences published in a given journal.}                                   
+\item{Y = year}{sequences published in given year (e.g. 1982).}
 \item{Y > year}{sequences published after or during a given year.}
 \item{Y < year}{sequences published before or during a given year.}
-\item{AU = author}{ sequences published by given author(s). Use @ to specify
+
+\item{AU = author}{sequences published by given author(s). Use @ to specify
 any letters in name (e.g. @ORMOND@ for Van Ormondt).
 Only last names are indexed - initials are ignored. All authors of journal articles are indexed. Only the first author of books, theses, patents and other documents is indexed.
 }
@@ -82,7 +80,7 @@ Only last names are indexed - initials are ignored. All authors of journal artic
 \item{T = sequence type}{ sequences of given type. You generally obtain 
 subsequences with this criterion because types are for example tRNA, 
 rRNA or protein gene.
-Type should not be confused with molecule which denotes the chemical nature of the sequenced molecule (\emph{e.g.}, DNA, mRNA, tRNA). Type is defined only for the nucleotide sequence banks. Presently the existing types are:} 
+Type should not be confused with molecule which denotes the chemical nature of the sequenced molecule (\emph{e.g.}, DNA, mRNA, tRNA). Type is defined only for the nucleotide sequence banks. Presently the existing types are:}
 
 \tabular{lll}{
 ID      \tab Locus entry \tab (EMBL, SWISS-PROT, NRSub)\cr
@@ -97,7 +95,7 @@ SCRNA   \tab .SC small cytoplasmic RNA \tab (EMBL, GenBank, Hovergen, NRSub, EMG
 3'NCR   \tab .3F 3' non-coding region  \tab  (Hovergen)\cr
 5'INT   \tab .5I 5' intron  \tab (Hovergen)\cr
 5'NCR   \tab .5F 5' non-coding region  \tab  (Hovergen)\cr
-CPG     \tab .CG  CpGobs/CpGexp>0.5 \tab (Hovergen)\cr
+CPG     \tab .CG CpGobs/CpGexp>0.5 \tab (Hovergen)\cr
 INT\_INT \tab .IN internal intron   \tab   (Hovergen)
 }
 
@@ -115,9 +113,10 @@ KINETOPLAST   \tab Kinetoplast genome   \tab (EMBL, GenBank, Hovergen)\cr
 NUCLEAR       \tab Nuclear genome       \tab (all)
 }
 
+
 \item{M = molecule name}{ sequences with given chemical structure. 
 In ACNUC, molecule denotes the chemical nature of the sequenced molecule (\emph{e.g.}, DNA, mRNA, tRNA). 
-Molecule should not be confused with type which identifies the encoded molecule (\emph{e.g.}, protein, tRNA, rRNA). Thus the sequence of a tRNA gene has DNA for molecule because DNA rather than tRNA was sequenced. The subsequence covering the tRNA region has tRNA for type because this is the nature of the encoded product. Molecule is defined only for the nucleotide sequence banks (GenBank, EMBL, Hovergen, NRSub, and CGDB). Presently the existing molecules are:}
+Molecule should not be confused with type which identifies the encoded molecule (\emph{e.g.}, protein, tRNA, rRNA). Thus the sequence of a tRNA gene has DNA for molecule because DNA rather than tRNA was sequenced. The subsequence covering the tRNA region has tRNA for type because this is the nature of the encoded product. Molecule is defined only for the nucleotide sequence banks (GenBank, EMBL, Hovergen, NRSub, and CGDB). Presently the existing molecules are:} 
 
 \tabular{lll}{
 DNA    \tab Sequenced molecule is DNA   \tab (all)\cr
@@ -135,15 +134,13 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
 \item{F = file name}{ sequences whose names are in a specified file.}                                
 \item{FA = file name}{ sequences whose accesion numbers are in a specified file.} 
 }
-
 \value{
   A list with the following components:
-  \item{bank}{the name of the bank that has been choosen by \code{choosebank}}
+  \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
   \item{call}{original call}
   \item{name}{list name}
-  \item{req}{a list of sequence names that fit the required criteria}
+  \item{req}{a list of sequence names  that fit the required criteria}
 }
-
 \references{ 
 \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
@@ -159,42 +156,12 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \author{J.R. Lobry & D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
-\seealso{ \code{\link{choosebank}} }
+\seealso{ \code{\link{choosebank}}, \code{\link{getSequence}}, \code{\link{plot.SeqAcnucWeb}} }
 \examples{
-# Select demo database:
-\dontrun{choosebank(bank="demo")}
-# Select 12 sequences from bacteria:
-\dontrun{query("bact","sp=bacteria")}
-# Select 4 Escherichia coli complete genomes:
-\dontrun{query("ecoli","sp=escherichia coli@")}
-# Select 35 partial sequences:
-\dontrun{query("partial","k=partial")}
-# Select 68 RNA polymerases:
-\dontrun{query("rnapol","k=rna polymerase@")}
-# Select 239 polymerases:
-\dontrun{query("polymerases","k=@polymerase@")}
-# Select 4359 sequences with an assigned EC number
-\dontrun{query("ecn","k=EC_NUMBERS")}
-# Select 1 sequence published in Nature volume 407 page 81:
-\dontrun{query("nature.407.81","r=nature/407/81")}
-# Select 5 sequences published in Nature
-\dontrun{query("nature","j=nature")}
-# Select 2 sequences published in year 2000
-\dontrun{query("yK2","y=2000")}
-# Select 1 sequence published by Moran
-\dontrun{query("moran","au=moran")}
-# Select 43,725 coding sequences
-\dontrun{query("cds","t=cds")}
-# Select 846 tRNAs
-\dontrun{query("trna","t=trna")}
-# Select 202 rRNAs
-\dontrun{query("rrna","t=rrna")}
-# Select 1 sequence by name
-\dontrun{query("ecolicg","n=ecolicg")}
-# Select 1 sequence by accession number
-\dontrun{query("cg0100","ac=CG0100")}
-# Select 43,690 coding sequences that are not partial
-# by combining two previously computed lists:
-\dontrun{query("cdsfull","cds et no partial")}
+ \dontrun{s = choosebank("genbank")}
+ \dontrun{query(s$socket,"ecoli","sp=escherichia coli@")}
+ \dontrun{ecoli$req[1:4]}
+ \dontrun{ecoli$req[[5]]}
+ \dontrun{ecoli$call}
 }
 \keyword{utilities}
