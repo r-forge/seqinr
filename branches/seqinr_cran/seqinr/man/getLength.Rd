@@ -5,6 +5,7 @@
 \alias{getLength.SeqFastaAA}
 \alias{getLength.SeqFrag}
 \alias{getLength.default}
+\alias{getAttributsocket}
 \title{Generic Function To obtain the length of a sequence}
 \description{
   Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb}, \code{SeqFrag}. 

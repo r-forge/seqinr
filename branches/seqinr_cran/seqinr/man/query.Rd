@@ -9,7 +9,7 @@ This is a major command of the package. It executes all sequence retrievals usin
 query(socket,listname,query)
 }
 \arguments{
-  \item{socket}{a socket of class connection}
+  \item{socket}{a socket of class connection returned by \code{choosebank}. }
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request
 with the syntax given in the details section}
@@ -61,7 +61,7 @@ sequences associated to keywords further down in tree.
  \tabular{rlll}{
    \tab Document \tab Format \tab Example\cr
    \tab Journal article \tab journal\_code/volume/1st\_page \tab jme/34/17\cr
-   \tab Book  \tab book/year/1st_author \tab book/1980/broker\cr
+   \tab Book  \tab book/year/1st\_author \tab book/1980/broker\cr
    \tab Thesis \tab  thesis/year/1st\_author \tab thesis/1984/wildgruber\cr
    \tab Patent \tab patent/patent\_coded\_number \tab patent/ep0238993\cr
    \tab Unpublished, or submitted \tab unpubl/year/1st\_author \tab unpubl/1993/cho
