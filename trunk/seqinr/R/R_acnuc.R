@@ -3,7 +3,7 @@ choosebank <- function( bankname )
 #
 # Set defaults to local bank demo:
 #
-  assign(bankname,.Globalenv)	
+  assign(bankname,.GlobalEnv)	
   acnuc <- system.file("sequences/entero", package = "seqinr")
   gcgacnuc <- acnuc
 #
