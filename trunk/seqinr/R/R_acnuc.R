@@ -90,9 +90,9 @@ choosebank <- function( bankname = "demo")
 choixbanque <- choosebank # Just an alias for compatibility
 
 
-getreq <- function(nomliste,requete)
+query <- function(listname,request)
 {	
-	liste<-.Call("getreq",nomliste,requete)
+	liste<-.Call("getreq",listname,request)
 	liste<-as.character(liste)
 	liste<-lapply(liste,s2c)
 	p<-function(m) paste(m[m!=" "],collapse="")
@@ -101,7 +101,7 @@ getreq <- function(nomliste,requete)
 	toto=list(call = match.call(),name=nomliste,req=liste)
 	class(toto)=c("requete")
 	assign(nomliste,toto,env = .GlobalEnv)
-	print.requete(toto)
+	print(toto)
 }
 
 getseq <- function(name, as.string = TRUE)
@@ -124,10 +124,10 @@ getseq2 <- function(name,B1,B2,as.string = TRUE)
 }
 
 
-changebanque <- function(nombanque)
+changebank <- function(bankname)
 {
 	.C("Racnucclose")
-	choosebank(nombanque)
+	choosebank(bankname)
 }
 
 
