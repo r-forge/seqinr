@@ -12,7 +12,6 @@ read.alignment = function( File, format)
 	else ali = list(nb = as.numeric(ali[[1]]), nam = ali[[2]], seq = ali[[3]], com = NA)
 	class(ali)="alignment"
 	return(ali)
-
 }
 
 
@@ -29,5 +28,4 @@ dist.alignment = function( x , matrix = "similarity" )
 	mat = matrix(dist,l,l, byrow =TRUE)
         dimnames(mat) = list(x$nam,x$nam)
 	return( as.dist(mat) )
-
 }
