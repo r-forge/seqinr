@@ -12,7 +12,7 @@ read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqin
     attributes(sequences[[i]])=list(name=nomseq[[i]],Annot=(seq[ind[i]]))
   }
   names(sequences)=nomseq
-  if(seqtype == "DNA") lapply(sequences,tolower))
+  if(seqtype == "DNA") lapply(sequences,tolower)
   switch(seqtype,"AA"=lapply(sequences,as.SeqFastaAA),"DNA"=lapply(sequences,as.SeqFastadna))
 }
 
