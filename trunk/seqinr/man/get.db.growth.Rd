@@ -12,6 +12,9 @@ the doubling time in months.
 get.db.growth()
 dia.db.growth( get.db.growth.out = get.db.growth() )
 }
+\arguments{
+  \item{get.db.growth.out}{ the output from get.db.growth() }
+}
 \value{
   A dataframe with the statistics from the embl site.
 }
