@@ -43,7 +43,7 @@ getProp.default = function(object){
  	stop("no property")
 }
 
-getAnnot.default = function(object,nl){ 
+getAnnot.default = function(object,nbl){ 
  	stop("no annotation for this sequence")
 }
 
@@ -80,8 +80,8 @@ getProp =  function(object) {
 }
 
 
-getAnnot = function(object,nl) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nl)}
+getAnnot = function(object,nbl) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
 	else UseMethod("getAnnot")
 }
 
@@ -192,7 +192,7 @@ getProp.SeqFastaAA = function(object){
 	return(list(seqtype="AA"))
 }
 
-getAnnot.SeqFastaAA = function(object){
+getAnnot.SeqFastaAA = function(object,nbl){
 	return(attr(object,"Annot"))
 }
 
@@ -261,8 +261,8 @@ getProp.SeqAcnucLocal = function(object){
 	return(getAttribut(object)[2:3])
 }
 
-getAnnot.SeqAcnucLocal = function(object,nl){
-	return(getAnnots(object,nl))
+getAnnot.SeqAcnucLocal = function(object,nbl){
+	return(getAnnots(object,nbl))
 }
 
 
@@ -401,15 +401,15 @@ getFrag.SeqFrag = function(object,begin,end){
 	return(newSeq)
         }
 
-getLength.SeqFrag = function(seq){
-	return(attr(seq,"end")-(attr(seq,"begin")+1))
+getLength.SeqFrag = function(object){
+	return(attr(object,"end")-(attr(object,"begin")+1))
 }
 
-getName.SeqFrag = function(seq){
-	return(attr(seq,"seqMother"))
+getName.SeqFrag = function(object){
+	return(attr(object,"seqMother"))
 }
 
-getprop.SeqFrag = function(seq){
+getprop.SeqFrag = function(object){
 	return(list())
 }
 
