@@ -1,18 +1,16 @@
-translate<-function(sq,phase=0,sens="+",numcode=1)
+translate <- function(seq, frame=0, sens="F", numcode=1)
 {
-	if(sens=="-") sq<-comp(invers(sq))
-	else if(sens=="+") 
-	sq<-replace(sq,sq=="A",2)
-	sq<-replace(sq,sq=="C",1)
-	sq<-replace(sq,sq=="G",3)
-	sq<-replace(sq,sq=="T",0)
-	sq<-as.numeric(sq) 
-	l<-floor((length(sq)-phase)/3)*3
-	a<-seq(phase+1,l+phase,3)
-	b<-seq(phase+2,l+phase,3)
-	c<-seq(phase+3,l+phase,3)
-	tra<-16*sq[a]+4*sq[b]+sq[c]+1
-	code<-unlist(strsplit(as.vector(CODES[numcode,]$V2),""))	
+	if(sens=="R") seq<-comp(invers(seq))
+	else if(sens=="F") 
+	n <- c(A=2,C=1,G=3,T=0)
+    	seq <- as.vector(n[seq])
+	seq <- as.numeric(seq) 
+	l <- floor((length(seq)-frame)/3)*3
+	a <- seq(frame+1,l+frame,3)
+	b <- seq(frame+2,l+frame,3)
+	c <- seq(frame+3,l+frame,3)
+	tra <- 16*seq[a]+4*seq[b]+seq[c]+1
+	code <- unlist(strsplit(as.vector(SEQINR.UTIL$CODES.NCBI$CODES[numcode]),""))	
 	code[tra]
 }
 
