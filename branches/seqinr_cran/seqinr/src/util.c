@@ -39,27 +39,6 @@ SEXP s2c(SEXP seq){
   return(chaine);
 }
 
-
-/*##################################################*/
-/*# Mettre de nouvelles variables d'environnement  #*/
-/*##################################################*/
-
-
-void Sysputenv(char **varname, char **valeur){
-  
-  int i,l;  
-  char *vartot;
- 
-  l=strlen(*varname)+strlen(*valeur)+2;
-  vartot = malloc(l);
-  strcpy(vartot,*varname); 
-  strcat(vartot,"=");
-  strcat(vartot,*valeur);
-  printf("%s\n",vartot);
-  i=putenv(vartot);
-  printf("%d\n",i);
-}
-
  
 /*#####################################################*/
 /*# Tester si une séquence est protéique ou nucléique #*/
