@@ -2,6 +2,7 @@
 \alias{SeqFastadna}
 \alias{is.SeqFastadna}
 \alias{as.SeqFastadna}
+\alias{summary.SeqFastadna}
 \title{DNA sequence in Fasta Format}
 \description{
   \code{as.SeqFastadna} is called by many functions as \code{read.fasta} but not directly by the user. It creates an object of class \code{SeqFastadna}. 
@@ -11,11 +12,10 @@
 \usage{
 as.SeqFastadna(object)
 is.SeqFastadna(object)
-summary.SeqFastadna(SeqFastadna)
+summary.SeqFastadna(object)
 }
 \arguments{
   \item{object}{ a vector of chars representing a biological sequence} 
-  \item{SeqFastadna}{ an object sequence of calss SeqFastadna }
 }
 \value{
   \code{as.SeqFastadna} returns an object sequence of class \code{SeqFastadna}.

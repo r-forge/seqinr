@@ -2,6 +2,7 @@
 \alias{SeqFastaAA}
 \alias{is.SeqFastaAA}
 \alias{as.SeqFastaAA}
+\alias{summary.SeqFastaAA}
 \title{AA sequence in Fasta Format}
 \description{
   \code{as.SeqFastaAA} is called by many functions as \code{read.fasta} but not directly by the user. It creates an object of class \code{SeqFastaAA}. 

@@ -8,11 +8,12 @@
   \code{is.SeqAcnucWeb} returns TRUE if the object is of class \code{SeqAcnucWeb}. 
 }
 \usage{
-as.SeqAcnucWeb(object)
+as.SeqAcnucWeb(object,socket=F)
 is.SeqAcnucWeb(object)
 }
 \arguments{
   \item{object}{ a string giving the name of a sequence presents in the data base}
+  \item{socket}{ an object of class \code{socket}}
 }
 \value{
   \code{as.SeqAcnucWeb} returns an object sequence of class \code{SeqAcnucWeb}
