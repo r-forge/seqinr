@@ -1,3 +1,4 @@
+
 cd $HOME/seqinr
 
 R CMD check $HOME/seqinr/
