@@ -8,5 +8,3 @@ R CMD build --force $HOME/seqinr/seqinr.Rcheck/seqinr/
 mv $HOME/seqinr/seqinr_1.0.tar.gz $HOME/seqinr/library/seqinr_1.0.tar.gz
 
 R CMD INSTALL $HOME/seqinr/library/seqinr_1.0.tar.gz
-
-\cp -r $HOME/seqinr/sequences $HOME/seqinr/library/seqinr/
