@@ -1,6 +1,6 @@
 \documentclass{svmult}
 % Springer-Verlag style for multiauthors books
-
+\usepackage{graphicx}
 \SweaveOpts{prefix.string=figs/seqinr}
 
 
@@ -8,12 +8,20 @@
 
 \newcommand{\seqinr}{\texttt{seqin\bf{R}}}
 \newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+%
+% R output options
+%
+<<options, echo=FALSE, fig=FALSE>>=
+options(prompt=" ", continue=" ", width = 70)
+CurFileName <- get("file", env = parent.frame(3))
+@
 
 % SeqinR adds
 \mainmatter              % start of the contributions
 %
 \title{\Seqinr{}: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis}
+computing devoted to biological sequences retrieval and analysis 
+(fichier : \Sexpr{CurFileName})}
 %
 \titlerunning{\Seqinr{}}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
@@ -86,7 +94,7 @@ nmirrors <- function( url = paste(getOption("CRAN"), "mirrors.html", sep="/") )
   return( list( nm = nm, nc = length(dtab) ) )
 }
 @
- 
+
  The Comprehensive R Archive Network, CRAN, is a network of servers 
  around the world that store identical, up-to-date, versions of code and documentation 
  for R.
@@ -171,42 +179,44 @@ of disk space storage (because you need also the annotations corresponding
 to the sequences), so that most likely you won't have enough space on
 your computer to work with a local copy of a complete DNA database. 
 \\
-\\
+
 \begin{enumerate}
-	\item Firstly, you have to select the database to be queried using the {\bfseries choosebank()} function.
-	This function initiates remote access to an acnuc database.
+\item Firstly, you have to select the database to be queried using the {\bfseries choosebank()} function.
+This function initiates remote access to an acnuc database.
 \\
 <<choixbanque1>>=
 mybank = choosebank()
 mybank
 @
-\\
+
 <<choixbanque2>>=
 bank = choosebank(mybank[1])
-bank
+str(bank)
 @
-\\
+
 {\bfseries choosebank()} returns a list with the following components:
 The details of the socket connection.
 totseqs, totspec, totkey which are respectively the total number of sequences, species, keywords in the opened database.
-\\
-\\ 
-	\item Secondly, you have to compose your query.  
-In the example below, genbank was choosen, and we want to select sequences from cat (\textit{ sp=felis catus}) that are also (\textit{et}) coding sequences (\textit{t=cds}) and that are not (\textit{et no}) partial sequences (\textit{k=partial}). We want the result to be stored in an object called list1.
-\\
+
+\item Secondly, you have to compose your query.  
+In the example below, genbank was choosen, and we want to select sequences 
+from cat (\textit{ sp=felis catus}) that are also (\textit{et}) coding 
+sequences (\textit{t=cds}) and that are not (\textit{et no}) partial sequences (\textit{k=partial}). We want the result
+to be stored in an object called list1. 
+
 <<query1>>=
-query(bank$socket,"list1","sp=felis catus et t=cds et no k=partial")
+query(socket = bank$socket, listname = "list1", 
+query = "sp=felis catus et t=cds et no k=partial", invisible = TRUE)
 @
-\\
-\\
+
 The sequence names that fit the request are given in the req component of our object list1. We can see that the first sequence that fits our request is AB000483.PE1:
-\\
+
 <<query2>>=
 list1$req[[1]]
 @
-\\
+
 We can see that the first and second sequences that fit our request are AB000483.PE1 and AB000484.PE1 
-\\
+
 <<query3>>=
 list1$req[1:2]
 @
