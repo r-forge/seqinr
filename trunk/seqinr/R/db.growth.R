@@ -77,5 +77,8 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
     legend( x = 1990, y = 7, leg=paste("Observed doubling time:", 
       round(dbt,1),"months"), lty = 1, col = "yellow")
   }
+  text( x = 1981.5, y = 10.4, pos = 4, labels = paste(
+  "Source: ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt",
+  "\nLast update:", Month[nrow(get.db.growth.out)]))
   par( op )
 } 
