@@ -25,6 +25,6 @@ Translate(seq, frame = 0, sens = "F", numcode = 1)
 \author{ D. Charif } 
 \seealso{ \code{\link{translate}} }
 \examples{
-dontrun{ methods(Translate)}
+ methods(Translate)
 }
 \keyword{ utilities }

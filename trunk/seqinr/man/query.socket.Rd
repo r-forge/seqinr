@@ -165,10 +165,10 @@ files written by Manolo Gouy}
 
 \seealso{ \code{\link{choosebank.socket}} }
 \examples{
-\dontrun{s = choosebank.socket("genbank")}
-\dontrun{query.socket(s$socket,"ecoli","sp=escherichia coli@")}
-\dontrun{ecoli$req[1:4]}
-\dontrun{ecoli$req[[5]]}
-\dontrun{ecoli$call}
+ \dontrun{s = choosebank.socket("genbank")}
+ \dontrun{query.socket(s$socket,"ecoli","sp=escherichia coli@")}
+ \dontrun{ecoli$req[1:4]}
+ \dontrun{ecoli$req[[5]]}
+ \dontrun{ecoli$call}
 }
 \keyword{utilities}

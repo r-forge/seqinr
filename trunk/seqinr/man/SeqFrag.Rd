@@ -29,10 +29,8 @@
 \author{ D. Charif }
 \seealso{\code{\link{getFrag}} }
 \examples{
-dontrun{
-  choosebank(bank="demo")
-  query("ecoli","sp=escherichia coli et t=cds")
-  getFrag(ecoli$req[[1]],3,100)	
-}
+ \dontrun{choosebank(bank="demo")}
+ \dontrun{query("ecoli","sp=escherichia coli et t=cds")}
+ \dontrun{getFrag(ecoli$req[[1]],3,100)}	
 }
 \keyword{utilities}

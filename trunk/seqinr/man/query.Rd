@@ -166,42 +166,40 @@ files written by Manolo Gouy}
 
 \seealso{ \code{\link{choosebank}} }
 \examples{
-dontrun{
 # Select demo database:
-choosebank(bank="demo")
+\dontrun{choosebank(bank="demo")}
 # Select 12 sequences from bacteria:
-query("bact","sp=bacteria")
+\dontrun{query("bact","sp=bacteria")}
 # Select 4 Escherichia coli complete genomes:
-query("ecoli","sp=escherichia coli@")
+\dontrun{query("ecoli","sp=escherichia coli@")}
 # Select 35 partial sequences:
-query("partial","k=partial")
+\dontrun{query("partial","k=partial")}
 # Select 68 RNA polymerases:
-query("rnapol","k=rna polymerase@")
+\dontrun{query("rnapol","k=rna polymerase@")}
 # Select 239 polymerases:
-query("polymerases","k=@polymerase@")
+\dontrun{query("polymerases","k=@polymerase@")}
 # Select 4359 sequences with an assigned EC number
-query("ecn","k=EC_NUMBERS")
+\dontrun{query("ecn","k=EC_NUMBERS")}
 # Select 1 sequence published in Nature volume 407 page 81:
-query("nature.407.81","r=nature/407/81")
+\dontrun{query("nature.407.81","r=nature/407/81")}
 # Select 5 sequences published in Nature
-query("nature","j=nature")
+\dontrun{query("nature","j=nature")}
 # Select 2 sequences published in year 2000
-query("yK2","y=2000")
+\dontrun{query("yK2","y=2000")}
 # Select 1 sequence published by Moran
-query("moran","au=moran")
+\dontrun{query("moran","au=moran")}
 # Select 43,725 coding sequences
-query("cds","t=cds")
+\dontrun{query("cds","t=cds")}
 # Select 846 tRNAs
-query("trna","t=trna")
+\dontrun{query("trna","t=trna")}
 # Select 202 rRNAs
-query("rrna","t=rrna")
+\dontrun{query("rrna","t=rrna")}
 # Select 1 sequence by name
-query("ecolicg","n=ecolicg")
+\dontrun{query("ecolicg","n=ecolicg")}
 # Select 1 sequence by accession number
-query("cg0100","ac=CG0100")
+\dontrun{query("cg0100","ac=CG0100")}
 # Select 43,690 coding sequences that are not partial
 # by combining two previously computed lists:
-query("cdsfull","cds et no partial")
-}
+\dontrun{query("cdsfull","cds et no partial")}
 }
 \keyword{utilities}
