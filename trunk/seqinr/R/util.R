@@ -122,3 +122,27 @@ alx
 }
 }
 
+######################
+# GC3		     #
+######################
+
+GC3 = function(seq){
+	sequence <- splitseq( seq, 3)
+	codons <- words(length = 3, alphabet = s2c("acgt"))	
+	eff=table(factor( sequence , levels=codons))
+	f =round(eff/(floor(length(seq)/3)),4)
+	return(as.vector(f %*% EXP$CG3))
+	}
+
+######################
+# GC2		     #
+######################
+
+
+GC2 = function(seq){
+	sequence <- splitseq( seq, 3)
+	codons <- words(length = 3, alphabet = s2c("acgt"))	
+	eff=table(factor( sequence , levels=codons))
+	f =round(eff/(floor(length(seq)/3)),4)
+	return(as.vector(f %*% EXP$CG2))
+	}
