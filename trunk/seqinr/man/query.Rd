@@ -141,7 +141,8 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)}
 }
 
 \value{
-  A list with three components:
+  A list with the following components:
+  \item{bank}{the name of the bank that has been choosen by \code{choosebank}}
   \item{call}{original call}
   \item{name}{list name}
   \item{req}{a list of sequence names that fit the required criteria}

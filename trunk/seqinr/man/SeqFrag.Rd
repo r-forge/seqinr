@@ -6,6 +6,7 @@
 }
 \usage{
  as.SeqFrag(object, begin, end, compl = F, name = "frag")
+ is.SeqFrag(object)
 }
 \arguments{
   \item{object}{ an object sequence of class \code{seqFastadna}, \code{seqFastaAA}, \code{seqAcnucLocal}, \code{seqAcnucWeb} or \code{seqFrag} }
@@ -20,6 +21,8 @@
   \item{begin}{ the position of the first base of the fragment on the mother sequence}
   \item{end}{ the position of the last base of the fragment on the mother sequence }
   \item{class}{ \code{SeqFrag} which is the newest class of the sequence } 
+  
+  \code{is.SeqFrag} returns TRUE if the object is of class Seqfrag. 
 }
 \author{ D. Charif }
 \seealso{\code{\link{getFrag}} }

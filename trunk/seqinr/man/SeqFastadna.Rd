@@ -9,10 +9,11 @@
 \usage{
 as.SeqFastadna(object)
 is.SeqFastadna(object)
-summary.SeqFastadna(object)
+summary.SeqFastadna(SeqFastadna)
 }
 \arguments{
-  \item{object}{ a vector of chars representing a biological sequence}
+  \item{object}{ a vector of chars representing a biological sequence} 
+  \item{SeqFastadna}{ an object sequence of calss SeqFastadna }
 }
 \value{
   \code{as.SeqFastadna} returns an object sequence of class \code{SeqFastadna}.
@@ -22,7 +23,7 @@ summary.SeqFastadna(object)
 }
 \author{ D. Charif }
 \examples{
-  s = read.fasta()
+  s = read.fasta("sequences/malM.fasta")
   is.SeqFastadna(s[[1]])
   summary(s[[1]])
 }

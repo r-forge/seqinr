@@ -9,10 +9,11 @@
 \usage{
 as.SeqFastaAA(object)
 is.SeqFastaAA(object)
-summary.SeqFastaAA(object)
+summary.SeqFastaAA(SeqFastaAA)
 }
 \arguments{
   \item{object}{ a vector of chars representing a biological sequence}
+  \item{SeqFastaAA}{ an object sequence of class SeqFastaAA}
 }
 \value{
   \code{as.SeqFastaAA} returns an object sequence of class \code{SeqFastaAA}.
@@ -22,7 +23,7 @@ summary.SeqFastaAA(object)
 }
 \author{ D. Charif }
 \examples{
-  s = read.fasta()
+  s = read.fasta("sequences/seqAA.fasta")
   is.SeqFastaAA(s[[1]])
   summary(s[[1]])
 }
