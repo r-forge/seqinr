@@ -1,15 +1,17 @@
 \name{plot.SeqAcnucWeb}
 \alias{plot.SeqAcnucWeb}
+\alias{getType.socket}
 \title{To plot subsequences on the parent sequence}
 \description{
   This function allows to plot all the type of subsequences on a parent sequence. As an example, types could be
   CDS, TRNA, RRNA .... Subsequences are represented by colored rectangle on the parent sequence. 
 }
 \usage{
-plot.SeqAcnucWeb(name)
+plot.SeqAcnucWeb(x, ...)
 }
 \arguments{
-  \item{name}{A sequence of class \code{SeqAcnucWeb}}
+  \item{x}{A sequence of class \code{SeqAcnucWeb}}
+  \item{\dots}{graphical parameters can also be specified as arguments}	
 }
 \details{
   User is asking for the number of the group of subsequences to plot. 	  

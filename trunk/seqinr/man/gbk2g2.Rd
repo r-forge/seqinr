@@ -7,7 +7,8 @@ corresponding to CDS (Coding Sequences) into a format similar to
 glimmer program output.
 }
 \usage{
-gbk2g2(gbkfile = "ftp://pbil.univ-lyon1.fr/pub/logiciel/oriloc/ct.gbk", g2.coord = "g2.coord")
+gbk2g2(gbkfile = "ftp://pbil.univ-lyon1.fr/pub/logiciel/oriloc/ct.gbk",
+g2.coord = "g2.coord")
 }
 
 \arguments{

@@ -5,7 +5,7 @@
 \description{
 By default, if no \code{levels} arguments is provided, this function will
 just code your DNA sequence in integer values following the lexical
-order (a > c > g > t), that is 0 for "a", 1 for "c", 2 for "g", 3 for
+order \code{(a > c > g > t)}, that is 0 for "a", 1 for "c", 2 for "g", 3 for
 "t" and NA for ambiguous bases.
 }
 \usage{

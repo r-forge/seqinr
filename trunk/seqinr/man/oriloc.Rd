@@ -8,7 +8,8 @@ unannotated sequences and therefore uses glimmer2 outputs to
 discriminate between codon positions.
 }
 \usage{
-oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"), g2.coord = system.file("sequences/ct.coord", package = "seqinr"), 
+oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+ g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
 oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{

@@ -4,7 +4,7 @@
 \title{ to plot genetic code as in textbooks }
 \description{
 This function plots a genetic code table as in textbooks, that is
-following the order u > c > a > g so that synonymous codons
+following the order \code{u > c > a > g} so that synonymous codons
 are almost always in the same boxes.
 }
 \usage{

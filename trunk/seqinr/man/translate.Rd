@@ -51,10 +51,9 @@ The IUPAC one-letter code for aminoacids is described at:
 
 \examples{
 
-a="atggatgccaaggtcgtcgccgtgctggccctcgtgctggctgcgctctgcctcagcgacgggaaaccggtcagcctgagctacagatgtccttgccgattcttcgagagccacgttgccagagccaacgtcaagcatctcaaaatcctcaacactcccaactgtgcccttcagatcgtggcgaggctgaagaacaacaatagacaagtgtgcattgacccgaaattgaagtggattcaggaatacctggagaaagctttaaacaagaggttcaagatgtga"
-translate(s2c(a))
-translate(s2c(a),3,"R",6)
-
+a=read.fasta(File=system.file("sequences/malM.fasta",package ="seqinr"))
+translate(a[[1]])
+translate(a[[1]],3,"R",6)
 }
 \keyword{ manip }
 

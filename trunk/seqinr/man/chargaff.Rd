@@ -56,13 +56,13 @@ Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribon
 Try \code{example(chargaff)} to mimic figure page 17 in
 \url{http://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
 The red areas correspond to non-allowed values beause the sum
-of the four bases frequencies cannot exceed 100%.
+of the four bases frequencies cannot exceed 100\%.
 The white areas correspond to possible values (more exactly
-to the projection from R^4 to the corresponding R^2 planes
+to the projection from \code{R^4} to the corresponding \code{R^2} planes
 of the region of allowed values).
 The blue lines correspond to the very small subset of allowed
 values for which we have in addition PR2 state, that is
-[A]=[T] and [C]=[G]. Remember, these data are for ssDNA!
+\code{[A]=[T]} and \code{[C]=[G]}. Remember, these data are for ssDNA !
 }
 
 \examples{

@@ -10,7 +10,8 @@ of a superposition of two or three normal distributions is
 also represented
 }
 \usage{
-dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500, sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000)
+dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500,
+       sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000)
 }
 
 \arguments{

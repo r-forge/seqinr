@@ -59,7 +59,7 @@ c, g, t (or u).
 \details{
 It's better to work directly at the amino-acid level
 when computing linear forms on amino-acid frequencies so as to have
-a single coefficient vector. For instance EXP$KD to compute the Kyte
+a single coefficient vector. For instance \code{EXP$KD} to compute the Kyte
 and Doolittle hydrophaty index from codon frequencies is valid only
 for the standard genetic code.\cr
 \cr

@@ -5,8 +5,8 @@ into a vector of characters }
 \description{
 By default, if no `levels' arguments is provided, this function
 will just transform your vector of integer into a DNA sequence 
-according to the lexical order: 0 -> "a", 1 -> "c", 2 -> "g",
-3 -> "t", others -> NA
+according to the lexical order: \code{0 -> "a"}, \code{1 -> "c"}, \code{ 2 -> "g"},
+\code{3 -> "t"}, \code{others -> NA}.
 }
 \usage{
 n2s(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
