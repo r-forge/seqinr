@@ -5,10 +5,12 @@
   This function allows to select one of the databases structured under ACNUC and located at the \bold{pbil}. Then you can use \code{query.socket} to compose your query and get some sequences.  
 }
 \usage{
-choosebank.socket(bank)
+choosebank.socket(bank, host = "pbil.univ-lyon1.fr", port = 5558))
 }
 \arguments{
-  \item{bank}{ The name of the bank.}
+  \item{bank}{ The name of the bank}
+  \item{host}{ Host name for port}
+  \item{port}{ The TCP port number}
 }
 \details{
   ACNUC databases are made of a series of flat text files (called divisions) containing annotations and sequences and a series of index files allowing efficient access to sequence data.
@@ -32,7 +34,7 @@ For further information about the socket, please see \code{connection} function.
 }
 \author{ D. Charif }
 \note{ In order to know the current bankname, edit the object \code{bankname}.}
-\seealso{ \code{\link{query.socket}}, \code{\link{mkbank}}, \code{\link{connection}} }
+\seealso{ \code{\link{query.socket}}, \code{\link{connection}} }
 \examples{
   \dontrun{choosebank.socket("genbank")}
 }
