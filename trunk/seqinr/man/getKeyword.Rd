@@ -20,7 +20,7 @@ getKeyword(object)
 \author{D. Charif }
 \examples{
  \dontrun{s=choosebank.socket("embl")}
- \dontrun{query(s$socket,"fc","sp=felis catus et t=cds")}
+ \dontrun{query.socket(s$socket,"fc","sp=felis catus et t=cds")}
  \dontrun{getKeyword(fc$req[[7]])}
 }
 \keyword{ manip }
