@@ -206,7 +206,7 @@ getFrag.SeqReq = function(SeqReq,born1=1,born2){
 	if((born2 > b) || (born1 > b)) stop("born out of limits")
 	else{  
 	s = .Call("getseq2",SeqReq,born1,born2)
-	return(toupper(s2c(s)))
+	return(s2c(s))
 	}
 }
 

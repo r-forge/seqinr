@@ -283,3 +283,30 @@ SEXP getAnnots(SEXP name, SEXP nligne){
  
 
 
+
+SEXP s2c(SEXP seq){
+  char *string;
+  int lseq,i;
+  char mot[2];
+  
+  
+  SEXP chaine;
+
+  string = CHAR(STRING_ELT(seq,0));
+  
+  lseq = strlen(string);
+  printf("%d\n",lseq);
+  
+  PROTECT(chaine=NEW_CHARACTER(lseq));
+
+
+  for(i=0;i<lseq;i++){  
+    mot[0]=toupper(string[i]);
+    mot[1]='\0';
+    SET_ELEMENT(chaine,i,mkChar(mot));
+    }
+  UNPROTECT(1);
+  return(chaine);
+}
+
+
