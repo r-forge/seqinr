@@ -22,7 +22,7 @@ is Moore's law.}
 \value{
   A dataframe with the statistics from the embl site.
 }
-\references{\url{ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt} }
+\references{\url{http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt} }
 \author{ J.R. Lobry }
 
 \examples{
