@@ -5,7 +5,8 @@ choosebank <- function( bank = "demo")
 # Test if a bank is already in use
 #
 
- if(exists("bankname",where=sys.frame(1))) stop("An ACNUC data base is already in use, you must change the data base using changebank()")
+ if( exists("bankname",envir=globalenv()) && (get("bankname",envir=globalenv()) != bank )) 
+ stop("An ACNUC data base is already in use, you must change the data base using changebank()")
 
 #
 # Define a function to print something when we are unable
