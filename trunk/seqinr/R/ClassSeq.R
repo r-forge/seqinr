@@ -373,7 +373,7 @@ Translate.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
 
 
 
-as.SeqFrag = function(object,begin,end,compl=F,name="frag"){
+as.SeqFrag = function(object,begin,end,compl=FALSE,name="frag"){
 	if(compl){ attr(object,"seqMother") = name }
 	else attr(object,"seqMother") = getName(seq)
         attr(object,"begin") = begin
