@@ -36,6 +36,10 @@ logical and physical designs and usage.
 \emph{Comput. Appl. Biosci.}, \bold{3}:167-172.\cr
 Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequence banks.
 \emph{Biochimie}, \bold{67}:433-436.\cr
+
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
 }
 \note{ The object of class \code{socket} will be the first argument of the \{query} function. }
 \author{ D. Charif }

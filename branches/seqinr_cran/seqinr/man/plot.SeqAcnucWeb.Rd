@@ -16,7 +16,12 @@ plot.SeqAcnucWeb(x, type = "all", ...)
  The plot.
  A list giving, for each subsequence, its position on the parent sequence.
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}}
+\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
 \author{D. Charif}
 \seealso{\code{\link{getType}}, \code{\link{query}} }
 \examples{

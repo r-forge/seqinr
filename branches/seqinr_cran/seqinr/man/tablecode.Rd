@@ -15,6 +15,11 @@ tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE)
 "a","g") if you want the code in terms of DNA sequence}
   \item{dia}{ to produce a yellow/blue plot for slides }
 }
+\references{ 
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
 \author{J.R. Lobry }
 \seealso{ \code{\link{translate}} }
 \examples{

@@ -31,7 +31,10 @@ read.alignment(File, format)
   \item{seq}{ a vector of characters containing tha aligned sequences} 
   \item{com}{ a vector of chars containing the commentaries for each sequence or \code{NA} if there is no comments }
 }
-\references{ The source code of the C functions that are used to read the differents formats have been taken from SeaView \url{ http://pbil.univ-lyon1.fr/software/seaview.html} 
+\references{ The source code of the C functions that are used to read the differents formats have been taken from SeaView \url{ http://pbil.univ-lyon1.fr/software/seaview.html}
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
 }
 \author{ D. Charif }
 \examples{

@@ -21,6 +21,11 @@ FALSE at 1}
 \value{
   a vector of integers
 }
+\references{ 
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
 \author{J.R. Lobry }
 \note{
 The idea of starting numbering at 0 by default is that it enforces 

@@ -35,7 +35,11 @@ An invisible list with components:
 \item{ypi}{the y-axis coordinates for codons}
 }
 \references{ Cleveland, W. S. (1985) The Elements of Graphing Data. 
-Monterey, CA: Wadsworth. }
+Monterey, CA: Wadsworth. 
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
 \author{ J.R. Lobry }
 \seealso{ \code{\link{dotchart}}, \code{\link{uco}}, \code{\link{aaa}},
 \code{\link{translate}} }

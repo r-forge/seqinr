@@ -32,6 +32,11 @@ system should have it.
 a vector of positions for which the motif \code{pattern} was
 found in the sequence \code{text}.
 }
+\references{ 
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
 \author{ J.R. Lobry }
 \seealso{ \code{\link{regexpr}} }
 \examples{

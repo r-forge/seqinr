@@ -22,6 +22,10 @@ Li WH. (1993) Unbiased estimation of the rates of synonymous and nonsynonymous s
 Hurst LD. (2002) The Ka/Ks ratio: diagnosing the form of sequence evolution.
 \emph{Trends Genet.}, \bold{Sept};18(9):486.\cr  
 The C programm implementing this method was provided by M. Gouy.
+
+To have an overview of the seqinR's functionnality, please consult this vignette: 
+Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
 }
 \note{ 
  When the alignment does not contain enough information (i.e we approach saturation), the Ka and Ks values take the value 10.
