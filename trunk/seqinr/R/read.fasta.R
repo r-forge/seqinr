@@ -1,4 +1,4 @@
-read.fasta <- function(Fichier = system.file("sequences/ct.fasta", package = "package"))
+read.fasta <- function(Fichier = system.file("sequences/ct.fasta", package = "seqinr"))
 {
   seq <- scan(Fichier,what=character(),sep="\t") 
   ind <- c(grep(">",seq),length(seq)+1)
