@@ -4,7 +4,7 @@ computePI = function(seq){
 	nTermR = which(toupper(letters)==seq[1])
 	cTermR = which(toupper(letters)==seq[length(seq)])
 
-	computeCharge <- function(pH ,compoAA ,pK = SEQINR.UTIL$pk , nTermResidue, cTermResidue){
+	computeCharge <- function(pH ,compoAA ,pK , nTermResidue, cTermResidue){
 		cter = 10^(-pK[cTermResidue,1]) / (10^(-pK[cTermResidue,1]) + 10^(-pH))	
 		nter = 10^(-pH) / (10^(-pK[nTermResidue,2]) + 10^(-pH))
 		carg = as.vector(compoAA['R'] * 10^(-pH) / (10^(-pK['R',3]) + 10^(-pH)))
@@ -16,12 +16,10 @@ computePI = function(seq){
 		ctyr = as.vector(compoAA['Y'] * 10^(-pK['Y',3]) / (10^(-pK['Y',3]) + 10^(-pH)))
 		charge = carg + clys + chis + nter - (casp + cglu + ctyr + ccys + cter)
 	}
-
-	critere <- function( pH, compoAA = compoAA, pK = pK, nTermResidue = nTermR, cTermResidue = cTermR){ 
-		computeCharge(pH, compoAA, pK, nTermResidue, cTermResidue)^2
+	critere <- function( p1, p2, p3, p4, p5){ 
+		computeCharge(pH = p1, compoAA =p2, pK = p3, nTermResidue = p4, cTermResidue = p5)^2
 		 }
-
-	return(nlm(critere, 7, compoAA = compoAA, pK = pK, nTermResidue = nTermR, cTermResidue = cTermR)$estimate)
+	return(nlm(critere, 7, p2 = compoAA, p3 = SEQINR.UTIL$pk, p4 = nTermR, p5 = cTermR)$estimate)
 }
 
 
