@@ -10,10 +10,10 @@ read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqin
     nomseq[[i]]=substr(nomseq[[i]],2,nchar(nomseq))	
     sequences[[i]]<-s2c(paste(seq[(ind[i]+1):(ind[i+1]-1)],collapse=""))
     if(seqtype == "DNA"){ sequences[[i]]=tolower( sequences[[i]])}
-    attributes(sequences[[i]])=list(name=nomseq[[i]],Annot=(seq[ind[i]]))
+    attributes(sequences[[i]])=list(name=nomseq[[i]],Annot=(seq[ind[i]]),class = switch(seqtype,"AA"="SeqFastaAA", "DNA"= "SeqFastadna"))
   }
   names(sequences)=nomseq
-  switch(seqtype,"AA"=lapply(sequences,as.SeqFastaAA),"DNA"=lapply(sequences,as.SeqFastadna))
+  return(sequences)
 }
 
 
