@@ -8,7 +8,8 @@ unannotated sequences and therefore uses glimmer2 outputs to
 discriminate between codon positions.
 }
 \usage{
-oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"), g2.coord = system.file("sequences/ct.coord", package = "seqinr"), oldoriloc = FALSE)
+oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"), g2.coord = system.file("sequences/ct.coord", package = "seqinr"), 
+oldoriloc = FALSE)
 }
 \arguments{
   \item{seq.fasta}{ the name of a file which contains the dna sequence
@@ -79,9 +80,13 @@ site. }
 \section{WARNING }{First release, exprimental !!! }
 
 \examples{
-\dontrun{out <- oriloc()}
-\dontrun{plot(out$st, out$sk, type="l", xlab="Map position in Kb",
-    ylab = "Cumutated composite skew", 
-    main = "Chlamydia trachomatis complete genome") }
+  \dontrun{
+    out <- oriloc()
+  }
+  \dontrun{
+    plot(out$st, out$sk, type="l", xlab="Map position in Kb",
+    ylab = "Cumulated composite skew", 
+    main=expression(italic(Chlamydia~~trachomatis)~~complete~~genome))
+  }
 }
 \keyword{utilities}
