@@ -1,0 +1,35 @@
+#
+#             Do not delete this introduction !
+#
+# This file contains the "wish-list" for the seqinr package.
+#
+# It should be modified _ONLY_ thru the CVS system so that we can
+# keep automatically a trace of past wishes status.
+#
+# A wish starts with the tag "Dear oracle,\n" and ends with the
+# tag "\nYours.\n\n". Add a new wish this way in your local copy
+# of the "wishes" file and then "cvs commit wishes" to share it.
+#
+# Once a wish is fullfilled, just delete it from the local
+# "wishes" file and then "cvs commit wishes" with your glorious
+# comment.
+#
+#
+Dear oracle, 
+
+I would like so much that in the function read.fasta() the sequence 
+names not to start with the character ">" because it's extremly 
+unpleasant to quote everything.
+
+Yours.
+
+
+Dear oracle,
+
+I would like so much to build my own local sequence database under
+the ACNUC system. I have my sequences in genbank or embl format,
+what I would like is a function mk.bk("mydata") that creates all
+the index files required by the ACNUC system.
+
+Yours.
+
