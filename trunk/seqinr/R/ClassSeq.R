@@ -134,11 +134,11 @@ getProp.SeqFastadna = function(object){
 	return(list(seqtype="DNA"))
 }
 
-getAnnot.SeqFastadna = function(object){
+getAnnot.SeqFastadna = function(object,nbl){
 	return(attr(object,"Annot"))
 }
 
-summary.SeqFastadna = function(object){
+summary.SeqFastadna = function(object,...){
 	compo=count(object,1)
 	return(list(composition=compo,GC=GC(object)))
 }
@@ -196,7 +196,7 @@ getAnnot.SeqFastaAA = function(object,nbl){
 	return(attr(object,"Annot"))
 }
 
-summary.SeqFastaAA = function(object){
+summary.SeqFastaAA = function(object,...){
 	compo=table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
 	return(list(composition=compo/getLength(object),AA.Property=AAprop(object)))
 }
@@ -272,7 +272,7 @@ Translate.SeqAcnucLocal = function(seq,frame=0, sens= "F", numcode=1){
 }
 
 
-summary.SeqAcnucLocal = function(object){
+summary.SeqAcnucLocal = function(object,...){
 	s=getSequence(object)
  	return(list(name=getName(object),GC.percent=GC(s),base.count=count(s,1)))
 	}
@@ -310,13 +310,13 @@ as.SeqAcnucWeb = function( object, socket=F ){
 }
 
 
-is.SeqAcnucWeb = function( x ){	
-	inherits(x,"SeqAcnucWeb")
+is.SeqAcnucWeb = function( object ){	
+	inherits(object ,"SeqAcnucWeb")
 }
 
 
 
-getSequence.SeqAcnucWeb = function(){
+getSequence.SeqAcnucWeb = function(object){
 	b=getLength( object )
 	getsequence.socket(attr(object,"socket"),object,start=1,length=b)
 }
