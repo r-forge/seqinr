@@ -9,7 +9,7 @@ dist.alignment(x, matrix = "similarity")
 }
 \arguments{
   \item{x}{ object of class \code{alignment} }
-  \item{matrix}{ the euclidean matrix distance to be used: "similarity or "identity" }
+  \item{matrix}{ the euclidean matrix distance to be used: "similarity" or "identity" }
 }
 \value{
   The distance matrix, object of class \code{dist}, computed by using the specified distance measure.

@@ -3,6 +3,7 @@
 \title{Calculates the fractional GC3 content of nucleic acid sequences}
 \description{
 This calculates the fraction of G+C  in third position of the codon bases of the input nucleic acid sequence(s)
+}
 \usage{
 GC3(seq)
 }
