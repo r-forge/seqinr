@@ -2,7 +2,7 @@
 \alias{read.alignment}
 \title{ Read file in mase, clustal, phylip, fasta or msf format }
 \description{
- Read a file in \code{mase}, \code{clustal}, \code{phylip}, \code{fasta} or \code{msf} format. This formats are used to store nucleotide or protein multiple alignments.
+ Read a file in \code{mase}, \code{clustal}, \code{phylip}, \code{fasta} or \code{msf} format. This formats are used to store nucleotide or protein multiple alignments. 
 }
 \usage{
 read.alignment(File, format)
@@ -30,6 +30,8 @@ read.alignment(File, format)
   \item{nam}{ a vector of chars containing the name of the aligned sequences }	
   \item{seq}{ a vector of characters containing tha aligned sequences} 
   \item{com}{ a vector of chars containing the commentaries for each sequence or \code{NA} if there is no comments }
+}
+\references{ The source code of the C functions that are used to read the differents formats have been taken from SeaView \url{ http://pbil.univ-lyon1.fr/software/seaview.html} 
 }
 \author{ D. CHARIF  }
 \examples{
