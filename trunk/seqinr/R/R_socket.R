@@ -172,8 +172,3 @@ print.qaw <- function(x, ...)
 
 
 
-getKeyword.socket = function( socket, name )
-{
-
-}
-

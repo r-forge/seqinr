@@ -53,26 +53,6 @@ GC = function(seq)
 	return(as.vector(cc))
 }
 
-plotGC=function(sequence,fenetre){
-	m=matrix(c(1:2),2,1)
-	layout(m)
-	l=as.list(splitseq(sequence,word=fenetre))
-	ll=lapply(l,s2c)
-	lll=lapply(ll,GC)
-	ss=unlist(lll)
-	hist(ss,xlab=("taux de GC"),main="histogramme du taux de GC")
-	s=scale(ss)
-	x=seq(0,length(ss)*fenetre-fenetre,fenetre)
-	plot(x,s,type="n",xlab="bases",ylab="taux de GC",main="Evolution du taux de GC le long d'une sequence")
-	abline(h=0)
-	y2=s[which(s>0)]
-	x2=x[which(s>0)]
-	y3=s[which(s<0)]
-	x3=x[which(s<0)]
-	lines(x2,y2,col="green3",type="h")
-	lines(x3,y3,col="violet",type="h")	
-	box(lty='137', col = 'red')
-}
 
 
 ##########################################
