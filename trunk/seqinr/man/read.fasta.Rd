@@ -21,7 +21,7 @@ read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype=
 
 \examples{
 s = read.fasta()
-ss = read.fasta("sequences/seqAA.fasta")
+ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"))
 }
 \keyword{ manip }
 
