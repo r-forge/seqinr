@@ -235,7 +235,6 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   int i, j, k, n,totseqs, seq_long, nbases;
   int mat_number, seq_type;
 
-   MAXNSEQS = INTEGER_VALUE(nbseq)+1;
   int ndiff[MAXNSEQS][MAXNSEQS];
   double dist[MAXNSEQS][MAXNSEQS];
   int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5,
@@ -266,7 +265,7 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   
 
  
- 
+  MAXNSEQS = INTEGER_VALUE(nbseq)+1;
   totseqs = INTEGER_VALUE(nbseq);
   mat_number= INTEGER_VALUE(matNumber);
   seq_type = INTEGER_VALUE(seqtype);
