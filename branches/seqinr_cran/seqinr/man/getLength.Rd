@@ -1,20 +1,19 @@
 \name{getLength}
 \alias{getLength}
 \alias{getLength.SeqAcnucWeb}
-\alias{getLength.SeqAcnucLocal}
 \alias{getLength.SeqFastadna}
 \alias{getLength.SeqFastaAA}
 \alias{getLength.SeqFrag}
 \alias{getLength.default}
 \title{Generic Function To obtain the length of a sequence}
 \description{
-  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
+  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb}, \code{SeqFrag}. 
 }
 \usage{
 getLength(object)
 }
 \arguments{
-   \item{object}{ an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} or \code{SeqFrag}. }
+   \item{object}{ an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb} or \code{SeqFrag}. }
 }
 \value{
   a numeric vector giving the length of the sequence
