@@ -1,26 +1,33 @@
-choosebank <- function( bankname = "demo")
+choosebank <- function( bank = "demo")
 {
+
+#
+# Test if a bank is already in use
+#
+
+ if(exists("bankname",where=sys.frame(1)) stop("An ACNUC data base is already in use, you must change the data base using changebank()")
+
 #
 # Define a function to print something when we are unable
 # to locate the requested bank
 #
-  failure.warning <- function( bankname )
+  failure.warning <- function( bank )
   {
-    warning(paste("Unable to get environment variable ", bankname))
+    warning(paste("Unable to get environment variable ", bank))
     warning("seting ACNUC bank to local demo in sequences/entero")
   }
 #
 # Set defaults to local bank demo:
 #
-  assign("bankname", bankname, .GlobalEnv)	
+  assign("bankname", bank, .GlobalEnv)	
   acnuc <- system.file("sequences/entero", package = "seqinr")
   gcgacnuc <- acnuc
 #
 # Check argument:
 #
-  if( missing( bankname ) )
+  if( missing( bank ) )
   {
-    warning("bankname argument is missing")
+    warning("bank argument is missing")
     warning("seting ACNUC bank to local demo in sequences/entero")
   }
 #
@@ -28,7 +35,7 @@ choosebank <- function( bankname = "demo")
 #
   else
   {
-    ad <- Sys.getenv( bankname )
+    ad <- Sys.getenv( bank )
     if( ad == "" ) # We were unable to get bank location
     {
       if( Sys.info()["user"] == "ADE-User" & Sys.info()["nodename"] == "pbil" )
@@ -38,10 +45,10 @@ choosebank <- function( bankname = "demo")
         # http://pbil.univ-lyon1.fr/Rweb/Rweb.general.html
         #
         banklocs <- readLines("/misc/pub/banques_acnuc")
-        targetbank <- grep( bankname, banklocs )
+        targetbank <- grep( bank, banklocs )
         if( length( targetbank ) == 0 )
         {
-          failure.warning( bankname )
+          failure.warning( bank )
         }
         else
         {
@@ -54,7 +61,7 @@ choosebank <- function( bankname = "demo")
       }
       else
       {
-        failure.warning( bankname )
+        failure.warning( bank )
       }
     }
     else # We were able to get bank location
@@ -98,9 +105,9 @@ query <- function(listname,request)
 	p<-function(m) paste(m[m!=" "],collapse="")
 	liste<-lapply(liste,p)
 	liste = lapply(liste,initSeqReq)	
-	toto=list(call = match.call(),name=nomliste,req=liste)
+	toto=list(call = match.call(),name=listname,req=liste)
 	class(toto)=c("requete")
-	assign(nomliste,toto,env = .GlobalEnv)
+	assign(listname,toto,env = .GlobalEnv)
 	print(toto)
 }
 
