@@ -13,7 +13,6 @@ void *acc_binary_tree, *smj_binary_tree, *bib_binary_tree,
 int tot_journals;
 char *j_code[MAX_JOURNALS], *j_libel[MAX_JOURNALS];
 int j_number[MAX_JOURNALS];
-void *extra_function = NULL; /* jamais de qualifiers extra a traiter */
 
 /* local functions */
 int process_id(char *ligne, char *name);
@@ -84,10 +83,6 @@ void write_quick_meres(void);
 #endif
 
 
-/* external globals */
-extern int acc_length_on_disk;
-extern char *gcgname[];
-extern int divisions;
 
 int main(int argc, char *argv[])
 {
@@ -809,20 +804,25 @@ void process_de(char *ligne, size_t lligne)
 {
 static char name[1000], ec_code[20];
 char *p, *d_name, *q;
-int numkey;
+int numkey, l;
 
-d_name = name;
+d_name = name; *name = 0;
 do	{
 	p = ligne + strlen(ligne) - 1; *p = 0; /* enlever \n terminal */
 	while ( *(--p) == ' ' ) *p = 0; /* enlever les espaces terminaux */
-	memcpy(d_name, ligne + 5, p - ligne - 4);
-	d_name += (p - ligne - 4); *d_name = 0;
+	if(p - ligne - 4 > 0) {
+		memcpy(d_name, ligne + 5, p - ligne - 4);
+		d_name += (p - ligne - 4); *d_name = 0;
+		}
 	fgets(ligne, lligne, in_flat);
 	if( strncmp(ligne, "DE ", 3) != 0 ) break;
-	*(d_name++) = ' '; /* espace de liaison entre lignes */
+	*(d_name++) = ' '; *d_name = 0; /* espace de liaison entre lignes */
 	}
 while( TRUE );
-p = d_name - 1; /* p vers dernier caractere */
+trim_key(name);
+l =  strlen(name);
+if(l == 0) return;
+p = name + l - 1; /* p vers dernier caractere */
 /* process fragment(s) */
 majuscules(name);
 if( ( q = strstr(name, "(FRAGMENT)") ) != NULL ||
@@ -833,7 +833,7 @@ if( ( q = strstr(name, "(FRAGMENT)") ) != NULL ||
 	/* enlever de name tout le (FRAGMENTs)  */
 	while ( *q != ')' ) *(q++) = ' ';
 	*q = ' ';
-	while (*p == ' ') p--;
+	while (p > name && *p == ' ') p--;
 	}
 /* process EC NUMBERS (plusieurs) */
 while( ( d_name = strstr(name, " (EC ") ) != NULL) { 
@@ -848,6 +848,7 @@ while( ( d_name = strstr(name, " (EC ") ) != NULL) {
 	memmove( d_name, q, p - q + 2 );
 	p -= (q - d_name);
 	}
+if(p <= name) return;
 process_de_part(name, p);
 }
 

@@ -15,8 +15,10 @@ void dynlist_set_extra(void *node, void *extra);
 
 #include <stdlib.h>
 #include <string.h>
+#ifndef FALSE
 #define FALSE 0
 #define TRUE (!FALSE)
+#endif
 #define MAX_PROF 300
 
 typedef struct _bt_node {

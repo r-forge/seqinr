@@ -5,10 +5,6 @@ void write_quick_meres(void);
 #endif
 
 
-extern int acc_length_on_disk; /* taille chaine ACCESSION sur le disque */
-extern int lracc_on_disk; /*taille records du fichier ACCESSION sur le disque*/
-
-
 DIR_FILE *klng2, *ksub2, *kan11, *ktxt2, *kshrt2, *kloc2, *kaut2;
 int *acctable, *loctable, *seqtable, *bibtable, *autable, *smjtable, *htable,
 	newsub, lastlng2, compsize, *lng_list_aux;
@@ -386,11 +382,12 @@ return new_list;
 }
 
 
-int sortfile(DIR_FILE *kan, int rsize, int keysize, 
+int sortfile(DIR_FILE *kan, size_t rsize, int keysize, 
 	char *outfname, char *env_var, DIR_FILE **outfkan, int *table)
 {
 char *array, croix[40], *debut, *fin, **deb_record, *previous;
 int lcroix, insize, outsize, old_rank, new_rank, num, trie, fin_trie, num_lu;
+size_t bigout;
 
 printf("Sorting file %s\n",outfname); fflush(stdout);
 lcroix = (keysize<40 ? keysize : 40);
@@ -467,9 +464,9 @@ else	{
 	if( outsize > fin_trie && fin_trie > 0 ) 
 		deb_record = merge_table(deb_record, outsize, fin_trie);
 	}
-num = (outsize + 1) * rsize;
-if(num>1024000) num = 1024000;
-*outfkan = dir_open(outfname, env_var, "w+", rsize, num);
+bigout = (outsize + 1) * rsize;
+if(bigout>1024000) bigout = 1024000;
+*outfkan = dir_open(outfname, env_var, "w+", rsize, bigout);
 if(*outfkan == NULL){
 	char text[100];
 	sprintf(text,"Cannot create new file %s",outfname);
@@ -562,6 +559,7 @@ for(is=2; is<=newns; is++) {
 	write_and_check(kan11,is,1,psmj);
 	}
 close_and_check(kan11);
+hashmn(psub->name); /* necessaire avant de fermer ksmj cause detection hashing algo */
 dir_close(ksmj);
 
 /* listes de sous-sequences, calcul hashing, extract.new */
@@ -726,15 +724,15 @@ close_and_check(ksub2);
 /* sorting ACCESS */
 old=read_first_rec(kacc,NULL);
 acctable=(int *)myalloc((old+1)*sizeof(int));
-newacc = sortfile(kacc, lracc_on_disk, acc_length_on_disk, "ACCESS.NEW",
+newacc = sortfile(kacc, kacc->record_length, ACC_LENGTH, "ACCESS.NEW",
 		where_new_files, &kan11, acctable);
 dir_close(kacc);
 for(old=2; old<=newacc; old++) {
 	dir_read(kan11,old,1,buffer);
-	memcpy(&i, buffer+acc_length_on_disk, sizeof(int));
+	memcpy(&i, buffer + ACC_LENGTH, sizeof(int));
 	if(i>0) {
 		point=lastshrt2+1;
-		memcpy(buffer+acc_length_on_disk, &point, sizeof(int));
+		memcpy(buffer + ACC_LENGTH, &point, sizeof(int));
 		conv_shrt(i);
 		}
 	write_and_check(kan11,old,1,buffer);

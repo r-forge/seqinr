@@ -39,7 +39,6 @@ current_cpu = buffer.tms_utime+buffer.tms_stime;
 
 void conv_timing_to_secnds(clock_t *elapsed, clock_t *cpu)
 {
- int CLK_TCK=0;
 *elapsed /= CLK_TCK;
 *cpu /= CLK_TCK;
 }

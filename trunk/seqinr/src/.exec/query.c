@@ -90,8 +90,8 @@ int tot_options, wid_key;
 char *annot_options;
 #define ANNOT_OPTIONS_GBK  "\
 ALL        ACCession  NID        VERsion    KEYwords   SEGment    SOUrce     \
-  ORGanism REFerence    AUThors    TITle    \
-  JOUrnal    MEDline    REMark   COMment    FEAtures   \
+  ORGanism REFerence    AUThors    CONsrtm    TITle    \
+  JOUrnal    MEDline     PUBmed    REMark   COMment    FEAtures   \
 BASe count ORIgin     SEQuence   "
 char annot_options_gbk[] = ANNOT_OPTIONS_GBK;
 char annot_options_embl[]=
@@ -205,10 +205,6 @@ void locsub(int *source, int *destin);
 void descen(DIR_FILE *kan, int recnum, int *blist);
 char *check_acnuc_gcgacnuc(void);
 void sel_seqs_1_node(DIR_FILE *kan, int num, int *seq_list, int hote);
-
-
-/* external variables */
-extern int acc_length_on_disk;
 
 
 int main(int argc, char *argv[])
@@ -1669,7 +1665,7 @@ if(direct) { /* chercher si c'est une sequence ou un acc # */
 	search = !trouve; /* chercher un acc # */
 	if(search) {
 		compact(lname);
-		if( (int)strlen(lname) > acc_length_on_disk) search = FALSE;
+		if( (int)strlen(lname) > ACC_LENGTH) search = FALSE;
 		}
 	if(search) {
 		num = -1;

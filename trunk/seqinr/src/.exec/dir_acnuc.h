@@ -138,8 +138,8 @@ extern struct rbib {       /* BIBLIO one record for each reference, book, thesis
 		patent citations as PATENT/number
 		other citations as UNPUBL/year/first_author
 		*/
-	int plsub, /*¬to SHORTL for list of associated parent sequences */
-	    plaut, /*¬to SHORTL for list of associated authors (only 1 for book,thesis,unpubl) */
+	int plsub, /* to SHORTL for list of associated parent sequences */
+	    plaut, /* to SHORTL for list of associated authors (only 1 for book,thesis,unpubl) */
 	    j, /* to SMJYT for rank of corresponding journal, or generic values BOOK, THESIS */
 	    y; /* to SMJYT for rank of publication year or for rank of year 0 if unknown */
 	} *pbib;
@@ -152,10 +152,9 @@ extern char ptxt[]; /* a label padded to lrtxt chars WITHOUT \n or \0 at end */
 #define readtxt(x) if(dir_read(ktxt,x,1,ptxt)!=1) dir_readerr(ktxt,x)
 #define writetxt(x) if(dir_write(ktxt,x,1,ptxt)) dir_writeerr(ktxt,x)
 
-#define ACC_LENGTH 8 /* fixed length of an accession number */
 extern struct racc {     /* ACCESS  one record for each accession number */
-	char name[ACC_LENGTH]; /* acc no padded by spaces */
 	int plsub; /* to SHORTL for list of associated parent seqs */
+	char name[1]; /* real size is ACC_LENGTH (global variable) padded by spaces */
 	} *pacc;
 void readacc(int recnum);  /* !!!!! always use readacc() and writeacc() */
 void writeacc(int recnum);
@@ -166,12 +165,15 @@ extern struct rinfo{	/* to access seq annotations, always use read_annots/next_a
 #define lrinfo sizeof(struct rinfo)
 
 
-extern int lmot,hoffst,hsub,hkwsp,nseq,nbrf,lenbit,lenw,maxa,longa;
+extern int lmot,hoffst,hsub,hkwsp,nseq,nbrf,lenbit,lenw,maxa,longa,ACC_LENGTH;
 extern DIR_FILE *ksub,*kloc,*kkey,*kspec,*kbib,*kacc,*ktxt,*ksmj,*kext,
 *kaut,*kshrt,*klng;
 extern int nbmrfa,flat_format,gcgcod,unixos,genbank,embl,divisions,swissprot,
 	big_annots;
 extern char nucbuf[]; /* to hold in memory the last part of sequence read */
+extern char **gcgname; /* names of division files */
+extern int *annotopened; /* says whether any division is currently opened */
+extern FILE **divannot; /* streams associated to opened divisions */
 
 
 /* prototypes for acnuc access*/

@@ -12,9 +12,8 @@ testmatchindex
 char *last_mnemo(FILE *flat, long *flat_addr, char *marque);
 int mal_indexee(int numseq, long addr, int div, char *marque, char *nom);
 
-/* external functions and variables */
+/* external functions */
 void gcgors(char *type_fic, int div, int stop_if_error);
-extern FILE *divannot[];
 
 
 int main(void)

@@ -1,4 +1,5 @@
 #include "dir_acnuc.h"
+#include "simext.h"
 #include <time.h>
 #include <ctype.h>
 
@@ -38,20 +39,6 @@ typedef struct {
 		} data;
 	} struct_extract_data;
 			
-#define SIMEXT_NFMAX 500
-typedef struct {
-	int nfmax;  /* maximum # of fragments in a virtual subseq */
-	int newsim; /* TRUE when a new virtual subseq has just been created*/
-	int pinfme; /* pointer to annots of parent of virtual subseq */
-	int siminf; /* pointer to annots of virtual subseq */
-	int div;    /* div of these annots */
-	int nfrags; /* # of fragments in virtual subseq (from 1)*/
-	int valext[SIMEXT_NFMAX][4];
-/* valext(.,0)=beginning of fragment */
-/* valext(.,1)=end of fragment	*/
-/* valext(.,2)=pointer to nucleot for that fragment */
-/* valext(.,3)=# of parent seq of that fragment	*/
-	} simext_struct;
 	
 typedef union  {
 	struct {
@@ -93,6 +80,11 @@ static int dlu, flu, xd, xf, dlum, flum, xdm, xfm;
 
 
 /* prototypes */
+int prep_extract(out_option option, char *fname, extract_option choix,
+	 char *feature_name, char *bornes, char *min_bornes, char **message);
+int extract_1_seq(int numseq, char *bornes);
+void fin_extract(void);
+FILE *extract_outfile(void);
 static int read_location(long pannot, int div, char *location, int maxloclen);
 int find_label(char *label, char *access, long *pannot, int *pdiv, int *isub);
 static int write_one_seq_line(out_format_struct *out_format, char *seq, 
@@ -101,14 +93,10 @@ static int comp_gcg_checksum(char *seq, int length, int previous_len);
 static int write_seq_header(char *mnemo, int iseq, int debut, int fin,
 	out_format_struct *out_format, char *descri, long deb_info_fille, 
 	int div_fille);
-int prep_extract(out_option option, char *fname, extract_option choix,
-	 char *feature_name, char *bornes, char *min_bornes, char **message);
-int extract_1_seq(int numseq, char *bornes);
 static int write_seq_footer(out_format_struct *out_format, char *name, 
 	char Nuc_ou_Prot);
 static int extraire_bornes(char *bornes, int *debut, int *fin, 
 	int *xdebut , int *xfin);
-void fin_extract(void);
 static int end_gcg(out_format_struct *out_format, char *mnemo, 
 	char Nuc_ou_Prot);
 static int proc_locat_fragment(char *location, char *debut, char *fin, 
@@ -209,7 +197,7 @@ do	{
 	trouve=FALSE;
 	do	{
 		next_annots(pannot);
-		if(strncmp(pinfo->line,"BASE COUNT",10)==0 || 
+		if(strncmp(pinfo->line,"ORIGIN",6)==0 || 
 			strncmp(pinfo->line,"SQ ",3)==0) break;
 		trouve = !strncmp(pinfo->line,"FEATURES",8) || 
 				!strncmp(pinfo->line,"FH ",3);
@@ -629,7 +617,10 @@ else	{
 		static char file_exists[]="File already exists";
 		*message=file_exists;
 		}
-	out_struct.fichier.outfile=fopen(fname,"a");
+	out_struct.fichier.outfile = fopen(fname,"r+");
+	if(out_struct.fichier.outfile == NULL) 
+		out_struct.fichier.outfile = fopen(fname, "w+");
+	else fseek(out_struct.fichier.outfile, 0, SEEK_END);
 	if(out_struct.fichier.outfile==NULL) goto Open_problem;
 	if(nbrf && option == flat)
 		fputs(NBRF_BACK_SLASHES, out_struct.fichier.outfile);
@@ -701,6 +692,13 @@ return 1;
 } /* end of prep_extract */
 
 
+FILE *extract_outfile(void)
+{
+if(out_struct.option == analseq) return NULL;
+return out_struct.fichier.outfile;
+}
+
+
 int extract_1_seq(int numseq, char *bornes)
 /* rend le nbre >=0 de seqs extraites par la fonction
 ou -1 si erreur d'ecriture
@@ -768,7 +766,7 @@ else if(extract_data.choix == feature ) {
 	do	{
 		previous = pft;
 		next_annots(&pft);
-		if( (genbank && strncmp(pinfo->line,"BASE COUNT",10) == 0 ) ||
+		if( (genbank && strncmp(pinfo->line,"ORIGIN",6) == 0 ) ||
 			strncmp(pinfo->line,"SQ ",3)==0 ) return totfrags;
 		}
 	while( (genbank && strncmp(pinfo->line,"FEATURES",8) != 0 ) ||
@@ -864,7 +862,7 @@ else if(extract_data.choix == region ) {
 	do	{
 		previous = pft;
 		next_annots(&pft);
-		if( (genbank && strncmp(pinfo->line,"BASE COUNT",10) == 0 ) ||
+		if( (genbank && strncmp(pinfo->line,"ORIGIN",6) == 0 ) ||
 			strncmp(pinfo->line,"SQ ",3)==0 ) return totfrags;
 		}
 	while( (genbank && strncmp(pinfo->line,"FEATURES",8) != 0 ) ||

@@ -32,7 +32,7 @@ extern int fileno(FILE *);
 
 /* prototypes */
 DIR_FILE *dir_open(char *fname, char *context, char *mode, size_t record_length,
-	int bytes_per_buffer);
+	size_t bytes_per_buffer);
 int dir_read(DIR_FILE *fich, int firstrec, int recnum, void *record);
 void *dir_read_buff(DIR_FILE *fich, int firstrec, int *num_lu);
 int dir_write(DIR_FILE *fich, int firstrec, int recnum, void *record);
@@ -46,6 +46,7 @@ int dir_set_mmap(DIR_FILE *dfile);
 static int dir_write_map(DIR_FILE *fich, off_t position, char *record, 
 	size_t numbytes);
 static int init_normal(DIR_FILE *fich);
+static size_t check_mmap_arg(off_t file_size);
 #endif
 
 
@@ -56,7 +57,7 @@ rend != 0 si erreur, 0 si OK
 */
 {
 caddr_t pointer;
-size_t rsize;
+size_t rsize, mmap_size;
 
 if( dfile->max_buff_size == -1) return 0; /* deja fait */
 dir_flush(dfile);
@@ -67,11 +68,13 @@ if( dfile->curr_file_size < rsize ) {
 	if( write(dfile->fd, dfile->tot_rec, rsize) != rsize) return 1;
 	dfile->curr_file_size = rsize;
 	}
-pointer = mmap((caddr_t) 0, dfile->curr_file_size, (PROT_READ | PROT_WRITE),
+mmap_size = check_mmap_arg(dfile->curr_file_size);
+if( mmap_size == 0 ) return 1;
+pointer = mmap((caddr_t) 0, mmap_size, (PROT_READ | PROT_WRITE),
                          MAP_SHARED, dfile->fd, 0);
 if(pointer == (caddr_t) MAP_FAILED) {
 	if(errno == EACCES) { /* cas d'un fichier ouvert en lecture */
-		pointer = mmap((caddr_t) 0, dfile->curr_file_size, 
+		pointer = mmap((caddr_t) 0, mmap_size, 
 			PROT_READ, MAP_SHARED, dfile->fd, 0);
 		}
 	if(pointer == (caddr_t) MAP_FAILED) return 1;
@@ -86,11 +89,23 @@ Peut etre > taille reelle du fichier car elle est agrandie par paquets
 dfile->curr_buff_size = dfile->curr_file_size / rsize;
 return 0;
 }
+
+
+static size_t check_mmap_arg(off_t file_size)
+{
+size_t mmap_size;
+off_t check;
+
+mmap_size = (size_t)file_size;
+check = (off_t)mmap_size;
+return (check == file_size ? mmap_size : 0);
+}
+
 #endif
 
 
 DIR_FILE *dir_open(char *fname, char *context, char *mode, size_t record_length,
-	int bytes_per_buffer)
+	size_t bytes_per_buffer)
 {
 FILE *fich;
 int fd, open_mode;
@@ -382,7 +397,8 @@ static char dummy[CHUMPS];
 char *old_map;
 int rsize, num, new_recs;
 caddr_t pointer;
-size_t old_lmap, new_lmap;
+off_t new_lmap;
+size_t old_lmap, mmap_size;
 
 rsize = fich->record_length;
 old_map = fich->buffer;
@@ -394,8 +410,10 @@ fich->curr_file_size = position + numbytes;
 new_recs = PREAMPTION / rsize; if(new_recs < 1) new_recs = 1;
 for(num = 0; num < PREAMPTION; num += CHUMPS)
 	if( write(fich->fd, dummy, CHUMPS) != CHUMPS) return 1;
-new_lmap = (size_t)(fich->curr_file_size + new_recs * rsize);
-pointer = mmap((caddr_t) 0, new_lmap, (PROT_READ|PROT_WRITE),
+new_lmap = fich->curr_file_size + new_recs * rsize;
+mmap_size = check_mmap_arg(new_lmap);
+if(mmap_size == 0) pointer = (caddr_t) MAP_FAILED;
+else	pointer = mmap((caddr_t) 0, mmap_size, (PROT_READ|PROT_WRITE),
 		MAP_SHARED, fich->fd, 0);
 if(pointer != (caddr_t) MAP_FAILED){
 	fich->buffer = pointer;
@@ -475,15 +493,17 @@ return 0;
 }
 
 
-int dir_resize_buff(DIR_FILE *fich, void *buffer, int buff_size)
+int dir_resize_buff(DIR_FILE *fich, void *buffer, size_t buff_size)
 {
+int rec_count;
+
 if(fich->max_buff_size == -1) return 0; /* mode mmap'ed */
 if( write_mod_part(fich) )return 1;
 free(fich->buffer);
-buff_size = buff_size/fich->record_length;
+rec_count = buff_size / fich->record_length;
 fich->buffer = buffer;
 fich->curr_buff_size=0;
-fich->max_buff_size=buff_size;
+fich->max_buff_size=rec_count;
 fich->modif_recs_tot=0;
 return 0;
 }

@@ -607,7 +607,7 @@ gcgacnucvar	the new value of gcgacnuc (may be a variable,
 returns TRUE if error, FALSE if ok
 */
 {
-static char newacnuc[60], newgcgacnuc[60];
+static char newacnuc[200], newgcgacnuc[200];
 char *point;
 
 if( strcmp(acnucvar,"acnuc") != 0 ) {

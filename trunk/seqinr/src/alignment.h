@@ -20,9 +20,8 @@
 #define CLU_BLOCK_LEN 5000 /* block pour allocation mem format Clustal */
 #define MAX_GAP_SITES 1000
 #define MAXLENSEQ 10000
-#define MAXNSEQS  256
 #define MAXMNMASE 30
-#define MAXSTRING 5000
+#define MAXSTRING 10000
 
 struct SEQMASE
 {

@@ -16,7 +16,7 @@ struct _acc_request {
 	int div;
 	int mere;
 	int type;
-	char acc[ACC_LENGTH + 1];
+	char *acc;
 	char nom[L_MNEMO + 1];
 	};
 
@@ -24,8 +24,8 @@ typedef struct {
 	char *code;
 	int number;
 	} s_journal_code;
-	
-typedef void (*type_extra_function)(char *, int);
+
+
 
 /* global variables */
 FILE *in_flat, *log_file;
@@ -154,44 +154,6 @@ int find_cre_acc(char *name, int create);
 /* external globals */
 extern struct _acc_request  *acc_request;
 extern int tot_request;
-extern int acc_length_on_disk;
-extern char *gcgname[];
-extern int divisions;
-
-
-/* permettre traitement optionnel d'autres qualifiers 
-en compilant avec -DEXTRA_QUALIF 
-*/
-#ifdef EXTRA_QUALIF 
-
-extern void process_extra_qualif(char *, int);
-type_extra_function extra_function = process_extra_qualif;
-
-/* modele de fonction a ecrire dans un fichier separe:
-#include "dir_acnuc.h"
-char *get_qualif_value(char *);
-int crekeyword(char *, char *);
-void fast_add_seq_to_keyw(int, int);
-
-void process_extra_qualif(char *qualif, int fille_num)
-{
-char *p, *qualif_value;
-int numkey, erreur;
-
-p = strstr(qualif, "/MYQUALIF=");
-if( p != NULL && (qualif_value = get_qualif_value(p) ) != NULL ) {
-	numkey = crekeyword("MYKEYWORD", qualif_value);
-	erreur = mdshrt(ksub, fille_num, 4, numkey, NULL);
-	if(erreur != 2) fast_add_seq_to_keyw(numkey, fille_num);
-	}
-}
-*/
-
-#else
-
-type_extra_function extra_function = NULL;
-
-#endif
 
 
 
@@ -451,19 +413,23 @@ if(tot_request > 0) {
 		}
 	}
 dir_acnucclose();
-if(use_address) fclose(addr_file);
-if( !flat_format ) fclose(seq_file);
 time(&heure_fin);
-#ifdef unix
-if(tot_charge > 0) write_quick_meres();
-#endif	
 fprintf(log_file, "Program finished at %s\n", asctime(localtime(&heure_fin)) );
+fflush(log_file);
+#ifdef unix
+fprintf(log_file, "write_quick_meres...");fflush(log_file);
+if(tot_charge > 0) write_quick_meres();
+fprintf(log_file, "done\n");fflush(log_file);
+#endif	
 fprintf(log_file, "\nlues=%d  chargees=%d  difference=%d\n"
 	"created subsequences=%d  seqs/second=%.2f\n", 
 	tot_read, tot_charge, tot_read - tot_charge, tot_filles_cre,
 	tot_read / (float)(heure_fin - heure_debut) );
+fflush(log_file);
+if(use_address) fclose(addr_file);
+if( !flat_format ) fclose(seq_file);
 
-return 0;
+exit(0);
 }  /* end of main */
 
 
@@ -594,7 +560,8 @@ if( non_chargee ) {
 				pre_div = current_div;
 				fprintf(err_file, "%s\n", gcgname[current_div]);
 				}
-			fprintf(err_file, "%s\n", seq_name);
+			fprintf(err_file, "%s %lu\n", seq_name, 
+				(unsigned long)addr_info );
 			fflush(err_file);
 			}
 		}
@@ -721,7 +688,7 @@ if(strncmp(p, "CIRCULAR", 8) == 0) {
 	p += 8; 
 	while( *p == ' ') p++;
 	}
-p = next_word(p, molecule + 2, "; ", sizeof(molecule) - 2, NULL);
+p = next_word(p, molecule + 2, ";", sizeof(molecule) - 2, NULL);
 p = next_word(p, flat_divname + 9, "; ", sizeof(flat_divname) - 9, NULL);
 sscanf(p, "%d", &longueur);
 num = isenum(seq_name);
@@ -847,8 +814,9 @@ do	{
 			numacc = find_cre_acc(accession, TRUE);
 		else	numacc = 0;
 		if(numacc == 0) {
-			fprintf(log_file, "cannot create %s\n", accession);
-			non_chargee = TRUE;
+			fprintf(log_file, 
+				"Warning: cannot create acc no %s\n", 
+				accession);
 			}
 		else	{
 			mdshrt(kacc, numacc, 1, seq_num, NULL);
@@ -875,7 +843,9 @@ void complete_acc_request(int loc_num, int *p_fille_num,
 	char *location, char *qualifiers, int max_loc_qual)
 {
 int next, pre, erreur, created, num_back;
-static char access[ACC_LENGTH + 1], feat_name[20], nom_fille[L_MNEMO + 1];
+static char *access = NULL, feat_name[20], nom_fille[L_MNEMO + 1];
+
+if(access == NULL) access = (char *)malloc(ACC_LENGTH + 1);
 
 readloc(loc_num);
 next = ploc->placc;
@@ -1201,12 +1171,22 @@ while( ligne[0] == ' ' || strncmp(ligne, "FT", 2) == 0 ) {
 				current_div, qualifiers);
 		}
 	debut_ft_key = debut_next_entry;
-/* for SOURCE: look for CHROMOSOME data */
+/* for SOURCE: look for CHROMOSOME and type strain data */
 	if(strcmp(feat_name, "SOURCE") == 0) {
 		p = strstr(qualifiers, "/CHROMOSOME=");
 		if(p != NULL) {
 			p = get_qualif_value(p);
 			if(p != NULL) prep_chromosome(p, seq_num);
+			}
+		p = strstr(qualifiers, "/STRAIN=");
+		if(p != NULL) {
+			p = get_qualif_value(p);
+			if(p != NULL && strncmp(p, "TYPE STRAIN", 11) == 0) {
+				int num, erreur;
+				num = crekeyword(NULL, "TYPE STRAIN");
+				erreur = mdshrt(ksub, seq_num, 4, num, NULL);
+				if(erreur != 2) fast_add_seq_to_keyw(num, seq_num);
+				}
 			}
 		}
 	else if(strcmp(feat_name, "EXON") == 0 && 
@@ -1279,7 +1259,7 @@ void process_exon(char *exon_qualifs, char *location, char *qualifiers,
 	int tot_types, char **type_codes, char **type_abbrevs, int *type_ranks,
 	int *p_fille_num)
 {
-char *p, *q, *value, access[20], label[20];
+char *p, *q, *value, access[30], label[20];
 long pannot;
 int div, mere_label, num, next, type_index, doit, cur_rank, new_rank, erreur;
 			
@@ -1491,7 +1471,7 @@ void process_journal(char *ligne, size_t lligne, char *author_data, int numref)
 int is_book, is_thesis, number,
 	tot_txt, num_bib, saved_addr, l, special_format,
 	*extra_journal, is_patent, is_unpublished;
-static char aux[50], volume[20], first_page[20], annee[20],
+static char aux[50], volume[20], first_page[30], annee[20],
 	journal[500], first_author[100], lc_ligne[sizeof(journal)];
 char *p, *q, *colon, *name;
 void *node;
@@ -1586,7 +1566,18 @@ q = journal - 1;
 while( *(++q) != 0) {
 	if ( *q == '.' || *q == ',' ) *q = ' ';
 	}
-compact(journal); journal[lrtxt] = 0;
+compact(journal); 
+if( (genbank && strncmp(journal, "[ER]", 4) == 0 ) ||
+	(embl && strncmp(journal, "(ER)", 4) == 0 ) ) {
+	if(strlen(journal) > 4)
+		memmove(journal, journal + 4, strlen(journal) - 4 + 1);
+	}
+if( (genbank && strncmp(lc_ligne, "[er] ", 5) == 0 ) ||
+	(embl && strncmp(lc_ligne, "(er) ", 5) == 0 ) ) {
+	if(strlen(lc_ligne) > 5)
+		memmove(lc_ligne, lc_ligne + 5, strlen(lc_ligne) - 5 + 1);
+	}
+journal[lrtxt] = 0;
 /* recherche du libel du journal */
 if( find_g_dynlist(journal, dynlist_journals, TRUE, &node) == NULL) {
 	fprintf(log_file, "cannot create new journal %s\n", name);
@@ -2241,7 +2232,6 @@ erreur = mdshrt(ksub, seq, 4, num, NULL);
 if(erreur != 2) fast_add_seq_to_keyw(num, seq);
 #undef KEY_WIDTH
 }
-
 
 
 

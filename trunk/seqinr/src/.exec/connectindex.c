@@ -69,7 +69,6 @@ fille_data tab_fille_data[maxfillespermere+1];
 
 
 /* prototypes */
-void *mycalloc(int n, size_t taille);
 void prepnewdiv(int totdiv);
 void cre_new_if_needed(void);
 int ask_div_names(void);
@@ -102,13 +101,16 @@ void skipseq(char *nameline, FILE *fich, int cur_pos);
 #endif
 #ifdef unix
 int proc_options(int argc, char **argv);
+void write_quick_meres(void);
 #endif
 
 
 /* extern prototypes */
 extern int poffset(int div, int offset);
 extern void cre_new_division(char *fname);
-extern char *gcgname[];
+extern FILE **divseq;
+extern int *seqopened;
+extern void *mycalloc(int n, size_t taille);
 
 
 #ifdef __INTEL__
@@ -331,6 +333,7 @@ if(update_mode) {
 		strcpy(fname,rootname);
 		strcat(fname,".lost");
 		dispfile=fopen(fname,"w");
+		num = 1;
 		while((num=irbit(proclist,num,nseq))!=0) {
 			readsub(num);
 			fprintf(dispfile,"%.16s\n",psub->name);
@@ -383,6 +386,9 @@ else if(count_scan == 0) { /* cas install mode */
 	}
 
 dir_acnucclose();
+#ifdef unix
+if( (!update_mode) && count_scan == 0 ) write_quick_meres();
+#endif
 printf("Normal end\n");
 return 0;
 }
@@ -415,10 +421,23 @@ return tot;
 void prepnewdiv(int totdiv)
 /* effacer toutes les anciennes div et ecrire les nouvelles */
 {
-int i, totsmj, finsorted;
+int i, totsmj, finsorted, div;
 
 /* effacer toutes les anciennes divisions */
+for(div=0; div<=divisions; div++) {
+	if( annotopened[div] ) fclose(divannot[div]);
+	if(gcgname[div] != NULL) free(gcgname[div]);
+	}
+free(gcgname); gcgname = NULL;
+free(annotopened); annotopened = NULL; free(divannot); divannot = NULL;
+if(!flat_format) {
+	for(div=0; div<=divisions; div++) {
+		if( seqopened[div] ) fclose(divseq[div]);
+		}
+	free(seqopened); seqopened = NULL; free(divseq); divseq = NULL;
+	}
 divisions= -1;
+
 totsmj = read_first_rec(ksmj, &finsorted);
 for(i=2; i<=totsmj; i++) {
 	readsmj(i);
@@ -715,7 +734,7 @@ le format GCG pour les longues sequences
 			printf("%s mod\n",flatname);
 			fprintf(modfile,"%s\n",flatname);
 			}
-		if(new || modif) fprintf(addrfile,"%d %s\n",newpinf,flatname);
+		if(new || modif) fprintf(addrfile,"%u %s\n",newpinf,flatname);
 		}
 	else if(count_scan == 0) { /* mode install */
 		if(new)	{
@@ -835,7 +854,7 @@ if(totfilles == -1) goto test_final;
 /* recherche du debut de la nouvelle table des features */
 do	{
 	fgets(line,lline,flat);
-	if( (genbank && strncmp(line,"BASE COUNT",10)==0) || 
+	if( (genbank && strncmp(line,"ORIGIN",6)==0) || 
 		(embl && strncmp(line,"SQ ",3)==0) ) goto test_final;
 	}
 while( (embl && strncmp(line,"FH",2)!=0) || 
@@ -919,18 +938,6 @@ for(num=0; num<=totfilles; num++) {
 	pshrt->val=newpinf;
 	writeshrt(point);
 	}
-}
-
-
-void *mycalloc(int nbre, size_t size)
-{
-void *point;
-point=(void *)calloc(nbre,size);
-if(point==NULL) {
-	fprintf(stderr,"Problem allocating memory.\n");
-	exit(ERREUR);
-	}
-return point;
 }
 
 
@@ -1330,34 +1337,31 @@ while(strncmp(line, "//", 2) != 0);
 }
 
 
-typedef struct {
-	char nom[ACC_LENGTH];
-	int rank;
-	} n_r_struct;
-
 
 int fastfindacc(char *access)
 {
-static int first = TRUE, tmem, sorted;
-int tacc, num, premier, dernier, ord;
-static char p_access[ACC_LENGTH+1];
-static n_r_struct *new_accs;
-n_r_struct *p;
+static int first = TRUE, tmem, sorted, size_n_r_struct;
+int tacc, num, premier, dernier, ord, rank;
+static char *p_access;
+static char *new_accs;
+char *p;
 
 if(first) {
 	first = FALSE;
+	p_access = (char *)malloc(ACC_LENGTH + 1);
+	size_n_r_struct = sizeof(int) + ACC_LENGTH;
 	tacc = read_first_rec(kacc, &sorted);
 	if(sorted == 0) sorted = 1;
 	tmem = tacc - sorted;
 	if(tmem > 0) {
-		new_accs = (n_r_struct *)malloc(tmem * sizeof(n_r_struct));
+		new_accs = (char *)malloc(tmem * size_n_r_struct);
 		p = new_accs;
-		for(num = sorted + 1; num <= tacc; num++, p++) {
+		for(num = sorted + 1; num <= tacc; num++, p += size_n_r_struct) {
 			readacc(num);
-			memcpy(p->nom, pacc->name, ACC_LENGTH);
-			p->rank = num;
+			memcpy(p, pacc->name, ACC_LENGTH);
+			memcpy(p + ACC_LENGTH, &num, sizeof(int));
 			}
-		qsort(new_accs, tmem, sizeof(n_r_struct), n_r_compar);
+		qsort(new_accs, tmem, size_n_r_struct, n_r_compar);
 		}
 	}
 padtosize(p_access, access, ACC_LENGTH);
@@ -1375,9 +1379,11 @@ while(premier <= dernier) {
 premier = 0; dernier = tmem - 1;
 while(premier <= dernier) {
 	num = (dernier + premier) / 2;
-	ord = memcmp(p_access, new_accs[num].nom, ACC_LENGTH);
-	if(ord == 0) 
-		return new_accs[num].rank;
+	ord = memcmp(p_access, new_accs + num * size_n_r_struct, ACC_LENGTH);
+	if(ord == 0) {
+		memcpy(&rank, new_accs + num * size_n_r_struct + ACC_LENGTH, sizeof(int) );
+		return rank;
+		}
 	else if(ord > 0) premier = num + 1;
 	else dernier = num - 1;
 	}
@@ -1388,11 +1394,7 @@ return 0;
 
 static int n_r_compar(const void *p1, const void *p2)
 {
-n_r_struct *v1, *v2;
-
-v1 = (n_r_struct *)p1;
-v2 = (n_r_struct *)p2;
-return memcmp(v1->nom, v2->nom, ACC_LENGTH);
+return memcmp(p1, p2, ACC_LENGTH);
 }
 
 

@@ -34,14 +34,12 @@ void write_quick_meres(void);
 void gcgors(char *type_fic, int div, int stop_if_error);
 
 /* extern data used */
-extern FILE *divannot[], *divseq[];
-extern int use_div_sizes, max_divisions;
-extern int annotopened[], seqopened[];
-extern unsigned div_offset[];
-extern char *gcgname[];
+extern FILE **divannot, **divseq;
+extern int use_div_sizes;
+extern int *annotopened, *seqopened;
+extern char **gcgname;
+extern unsigned *div_offset;
 
-
-extern DIR_FILE *kinf, *knuc;
 
 void dir_acnucflush(void)
 {
@@ -49,10 +47,6 @@ dir_flush(kshrt);
 dir_flush(ksub);
 dir_flush(kloc);
 if( !(nbrf || swissprot) )dir_flush(kext);
-if(nbmrfa==lmot) {
-	dir_flush(kinf);
-	dir_flush(knuc);
-	}
 if(ksmj != NULL) {
 	dir_flush(ksmj);
 	dir_flush(kkey);
@@ -75,17 +69,16 @@ perror(text);
 exit(ERREUR);
 }
 
-extern int acc_length_on_disk; /* taille chaine ACCESSION sur le disque */
 
 void writeacc(int recnum)
 {
-/* ici structure en memoire ne colle pas celle sur le disque
-*/
-static char point[ACC_LENGTH + 2*sizeof(int)]; /* trop grand expres */
-memset(point, 0, sizeof(point) );
-memcpy(point, pacc->name, acc_length_on_disk);
-memcpy(point + acc_length_on_disk, &(pacc->plsub), sizeof(int));
-if(dir_write(kacc,recnum,1,point)) dir_writeerr(kacc,recnum);
+/* ici structure en memoire ne colle pas celle sur le disque */
+static char point[100 + 2*sizeof(int)]; /* trop grand expres */
+
+memset(point, 0, kacc->record_length );
+memcpy(point, pacc->name, ACC_LENGTH);
+memcpy(point + ACC_LENGTH, &(pacc->plsub), sizeof(int));
+if(dir_write(kacc, recnum, 1, point)) dir_writeerr(kacc, recnum);
 }
 
 
@@ -654,33 +647,41 @@ return totkey;
 
 void cre_new_division(char *name)
 {
-int totsmj, finsorted, tottxt, l;
-unsigned taille, taille_previous;
-
-if(divisions + 1 >= max_divisions) {
-	fprintf(stderr,"too many divisions\n");
-	exit(ERREUR);
-	}
+int totsmj, finsorted, tottxt, l, division1;
 
 if( use_div_sizes && divisions>=0) {
 	update_div_size(divisions);
-	taille_previous = get_current_div_size(divisions);
 	}
-divisions++;
-
-gcgname[divisions]=(char *)malloc(16);
-strcpy(gcgname[divisions],name);
-annotopened[divisions]=seqopened[divisions]=0;
-if( use_div_sizes ) taille = get_current_div_size(divisions);
+divisions++; division1 = divisions + 1;
+gcgname = (char **)realloc(gcgname, division1*sizeof(char *));
+if(gcgname == NULL ) goto erreur;
+gcgname[divisions] = (char *)malloc(16);
+if(gcgname[divisions] == NULL ) goto erreur;
+strncpy(gcgname[divisions], name, 15); gcgname[divisions][15] = 0;
+divannot = (FILE **)realloc(divannot, division1*sizeof(FILE *));
+annotopened = (int *)realloc(annotopened, division1*sizeof(int));
+if(annotopened == NULL || divannot == NULL) goto erreur;
+annotopened[divisions] = 0;
+if(!flat_format) {
+	divseq = (FILE **)realloc(divseq, division1*sizeof(FILE *));
+	seqopened = (int *)realloc(seqopened, division1*sizeof(int));
+	if(seqopened == NULL || divseq == NULL) goto erreur;
+	seqopened[divisions] = 0;
+	}
+if(use_div_sizes) {
+	div_offset = (unsigned *)realloc(div_offset, 
+		division1*sizeof(unsigned));
+	if(div_offset == NULL ) goto erreur;
+	}
 
 memset(psmj,0,lrsmj);
 sprintf(psmj->name,"06FLT%-15.15s",name);
 if(!flat_format) memcpy(psmj->name+2,"GCG",3);
 if(big_annots)
-	sprintf(ptxt,"rank:%d",divisions);
+	sprintf(ptxt, "rank:%d", divisions);
 else
-	sprintf(ptxt,"rank:%d size:%u",divisions,taille);
-l=strlen(ptxt); memset(ptxt+l,' ',60-l);
+	sprintf(ptxt, "rank:%d size:%u", divisions, 0);
+l=strlen(ptxt); memset(ptxt+l,' ', 60-l);
 tottxt=read_first_rec(ktxt,NULL)+1;
 writetxt(tottxt);
 write_first_rec(ktxt,tottxt,0);
@@ -688,13 +689,13 @@ psmj->libel=tottxt;
 totsmj=read_first_rec(ksmj,&finsorted)+1;
 writesmj(totsmj);
 write_first_rec(ksmj,totsmj,finsorted);
-if( use_div_sizes ) {
-	if(divisions>=1) { 
-		div_offset[divisions]= div_offset[divisions-1] + 
-					(taille_previous/1024+1)*1024;
-		}
-	else	div_offset[divisions]=0;
-	}
+if( use_div_sizes) 
+	update_div_size(divisions);
+return;
+
+erreur:
+fprintf(stderr, "Not enough memory for cre_new_divisions\n");
+exit(ERREUR);
 } /* end of cre_new_division */
 
 

@@ -1,6 +1,8 @@
 #include "dir_acnuc.h"
 #include <ctype.h>
 
+/* name of file that describes additional handling of feature qualifiers */
+#define EXTRA_POLICY_FNAME "custom_qualifier_policy"
 #define MEM_ONE_REC_TYPE 10000
 #define MAX_LOC_QUAL 100000
 
@@ -11,7 +13,7 @@ struct _acc_request {
 	int div;
 	int mere;
 	int type;
-	char acc[ACC_LENGTH + 1];
+	char *acc;
 	char nom[L_MNEMO + 1];
 	};
 
@@ -27,7 +29,13 @@ struct _fille_frags {
 		int mere; /* # of parent seq of that fragment	*/
 		} one_frag[MAX_FRAGS];
 	};
-typedef void (*type_extra_function)(char *, int);
+
+typedef struct _s_qualifier_policy {
+	char *qualifier;
+	int use_value;
+	char *parent_keyword;
+	struct _s_qualifier_policy *next;
+	} s_qualifier_policy;
 
 
 /* included functions */
@@ -61,6 +69,8 @@ int next_start_seq(FILE *addr_file, char *gcgacnuc_value, char *ligne,
 	size_t lligne, off_t *p_addr, int *p_div);
 char *proc_classif(char *ligne, size_t lligne);
 int extend_acc_requests(void);
+s_qualifier_policy *load_qualifier_policy(void);
+void process_extra_qualif(char *qualif, int fille_num);
 
 
 /* external prototypes */
@@ -83,8 +93,6 @@ struct _fille_frags fille_frags;
 extern FILE *in_flat, *log_file;
 extern void *smj_binary_tree, *bib_binary_tree;
 extern int non_chargee;
-extern char *gcgname[];
-extern type_extra_function extra_function;
 
 
 int mkextr(char *location, int seq_num, int *p_fille_num, char *name,
@@ -186,6 +194,12 @@ do	{
 while (*virgule != 0 && *virgule != ')');
 if(erreur != 0) {
     if(erreur == 5) { /* memorize an accession # request */
+    	if(strlen(access) > ACC_LENGTH) {
+				fprintf(log_file, 
+				"Warning: accession number too long for accession request %s\n", 
+					access);
+				return FALSE;
+				}
 		for(num = 0; num < tot_request; num++) {
 			if( strcmp(acc_request[num].acc, access) == 0 &&
 				acc_request[num].inf == info_addr && 
@@ -419,7 +433,7 @@ if( p != NULL ) {
 	}
 
 /* permettre traitement optionnel d'autres qualifiers */
-if(extra_function != NULL) extra_function(qualif, fille_num);
+process_extra_qualif(qualif, fille_num);
 
 return created;
 } /* end of mkextr */
@@ -659,7 +673,7 @@ do	{
 	trouve=FALSE;
 	do	{
 		next_annots(pannot);
-		if( (genbank && strncmp(pinfo->line,"BASE COUNT",10) == 0 ) || 
+		if( (genbank && strncmp(pinfo->line,"ORIGIN",6) == 0 ) || 
 			(embl && strncmp(pinfo->line,"SQ ",3) == 0 ) ) break;
 		trouve = (genbank && strncmp(pinfo->line,"FEATURES",8) == 0) || 
 				(embl && strncmp(pinfo->line,"FH",2) == 0 );
@@ -1160,15 +1174,19 @@ int extend_acc_requests(void)
 #define SLICE_REQUEST 100
 static int max_request =  0;
 struct _acc_request *new_tab;
-int new_max_request;
+int new_max_request, i;
 
 if(tot_request < max_request) return FALSE;
 new_max_request = max_request + SLICE_REQUEST;
 new_tab = (struct _acc_request *)malloc(new_max_request * 
 	sizeof(struct _acc_request) );
 if(new_tab == NULL) return TRUE;
-if(tot_request > 0) memcpy(new_tab, acc_request, 
-	tot_request * sizeof(struct _acc_request) );
+for (i = max_request; i < new_max_request; i++) {
+	new_tab[i].acc = (char *)malloc(ACC_LENGTH + 1);
+	if(new_tab[i].acc == NULL) return TRUE;
+	}
+if(max_request > 0) memcpy(new_tab, acc_request, 
+	max_request * sizeof(struct _acc_request) );
 if(acc_request != NULL) free(acc_request);
 acc_request = new_tab;
 max_request = new_max_request;
@@ -1176,3 +1194,119 @@ return FALSE;
 #undef SLICE_REQUEST
 }
 
+
+s_qualifier_policy *load_qualifier_policy(void)
+/* interprets a text file of the form (case is not significant)
+
+Qualifier = myqualifier              #starts a block of lines
+Use_Value = True                     #optional, means False if absent
+Parent_Keyword = my parent keyword   #optional, means root if absent
+
+Qualifier = myqualifier2   #several blocks can occur, each begins with Qualifier
+
+filename is in #define EXTRA_POLICY_FNAME
+*/
+{
+char *p, line[100], *mot;
+FILE *in;
+s_qualifier_policy *chain = NULL, *elt;
+int l;
+
+p = prepare_env_var("acnuc");
+if(p == NULL) return NULL;
+strcat(p, EXTRA_POLICY_FNAME);
+in = fopen(p, "r");
+if(in == NULL) return NULL;
+while( (p = fgets(line, sizeof(line), in)) != NULL) {
+	p = line + strlen(p) - 1;
+	while(p >= line && (*p == '\n' || *p == '\r') ) *(p--) = 0;
+	majuscules(line); trim_key(line);
+	if(strncmp(line, "QUALIFIER", 9) == 0) {
+		elt = (s_qualifier_policy *)calloc(1, 
+				sizeof(s_qualifier_policy));
+		if(elt == NULL) {fclose(in); return NULL; }
+		elt->next = chain;
+		chain = elt;
+		p = strchr(line, '=');
+		if(p == NULL) continue;
+		do p++; while(*p == ' ');
+		l = strlen(p);
+		mot = (char *)malloc(l+1);
+		if(mot == NULL || l < 1) {fclose(in); return NULL; }
+		strcpy(mot, p);
+		chain->qualifier = mot;
+		}
+	else if(strncmp(line, "USE_VALUE", 9) == 0) {
+		p = strchr(line, '=');
+		if(p == NULL) continue;
+		do p++; while(*p == ' ');
+		if(*p == 'T') chain->use_value = TRUE;
+		}
+	else if(strncmp(line, "PARENT_KEYWORD", 14) == 0) {
+		p = strchr(line, '=');
+		if(p == NULL) continue;
+		do p++; while(*p == ' ');
+		l = strlen(p);
+		if(l < 1) continue;
+		mot = (char *)malloc(l+1);
+		if(mot == NULL) {fclose(in); return NULL; }
+		strcpy(mot, p);
+		chain->parent_keyword = mot;
+		}
+	}
+fclose(in);
+
+elt = chain;
+while(elt != NULL) {
+	fprintf(log_file, "Additional feature qualifier processed : %s\n",
+		elt->qualifier);
+	if(elt->use_value) fprintf(log_file, 
+		"\tqualifier values attached to subseq as keyword\n");
+	if(elt->parent_keyword != NULL) fprintf(log_file, 
+		"\tkeyword placed under %s in keywords tree\n", 
+		elt->parent_keyword);
+	fputs("\n", log_file);
+	elt = elt->next;
+	}
+return chain;
+}
+
+
+void process_extra_qualif(char *qualif, int fille_num)
+/* executes the processing described by extra_qualifier_policy:
+for each chained element
+     for each presence of element->qualifier among qualifiers
+	if element->use_value is TRUE, use the qualifier value as keyword,
+	else use the qualifier name as keyword
+	create this keyword as a top level one or 
+		under element->parent_keyword if not NULL
+	associate current subsequence with this keyword
+*/
+{
+s_qualifier_policy *elt;
+char *p, target[100], *keyw;
+static char format[2][5] = {"/%s=" , "/%s" };
+int numkey, erreur;
+static int first = TRUE;
+static s_qualifier_policy *extra_qualifier_policy;
+
+if(first) {
+	extra_qualifier_policy = load_qualifier_policy();
+	first = FALSE;
+	}
+
+elt = extra_qualifier_policy;
+while(elt != NULL) {
+	sprintf(target, format[elt->use_value ? 0 : 1], elt->qualifier);
+	p = qualif - 1;
+	while( (p = strstr(p + 1, target) ) != NULL ) {
+		if( elt->use_value ) keyw = get_qualif_value(p);
+		else keyw = elt->qualifier;
+		if(keyw == NULL) continue;
+		numkey = crekeyword(elt->parent_keyword, keyw);
+		erreur = mdshrt(ksub, fille_num, 4, numkey, NULL);
+		if(erreur != 2) fast_add_seq_to_keyw(numkey, fille_num);
+		}	
+	elt = elt->next;
+	}
+}

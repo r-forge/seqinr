@@ -7,8 +7,6 @@ extern int *defbitlist;
 
 
 /* prototypes des fonctions inclues */
-void *mycalloc(int nbre, int size);
-int notrail2(char *chaine, int len);
 void prokey(int *slist, int *klist);
 void prospe(int *sqlist, int *splist);
 void proseq(int *slist, int *sqlist, char genre, int *aux);
@@ -23,8 +21,6 @@ int yeaseq(char *annee, char oper, int *blist, int *aux);
 int autseq(char *nom, int *list);
 void sel_seqs_1_node(DIR_FILE *kan, int num, int *seq_list, int hote);
 int shkseq(char *nom, int *blist, int err);
-int prepch(char *chaine, char **posmot);
-int compch(char *cible, int lcible, char **posmot, int nbrmots);
 int isenum_flou(char *nom, int *blist, int *locus);
 void showannots(int iseq, Boolean *ctabchoix, char **record, int totrec, 
 		int l_key, Boolean *nouveau_choix, void (*outoneline)(char *) );
@@ -33,31 +29,14 @@ void memdelta(char *pos, int longueur, int delta);/* decalage en memoire */
 int fileaccnums(FILE *fich,int *blist,int *locus);
 
 
-void *mycalloc(int nbre, int size)
-{
-void *point;
-point = calloc(nbre,size);
-if(point == NULL) {
-#ifdef __INTEL__
-	FILE *tmp;
-	tmp = fopen("queryerr.log", "w");
-	fprintf(tmp, "Problem allocating memory.\n");
-	fclose(tmp);
-#else
-	fprintf(stderr,"Problem allocating memory.\n");
-#endif
-	exit(ERREUR);
-	}
-return point;
-}
+
+/* prototypes of external functions */
+void *mycalloc(int nbre, int size);
+int notrail2(char *chaine, int len);
+int prepch(char *chaine, char **posmot);
+int compch(char *cible, int lcible, char **posmot, int nbrmots);
 
 
-int notrail2(char *chaine, int len)
-{
-len--;
-while(len>=0 && chaine[len]==' ') len--;
-return len+1;
-}
 
 
 void prokey(int *slist, int *klist)
@@ -389,87 +368,6 @@ return err;
 }
 
 
-int prepch(char *chaine, char **posmot)
-{
-/*
-chaine: template a rechercher qui contient des wildcard @
-posmot: tableau de pointeurs vers char au retour rempli avec des pointeurs adequats qui pointent dans chaine qui ne doit plus etre modifiee
-valeur rendue: nbre de pointeurs dans tableau posmot
-*/
-char *pos;
-int nbrmots;
-static char wildcard='@';
-
-if(strchr(chaine,'@')==NULL) return 0;
-nbrmots= -1;
-pos=chaine+strlen(chaine)-1;
-while( pos>=chaine && *pos==' ' ) pos--;
-*(pos+1)=0;
-
-pos=chaine;
-while(*pos!=0) {
-	if(*pos==wildcard) {
-		posmot[++nbrmots]=NULL;
-		*pos=0;
-		while(*(pos+1)==wildcard) pos++;
-		}
-	else	{
-		posmot[++nbrmots]=pos;
-		while( *(pos+1)!=wildcard && *(pos+1) !=0 ) pos++;
-		}
-	pos++;
-	}
-return nbrmots+1;
-}
-
-
-int compch(char *cible, int lcible, char **posmot, int nbrmots)
-{
-/*
-cible: chaine a tester pour presence du template
-lcible: long. de cible qui n'est pas forcement finie par \0
-	doit etre <=60
-posmot: tableau fabrique par prepch
-nbrmots: valeur rendue par prepch
-valeur rendue: 1 ssi template present dans cible, 0 si absent
-*/
-int num= 0, l, total;
-char *pos;
-static char vcible[61];
-
-pos=cible+lcible-1;
-while( pos>=cible && *pos==' ' ) pos--;
-lcible=pos-cible+1;
-memcpy(vcible,cible,lcible);
-vcible[lcible]=0;
-cible=vcible;
-if(posmot[nbrmots-1]==NULL)
-	total=nbrmots-1;
-else
-	total=nbrmots-2;
-
-if(posmot[0]!=NULL) { /* comparaison avec mot initial */
-	l=strlen(posmot[0]);
-	if(strncmp(cible,posmot[0],l)!=0) return 0;
-	cible += l;
-	num++;
-	}
-while(num<total) { /* recherche des mots internes */
-	num++;
-	pos=strstr(cible,posmot[num]);
-	if(pos==NULL) return 0;
-	l=strlen(posmot[num]);
-	cible = pos+l;
-	num++;
-	}
-if( total==nbrmots-1 ) return 1; /* template se termine par @ */
-/* test si cible se termine par dernier mot du template */
-l=strlen(posmot[nbrmots-1]); 
-if( strcmp(vcible+lcible-l,posmot[nbrmots-1]) == 0 ) return 1;
-return 0;
-}
-
-
 int isenum_flou(char *nom, int *blist, int *locus)
 /* rend 0 si pas trouve
 >0 si 1 seq trouvee
@@ -646,6 +544,7 @@ char line[81], *p;
 int i, j, k, div, longueur;
 static int *tabchoix=NULL, lastrec;
 long pannot;
+static char two_slashes[] = "//",  three_slashes[] = "///";
 
 if(*nouveau_choix) { /* preparation des options */
 	if(tabchoix==NULL) tabchoix=(int *)mycalloc(totrec,sizeof(int));
@@ -671,9 +570,9 @@ if(*nouveau_choix) { /* preparation des options */
 		}
 	else if(!nbrf) { /* GenBank */
 		if(tabchoix[6]) tabchoix[7]=TRUE; /* SOURCE==> ORGANISM */
-		if(tabchoix[8]) { /* REFERENCE==> AUT+TIT+JOU+MED+REM */
+		if(tabchoix[8]) {/*REFERENCE==> AUT+TIT+CONS+JOU+MED+PUBM+REM */
 			tabchoix[9]=tabchoix[10]=tabchoix[11]=tabchoix[12]=
-				tabchoix[13]=TRUE;
+				tabchoix[13]=tabchoix[14]=tabchoix[15]=TRUE;
 			}
 		}
 /* find lastrec the # of the last record type after those asked for */
@@ -690,7 +589,7 @@ if(*nouveau_choix) { /* preparation des options */
 		if(lastrec>=8 && lastrec<=12) lastrec=13; /* for R- records */
 		}
 	else if(!nbrf) { /* GenBank */
-		if(lastrec>=9 && lastrec<=13) lastrec=14; /* for REFER records*/
+		if(lastrec>=9 && lastrec<=15) lastrec=16; /* for REFER records*/
 		}
 	}
 /* traitement de la seq */
@@ -816,9 +715,9 @@ if(tabchoix[totrec-1]) {      /* ecriture de la sequence */
 	}
     }
 if(nbrf)
-	(*outoneline)("///");
+	(*outoneline)(three_slashes);
 else
-	(*outoneline)("//");
+	(*outoneline)(two_slashes);
 return;
 } /* end of showannots */
 

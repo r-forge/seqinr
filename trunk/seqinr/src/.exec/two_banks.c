@@ -13,10 +13,11 @@ struct indexes {
 struct db_struct {
 	int genbank, nbrf, swissprot, embl;
 	int hsub, hkwsp, flat_format, big_annots, use_div_sizes;
+	int ACC_LENGTH, hashing_algorithm;
 	};
 
 struct divisions {
-	int max_divisions, divisions;
+	int divisions;
 	FILE **divannot, **divseq;
 	int *annotopened, *seqopened, *div_offset;
 	char **gcgname;
@@ -39,20 +40,20 @@ struct acnuc_status {
 /* included functions */
 struct acnuc_status *store_acnuc_status(void);
 void set_current_acnuc_db(struct acnuc_status *);
-int chg_acnuc(char *acnucvar, char *gcgacnucvar);
 int sizeof_acnuc_status(void);
 
 /* globals */
 static struct acnuc_status *current_acnuc_status = NULL;
 
 /* called global variables */
-extern int use_div_sizes, max_divisions;
-extern FILE *divannot[], *divseq[];
-extern int annotopened[], seqopened[];
-extern unsigned div_offset[];
-extern char *gcgname[];
+extern int use_div_sizes, hashing_algorithm;
+extern FILE **divannot, **divseq;
+extern int *annotopened, *seqopened;
+extern unsigned *div_offset;
+extern char **gcgname;
 extern int gfrag_premier;
 extern int fcode_nsortd[5];
+extern int chg_acnuc(char *acnucvar, char *gcgacnucvar);
 
 
 struct acnuc_status *store_acnuc_status(void)
@@ -105,9 +106,10 @@ status->db_struct.hkwsp = hkwsp;
 status->db_struct.flat_format = flat_format;
 status->db_struct.big_annots = big_annots;
 status->db_struct.use_div_sizes = use_div_sizes;
+status->db_struct.ACC_LENGTH = ACC_LENGTH;
+status->db_struct.hashing_algorithm = hashing_algorithm;
 
 /* divisions */
-status->divisions.max_divisions = max_divisions;
 status->divisions.divisions = divisions;
 status->divisions.divannot = (FILE **) malloc( (divisions+1) * sizeof(FILE *) );
 if( status->divisions.divannot == NULL ) return NULL;
@@ -217,23 +219,31 @@ hkwsp = status->db_struct.hkwsp;
 flat_format = status->db_struct.flat_format;
 big_annots = status->db_struct.big_annots;
 use_div_sizes = status->db_struct.use_div_sizes;
+ACC_LENGTH = status->db_struct.ACC_LENGTH;
+hashing_algorithm = status->db_struct.hashing_algorithm;
 
 /* divisions */
 divisions = status->divisions.divisions;
+divannot = status->divisions.divannot;
+annotopened = status->divisions.annotopened;
 for(i=0; i <= divisions; i++) {
 	divannot[i] = status->divisions.divannot[i];
 	annotopened[i] = status->divisions.annotopened[i];
 	}
 if( ! flat_format ) {
+	divseq = status->divisions.divseq;
+	seqopened = status->divisions.seqopened;
 	for(i=0; i <= divisions; i++) {
 		divseq[i] = status->divisions.divseq[i];
 		seqopened[i] = status->divisions.seqopened[i];
 		}
 	}
 if( ! big_annots ) {
+	div_offset = status->divisions.div_offset;
 	for(i=0; i <= divisions; i++) 
 		div_offset[i] = status->divisions.div_offset[i];
 	}
+gcgname = status->divisions.gcgname;
 for(i=0; i <= divisions; i++) 
 	gcgname[i] = status->divisions.gcgname[i];
 
@@ -254,36 +264,6 @@ gfrag_premier = TRUE;
 } /* end of set_current_acnuc_db */
 
 
-int chg_acnuc(char *acnucvar, char *gcgacnucvar)
-/*
-Changing the values of variables  acnuc  and  gcgacnuc :
-acnucvar	the new value of acnuc (may be a variable, may be acnuc itself)
-gcgacnucvar	the new value of gcgacnuc (may be a variable, 
-		may be gcgacnuc itself)
-returns TRUE if error, FALSE if ok
-*/
-{
-static char newacnuc[60], newgcgacnuc[60];
-char *point;
-
-if( strcmp(acnucvar,"acnuc") != 0 ) {
-	point=getenv(acnucvar);
-	if(point!=NULL) acnucvar=point;
-	strcpy(newacnuc,"acnuc=");
-	strcat(newacnuc,acnucvar);
-	if( putenv(newacnuc) ) return TRUE;
-	}
-
-if( strcmp(gcgacnucvar,"gcgacnuc") != 0 ) {
-	point=getenv(gcgacnucvar);
-	if(point!=NULL) gcgacnucvar=point;
-	strcpy(newgcgacnuc,"gcgacnuc=");
-	strcat(newgcgacnuc,gcgacnucvar);
-	if( putenv(newgcgacnuc) ) return TRUE;
-	}
-return FALSE;
-}
-
 
 int sizeof_acnuc_status(void)
 {
@@ -291,7 +271,7 @@ return sizeof(struct acnuc_status);
 }
 
 
-/* POUR LE TESTER 
+/* POUR LE TESTER  
 
 main()
 {
@@ -299,11 +279,11 @@ void *db1, *db2;
 int totloc, seqnum;
 char seq[100];
 
-chg_acnuc("/banques2/genbank/index", "/banques/genbank/flat_files");
+chg_acnuc("/banques0/genbank/index", "/banques0/genbank/flat_files");
 acnucopen();
 db1 = (void *)store_acnuc_status();
 
-chg_acnuc("/acnuc/swissprot/index", "/acnuc/swissprot/flat_files");
+chg_acnuc("/banques0/swissprot/index", "/banques0/swissprot/flat_files");
 acnucopen();
 db2 = (void *)store_acnuc_status();
 
@@ -314,7 +294,7 @@ readloc(totloc); seqnum = ploc->sub;
 gfrag(seqnum, 1, 60, seq);
 readsub(seqnum);
 printf("%.16s %s\n", psub->name, seq);
-seqnum = fcode(kacc, "M00001", 8);
+seqnum = fcode(kacc, "M00001", ACC_LENGTH);
 printf("M00001 = %d\n", seqnum);
 
 set_current_acnuc_db(db2);
@@ -324,7 +304,7 @@ readloc(totloc); seqnum = ploc->sub;
 gfrag(seqnum, 1, 60, seq);
 readsub(seqnum);
 printf("%.16s %s\n", psub->name, seq);
-seqnum = fcode(kacc, "Q28799", 8);
+seqnum = fcode(kacc, "Q28799", ACC_LENGTH);
 printf("Q28799 = %d\n", seqnum);
 
 set_current_acnuc_db(db1);
@@ -332,7 +312,7 @@ printf("hsub=%d hkwsp=%d %s nseq=%d\n", hsub,hkwsp,ksub->filename,nseq);
 gfrag(2, 1, 60, seq);
 readsub(2);
 printf("%.16s %s\n", psub->name, seq);
-seqnum = fcode(kacc, "M00001", 8);
+seqnum = fcode(kacc, "M00001", ACC_LENGTH);
 printf("M00001 = %d\n", seqnum);
 
 set_current_acnuc_db(db2);
@@ -340,7 +320,7 @@ printf("hsub=%d hkwsp=%d %s nseq=%d\n", hsub,hkwsp,ksub->filename,nseq);
 gfrag(2, 1, 60, seq);
 readsub(2);
 printf("%.16s %s\n", psub->name, seq);
-seqnum = fcode(kacc, "Q28799", 8);
+seqnum = fcode(kacc, "Q28799", ACC_LENGTH);
 printf("Q28799 = %d\n", seqnum);
 }
 

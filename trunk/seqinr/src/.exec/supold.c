@@ -15,7 +15,6 @@ LVALS **smjlistes, **speclistes, **hostlistes, **keylistes, **sublistes,
 
 
 /* included routines */
-void *mycalloc(int num, size_t size);
 void addval(LVALS **point, int val);
 void processlng(DIR_FILE *kan, int numrec, int offset, LVALS *listvals);
 void process_shrt(DIR_FILE *kan,int numrec, LVALS *listvals);
@@ -30,6 +29,8 @@ int addlng(int point, int val);
 int suplng(int point, int val);
 int mdshrt(DIR_FILE *kan, int numrec, int offset, int val, int *newplist);
 int proc_mmap_options(int argc, char **argv);
+
+extern void *mycalloc(int n, size_t taille);
 
 #ifdef unix
 int check_term(void);
@@ -134,18 +135,6 @@ write_quick_meres();
 printf("Normal end\n");
 exit(0);
 } /* end of main */
-
-
-void *mycalloc(int num, size_t size)
-{
-char *retval;
-retval = calloc(num,size);
-if(retval==NULL) {
-	printf("Memory allocation fatal error!!!\n");
-	exit(ERREUR);
-	}
-return (void *)retval;
-}
 
 
 void addval(LVALS **debut, int val)

@@ -15,16 +15,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if unix 
+
+#ifdef unix 
 #include <unistd.h>
-#elif macintosh        /* Mac OS */
+#if defined(__alpha) /* on alpha ftello == ftell && fseeko == fseek */
+#define ftello ftell
+#define fseeko fseek
+#endif
+
+#elif defined(macintosh)        /* Mac OS */
 #include <unistd.h>
 typedef long off_t;
 #define ftello ftell
 #define fseeko fseek
-#elif defined __INTEL__
+
+
+#elif defined(__INTEL__)
 #include <fcntl.h>
-#elif defined vms
+#define ftello ftell
+#define fseeko fseek
+
+#elif defined(vms)
 #include <unixio.h>
 #endif
 
@@ -68,7 +79,7 @@ typedef struct {
 
 char *prepare_env_var(char *env_var);
 
-DIR_FILE *dir_open(char *fname, char *context, char *mode, size_t record_length, int bytes_per_buffer);
+DIR_FILE *dir_open(char *fname, char *context, char *mode, size_t record_length, size_t bytes_per_buffer);
 /* rend struct ou NULL si erreur quelconque
 	context: var d'environ pour unix ou logical pour vms;
 		dir courante si NULL  !!! EN MAJUSCULES POUR VMS!!!
@@ -106,7 +117,7 @@ TOUJOURS APPELER SI ECRITURE FAITE! sinon le fichier n'est pas a jour
 int dir_flush(DIR_FILE *fich);
 /* rend 0 ssi ok */
 
-int dir_resize_buff(DIR_FILE *fich, void *buffer, int buff_size);
+int dir_resize_buff(DIR_FILE *fich, void *buffer, size_t buff_size);
 /* pour changer la taille du buffer d'un fichier 
 (meme apres acces a ce fichier!)
 rend 0 ssi ok

@@ -1,9 +1,6 @@
 #include "dir_acnuc.h"
 #define WID sizeof(psmj->name)
 
-extern char *gcgname[];
-extern int annotopened[];
-
 
 int main(int argc, char **argv)
 {

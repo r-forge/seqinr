@@ -1,5 +1,7 @@
 #include "dir_acnuc.h"
+#include "simext.h"
 #include <ctype.h>
+#include <limits.h>
 
 #define plus_grand_int(a,b)  ( (a) >= (b) ? (a) : (b) )
 #define plus_petit_int(a,b)  ( (a) <= (b) ? (a) : (b) )
@@ -7,14 +9,17 @@
 /* prototypes of included functions */
 DIR_FILE *open_access_file(char *fname, char *mode);
 void dir_acnucopen(char *db_access);/*use RO, WP or WA to control file access*/
+void get_hsub_hkwsp(void);
 void acnucopen(void);
 void dir_acnucclose(void);
 void readacc(int recnum);
 int read_first_rec(DIR_FILE *fp, int *endsort);
-void padtosize(char *pname, char *name, int length);
 int fcode(DIR_FILE *fp,char *search, int lcompar);
+int java_hashcode(char *buffer, int width, int modulo);
 int hashmn(char *name);
 int hasnum(char *name);
+static int old_hashmn(char *name);
+static int old_hasnum(char *name);
 int isenum(char *name);
 int iknum(char *name, DIR_FILE *fp);
 void dir_readerr(DIR_FILE *fich, int recnum);
@@ -24,52 +29,45 @@ int poffset(int div, int offset);
 int is_rdp_residue(int c);
 static int rdnuc(off_t offset, int div, int mlong);
 int gfrag(int nsub,int first,int lfrag,char *dseq);
-char complementer_base(char nucl);
-void complementer_seq(char *deb_ch, int l);
 static void gcgbinseq(unsigned char *seq, int length);
 static void skipseq(FILE *fich, int length, int codage, off_t *position);
 static void prepsq(unsigned *pnuc, int div);
 void gcgors(char *type_fic, int div, int stop_if_error);
 int gsnuml(char *name,  int *length, int *frame, int *gencode);
-int strcmptrail(char *s1, int l1, char *s2, int l2);
 char *short_descr(int seqnum, char *text, int maxlen);
 char *short_descr_p(int seqnum, char *text, int maxlen);
 void simpleopen(void); 
-char *get_code_descr(int code);
-int calc_codon_number(char *codon);
-char codaa(char *codon, int code);
-int get_ncbi_gc_number(int gc);
-int get_acnuc_gc_number(int ncbi_gc);
 char translate_init_codon(int numseq, int gc, int debut_codon /* 1, 2, or 3 */);
-char init_codon_to_aa(char *codon, int gc);
-void compact(char *chaine);
-int trim_key(char *name); /* remove trailing spaces */
 void seq_to_annots(int numseq, long *faddr, int *div);
 char *read_annots(long faddr, int div);
 char *next_annots(long *pfaddr);
-void majuscules(char *name);
 char *check_acnuc_gcgacnuc(void);
 char *translate_cds(int seqnum);
 int decode_locus_rec(char *line, char **pname, char **pmolec, 
 	int *circular, char **pdivision, char **pdate);
+void quick_list_meres(int *blist);
+
+
+
+/*prototypes of external functions */
+char init_codon_to_aa(char *codon, int gc);
+
 
 
 /* allocation of global variables (most of them) */
-DIR_FILE *kinf, *knuc;  /* pour acnuc ancienne structure */
 
-#define MAXDIV 2000
-int max_divisions=MAXDIV;
-FILE *divannot[MAXDIV], *divseq[MAXDIV]; /* pour structures plat et gcg */
-int annotopened[MAXDIV], seqopened[MAXDIV];
-char *gcgname[MAXDIV];
-unsigned div_offset[MAXDIV];
+FILE **divannot, **divseq ; /* pour structures plat et gcg */
+int *annotopened, *seqopened;
+char **gcgname;
+unsigned *div_offset;
 
 
-int lmot=(8*sizeof(int)),hoffst,hsub,hkwsp,nseq,nbrf,lenbit,lenw,maxa,longa;
-int nbmrfa,flat_format,gcgcod,unixos,embl,genbank,swissprot,big_annots;
+int lmot = (8*sizeof(int)), hoffst, hsub, hkwsp, nseq, nbrf, lenbit, lenw, maxa,
+	longa, ACC_LENGTH, flat_format, gcgcod, unixos, embl, genbank, 
+	swissprot, big_annots, hashing_algorithm;
 int use_div_sizes; /* flag TRUE iff size-based format of pointers to divisions*/
-DIR_FILE *ksub,*kloc,*kkey,*kspec,*kbib,*kacc,*ktxt,*ksmj,
-	*kext,*kaut,*kshrt,*klng;
+DIR_FILE *ksub, *kloc, *kkey, *kspec, *kbib, *kacc, *ktxt, *ksmj,
+	*kext, *kaut, *kshrt, *klng;
 struct rsub *psub;
 struct rloc *ploc;
 struct rkey *pkey;
@@ -86,6 +84,8 @@ char ptxt[lrtxt];
 
 /* echange entre gfrag et gcgini */
 int gfrag_premier;
+
+enum {old_h_algo, java_h_algo };
 
 
 /* data for handling sequences cut in pieces by gcg */
@@ -117,39 +117,42 @@ if( ( fich=dir_open(fname,context,mode,rsize,8*1024) )==NULL){
 return fich;
 }
 
-int acc_length_on_disk; /* taille chaine ACCESSION sur le disque */
-int lracc_on_disk; /* taille records du fichier ACCESSION sur le disque */
 
 DIR_FILE *open_access_file(char *fname, char *mode)
 {
 DIR_FILE *fich;
-int totsmj, num, new_format = FALSE;
+int totsmj, num, t1, t2;
+int l; 
+char *p, buf[lrtxt + 1];
+
 totsmj = read_first_rec(ksmj, NULL);
+ACC_LENGTH = 1;
 for(num = totsmj; num >= 2; num--) {
 	readsmj(num);
 	if(strncmp(psmj->name, "07ACCESSION ", 12) == 0) {
-	new_format = TRUE;
+		if(psmj->libel == 0) break;
+		readtxt(psmj->libel);
+		memcpy(buf, ptxt, lrtxt); buf[lrtxt] = 0;
+		p = strchr(ptxt, '=');
+		if(p != NULL) sscanf(p+1, "%d", &ACC_LENGTH);
 		break;
 		}
 	}
-if( !new_format ) { /* ancien format */
-	acc_length_on_disk = 6;
-	lracc_on_disk = 14;
+if(ACC_LENGTH < 8 || num <= 1) {
+	fprintf(stderr, "Bad ACNUC format : missing or bad 07ACCESSION\n");
+	exit(ERREUR);
 	}
-else	{ /* nouveau format */
-	acc_length_on_disk = ACC_LENGTH;
 /* taille sur disque = max( taille memoire , taille 1er record ) */
-	lracc_on_disk = 6 + 2*sizeof(int); /* total + SORTED + fin_sort */
-	if( lracc_on_disk < sizeof(struct racc) )
-		lracc_on_disk = sizeof(struct racc);
+t1 = 6 + 2*sizeof(int); /* total + SORTED + fin_sort */
+t2 = ACC_LENGTH + sizeof(int); /* string + record ptr */
+l = (t1 < t2 ? t2 : t1);
+fich = myopen(fname, mode, l);
+pacc = (struct racc *) malloc(t2 + 1);
+if(pacc == NULL) {
+	fputs("not enough memory\n", stderr);
+	exit(ERREUR);
 	}
 
-#if defined(vms) || defined(__alpha) 
-/* machines avec records multiples de 4 octets en F77 */
-lracc_on_disk = ( (lracc_on_disk + 3)/4 ) * 4;
-#endif
-
-fich = myopen(fname, mode, lracc_on_disk);
 return fich;
 }
 
@@ -179,8 +182,7 @@ maxa=(tot > maxa ? tot : maxa);
 kbib=myopen("BIBLIO",mode,lrbib);  pbib = (struct rbib *)malloc(lrbib);
 ktxt=myopen("TEXT",mode,lrtxt); 
 ksmj=myopen("SMJYT",mode,lrsmj);  psmj = (struct rsmj *)malloc(lrsmj);
-kacc=open_access_file("ACCESS",mode);  
-pacc = (struct racc *)calloc(1, lracc_on_disk);/*pour pouvoir faire dir_read*/
+kacc = open_access_file("ACCESS",mode);  
 tot=read_first_rec(ksmj,&recn);  sorted = (recn==tot);
 nbrf=swissprot=FALSE;
 for(recn=2;recn<=tot;recn++) {
@@ -195,15 +197,7 @@ if( !( nbrf || swissprot) ) {
 	}
 kaut=myopen("AUTHOR",mode,lraut);  paut= (struct raut *)malloc(lraut);
 kshrt=myopen("SHORTL",mode,lrshrt);  pshrt = (struct rshrt *)malloc(lrshrt);
-readshrt(2);
-if(pshrt->val < 0) { /* new hashing format */
-	hoffst=2;
-	hsub=abs(pshrt->val);  hkwsp=abs(pshrt->next);
-	}
-else	{ /* old hashing format */
-	hoffst=1;
-	hsub=9973; hkwsp=1999;
-	}
+get_hsub_hkwsp();
 klng=myopen("LONGL",mode,lrlng);  plng = (struct rlng*)malloc(lrlng);
 pinfo=(struct rinfo *)malloc(lrinfo);
 
@@ -213,6 +207,21 @@ lenbit=(nseq>maxa? nseq : maxa);
 lenw=(lenbit-1)/lmot+1;
 return;
 } /* end of dir_acnucopen */
+
+
+void get_hsub_hkwsp(void)
+{
+readshrt(2);
+if(pshrt->val < 0) { /* run-time hashing constants */
+	hoffst=2;
+	hsub=abs(pshrt->val);  hkwsp=abs(pshrt->next);
+	}
+else	{ /* fixed hashing constants */
+	hoffst=1;
+	hsub=9973; hkwsp=1999;
+	}
+}
+
 
 void acnucopen(void)
 {
@@ -225,15 +234,24 @@ void dir_acnucclose(void)
 int div;
 
 dir_close(kshrt);
-dir_close(ksub);
+dir_close(ksub); ksub = NULL; /* helps knowing that db was closed */
 dir_close(kloc);
 if( !( nbrf || swissprot) )dir_close(kext);
+if(use_div_sizes) free(div_offset);
 for(div=0; div<=divisions; div++) {
 	if( annotopened[div] ) fclose(divannot[div]);
-	if( seqopened[div] ) fclose(divseq[div]);
+	if(gcgname[div] != NULL) free(gcgname[div]);
+	}
+free(gcgname);
+free(annotopened); free(divannot);
+if(!flat_format) {
+	for(div=0; div<=divisions; div++) {
+		if( seqopened[div] ) fclose(divseq[div]);
+		}
+	free(seqopened); free(divseq);
 	}
 if(ksmj != NULL) {
-	dir_close(ksmj);
+	dir_close(ksmj); ksmj = NULL;
 	dir_close(kkey);
 	dir_close(kspec);
 	dir_close(kbib);
@@ -248,18 +266,13 @@ return;
 
 void readacc(int recnum)
 {
-/* ici structure en memoire ne colle pas celle sur le disque, donc il faut
-copier ce qui est lu vers la structure en memoire: pacc
-*/
 int numlu;
 char *point;
-point = (char *)dir_read_buff(kacc,recnum,&numlu);
+
+point = (char *)dir_read_buff(kacc, recnum, &numlu);
 if(numlu < 1) dir_readerr(kacc,recnum);
-memcpy(pacc->name, point, acc_length_on_disk);
-memcpy(&(pacc->plsub), point + acc_length_on_disk, sizeof(int));
-if(acc_length_on_disk < ACC_LENGTH)
-	memset(pacc->name + acc_length_on_disk, ' ',
-		 ACC_LENGTH - acc_length_on_disk);
+memcpy(pacc->name, point, ACC_LENGTH);
+memcpy(&(pacc->plsub), point + ACC_LENGTH, sizeof(int));
 }
 
 
@@ -287,15 +300,6 @@ if(endsort != NULL) {
 return total;
 }
 
-
-
-void padtosize(char *pname, char *name, int length)
-{
-int i;
-strncpy(pname,name,length);
-pname[length]=0;
-for(i=strlen(pname);i<length;i++) pname[i]=' ';
-}
 
 
 /* fin partie triee des fichiers kaut, kbib, kacc, ksmj, ksub */
@@ -326,7 +330,7 @@ if (fp==kaut) { numf=0; pbuff=(char *)paut;  }
 else if (fp==kbib) { numf=1; pbuff=(char *)pbib;  }
 else if (fp==kacc)  { 
 	numf=2; pbuff=(char *)pacc;  
-	if(lcompar > acc_length_on_disk) lcompar = acc_length_on_disk;
+	if(lcompar > ACC_LENGTH) lcompar = ACC_LENGTH;
 	}
 else if (fp==ksmj)  { numf=3; pbuff=(char *)psmj;  }
 else if (fp==ksub) { numf=4; pbuff=(char *)psub; }
@@ -375,63 +379,108 @@ return retval;
 } /* end of fcode */
 
 
+
+typedef int int_hash; /* the type of 4-byte integers */
+
+
+
 int hashmn(char *name)
 {
-int retval=0;
-char *pos;
-pos=name+16;
-while(name < pos) {
-	retval += *((int *)name) % hsub; 
-	name += sizeof(int); 
-	}
-return (abs(retval) % hsub ) +1;
+if(hashing_algorithm == old_h_algo)
+	return old_hashmn(name);
+else
+	return java_hashcode(name, L_MNEMO, hsub);
 }
+
+
+int java_hashcode(char *buffer, int width, int modulo)
+{
+/* inspire de celui de java
+sans le % pour maintenir valeur positive le resultat est un peu meilleur
+avec mnemos (et meilleur que CRC32) et un peu moins bon avec keyw
+mais risque de depassement entier qui peut-etre peut arreter le programme 
+*/
+const int maxi = (INT_MAX - 255) / 37;
+int h = 0;
+char *fin;
+
+for(fin = buffer + width ; buffer < fin; buffer++) {
+	h = h * 37 + (int)(*buffer);
+	if(h >= maxi) h %= modulo;
+	}
+return h % modulo + 1;
+}
+
 
 int hasnum(char *name)
 {
-int retval=0;
-char *pos;
-pos=name + WIDTH_KS;
-while(name < pos) {
-	retval += *((int *)name) % hkwsp; 
-	name += sizeof(int); 
-	}
-return (abs(retval) % hkwsp ) +1;
+if(hashing_algorithm == old_h_algo)
+	return old_hasnum(name);
+else
+	return java_hashcode(name, WIDTH_KS, hkwsp);
 }
+
+static int old_hashmn(char *name)
+{
+int_hash tabint[ L_MNEMO/sizeof(int_hash) + 1];
+int last, i, retval=0;
+
+memcpy( tabint, name, L_MNEMO);
+last = L_MNEMO/sizeof(int_hash);
+for(i = 0; i < last; i++) {
+	retval += tabint[i] % hsub; 
+	}
+return (abs(retval) % hsub ) + 1;
+}
+
+
+static int old_hasnum(char *name)
+{
+int retval=0, last, i;
+int_hash tabint[ WIDTH_KS/sizeof(int_hash) + 1];
+
+memcpy( tabint, name, WIDTH_KS);
+last = WIDTH_KS/sizeof(int_hash);
+for(i = 0; i < last; i++) {
+	retval += tabint[i] % hkwsp; 
+	}
+return (abs(retval) % hkwsp ) + 1;
+}
+
 
 int isenum(char *name)
 {
 int retval, l;
-static int copie[5];
-char *pname=(char *)copie;
+static char pname[L_MNEMO + 1];
 
-l=strlen(name); if(l>16) l=16;
+l=strlen(name); if(l > L_MNEMO) l = L_MNEMO;
 memcpy(pname,name,l);
-for(retval=0; retval<l; retval++) pname[retval]=toupper(pname[retval]);
-while(l<16) { pname[l]=' '; l++; }
-retval=hashmn(pname);
+for(retval=0; retval<l; retval++) pname[retval] = toupper(pname[retval]);
+while(l<L_MNEMO) { pname[l]=' '; l++; }
+pname[L_MNEMO] = 0;
+retval = hashmn(pname);
 readshrt(hoffst+(retval+1)/2);
 retval = (retval % 2 ? pshrt->val : pshrt->next);
 while( retval ) {
 	readsub(retval);
-        if( !strncmp(psub->name,pname,16) ) return retval;
+        if( !strncmp(psub->name, pname, L_MNEMO) ) return retval;
         retval = psub->h;
         }
 return 0;
 }
 
-int iknum(char *name,DIR_FILE *fp)
+
+int iknum(char *name, DIR_FILE *fp)
 {
 int retval,point, l;
 struct rspec *pbuff;
-static int copie[11];
-char *pname=(char *)copie;
+static char pname[WIDTH_KS + 1];
 
 l=strlen(name); if(l > WIDTH_KS) l = WIDTH_KS;
-memcpy(pname,name,l);
-for(retval=0; retval<l; retval++) pname[retval]=toupper(pname[retval]);
+memcpy(pname, name, l);
+for(retval=0; retval<l; retval++) pname[retval] = toupper(pname[retval]);
 while(l < WIDTH_KS) { pname[l]=' '; l++; }
-retval=hasnum(pname);
+retval = hasnum(pname);
 point=hoffst+(hsub+1)/2;
 if(fp == kspec) {
 	pbuff = pspec;
@@ -441,10 +490,10 @@ else pbuff = (struct rspec *)pkey;
 readshrt(point+(retval+1)/2);
 retval = (retval % 2 ? pshrt->val : pshrt->next);
 while( retval ) {
-	dir_read(fp,retval,1,pbuff);
-        if( !strncmp(pbuff->name, pname, WIDTH_KS) ) return retval;
-        retval = pbuff->h;
-        }
+	dir_read(fp, retval, 1, pbuff);
+	if( !strncmp(pbuff->name, pname, WIDTH_KS) ) return retval;
+	retval = pbuff->h;
+	}
 return 0;
 }
 
@@ -458,70 +507,43 @@ exit(ERREUR);
 }
 
 
+#if defined(unix)
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
-static int calculer_nb_bit(int nb_div)
-{
-      int nb_bit = 0;
-
-      do
-      {
-	nb_div >>= 1;
-        ++nb_bit;
-
-      } while(nb_div > 0);
-      return(nb_bit);
-}
-
-
+#elif defined(vms)
+#include JPIDEF
+int lib$getjpi();
+#endif
 
 static int rfquot(void)
 {
 int rfquota;
 
 #if defined(vms)
-#include JPIDEF
 	int status;
-	int lib$getjpi();
 
 	status=lib$getjpi(&JPI$_FILCNT,0,0,&rfquota,0,0);
 #elif defined(unix)
-/* under unix, file descriptors are allocated serially after the last
-currently used one, thus closing a file which was not the last one opened
-does not really help!!
-Here, we increase the max authorized file descriptors to its max possible value
-and hope that it is enough to open all divisions. 
-Empirically it seems reasonable.
-*/
-#ifdef sun
-/* a strange warning on sun computers who do not like resource.h!
-The necessary part is reproduced here without the cause of the warning.
-*/
-#define	RLIMIT_NOFILE	5		/* file descriptors */
-	struct rlimit {
-		unsigned long rlim_cur, rlim_max;
-		};
-	extern int setrlimit(int , void *);
-	extern int getrlimit(int , void *);
-#else
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#endif
 #ifdef RLIMIT_NOFILE  /* some systems (sgi) do not know RLIMIT_NOFILE limit */
 	struct rlimit rlp;
-	getrlimit(RLIMIT_NOFILE,&rlp);
-	rlp.rlim_cur = rlp.rlim_max;
-	setrlimit(RLIMIT_NOFILE,&rlp);
+	getrlimit(RLIMIT_NOFILE, &rlp);
+	if(rlp.rlim_cur < 256) {
+		rlp.rlim_cur = 256;
+		setrlimit(RLIMIT_NOFILE, &rlp);
+		}
 #endif
-	rfquota = 200; /* semble que s'arrete à 240 sur sun */
+	rfquota = 200; 
 	
 #elif defined(__INTEL__)
 	rfquota = FOPEN_MAX - 5;	
 #else
-	rfquota = 1000;
+	rfquota = 100;
 #endif
 return rfquota;
 }
+
 
 
 /* allocate here: 
@@ -536,17 +558,20 @@ void gcgini(void)
 and identifies the names of divisions */
 
   int nb_enrtot ; /* nbre total d'enregistrements de smjyt */
-  int num, suivant, debut, rank;
+  int num, suivant, debut, rank, maxrank = -1, nsmj;
   unsigned taille, previous;
   char *p;
+  int max_divisions = 0;
  
-   divisions = -1 ; 
-   nbmrfa = lmot; /* cas de l'ancienne structure: ABANDONNE! */
    genbank = embl = big_annots = FALSE;
    use_div_sizes=FALSE;  /* structure basee sur la taille des divisions */
    gfrag_premier=TRUE; /* pour que prochain appel a gfrag soit bien initialise*/
 
-/* determiner format des addresses des annotations et sequences */
+/* 
+determiner algo hashing et format des addresses des annotations et sequences 
+*/
+hashing_algorithm = ( fcode(ksmj, "07HASHING_ALGORITHM", 19) == 0 ? 
+	old_h_algo : java_h_algo );
 big_annots = ( fcode(ksmj, "07BIG_ANNOTS ", sizeof(psmj->name)) != 0 );
 use_div_sizes = !big_annots;
 
@@ -555,19 +580,15 @@ if ( fcode(ksmj, "07ALLOW_PUNCTUATION ", sizeof(psmj->name)) != 0 )
 else
 	is_residue = isalpha;
 
+divannot = divseq = NULL; annotopened = seqopened = NULL; div_offset = NULL; gcgname = NULL;
 
 /* PARSE FILE SMJYT FOR 06GCG or 06FLT GIVING FILE NAMES OF DIVISIONS */
 nb_enrtot = read_first_rec(ksmj, NULL);
-for(num = 2; num <= nb_enrtot; num++) {
-	readsmj(num);
+for(nsmj = 2; nsmj <= nb_enrtot; nsmj++) {
+	readsmj(nsmj);
 	if(!strncmp(psmj->name,"04ID  ",6) ) embl = TRUE;
 	if(!strncmp(psmj->name,"04LOCUS ",8) ) genbank = TRUE;
 	if(strncmp(psmj->name,"06",2) )continue;
-	divisions++;
-	if(divisions >= MAXDIV) {
-		fprintf(stderr,"Error: too many divisions!\n");
-		exit(ERREUR);
-		}
 	flat_format = ( strncmp(&(psmj->name[2]),"FLT",3) == 0 );
 	p = NULL;
 	if( psmj->libel != 0) {
@@ -579,7 +600,6 @@ for(num = 2; num <= nb_enrtot; num++) {
 		if(use_div_sizes) {
 			p = strstr(ptxt,"size:")+5;
 			sscanf(p,"%u",&taille);
-			div_offset[rank] = taille;
 			}
 		}
 	else	{
@@ -589,13 +609,30 @@ for(num = 2; num <= nb_enrtot; num++) {
 #endif
 		exit(ERREUR);
 		}
+	if(rank+1 > max_divisions) {
+		max_divisions += 500;
+		gcgname =  (char **)realloc(gcgname, 
+			max_divisions * sizeof(char *) );
+		if(gcgname == NULL) goto erreur;
+		for(num = max_divisions - 500; num < max_divisions; num++) gcgname[num] = NULL;
+		if(use_div_sizes) {
+			div_offset =  (unsigned *)realloc(div_offset, 
+				max_divisions * sizeof(unsigned) );
+			if(div_offset == NULL) goto erreur;
+			}
+		}
 	gcgname[rank] = (char *)malloc(16);
+	if(gcgname[rank] == NULL) goto erreur;
 	memcpy(gcgname[rank], &(psmj->name[5]), 15);
 	gcgname[rank][15] = 0; trim_key(gcgname[rank]);
+	if(use_div_sizes) div_offset[rank] = taille;
+	if(rank > maxrank) maxrank = rank;
 	}
-
+divisions = maxrank;
 if( use_div_sizes) {
 /* calcul du tableau div_offset: taille cumulee des divisions precedentes */
+	div_offset = (unsigned *)realloc(div_offset, 
+				(divisions+1)*sizeof(unsigned));
 	previous=0;
 	for(num=0; num<=divisions; num++) {
 		taille= previous + (div_offset[num]/1024+1)*1024;
@@ -604,9 +641,19 @@ if( use_div_sizes) {
 		}
 	}
 
+annotopened = (int *)malloc((divisions+1)*sizeof(int));
+divannot = (FILE **)malloc((divisions+1)*sizeof(FILE *));
+if(annotopened == NULL || divannot == NULL) goto erreur;
+if(!flat_format) {
+	seqopened = (int *)malloc((divisions+1)*sizeof(int));
+	divseq = (FILE **)malloc((divisions+1)*sizeof(FILE *));
+	if(seqopened == NULL || divseq == NULL) goto erreur;
+	}
+gcgname = (char **)realloc(gcgname, (divisions+1)*sizeof(char *));
 /* ALL .REF AND .SEQ FILES ARE INITIALLY CLOSED */
-for(num=0; num<MAXDIV; num++ ) {
-	annotopened[num]=seqopened[num]=0;
+for(num = 0; num <= divisions; num++ ) {
+	annotopened[num]=0;
+	if(!flat_format) seqopened[num]=0;
 	}
 
 /*  GET THE MAX NUMBER OF .DAT/.REF/.SEQ FILES THE PROGR MAY OPEN */
@@ -623,11 +670,14 @@ if(divisions == -1) {
 	exit(ERREUR);
 	}
 
-nbmrfa = 0; /* plus vraiment utile */
-
 return;
-} /* end of gcgini */
 
+erreur:
+#ifdef unix
+fprintf(stderr, "Error: not enough memory to allocate all divisions\n");
+#endif
+exit(ERREUR);
+} /* end of gcgini */
 
 
 void goffset(int point,int *div,int *offset)
@@ -739,21 +789,7 @@ return FALSE;
  } /* ---- fin rdnuc ---- */
 
 
-/* valeur de SIMEXT_NFMAX ici pas importante, valeur reelle ds extract.c */
-#define SIMEXT_NFMAX 10 
-struct simext {
-	int nfmax;  /* maximum # of fragments in a virtual subseq */
-	int newsim; /* TRUE when a new virtual subseq has just been created*/
-	int pinfme; /* pointer to annots of parent of virtual subseq */
-	int siminf; /* pointer to annots of virtual subseq */
-	int div;    /* div of these annots */
-	int nfrags; /* # of fragments in virtual subseq */
-	int valext[SIMEXT_NFMAX][4];
-/* valext(.,0)=beginning of fragment */
-/* valext(.,1)=end of fragment	*/
-/* valext(.,2)=pointer to nucleot for that fragment */
-/* valext(.,3)=# of parent seq of that fragment	*/
-	} *psimext=NULL;
+simext_struct *psimext = NULL;
 
 
 /* ---------------------------------------------------------------- */
@@ -1147,64 +1183,6 @@ l1000: /* on sort vers la fct appelante */
 } /* fin gfrag */
 
 
-/* -------------- rend le complementaire d'une base ------------------- */
-/* appele par complementer_seq					        */
-/* -------------------------------------------------------------------- */
-
-char complementer_base(char nucl)
-{
-    switch (nucl) {
-        case 'a':
-        case 'A': return('t');
-
-        case 'c':
-        case 'C': return('g');
-
-        case 'g':
-        case 'G': return('c');
-  
-        case 'u':
-        case 'U':
-        case 't':
-        case 'T': return('a');
-
-        case 'r':
-        case 'R': return('y');
-
-        case 'y':
-        case 'Y': return('r');
-
-	default : return('n');
-
-	}
-}
-   
-
-/*   ~~~~~~~~~~~~ retourne le complementaire d'une sequence ~~~~~~~~~~~ 
- * recoit l'adresse du debut d'un tableau de caractere et sa longueur
- * inverse et complemente cette sequence
- * prend en compte si c'est un adn ou un arn
- * -------------------------------------------------------------------- */
-
-void complementer_seq(char *deb_ch, int l)
-{
-    int ii = 0;
-    char compl1,compl2;
-
-    for(ii = 0; ii <= (l-1)/2; ii++)
-    {
-	compl1 = complementer_base(*(deb_ch+ii));
-
-	compl2 = complementer_base(*(deb_ch+l-ii-1));
-
-	*(deb_ch+ii)     = compl2;
-	*(deb_ch+l-ii-1) = compl1;
-    }	
-
- 
-}
-
-
 static void gcgbinseq(unsigned char *seq, int length)
 /*
 c to decode gcg encoding of sequences where each nucl is on 2 bits
@@ -1524,42 +1502,6 @@ return retval;
 }
 
 
-int strcmptrail(char *s1, int l1, char *s2, int l2)
-/*
-compare strings s1 and s2 of length l1 and l2 as done by strcmp
-but ignores all trailing spaces
-*/
-{
-char *fin;
-int l, flag=1;
-
-if(l1 > 0) {
-	if( (fin = memchr(s1, 0, l1) ) != NULL) l1 = fin - s1;
-	}
-if(l2 > 0) {
-	if( (fin = memchr(s2, 0, l2) ) != NULL) l2 = fin - s2;
-	}
-
-if(l2 > l1) {
-	flag = -1;
-	fin=s1; s1=s2; s2=fin;
-	l=l1; l1=l2; l2=l;
-	}
-l = l2;
-fin = s2 + l;
-while(s2 < fin) {
-	if( *s1 != *s2 ) return (*s1 - *s2)*flag;
-	s1++; s2++;
-	}
-fin= s1+l1-l2;
-while(s1 < fin)	{
-	if( *s1 != ' ') return flag;
-	s1++;
-	}
-return 0;
-}
-
-
 char *short_descr(int seqnum, char *text, int maxlen)
 /*
 to get a description of a sequence or of a subsequence
@@ -1685,16 +1627,7 @@ if(!(nbrf || swissprot)) {
 	kext=myopen("EXTRACT",mode,lrext);  pext = (struct rext *)malloc(lrext);
 	}
 kshrt=myopen("SHORTL",mode,lrshrt);  pshrt = (struct rshrt *)malloc(lrshrt);
-readshrt(2);
-if(pshrt->val < 0) { /* new hashing format */
-	hoffst=2;
-	hsub=abs(pshrt->val);  hkwsp=abs(pshrt->next);
-	}
-else	{ /* old hashing format */
-	hoffst=1;
-	hsub=9973; hkwsp=1999;
-	}
-hsub=abs(pshrt->val);  hkwsp=abs(pshrt->next);
+get_hsub_hkwsp();
 pinfo=(struct rinfo *)malloc(lrinfo);
 
 ktxt=myopen("TEXT",mode,lrtxt); 
@@ -1710,323 +1643,6 @@ klng=myopen("LONGL",mode,lrlng);  plng = (struct rlng*)malloc(lrlng);
 return;
 } /* end of simpleopen */
 
-
-
-#define TOTCODES 17  /* nbre total de codes definis, 0 inclus */
-int totcodes=TOTCODES;
-
-char aminoacids[]="RLSTPAGVKNQHEDYCFIMW*X";
-
-struct genetic_code_libel { /* definition d'un code genetique */
-	char libel[61]; /* nom du code decrivant ses variants % code standard */
-	int code[65]; /* tableau codon->acide amine */
-	int ncbi_gc; /* numero NCBI du meme code */
-	int codon_init[64]; /* tableau codon initiateur -> acide amine */
-	};
-
-/* 
-les codons sont numerotes de 1 a 64 selon ordre alphabetique;
-le numero 65 est attribue a tout codon avec base hors AcCcGgTtUu
-les acides amines sont numerotes selon l'ordre de la variable aminoacids
-de un a 20 + * pour stop et X pour inconnu
-*/
-
-/* initialisation de tous les codes genetiques */
-struct genetic_code_libel genetic_code[TOTCODES] = 
-{
-
-{ /* 0: universel */
-	{"Universal genetic code"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,21,15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-/*ncbi*/1,
-/*init*/{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* CUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0} /* UUG */
-}
-,
-{ /* 1: yeast mt */
-	{"CUN=T  AUA=M  UGA=W"},
-	{9,10,9,10,4,4,4,4,1,3,1,3,19,18,19,18,
-	11,12,11,12,5,5,5,5,1,1,1,1,4,4,4,4,
-	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-	21,15,21,15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	3,
-	{0,0,0,0,0,0,0,0,0,0,0,0,19,0,19,0, /* AUA, AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 2: :    MITOCHONDRIAL CODE OF VERTEBRATES */
-	{"AGR=*  AUA=M  UGA=W"},
-     {9,10,9,10,4,4,4,4,21,3,21,3,19,18,19,18,11,12,11,12,
-     5,5,5,5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,21,15,
-     21,15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	2,
-	{0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19, /* AUN */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 3:   MITOCHONDRIAL CODE OF FILAMENTOUS FUNGI */
-	{"UGA=W"},
-     {9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,11,12,11,12,5,5,5,
-     5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,21,15,21,
-     15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	4,
-	{0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19, /* AUN */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* CUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,19,0,19,0} /* UUR */
-}
-,
-{ /* 4:    MITOCHONDRIAL CODE OF INSECT AND PLATYHELMINTHES  */
-	{"AUA=M  UGA=W  AGR=S"},
-     {9,10,9,10,4,4,4,4,3,3,3,3,19,18,19,18,11,12,11,12,5,5,5,
-     5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,21,15,21,
-     15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	5,
-	{0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19, /* AUN */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0} /* UUG */
-}
-,
-{ /* 5:    Nuclear code of Candida cylindracea (see nature 341:164) */
-	{"CUG=S"},
-     	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-	11,12,11,12,5,5,5,5,1,1,1,1,2,2,3,2,
-	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-	21,15,21,15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-	12,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* CUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 6:   NUCLEAR CODE OF CILIATA: UAR = Gln = Q */
-	{"UAR=Q"},
-     {9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,11,12,11,12,5,5,5,
-     5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,11,15,11,
-     15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-	6,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 7:   NUCLEAR CODE OF EUPLOTES */
-	{"UGA=C"},
-     {9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,11,12,11,12,5,5,5,
-     5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,21,15,21,
-     15,3,3,3,3,16,16,20,16,2,17,2,17,22},
-	10,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 8:   MITOCHONDRIAL CODE OF ECHINODERMS */
-	{"UGA=W  AGR=S  AAA=N"},
-     	{10,10,9,10,4,4,4,4,3,3,3,3,18,18,19,18,
-	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-	21,15,21,15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	9,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 9:   MITOCHONDRIAL CODE OF ASCIDIACEA */
-	{"UGA=W  AGR=G  AUA=M"},
-     	{9,10,9,10,4,4,4,4,7,3,7,3,19,18,19,18,
-	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-	21,15,21,15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	13,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 10:   MITOCHONDRIAL CODE OF PLATYHELMINTHES */
-	{"UGA=W  AGR=S  UAA=Y AAA=N"},
-	{10,10,9,10,4,4,4,4,3,3,3,3,18,18,19,18,
-	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-	15,15,21,15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	14,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 11:   NUCLEAR CODE OF BLEPHARISMA */
-	{"UAG=Q"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,11,15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-	15,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 12:   NUCLEAR CODE OF BACTERIA: differs only for initiation codons */
-	{"NUG=AUN=M when initiation codon"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,21,15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-	11,
-	{0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19, /* AUN */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* CUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0} /* UUG */
-}
-,
-{ /* 13: Chlorophycean Mitochondrial */
-	{"UAG=Leu"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,2,15,3,3,3,3,21,16,20,16,2,17,2,17,22},
-/*ncbi*/16,
-/*init*/{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-}
-,
-{ /* 14:    MITOCHONDRIAL CODE OF TREMATODE  */
-	{"AUA=M  UGA=W  AGR=S AAA=N"},
-     {10,10,9,10,4,4,4,4,3,3,3,3,19,18,19,18,11,12,11,12,5,5,5,
-     5,1,1,1,1,2,2,2,2,13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,21,15,21,
-     15,3,3,3,3,20,16,20,16,2,17,2,17,22},
-	21,
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-}
-,
-{ /* 15: TAG-Leu,TCA-stop */
-	{"UAG=L UCA=*"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,2,15,21,3,3,3,21,16,20,16,2,17,2,17,22},
-/*ncbi*/22,
-/*init*/{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* AUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-}
-,
-{ /* 16: Thraustochytrium-mt */
-	{"UUA=*"},
-/*ANN*/	{9,10,9,10,4,4,4,4,1,3,1,3,18,18,19,18,
-/*CNN*/	11,12,11,12,5,5,5,5,1,1,1,1,2,2,2,2,
-/*GNN*/	13,14,13,14,6,6,6,6,7,7,7,7,8,8,8,8,
-/*TNN*/	21,15,21,15,3,3,3,3,21,16,20,16,21,17,2,17,22},
-/*ncbi*/23,
-/*init*/{0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19, /* AUG AUU */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0, /* GUG */
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-}
-
-
-/*       1         2
-1234567890123456789012
-RLSTPAGVKNQHEDYCFIMW*X
-*/
-
-};
-
-
-char *get_code_descr(int code)
-/* 
-get a 60-letter (or less) description of a variant genetic code
-return value	pointer to the description, not to be altered!
-*/
-{
-if(code>=0 && code<totcodes)
-	return genetic_code[code].libel ;
-else	
-	return "Unknown genetic code. Standard code is used.";
-}
-
-
-int calc_codon_number(char *codon)
-{
-static char nucleotides[] = "AaCcGgTtUu";
-static int nucnum[5] = {0,1,2,3,3};
-int num, i, base;
-char *p;
-
-num = 0;
-for(i = 1; i <= 3; i++) {
-	p = strchr(nucleotides, *codon);
-	if(p == NULL) {
-		num = 64;
-		break;
-		}
-	else
-		base = (p-nucleotides)/2;
-	num = num * 4 + nucnum[base];
-	codon++;
-	}
-return num;
-}
-
-
-char codaa(char *codon, int code)
-/*
-amino acid translation:
-codon	a 3-base string
-code	the genetic code to be used
-return value	the amino acid as 1 character
-*/
-{
-struct genetic_code_libel *pdata;
-int num;
-
-num = calc_codon_number(codon);
-if(code < 0 || code >= totcodes)code = 0;/*use regular code if unknown number */
-pdata = &genetic_code[code]; /* ici ecriture plus compacte mal compilee sur PC*/
-return aminoacids[ pdata->code[num] - 1 ];
-}
-
-
-int get_ncbi_gc_number(int gc)
-{ /* from acnuc to ncbi genetic code number */
-return genetic_code[gc].ncbi_gc;
-}
-
-
-int get_acnuc_gc_number(int ncbi_gc)
-{ /* from ncbi to acnuc genetic code number (returns 0 if not found) */
-int num;
-
-for( num = 0; num < totcodes; num++ ) 
-	if(genetic_code[num].ncbi_gc == ncbi_gc) return num;
-return 0;
-}
 
 
 char translate_init_codon(int numseq, int gc, int debut_codon /* 1, 2, or 3 */)
@@ -2053,50 +1669,6 @@ gfrag(numseq, debut_codon, 3, codon);
 if(special_init)  /* traduction speciale du codon initiateur */
 	return init_codon_to_aa(codon, gc);
 else	return codaa(codon, gc);
-}
-
-
-char init_codon_to_aa(char *codon, int gc)
-{
-int num, aa;
-struct genetic_code_libel *pdata;
-
-num = calc_codon_number(codon);
-if(num >= 64) return 'X';
-/* use regular code if unknown number */
-if(gc < 0 || gc >= totcodes) gc = 0; 
-pdata = &genetic_code[gc];
-aa = pdata->codon_init[num];
-/* if not listed in expected init codons */
-if(aa == 0) aa = pdata->code[num];
-return aminoacids[aa - 1];
-}
-
-
-void compact(char *chaine)
-{
-int l;
-char *p, *q;
-
-l=strlen(chaine); p=chaine+l;
-while( *(--p) == ' ' && p>=chaine) *p=0;
-while((p=strchr(chaine,' '))!=NULL) {
-	q=p+1;
-	while(*q==' ') q++;
-	l=q-p;
-	while(*q!=0) {*(q-l) = *q; q++; }
-	*(q-l)=0;
-	}
-}
-
-
-int trim_key(char *name) /* remove trailing spaces */
-{
-char *p;
-int l = strlen(name);
-p = name + l - 1;
-while( p >= name && *p == ' ' ) *(p--) = 0;
-return (p + 1) - name;
 }
 
 
@@ -2177,13 +1749,6 @@ l = strlen(pinfo->line) - 1;
 while( l >= 0 && isspace( pinfo->line[l] ) ) l--;
 pinfo->line[l + 1] = 0;
 return pinfo->line;
-}
-
-
-void majuscules(char *name)
-{
-name--;
-while(*(++name) != 0) *name = toupper(*name);
 }
 
 

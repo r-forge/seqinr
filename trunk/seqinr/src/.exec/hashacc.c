@@ -143,8 +143,10 @@ else	{
 
 static int acchashfind(char *nom)
 {
-static char buffer[ACC_LENGTH+1];
+static char *buffer = NULL;
 int num;
+
+if(buffer == NULL) buffer = (char *)malloc(ACC_LENGTH + 1);
 
 num = acchash(nom, modulo);
 num = acchashcode[num];

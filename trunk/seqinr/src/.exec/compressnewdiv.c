@@ -13,7 +13,7 @@ Usage:
 typedef struct {
 	off_t addr;
 	off_t new_addr;
-	off_t taille;
+	int taille;
 	int locus;
 	int div;
 	} extradata;
@@ -49,9 +49,6 @@ char *next_dynlist(void *arbre, void **p_noeud);
 int sizeof_dynlist(void *arbre);
 char *prepare_env_var(char *env_var);
 void gcgors(char *type_fic, int div, int stop_if_error);
-extern char *gcgname[];
-extern FILE *divannot[];
-extern int annotopened[];
 
 
 int wid_line;
@@ -175,7 +172,7 @@ for(numloc = 2; numloc <= totloc; numloc++) {
 		comp_wid = FALSE;
 		}
 	taille = ((length - 1)/60 + 1) * wid_line + 3;
-	taille = (deb_seq - addr) + taille;
+	taille = (int)(deb_seq - addr) + taille;
 	if(taille > maxi) maxi = taille;
 	extra->addr = addr;
 	extra->locus = numloc;
@@ -274,12 +271,17 @@ qsort(todo, total, sizeof(extradata *), sort_by_addr);
 int sort_by_addr(const void *p1, const void *p2)
 {
 extradata *q1, *q2;
+int retval;
+
 q1 = *(extradata **)p1;
 q2 = *(extradata **)p2;
-if(q1->div != q2->div)
-	return q1->div - q2->div;
-else
-	return q1->addr - q2->addr;
+
+if(q1->div != q2->div) return q1->div - q2->div;
+
+if(q1->addr > q2->addr) retval = 1;
+else if (q1->addr == q2->addr) retval = 0;
+else retval = -1;
+return retval;
 }
 
 
