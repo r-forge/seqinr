@@ -1,8 +1,8 @@
 \name{AAstat}
 \alias{AAstat}
-\title{ To Get Protein Statistics }
-\description{
-  It gives simple protein sequence information as the number of residues, the percentage of each physico-chemical class of amino acid and the isoelectric point.
+\title{ To Get Some Protein Statistics }
+\description{cd
+  It gives simple protein sequence information including the number of residues, the percentage of each physico-chemical class of amino acid and the theoretical isoelectric point.
 }
 \usage{
 AAstat(seq, plot = TRUE)
@@ -16,7 +16,7 @@ AAstat(seq, plot = TRUE)
 following components: 
   \item{Compo}{A factor giving the number of each residues.}
   \item{Prop}{A list giving the percentage of each physico-chemical class of amino acid.}
-  \item{Pi}{The isoelectric point}
+  \item{Pi}{The theoretical isoelectric point}
 }
 \author{ D. Charif }
 \seealso{ \code{\link{computePI}}, \code{\link{SEQINR.UTIL}}, \code{\link{SeqFastaAA}}}
