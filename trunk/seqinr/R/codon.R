@@ -1,0 +1,9 @@
+codon<-function(sq,phase=0)
+{
+	sq=toupper(unlist(strsplit(seq,"")))
+	l<-(floor((length(sq)-phase)/3)*3)+phase
+	a<-seq(phase+1,l,3)
+	b<-seq(phase+2,l,3)
+	c<-seq(phase+3,l,3)
+	paste(sq[a],sq[b],sq[c],sep="")
+}
