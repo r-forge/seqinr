@@ -13,7 +13,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for revers sense. }
   \item{numcode}{ The number of the code to use. By default the standard genetic code is used. }
 }
-}
+
 
 \details{
 
@@ -53,5 +53,6 @@ a=toupper(s2c(a))
 translate(a)
 translate(a,3,"R",6)
 
+}
 \keyword{ manip }
 
