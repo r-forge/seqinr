@@ -1,15 +1,15 @@
 \name{dist.alignment}
 \alias{dist.alignment}
-\title{ Pairwise Distances from Protein or DNA/RNA Sequences }
+\title{ Pairwise Distances from Aligned Protein or DNA/RNA Sequences }
 \description{
-  These functions compute a matrix of pairwise distances from aligned protein sequences using similarity (Fitch matrix) or identity matrix.
+  These functions compute a matrix of pairwise distances from aligned sequences using similarity (Fitch matrix) or identity matrix.
 }
 \usage{
 dist.alignment(x, matrix = "similarity")
 }
 \arguments{
   \item{x}{ object of class \code{alignment} }
-  \item{matrix}{ the euclidean matrix distance to be used: "similarity" or "identity" }
+  \item{matrix}{ the matrix distance to be used: "similarity" or "identity" }
 }
 \value{
   The distance matrix, object of class \code{dist}, computed by using the specified distance measure.

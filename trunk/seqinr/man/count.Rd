@@ -2,7 +2,8 @@
 \alias{count}
 \title{Composition of dimer/trimer/etc nucleotides}
 \description{
-  Counts the number of times dimer/trimer/etc nucleotides occurs in a sequence.
+  Counts the number of times dimer/trimer/etc nucleotides occurs in a
+  sequence. Note that the oligomers are overlapping.
 }
 \usage{
 count(seq,word,frame=0)
@@ -10,29 +11,24 @@ count(seq,word,frame=0)
 \arguments{
   \item{seq}{ a vector of chars }
   \item{word}{ an integer giving the size of word (n-mer) to count }
-  \item{frame}{	an integer (0,1,2) giving the frame }
+  \item{frame}{	an integer (0,1,2) giving the frame (starting position) }
 }
 \details{
- \code{count} counts the occurence of all words by moving a window of length \code{word} up by one each time.
- You can count only the words that occur in a single frame of \code{seq} by setting \code{frame} to a number other than zero.
- If you set it to 1 it will only count the words in frame 1, 2 will only count the words in frame 2 and so on.
+ \code{count} counts the occurence of all words by moving a window of
+ length \code{word}. The window step is always an unit. \code{frame}
+ controls the starting position in the sequence for the count.
 }
 \value{
-  This function returns a factor whose levels are all the possible dimer/trimer/etc nucleotides. The word with zero count will be display. 		
+  This function returns a factor whose levels are all the possible
+  oligonucleotids. All oligomers are returned, even if absent from the sequence.		
 }
-\author{ D. CHARIF }
-
+\author{ D. Charif }
 \seealso{ \code{\link{table}} }
-
 \examples{
-
 a=s2c("acgggtacggtcccatcgaa")
 ##To count the occurences of dinucleotides of a:
 count(a,2)
 ##To count the occurences of trinucleotides of a in frame 2:
 count(a,3,2)
-
 }
-
 \keyword{ manip }
-

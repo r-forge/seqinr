@@ -1,6 +1,5 @@
 \name{dotchart.uco}
 \alias{dotchart.uco}
-
 \title{Cleveland plot for codon usage tables }
 \description{
 Draw a Cleveland dot plot for codon usage tables
@@ -8,9 +7,8 @@ Draw a Cleveland dot plot for codon usage tables
 \usage{
 dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("tcag"),
  pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"),
-lcolor = "gray", xlim, main = NULL, xlab = NULL, ylab = NULL, ...)
+lcolor = "gray", ...)
 }
-
 \arguments{
   \item{x}{table of codon usage as computed by \code{uco}. }
   \item{numcode}{the number of the code to be used by \code{translate}.}
@@ -24,13 +22,8 @@ acids. If FALSE use the one-letter code for amino-acids. }
   \item{color}{the color(s) to be used for points an labels. }
   \item{gcolor}{the single color to be used for group labels and values.}
   \item{lcolor}{the color(s) to be used for the horizontal lines.}
-  \item{xlim}{horizontal range for the plot}
-  \item{main}{overall title for the plot}
-  \item{xlab}{X axis label}
-  \item{ylab}{Y axis label}
   \item{\dots}{graphical parameters can also be specified as arguments}
 }
-
 \value{
 An invisible list with components:
 \item{x}{table of codon usage}
@@ -40,14 +33,11 @@ An invisible list with components:
 \item{ypg}{the y-axis coordinates for amino acids}
 \item{ypi}{the y-axis coordinates for codons}
 }
-
 \references{ Cleveland, W. S. (1985) The Elements of Graphing Data. 
 Monterey, CA: Wadsworth. }
 \author{ J.R. Lobry }
-
 \seealso{ \code{\link{dotchart}}, \code{\link{uco}}, \code{\link{aaa}},
 \code{\link{translate}} }
-
 \examples{
 \dontrun{# Load dataset:}
 \dontrun{data(ec999)}
@@ -63,6 +53,5 @@ Monterey, CA: Wadsworth. }
 \dontrun{title <- "Codon usage in 999 E. coli coding sequences"}
 \dontrun{# Plot data:}
 \dontrun{dotchart.uco(global, main = title) }
-
 }
 \keyword{hplot}
