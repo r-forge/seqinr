@@ -1,5 +1,5 @@
-\name{getreq}
-\alias{getreq}
+\name{query}
+\alias{query}
 
 \title{To select sequences in an ACNUC data base}
 \description{
@@ -8,12 +8,12 @@ retrievals using any selection criteria the data base allows. The command
 produces the list of all sequences that fit the required criteria.
 }
 \usage{
-getreq(nomliste, requete)
+query(listname, request)
 }
 
 \arguments{
-  \item{nomliste}{The name of the list as a quoted string of chars}
-  \item{requete}{A quoted string of chars containing the request
+  \item{listname}{The name of the list as a quoted string of chars}
+  \item{request}{A quoted string of chars containing the request
 with the syntax given in the details section}
 }
 
@@ -40,12 +40,12 @@ two equivalent ways to get all coding sequences from \emph{Escherichia coli}
 that are not partial:
 
 \code{choosebank("genbank")}\cr
-\code{getreq("final","sp=escherichia coli ET t=cds ET NO k=partial")}
+\code{query("final","sp=escherichia coli ET t=cds ET NO k=partial")}
 
 \code{choosebank("genbank")}\cr
-\code{getreq("eco","sp=escherichia coli")}\cr
-\code{getreq("ecocds","eco ET t=cds")}\cr
-\code{getreq("final","ecocds ET NO k=partial")}
+\code{query("eco","sp=escherichia coli")}\cr
+\code{query("ecocds","eco ET t=cds")}\cr
+\code{query("final","ecocds ET NO k=partial")}
 
 }
 
@@ -168,37 +168,37 @@ files written by Manolo Gouy}
 # Select demo database:
 choosebank()
 # Select 12 sequences from bacteria:
-getreq("bact","sp=bacteria")
+query("bact","sp=bacteria")
 # Select 4 Escherichia coli complete genomes:
-getreq("ecoli","sp=escherichia coli@")
+query("ecoli","sp=escherichia coli@")
 # Select 35 partial sequences:
-getreq("partial","k=partial")
+query("partial","k=partial")
 # Select 68 RNA polymerases:
-getreq("rnapol","k=rna polymerase@")
+query("rnapol","k=rna polymerase@")
 # Select 239 polymerases:
-getreq("polymerases","k=@polymerase@")
+query("polymerases","k=@polymerase@")
 # Select 4359 sequences with an assigned EC number
-getreq("ecn","k=EC_NUMBERS")
+query("ecn","k=EC_NUMBERS")
 # Select 1 sequence published in Nature volume 407 page 81:
-getreq("nature.407.81","r=nature/407/81")
+query("nature.407.81","r=nature/407/81")
 # Select 5 sequences published in Nature
-getreq("nature","j=nature")
+query("nature","j=nature")
 # Select 2 sequences published in year 2000
-getreq("yK2","y=2000")
+query("yK2","y=2000")
 # Select 1 sequence published by Moran
-getreq("moran","au=moran")
+query("moran","au=moran")
 # Select 43,725 coding sequences
-getreq("cds","t=cds")
+query("cds","t=cds")
 # Select 846 tRNAs
-getreq("trna","t=trna")
+query("trna","t=trna")
 # Select 202 rRNAs
-getreq("rrna","t=rrna")
+query("rrna","t=rrna")
 # Select 1 sequence by name
-getreq("ecolicg","n=ecolicg")
+query("ecolicg","n=ecolicg")
 # Select 1 sequence by accession number
-getreq("cg0100","ac=CG0100")
+query("cg0100","ac=CG0100")
 # Select 43,690 coding sequences that are not partial
 # by combining two previously computed lists:
-getreq("cdsfull","cds et no partial")
+query("cdsfull","cds et no partial")
 }
 \keyword{utilities}

@@ -50,7 +50,7 @@ Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a n
 \author{ D. CHARIF }
 \note{ Most of the documentation was imported from ACNUC help files written by Manolo Gouy }
 
-\seealso{ query, choosebank }
+\seealso{\code{\link{query}},\code{\link{choosebank}}}
 \examples{
   fileseq = system.file("sequences/felis.seq", package = "seqinr")  
   mkbank("felis",fileseq)
