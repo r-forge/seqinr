@@ -1,3 +1,3 @@
-PKG_CPPFLAGS = -I/bge/charif/seqinr/src/.exec
-PKG_LIBS = -L/bge/charif/seqinr/src/.exec -lcacnuc
+PKG_CPPFLAGS = -I.exec
+PKG_LIBS = -L.exec -lcacnuc
 
