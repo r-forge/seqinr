@@ -96,13 +96,13 @@ getAnnot = function(x,y) {
 	# as.SeqFasta sera appelée au moment de la lecture d'un fichier au format fasta par read.fasta() #
 	##################################################################################################
 
-as.SeqFastadna = function(elemlist){
-	class(elemlist)="SeqFastadna"	
-        return(elemlist)
+as.SeqFastadna = function(object){
+	class(object)="SeqFastadna"	
+        return(object)
         }
 
-is.SeqFastadna = function(x){
-	inherits(x,"SeqFastadna")
+is.SeqFastadna = function(object){
+	inherits(object,"SeqFastadna")
 }
 
 getSequence.SeqFastadna = function(SeqFastadna){
@@ -142,13 +142,13 @@ summary.SeqFastadna = function(SeqFastadna){
 	#		Classe de sequences SeqFastaAA et ses méthodes:               #
 	###############################################################################
 
-as.SeqFastaAA = function(elemlist){
-	class(elemlist)="SeqFastaAA"	
-        return(elemlist)
+as.SeqFastaAA = function(object){
+	class(object)="SeqFastaAA"	
+        return(object)
         }
 
-is.SeqFastaAA = function(x){
-	inherits(x,"SeqFastaAA")
+is.SeqFastaAA = function(object){
+	inherits(object,"SeqFastaAA")
 }
 
 getSequence.SeqFastaAA = function(SeqFastAA){
@@ -208,15 +208,15 @@ summary.SeqFastaAA = function(SeqFastaAA){
 
 
 
-as.SeqAcnucLocal = function(name){
-	class(name)="SeqAcnucLocal"
-	return(name)
+as.SeqAcnucLocal = function(object){
+	class(object)="SeqAcnucLocal"
+	return(object)
 }
 
 
-is.SeqAcnucLocal = function(x){
+is.SeqAcnucLocal = function(object){
 
-	inherits(x, "SeqAcnucLocal")
+	inherits(object, "SeqAcnucLocal")
 }
 
 
@@ -281,11 +281,11 @@ AApropr = function(SeqFastaAA){
 
 
 
-as.SeqAcnucWeb = function( name, socket=F ){
+as.SeqAcnucWeb = function( object, socket=F ){
 
-	class(name)="SeqAcnucWeb"
-	attributes(name)=list(class="SeqAcnucWeb",socket=socket)
-	name
+	class(object)="SeqAcnucWeb"
+	attributes(object)=list(class="SeqAcnucWeb",socket=socket)
+	object
 }
 
 
@@ -348,14 +348,19 @@ getAnnot.SeqAcnucWeb = function( SeqAcnucWeb, nbl ){
 
 
 
-as.SeqFrag = function(seq,begin,end,compl=F,name="frag"){
-	if(compl){ attr(seq,"seqMother") = name }
-	else attr(seq,"seqMother") = getName(seq)
-        attr(seq,"begin") = begin
-	attr(seq,"end") = end
-	class(seq) = "SeqFrag"
-        return(seq)
+as.SeqFrag = function(object,begin,end,compl=F,name="frag"){
+	if(compl){ attr(object,"seqMother") = name }
+	else attr(object,"seqMother") = getName(seq)
+        attr(object,"begin") = begin
+	attr(object,"end") = end
+	class(object) = "SeqFrag"
+        return(object)
         }
+
+is.SeqFrag = function(object){
+	inherits(object,"SeqFrag")
+}
+
 
 getSequence.SeqFrag = function(seq){
 	return(seq)
@@ -378,7 +383,6 @@ getLength.SeqFrag = function(seq){
 getName.SeqFrag = function(seq){
 	return(attr(seq,"seqMother"))
 }
-
 
 getprop.SeqFrag = function(seq){
 	return(list())
