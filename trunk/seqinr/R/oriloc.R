@@ -1,0 +1,146 @@
+#
+# oriloc.c -> oriloc.R
+#
+oriloc <- function(
+  seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
+  g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+  oldoriloc = FALSE)
+{
+  seq <- tolower( read.fasta( seq.fasta )[[1]])
+  lseq <- length(seq)
+  g2 <- readLines( g2.coord )
+#
+# Extract info from g2.coord file
+#
+  tokens <- function( string )
+  {
+    tmp <- unlist(strsplit( string, split = " "))
+    tmp[nchar(tmp) > 0 ][1:3]
+  }
+  tmp <- sapply( g2, tokens )
+  gnum  <- as.numeric(tmp[1, ]) # gene number in g2.coord
+  start <- as.numeric(tmp[2, ]) # start positions in bp
+  end   <- as.numeric(tmp[3, ]) # end position in bp
+
+  if( length(start) != length(end) )
+    stop("start and end vector must be the same length")
+
+  pos <- (start + end)/2000    # Mid gene position in Kb
+  ncds <- length(pos)
+#
+# CDS that wrap around the genome
+#
+  wrap <- abs(end-start) > lseq/2
+
+#
+# Compute the DNA walk gene by gene in third codon positions
+#
+  x <- integer(ncds)
+  y <- integer(ncds)
+  skew <- numeric(ncds)
+  CDS.excess <- integer(ncds)
+
+  for( i in order(pos) )
+  {
+    # Look for third codon position
+
+    if( !wrap[i] ) # regular cds that do not wrap around the genome
+    {
+      if( start[i] < end[i] ) # CDS 5'->3' direct strand
+      {
+        CDS.excess[i] <- 1
+        tcp <- seq( from = start[i] + 2, to = end[i], by = 3)
+      }
+      else # complementary strand
+      {
+        CDS.excess[i] <- -1
+        tcp <- seq( from = start[i] - 2, to = end[i], by = -3)
+      }
+    }
+    else # a cds that wraps around the genome
+    {
+      if( start[i] > end[i] ) # CDS 5'->3' direct strand
+      {
+        CDS.excess[i] <- 1
+        tcp <- seq( from = start[i] + 2, to = lseq + end[i], by = 3)
+        tcp[ tcp > lseq ] <- tcp[ tcp > lseq ] - lseq
+      }
+      else # CDS 3'->5' complementary strand
+      {
+        CDS.excess[i] <- -1
+        tcp <- seq( from = start[i] - 2, to = -(lseq-end[i]), by = -3)
+        tcp[ tcp < 1 ] <- tcp[ tcp < 1 ] + lseq
+      }
+    }
+
+    tcnucl <- seq[tcp]
+    x[i] <- length(tcnucl[tcnucl=="t"]) - length(tcnucl[tcnucl=="a"])
+    y[i] <- length(tcnucl[tcnucl=="c"]) - length(tcnucl[tcnucl=="g"])
+  }
+  x <- cumsum(x)
+  y <- cumsum(y)
+  CDS.excess <- cumsum(CDS.excess)
+#
+# Old oriloc program, direct from C without trying to vectorize.
+# To reproduce old results.
+#
+  if( oldoriloc )
+  {
+    Regression <- function(x, y, Li)
+    {
+      a <- 0 ; b <- 0 ; c <- 0; l <- 0
+      for( m in 1:(Li-1) ) # I think this should go to Li included
+      {
+        b <- b + y[m]^2
+        a <- a + x[m]^2
+        c <- c + x[m]*y[m]
+      }
+      alfa1 <- (atan(2*c/(a-b)))/2 
+      alfa2 <- alfa1 - pi/2;
+      derivate1 <- 2*(a-b)*cos(2*alfa1)+4*c*sin(2*alfa1)
+
+      if(derivate1 < 0)
+        return( tan(alfa2) )
+      else
+        return( tan(alfa1) )
+    }
+
+    slope <- Regression( x, y, ncds )
+  
+    for ( i in 1:ncds)
+    {
+      X.line <- ( y[i] + slope*x[i] )/(2*slope)
+      Y.line <- slope*X.line        
+      distance <- sqrt( Y.line^2 + X.line^2 )
+
+      if( Y.line < 0 )
+        distance <- -distance
+
+      skew[i] <- distance
+    }
+  }
+  else # New oriloc program
+  {
+#
+# Project DNAwalk points (x,y) onto orthogonal regression line
+#
+    require(ade4)
+    pca <- dudi.pca( cbind(x,y), scann=F, nf=1, scale=F, center=F )
+    rec <- reconst(pca)
+    skew <- sign(rec$x)*sqrt(rec$x^2+rec$y^2)
+  }
+#
+# Try to get get a correct orientation (same as GC skew)
+#
+  if( cor(skew, y ) < 0 )
+    skew <- -skew
+#
+# Build result
+#
+  result <- data.frame( cbind( gnum, start/1000, end/1000,
+    CDS.excess, skew, x, y) )
+  names(result) <- c("g2num", "start.kb", "end.kb", "CDS.excess",
+    "skew","x","y")
+  return(result)
+}
+
