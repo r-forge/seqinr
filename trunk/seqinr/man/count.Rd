@@ -18,7 +18,7 @@ count(seq,word,frame=0)
  If you set it to 1 it will only count the words in frame 1, 2 will only count the words in frame 2 and so on.
 }
 \value{
-  This function return a factor whose levels are all the possible dimer/trimer/etc nucleotides. The word with zero count will be display. 		
+  This function returns a factor whose levels are all the possible dimer/trimer/etc nucleotides. The word with zero count will be display. 		
 }
 \author{ D. CHARIF }
 
