@@ -14,9 +14,9 @@ mkbank(bankname, fileseq, bank="genbank", format="flatfiles")
   If the sequences come from:\cr
   -genbank, the .seq extension is needed \emph{example : toto.seq}\cr
   -embl or swissprot, the .dat extension is needed \emph{example : toto.dat}\cr
+}
   \item{bank}{is a quoted string giving the bank from which come the sequences: \code{genbank}, \code{embl}, \code{swissprot} or \code{nbrf}}
   \item{format}{is the format of the sequences file(s). If ACNUC is interfaced with the flat-files as distributed by genbank, embl or swissprot, the parameters \code{flatfiles} must be choosen. Otherwise if ACNUC is interfaced with the GCG package, the parameters \code{gcg} must be choosen.}
-}
 }
 \details{
   \code{mkbank} will first create two directories in the current working directory: \cr

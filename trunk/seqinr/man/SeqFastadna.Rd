@@ -12,7 +12,7 @@
 \usage{
 as.SeqFastadna(object)
 is.SeqFastadna(object)
-summary.SeqFastadna(object)
+summary.SeqFastadna(object,...)
 }
 \arguments{
   \item{object}{ a vector of chars representing a biological sequence} 

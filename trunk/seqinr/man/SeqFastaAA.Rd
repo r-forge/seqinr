@@ -16,7 +16,6 @@ summary.SeqFastaAA(object,...)
 }
 \arguments{
   \item{object}{ a vector of chars representing a biological sequence}
-  \item{SeqFastaAA}{ an object sequence of class SeqFastaAA}
 }
 \value{
   \code{as.SeqFastaAA} returns an object sequence of class \code{SeqFastaAA}.

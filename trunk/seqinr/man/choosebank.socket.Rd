@@ -5,7 +5,7 @@
   This function allows to select one of the databases structured under ACNUC and located at the \bold{pbil}. Then you can use \code{query.socket} to compose your query and get some sequences.  
 }
 \usage{
-choosebank(bank = "demo")
+choosebank.socket(bank)
 }
 \arguments{
   \item{bank}{ The name of the bank.}
