@@ -19,15 +19,16 @@ choosebank.socket = function( bank ){
 	request = paste("acnucopen&db=",bank,sep="")
 
 	writeLines( request, socket, sep = "\n")
-	rep2 = readLines(socket, n=1)
-	
-	if(parser.socket(rep2) == "1"){
+	rep2 = readLines(socket, n=1) 
+        res = parser.socket(rep2)
+
+	if(res[1] != "0"){
 		print("bank name incorrect")
 		rm(socket)
 	}
 	else{ 
 		assign("banknameSocket",bank,.GlobalEnv)
-		return(list(socket=socket, bankname = bank))
+		return(list(socket=socket, bankname = bank, totseqs = res[3], totspecs=res[4], totkeys=res[5]))
 	}
 }
 
@@ -58,7 +59,7 @@ parser.socket = function(p)
 	
 
 
-getsequence.socket = function( socket, name, start, length){
+getSequence.socket = function( socket, name, start, length){
 	
 	request2 = paste("gfrag&name=", name,"&start=", start, "&length=", length, sep= "")
 	writeLines( request2, socket, sep="\n" )
@@ -122,12 +123,13 @@ query.socket = function( socket, listname , query ){
 	res = readLines( socket , n=1 )
 	p=parser.socket(res)
 
-	# initialisation des variables	
+	if(as.numeric(p[1]) != 0)  stop(paste("invalid request:",p[2],sep=""))
 
+	# initialisation des variables	
 	lrank=p[2]
 	first=1
 	liste = character(as.numeric(p[3]))
-	
+
 	# récupération de tous les éléments de la liste
 	
 	for(i in 1:length(liste)){
@@ -139,6 +141,7 @@ query.socket = function( socket, listname , query ){
 	}
 
 	liste=lapply(liste,as.SeqAcnucWeb,socket)
+	liste=lapply(liste,noquote)
 	result = list(call = match.call(), name= listname, req = as.list(liste), socket = socket)
 	class(result) = c("qaw")
 	assign(listname, result, env = .GlobalEnv)
@@ -168,7 +171,101 @@ print.qaw <- function(x, ...)
 }
 
 
-	
+
+getKeyword.socket <- function( socket, name){
+
+         writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
+         res = readLines( socket , n=1 )
+         number = parser.socket(res)[1] 
+
+         writeLines(paste("readsub&num=",number,sep=""),socket,sep="\n")
+         res2 = readLines( socket , n=1 ) 
+         rr = parser.socket(res2)
+         
+         writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
+         res3 = readLines( socket , n=1 ) 
+         
+	 p1=s2c(res3)
+	 b=c(which(p1=="="))
+  	 a=c(which(p1=="&"))
+         d=c(which(p1==","),length(p1)+1)
+	 o=character(length(a))
+         o[1]=substr(res3,a[2]+1,d[1]-1)
+	 s = seq(2,length(a)*2,by=2)
+         for(i in 1:(length(s)-1)){o[i+1] = substr(res3,d[s[i]]+1,d[s[i]+1]-1)} 
+
+	 lapply(o,function(x){
+          	writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")	
+	        res4 = readLines( socket , n=1 ) 
+                parser.socket(res4)[2]
+})
+
+} 
+
+
+getExon.socket <- function( socket, name){
+
+	 writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
+         res = readLines( socket , n=1 )
+         number = parser.socket(res)[1] 
+	 
+         writeLines(paste("readsub&num=",number,sep=""),socket,sep="\n")
+         res2 = readLines( socket , n=1 ) 
+         rr = parser.socket(res2)
+  
+	 # Test si subsequence           
+     
+	 l=list()	
+         if(as.numeric(rr[5]) != 0) stop(" pas un CDS : sequence mere\n")
+         else {
+		i=1
+ 	 	writeLines(paste("readext&num=",rr[6],sep=""),socket,sep="\n")		
+		res3 = readLines( socket , n=1 )
+		r = parser.socket(res3)
+		l[[i]] = c(r[3],r[4])
+		n=r[5] 
+	}
+        while(as.numeric(n) != 0){
+		i=i+1
+		writeLines(paste("readext&num=",n,sep=""),socket,sep="\n")	 
+		res4 = readLines( socket , n=1 )
+		rrr = parser.socket(res4)
+		l[[i]] = c(rrr[3],rrr[4])
+		n=rrr[5]
+  		}
+	return(l)
+}	
 
 
 
+#
+#getSpecies.socket <- function( socket, name){
+#
+#         writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
+#         res = readLines(socket , n=1)
+#         number = parser.socket(res)[1] 
+#
+#         writeLines(paste("readsub&num=",number,sep=""),socket,sep="\n")
+#         res2 = readLines( socket , n=1 ) 
+#         rr = parser.socket(res2)
+#	
+#	 if(as.numeric(rr[5]) != 0){ num = rr[5] }
+#		else{
+#			writeLines(paste("readext&num=",rr[6],sep=""),socket,sep="\n")
+#	 		p = readLines(socket , n=1 ) 
+#			m = parser.socket(p)		
+#         		writeLines(paste("readsub&num=",m[2],sep=""),socket,sep="\n")
+#      	       	        res = readLines( socket , n=1 ) 
+#      	                g = parser.socket(res)	
+#	                num = g[5]
+#		} 
+#	
+#		writeLines(paste("readloc&num=",num,sep=""),socket,sep="\n")
+#	 	r = readLines(socket , n=1 ) 
+#		k = parser.socket(r)
+#		writeLines(paste("readspec&num=",k[4],sep=""),socket,sep="\n")
+# 		o = readLines(socket , n=1 ) 
+#	 	return(parser.socket(o)[2])
+#				        
+#} 
+#
