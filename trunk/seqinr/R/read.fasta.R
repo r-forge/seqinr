@@ -13,3 +13,4 @@ read.fasta <- function(Fichier = system.file("sequences/ct.fasta", package = "pa
   sequences
 }
 
+
