@@ -229,7 +229,6 @@ void free_mase(struct SEQMASE * aln, int nbsq)
 
 SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
 
-  printf("cocu\n");
   SEXP d;
   int MAXNSEQS;
   char **seq;
