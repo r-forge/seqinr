@@ -1,7 +1,7 @@
 par(ask = TRUE)
 
 
-s = read.fasta("sequences/malM.fasta")
+s = read.fasta(File=system.file("sequences/ct.fasta", package = "seqinr"))
 
 getFrag(s,1,50)
 getName(s)
@@ -11,13 +11,13 @@ tablecode(1)
 
 Translate(s)
 
-a = read.fasta("sequences/seqAA.fasta",seqtype="AA")
+a = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
 
 summary(a)
 
 sock = choosebank.socket("genbank")
 
-query.socket(sock$socket,"felis", "sp=felis catus et t=cds")
+package = "seqinr")query.socket(sock$socket,"felis", "sp=felis catus et t=cds")
 felis$req[1:10]
 getAnnot(felis$req[[4]])
 getFrag(felis$req[[300]],45,78)
