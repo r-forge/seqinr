@@ -1,5 +1,10 @@
 \name{getFrag}
 \alias{getFrag}
+\alias{getFrag.SeqAcnucWeb}
+\alias{getFrag.SeqAcnucLocal}
+\alias{getFrag.SeqFastadna}
+\alias{getFrag.SeqFastaAA}
+\alias{getFrag.SeqFrag}
 \title{ Generic Function to obtain a fragment of a sequence }
 \description{
   Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

@@ -1,5 +1,10 @@
 \name{getName}
 \alias{getName}
+\alias{getName.SeqAcnucWeb}
+\alias{getName.SeqAcnucLocal}
+\alias{getName.SeqFastadna}
+\alias{getName.SeqFastaAA}
+\alias{getName.SeqFrag}
 \title{ Generic Function for obtaining the name of a sequence }
 \description{
   Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

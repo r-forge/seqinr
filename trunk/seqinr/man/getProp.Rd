@@ -1,5 +1,10 @@
 \name{getProp}
 \alias{getProp}
+\alias{getProp.SeqAcnucWeb}
+\alias{getProp.SeqAcnucLocal}
+\alias{getProp.SeqFastadna}
+\alias{getProp.SeqFastaAA}
+\alias{getProp.SeqFrag}
 \title{ Generic Function to obtain some property of a sequence }
 \description{
   Methods for the class of sequences:\code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

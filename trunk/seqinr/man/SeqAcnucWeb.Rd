@@ -1,5 +1,7 @@
 \name{SeqAcnucWeb}
 \alias{SeqAcnucWeb}
+\alias{as.SeqAcnucWeb}
+\alias{is.SeqAcnucWeb}
 \title{Sequence coming from ACNUC data bases located on the web}
 \description{
     \code{as.SeqAcnucWeb} is called by many functions as \code{query} but not directly by the user. It creates an object of class \code{SeqAcnucWeb}. 

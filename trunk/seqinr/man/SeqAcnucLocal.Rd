@@ -1,5 +1,7 @@
 \name{SeqAcnucLocal}
 \alias{SeqAcnucLocal}
+\alias{is.SeqAcnucLocal}
+\alias{as.SeqAcnucLocal}
 \title{Sequence coming from local ACNUC data bases}
 \description{
     \code{as.SeqAcnucLocal} is called by many functions as \code{query} but not directly by the user. It creates an object of class \code{SeqAcnucLocal}. 

@@ -1,5 +1,7 @@
 \name{SeqFastadna}
 \alias{SeqFastadna}
+\alias{is.SeqFastadna}
+\alias{as.SeqFastadna}
 \title{DNA sequence in Fasta Format}
 \description{
   \code{as.SeqFastadna} is called by many functions as \code{read.fasta} but not directly by the user. It creates an object of class \code{SeqFastadna}. 

@@ -1,5 +1,10 @@
 \name{getLength}
 \alias{getLength}
+\alias{getLength.SeqAcnucWeb}
+\alias{getLength.SeqAcnucLocal}
+\alias{getLength.SeqFastadna}
+\alias{getLength.SeqFastaAA}
+\alias{getLength.SeqFrag}
 \title{Generic Function for obtaining the length of a sequence}
 \description{
   Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

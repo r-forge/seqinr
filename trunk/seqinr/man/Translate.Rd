@@ -1,5 +1,10 @@
 \name{Translate}
 \alias{Translate}
+\alias{Translate.SeqAcnucWeb}
+\alias{Translate.SeqAcnucLocal}
+\alias{Translate.SeqFastadna}
+\alias{Translate.SeqFastaAA}
+\alias{Translate.SeqFrag}
 \title{ Generic Function to translate a sequence }
 \description{
    Methods for the class of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
