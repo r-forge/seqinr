@@ -121,6 +121,7 @@ getKeyword <- function(name)
 	k
 }
 
+
 getExon <- function(name)
 {
 	ex = .Call("getExon",name)
