@@ -7,3 +7,4 @@ comp<-function(seq){
 	seq<-replace(seq,seq=="tmp2","G")
 	seq
 }
+

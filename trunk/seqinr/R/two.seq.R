@@ -4,3 +4,4 @@ two.seq<-function(seq,phase=0){
 	b<-seq(phase+2,length(seq),2)	
 	paste(seq[a],seq[b],sep="")
 }
+

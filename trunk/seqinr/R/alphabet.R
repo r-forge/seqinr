@@ -10,3 +10,4 @@ alx<-array(c(paste(alphabet(al-1),array("A",rep(4,(al-1))),sep=""),paste(alphabe
 alx
 }
 }
+
