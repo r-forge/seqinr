@@ -409,7 +409,7 @@ getName.SeqFrag = function(object){
 	return(attr(object,"seqMother"))
 }
 
-getprop.SeqFrag = function(object){
+getProp.SeqFrag = function(object){
 	return(list())
 }
 
