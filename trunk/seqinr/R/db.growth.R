@@ -7,8 +7,12 @@ get.db.growth <- function()
       warning("I'am trying to neutralize proxies")
       Sys.putenv("no_proxy" = "")
   }
-
-  embl <- "ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt"
+#
+# I have removed this url:
+#  embl <- "ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt"
+# and put this one instead:
+#
+  embl <- "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt"
   tmp <- readLines( embl )
   idx <- grep("Release Month", tmp)
   tmp <- tmp[ (idx + 2):length(tmp) ]
@@ -25,7 +29,7 @@ get.db.growth <- function()
   tmp[,3] <- as.double( as.character(tmp[,3]))
   tmp[,4] <- as.double( as.character(tmp[,4]))
 
-  date  <- strsplit(tmp[,2], split="/")
+  date  <- strsplit(as.character(tmp[,2]), split="/")
   date.to.num <- function(x)
   {
     x <- as.double( x )
@@ -39,6 +43,7 @@ get.db.growth <- function()
 dia.db.growth <- function( get.db.growth.out = get.db.growth(), 
   Moore = TRUE, ... )
 {
+  embl <- "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt"
   op <- par(no.readonly = TRUE)
   par( bg = "blue" )
   par( fg = "yellow" )
@@ -49,8 +54,12 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
   par( col.sub = "yellow" )
   attach( get.db.growth.out )
   plot( date, log10(Nucleotides) , pch = 20,
-    main = "The exponential growth of the DDBJ/EMBL/Genbank content",
-    xlab = "Year", ylab = "Log10 number of nucleotides", ... )
+    main = paste("The exponential growth of the DDBJ/EMBL/Genbank content\n",
+           "Last update:", 
+            Month[nrow(get.db.growth.out)]),
+    xlab = "Year", ylab = "Log10 number of nucleotides", 
+    sub = paste("Source:", embl),
+    ... )
   abline(lm(log10(Nucleotides)~date),col="yellow")
   lm1 <- lm(log(Nucleotides)~date)
   mu <- lm1$coef[2] # slope
@@ -77,8 +86,5 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
     legend( x = 1990, y = 7, leg=paste("Observed doubling time:", 
       round(dbt,1),"months"), lty = 1, col = "yellow")
   }
-  text( x = 1981.5, y = 10.4, pos = 4, labels = paste(
-  "Source: ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt",
-  "\nLast update:", Month[nrow(get.db.growth.out)]))
   par( op )
 } 
