@@ -3,8 +3,11 @@
 \docType{data}
 \title{Base composition in ssDNA for 7 bacterial DNA}
 \description{
-  ~~ A concise (1-5 lines) description of the dataset. ~~
-  Sould be completed with accuracy.
+Long before the genomic era, it was possible to get some data
+for the global composition of single-stranded DNA chromosomes
+by direct chemical analyses. These data are from Chargaff's lab
+and give the base composition of the L (Ligth) strand for
+7 bacterial chromosomes.
 }
 \usage{data(chargaff)}
 \format{
@@ -17,15 +20,49 @@
   }
 }
 \details{
-  ~~ If necessary, more details than the __description__ above ~~
+Data are from Table 2 in Rudner \emph{et al.} (1969) for the
+L-strand. Data for \emph{Bacillus subtilis} were taken from
+a previous paper: Rudner \emph{et al.} (1968). This is in
+fact the average value observed for two different strains
+of \emph{B. subtilis}: strain W23 and strain Mu8u5u16.\cr
+Denaturated chromosomes can be separated by a technique of
+intermitent gradient elution from a column of methylated
+albumin kieselguhr (MAK), into two fractions, designated,
+by virtue of their buoyant densities, as L (light) and H
+(heavy). The fractions can be hydrolyzed and subjected to
+chromatography to determined their global base composition.\cr
+The surprising result is that we have almost exactly A=T
+and C=G in single stranded-DNAs. The second paragraph page
+157 in Rudner \emph{et al.} (1969) says: "Our previous
+work on the complementary strands of \emph{B. subtilis} DNA
+suggested an additional, entirely unexpected regularity,
+namely, the equality in either strand of 6-amino and 6-keto
+nucleotides ( A + C = G + T). This relationship, which
+would normally have been regarded merely as the consequence
+of base-pairing in DNA duplex and would not have been predicted
+as a likely property of a single strand, is shown here to
+apply to all strand specimens isolated from denaturated DNA
+of the AT type (Table 2, preps. 1-4). It cannot yet be said
+to be established for the DNA specimens from the equimolar
+and GC types (nos. 5-7)."
 }
 \source{
+Rudner, R., Karkas, J.D., Chargaff, E. (1968) Separation of
+\emph{B. subtilis} DNA into complementary strands, III. Direct
+Analysis. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{60}:921-922.\cr
 Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribonucleic acids into complementary strands. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{63}:152-159.
 }
 \references{
-  ~~ possibly secondary sources and usages ~~ To be completed
-  Figures not checked yet!
-
+Try \code{example(chargaff)} to mimic figure page 17 in
+\url{http://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
+The red areas correspond to non-allowed values beause the sum
+of the four bases frequencies cannot exceed 100%.
+The white areas correspond to possible values (more exactly
+to the projection from R^4 to the corresponding R^2 planes
+of the region of allowed values).
+The blue lines correspond to the very small subset of allowed
+values for which we have in addition PR2 state, that is
+[A]=[T] and [C]=[G]. Remember, these data are for ssDNA!
 }
 
 \examples{
