@@ -30,7 +30,7 @@ work either in the char set, either in the integer set, depending
 on what is more convenient for your purpose, and then switch from one 
 set to the other one as you like.}
 
-\seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{codes}} }
+\seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{unclass}} }
 
 \examples{
 #example of default behaviour
