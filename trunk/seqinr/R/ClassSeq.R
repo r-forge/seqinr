@@ -48,7 +48,7 @@ initSeqSimple = function(s,name="seq") {
         return(r)
         }
 
-getFrag.SeqSimple=function(SeqSimple,begin=1,end=getLength(seq)){
+getFrag.SeqSimple=function(SeqSimple,begin=1,end=getLength(SeqSimple)){
         if(end<begin)return(NULL)
         return(s2c(substr(SeqSimple$seq,begin,end)))
         }
@@ -201,18 +201,23 @@ initSeqReq = function(name){
 	return(name)
 }
 
-getFrag.SeqReq = function(SeqReq, born1 , born2 ){ 
+getFrag.SeqReq = function(SeqReq,born1=1,born2){
+	b = getLength(SeqReq)
+	if((born2 > b) || (born1 > b)) stop("born out of limits")
+	else{  
 	s = .Call("getseq2",SeqReq,born1,born2)
 	return(toupper(s2c(s)))
+	}
 }
 
 getName.SeqReq = function(SeqReq){return(SeqReq)}
 
 getLength.SeqReq = function(SeqReq){
-	s = .Call("getseq",SeqReq)
-	return(nchar(s))
+	return(getAttribut(SeqReq)[[1]])
 	}
 
-
+getProp.SeqReq = function(SeqReq){
+	return(getAttribut(SeqReq)[2:3])
+}
 
 
