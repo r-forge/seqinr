@@ -7,8 +7,6 @@ choosebank <- function( bank = "demo")
 
  if( exists("bankname",envir=globalenv()) && (get("bankname",envir=globalenv()) != bank ))
 { 
-# stop("An ACNUC data base is already in use, you must change the data base using changebank()")
-#
 .C("Racnucclose")
 }
 else
@@ -164,7 +162,7 @@ print.qal <- function(x, ...)
 	cat("\n")
 	cat("class: ")
 	cat(class(x))
-	cat("\n$banque: ")
+	cat("\n$bankname: ")
 	cat(get("bankname",env=.GlobalEnv))
 	cat("\n$call: ")
 	print(x$call)

@@ -46,6 +46,7 @@ getAnnot.default = function(x,y){
  	stop("no annotation for this sequence")
 }
 
+
 ##################################################################
 
 getFrag =  function(x,y,z) {
@@ -127,6 +128,10 @@ getProp.SeqFastadna = function(Seqfastadna){
 	return(list(seqtype="DNA"))
 }
 
+getAnnot.SeqFastadna = function(Seqfastadna){
+	return(attr(SeqFastadna,"Annot"))
+}
+
 summary.SeqFastadna = function(SeqFastadna){
 	compo=count(SeqFastadna,1)
 	return(list(composition=compo,GC=GC(SeqFastadna)))
@@ -173,6 +178,9 @@ getProp.SeqFastaAA = function(SeqfastaAA){
 	return(list(seqtype="AA"))
 }
 
+getAnnot.SeqFastadna = function(Seqfastadna){
+	return(attr(SeqFastaAA,"Annot"))
+}
 
 summary.SeqFastaAA = function(SeqFastaAA){
 	compo=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
@@ -370,6 +378,7 @@ getLength.SeqFrag = function(seq){
 getName.SeqFrag = function(seq){
 	return(attr(seq,"seqMother"))
 }
+
 
 getprop.SeqFrag = function(seq){
 	return(list())
