@@ -12,13 +12,13 @@
 getLocation(object)
 }
 \arguments{
-  \item{object}{ an object of the class \code{SeqAcnucLocal}.}
+  \item{object}{ an object of the class \code{SeqAcnucWeb}.}
 }
 \value{
   a list giving the positions of the sequence on the parent sequence.
 }
 \author{ D. Charif } 
-\seealso{ \code{\link{SeqAcnucWeb}}, \code{\link{query.socket}} }
+\seealso{ \code{\link{SeqAcnucWeb}}, \code{\link{query}} }
 \examples{
   methods(getLocation)
 }
