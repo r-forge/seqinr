@@ -1,4 +1,4 @@
-read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqinr"))
+read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype="DNA")
 {
   seq <- scan(File,what=character(),sep="\t") 
   ind <- c(grep(">",seq),length(seq)+1)
@@ -12,7 +12,7 @@ read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqin
     attributes(sequences[[i]])=list(name=nomseq[[i]])
   }
   names(sequences)=nomseq
-  if(deftype(sequences[[1]])=="AA") lapply(sequences,initSeqFastaAA) 
+  if(seqtype=="AA") lapply(sequences,initSeqFastaAA) 
   else lapply(sequences,initSeqFastadna)
 }
 
