@@ -21,7 +21,7 @@ uco = function( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = 
 
 dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7, 
   alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), 
-  color = par("fg"), gcolor = par("fg"), lcolor = "gray", ...)
+  color = par("fg"), gcolor = par("fg"), lcolor = "gray", xlim, ...)
 {
   if( is.null(names(x)) ) names(x) <- words( alphabet = alphabet )
 #
@@ -57,8 +57,7 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
   }
   dotchart(x = x, labels = labels, groups = groups, gdata = gdata,
    cex = cex, pch = pch, gpch = gpch, bg = bg, color = color,
-   gcolor = gcolor, lcolor = lcolor, xlim = xlim, main = main, 
-   xlab = xlab, ylab = ylab, ...)
+   gcolor = gcolor, lcolor = lcolor, xlim, ...)
 #
 # Return invisibly for further plots
 #
