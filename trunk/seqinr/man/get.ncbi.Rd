@@ -7,16 +7,22 @@
 Try to connect to ncbi ftp site to get a list of complete bacterial genomes.
 }
 \usage{
-get.ncbi()
-ncbi.fna.url(get.ncbi.out = get.ncbi() )
+get.ncbi(repository = .BACTNCBI)
 }
 \arguments{
-  \item{get.ncbi.out}{ the output from get.ncbi() }
+  \item{repository}{ Where to look for data }
 }
 \value{
-Returns an n by 2 dataframe with species names in first column and
-genbank accession numbers in second colum. Use ncbi.fna.url to
-convert this into urls pointing to the corresponding fasta file.
+Returns a data frame contains with the following columns:
+  \describe{
+    \item{species}{The species name as given by the corresponding folder
+    name in the repository (\emph{e.g.} Yersinia_pestis_KIM).}
+    \item{accession}{The accession number as given by the common prefix
+    of file names in the repository (\emph{e.g.} NC_004088).}
+    \item{size.bp}{The size of the sequence in bp (\emph{e.g.} 4600755). }
+    \item{type}{A factor with two levels (plasmid or chromosome) temptatively
+    deduced from the description of the sequence.}
+  }
 }
 
 \author{J.R. Lobry }
@@ -30,9 +36,6 @@ this problem is circumvented here in a rather crude way.
 
 \examples{
 \dontrun{bacteria <- get.ncbi()}
-\dontrun{bacteria}
-\dontrun{urls <- ncbi.fna.url( bacteria )}
-\dontrun{urls}
-\dontrun{seq <- read.fasta( urls[1] )}
+\dontrun{summary(bacteria)}
 }
 \keyword{utilities}
