@@ -142,7 +142,7 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
   \item{req}{a list of sequence names  that fit the required criteria}
 }
 \references{ 
-\url{http://pbil.univ-lyon1.fr/databases/acnuc.html}\cr
+To get the release date and content of all the databases located at the pbil, please look at the following url: \url{http://pbil.univ-lyon1.fr/search/releases.php}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr
 Gouy, M., Gautier, C., Attimonelli, M., Lanave, C., Di Paola, G. (1985) 
