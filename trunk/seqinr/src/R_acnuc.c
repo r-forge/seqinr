@@ -196,7 +196,7 @@ SEXP getKey(SEXP nom){
 SEXP getExon(SEXP nom){
 
  char *mnemo;
- int deb,fin,ss,nsub,i;
+ int deb,fin,ss,nsub,i,tmp;
  int total=0;
 
  SEXP Exon;
@@ -229,15 +229,21 @@ SEXP getExon(SEXP nom){
 
    PROTECT(Exon=NEW_INTEGER(2*total));
 
+   /*réinitialisation de la variable ss*/
    ss = psub->pext;
    
    i=0;
    while (ss != 0 && i<=(2*total)) {
      readext(ss);
      deb = pext->deb;
+     fin = pext->fin;
+     if(deb > fin){
+       tmp = fin;
+       fin = deb;
+       deb = tmp;
+     }
      INTEGER(Exon)[i]=deb;
      i++;
-     fin = pext->fin;
      INTEGER(Exon)[i]=fin;
      i++;
      ss =  pext->next;
