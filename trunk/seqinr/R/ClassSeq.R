@@ -167,23 +167,23 @@ initSeqFastadna = function(elemlist){
         }
 
 getFrag.SeqFastadna = function( SeqFastadna, begin = 1, end = getLength(SeqFastadna)){
-	if(end > getLength(SeqFasta)) stop("invalid end")	
-	return(SeqFastadna[[1]][begin:end])
+	if(end > getLength(SeqFastadna)) stop("invalid end")	
+	return(SeqFastadna[begin:end])
 	}
 
 getLength.SeqFastadna = function( SeqFastadna){
-	return(length(SeqFastadna[[1]]))
+	return(length(SeqFastadna))
 	}
 
 getName.SeqFastadna = function( SeqFastadna){
-	return(names(SeqFastadna))
+	return(attr(SeqFastadna,"name"))
 }
 
 getProp.SeqFastadna = function(Seqfastadna){
-	return(list(seqtype=DNA))
+	return(list(seqtype="DNA"))
 }
 
-summary.SeqFastadna = function(Seqfastadna){
+summary.SeqFastadna = function(SeqFastadna){
 	compo=count(SeqFastadna,1)
 	return(list(composition=compo,GC=GC(SeqFastadna)))
 }
@@ -200,26 +200,24 @@ initSeqFastaAA = function(elemlist){
 
 getFrag.SeqFastaAA = function( SeqFastaAA, begin = 1, end = getLength(SeqFastaAA)){
 	if(end > getLength(SeqFastaAA)) stop("invalid end")	
-	return(SeqFastaAA[[1]][begin:end])
+	return(SeqFastaAA[begin:end])
 	}
 
 getLength.SeqFastaAA = function( SeqFastaAA){
-	return(length(SeqFastaAA[[1]]))
+	return(length(SeqFastaAA))
 	}
 
 getName.SeqFastaAA = function( SeqFastaAA){
-	return(names(SeqFastaAA))
+	return(attr(SeqFastaAA,"name"))
 }
 
 getProp.SeqFastaAA = function(SeqfastaAA){
 	return(list(seqtype="AA"))
 }
 
-summary.SeqFastAA = function(SeqfastaAA){
-	compo=uco(SeqFastaAA)
-	compo=as.vector(compo)
-	names(compo)=SEQINR.UTIL$CODON.AA$L
-	return(list(composition=compo/getLength(SeqfastaAA),AA.Property=AApropr(SeqfastaAA)))
+summary.SeqFastaAA = function(SeqFastaAA){
+	compo=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
+	return(list(composition=compo/getLength(SeqFastaAA),AA.Property=AApropr(SeqFastaAA)))
 }
 
 
@@ -281,10 +279,9 @@ deftype = function(seq){
 	return(seqtype)
 	}
 
-AApropr = function(seq){
-	s=as.vector(uco(seq))
+AApropr = function(SeqFastaAA){
+	s=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
 	t=sum(s)
-	names(s)=SEQINR.UTIL$CODON.AA$L
 	list(Tiny=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Tiny)])/t,Small=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Small)])/t,Aliphatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic)])/t,Aromatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aromatic)])/t,Non.polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Non.polar)])/t,Polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Polar)])/t,Charged=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Charged)])/t,Basic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Basic)])/t,Acidic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Acidic)])/t)
 }
 
