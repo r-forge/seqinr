@@ -4,24 +4,31 @@
 
 
 
+choosebank.socket = function(bank = NA ,host = "pbil.univ-lyon1.fr", port = 5558){
 
-
-
-choosebank.socket = function( bank , host = "pbil.univ-lyon1.fr", port = 5558){
-	
 	# ouverture d'un "client socket" sur le serveur pbil et sur le port 5558
- 
-    	socket = socketConnection( host = host, port = port, server = F, blocking=T)
+	socket = socketConnection( host = host, port = port, server = F, blocking=T)
 	rep1 = readLines(socket, n=1)
 
-	# vérification du bon fonctionnement de la connection et ouverture de la banque
-    
-	request = paste("acnucopen&db=",bank,sep="")
+	# Si pas de banques spécifiées: liste des banques
+	if(is.na(bank)){
+	writeLines("knowndbs",socket, sep = "\n")
+	rep = readLines(socket, n=1)
+	res = readLines(socket, n=as.numeric(parser.socket(rep)))
+	res = sapply(res,function(x){
+		 pos=grep(" ",s2c(x))
+		 substr(x,1,(pos[1]-1))
+		})
+	bank=as.vector(res[ menu(res)])
+	}
 
+	# Ouverture de la banque
+	request = paste("acnucopen&db=",bank,sep="") 
 	writeLines( request, socket, sep = "\n")
 	rep2 = readLines(socket, n=1) 
         res = parser.socket(rep2)
 
+	# vérification du bon fonctionnement de la connection et ouverture de la banque
 	if(res[1] != "0"){
 		print("bank name incorrect")
 		rm(socket)
@@ -30,9 +37,8 @@ choosebank.socket = function( bank , host = "pbil.univ-lyon1.fr", port = 5558){
 		assign("banknameSocket",bank,.GlobalEnv)
 		return(list(socket=socket, bankname = bank, totseqs = res[3], totspecs=res[4], totkeys=res[5]))
 	}
-}
-
-
+}	
+	
 
 
 closebank.socket = function( socket ){
