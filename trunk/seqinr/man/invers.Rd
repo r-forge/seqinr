@@ -15,7 +15,7 @@ invers(seq)
 }
 \author{D. CHARIF}
 \examples{
-s=s2c("acgtgctcgtqtqtqtqtgccc")
+s=s2c("acgtgctcgtataatatgccc")
 invers(s)
 }
 \keyword{manip}
