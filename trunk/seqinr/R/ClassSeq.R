@@ -289,7 +289,7 @@ is.SeqAcnucWeb = function( x ){
 
 getSequence.SeqAcnucWeb = function( SeqAcnucWeb){
 	b=getLength( SeqAcnucWeb )
-	getfrag( SeqAcnucWeb,1,b)
+	getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=1,length=b)
 }
 
 
@@ -299,8 +299,8 @@ getFrag.SeqAcnucWeb = function( SeqAcnucWeb ,born1,born2 ){
 	b = getLength(SeqAcnucWeb)
 	if((born2 > b) || (born1 > b)) stop("born out of limits")  
 	bb=born2-born1+1
-	newSeq = getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=born1,length=bb))
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqAcnucWeb))
+	newSeq = getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=born1,length=bb)
+	newSeq = as.SeqFrag(newSeq,begin=born1,end=born2,compl=T,name=getName(SeqAcnucWeb))
 	return(newSeq)
 }
 
@@ -348,6 +348,10 @@ as.SeqFrag = function(seq,begin,end,compl=F,name="frag"){
 	class(seq) = "SeqFrag"
         return(seq)
         }
+
+getSequence.SeqFrag = function(seq){
+	return(seq)
+	}
 
 
 getFrag.SeqFrag = function(seq,begin,end){
