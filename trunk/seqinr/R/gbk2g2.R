@@ -11,31 +11,6 @@ gbk2g2 <- function(
   gbkfile = "ftp://pbil.univ-lyon1.fr/pub/logiciel/oriloc/ct.gbk",
   g2.coord = "g2.coord")
 {
-  #
-  # First of all, check that this computer is not off the net:
-  #
-  if( ! capabilities("http/ftp") )
-    stop("capabilities(\"http/ftp\") is not TRUE") 
-
-#  
-# BEGIN Proxy problem
-#
-# I have a problem here: the ftp connection apparently does
-# not work when there is a proxy. I have fixed the bug
-# this way, but this is a rather crude and unsatisfactory
-# solution.
-#
-  ftp.proxy.bck <- Sys.getenv("ftp_proxy")
-
-  if( ftp.proxy.bck != "" ) # there is a proxy
-  {
-    warning("I'am trying to neutralize proxies")
-    Sys.putenv("no_proxy" = "") 
-  }
-#
-# END Proxy problem
-#  
-
   input <- readLines(gbkfile)
   
   outfile = file( description = g2.coord, open ="w")
@@ -95,13 +70,13 @@ gbk2g2 <- function(
     {
       end <- as.integer( substring(tmp[1], first = 12 ) ) + as.integer(3)
       start <- as.integer( substring(tmp[2], first = 1, last = nchar(tmp[2]) - 1 ))
-      line <- sprintf(fmt = "%d\t%d\t%d", as.integer(i), start, end) 
+      line <- sprintf(fmt = "%d %d %d", as.integer(i), start, end) 
     }
     else #direct strand
     {
       start <- as.integer(tmp[1])
       end   <- as.integer(tmp[2]) + as.integer(-3)
-      line <- sprintf(fmt = "%d\t%d\t%d", as.integer(i), start, end) 
+      line <- sprintf(fmt = "%d %d %d", as.integer(i), start, end) 
     }
     writeLines( line, con = outfile )
   }
