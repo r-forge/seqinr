@@ -2,7 +2,7 @@
 \alias{kaks}
 \title{ to Get an Estimation of Ka and Ks }
 \description{
-  Ks and Ka  are respectively the number of substitutions per synonymous site and per nonsynonymous site between two protein-coding genes. The ratio of nonsynonymous (Ka) to synonymous (Ks) nucleotide substitution rates is an indicator of selective pressures on genes. A ratio significantly greater than 1 indicates positive selective pressure. A ratio around 1 indicates either neutral evolution at the protein level or an averaging of sites under positive and negative selective pressures. A ratio less than 1 indicates pressures to conserve protein sequence. This function compute the Ka and Ks values for a set of aligned sequences and gives the associated variance matrix. 
+  Ks and Ka  are respectively the number of substitutions per synonymous site and per nonsynonymous site between two protein-coding genes. The ratio of nonsynonymous (Ka) to synonymous (Ks) nucleotide substitution rates is an indicator of selective pressures on genes. A ratio significantly greater than 1 indicates positive selective pressure. A ratio around 1 indicates either neutral evolution at the protein level or an averaging of sites under positive and negative selective pressures. A ratio less than 1 indicates pressures to conserve protein sequence (i.e. purifying selection). This function estimates the Ka and Ks values for a set of aligned sequences using the method published by Li (1993) and gives the associated variance matrix. 
 }
 \usage{
 kaks(x)
@@ -19,11 +19,25 @@ kaks(x)
 \references{
 Li WH. (1993) Unbiased estimation of the rates of synonymous and nonsynonymous substitution. 
 \emph{J Mol Evol.}, \bold{Jan};36(1):96-9.\cr 
+Hurst LD. (2002) The Ka/Ks ratio: diagnosing the form of sequence evolution.
+\emph{Trends Genet.}, \bold{Sept};18(9):486.\cr  
 The C programm implementing this method was provided by M. Gouy.
 }
+\note{ 
+ When the alignment does not contain enough information (i.e we approach saturation), the Ka and Ks values take the value 10.
+ Negative values indicate that Ka and Ks can not be computed.
+ }
 \author{ D. Charif }
 \seealso{\code{\link{read.alignment}} }
 \examples{
+
+ # In this example, Ka and ks are calculated between the human/mouse orthologous genes of ubiquitin.
+ # Ubiquitin is involved in many cells processes (replication, DNA repair, apoptosis ...). 
+ ub = read.alignment(File=system.file("sequences/UBIQUITIN.mase", package = "seqinr"),format="mase")
+ resu = kaks(ub)
+ resu$ka/resu$ks
+ # ka/ks <<< 1, selection eliminates deleterious mutations to conserv the protein.
+
  s = read.alignment(File=system.file("sequences/test.phylip", package = "seqinr"),format="phylip")
  kaks(s)	
 }
