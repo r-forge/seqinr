@@ -29,7 +29,7 @@ SEXP s2c(SEXP seq){
 
 
   for(i=0;i<lseq;i++){  
-    mot[0]=toupper(string[i]);
+    mot[0]=string[i];
     mot[1]='\0';
     SET_ELEMENT(chaine,i,mkChar(mot));
     }
