@@ -140,3 +140,100 @@ SEXP translateCDS(SEXP nom){
   return(chaine);
 
   }
+SEXP getKey(SEXP nom){
+  
+  char *mnemo;
+  int num, kw, point,total,i;
+  
+  SEXP chaine;
+  total=0;
+  i=0;
+
+  mnemo = CHAR(STRING_ELT(nom,0));
+ 
+  num = isenum(mnemo);
+  
+  readsub(num);
+  point = psub->plkey;
+  
+  while(point !=0){
+    total++;
+    readshrt(point);
+    kw = pshrt->val;
+    point = pshrt->next;
+  }
+
+  PROTECT(chaine=allocVector(VECSXP,total));
+
+  point = psub->plkey;
+
+ while(point !=0 && i<=total){
+    readshrt(point);
+    kw = pshrt->val;
+    readkey(kw);
+    SET_ELEMENT(chaine,i,mkChar(pkey->name));
+    point = pshrt->next;
+    i++;
+  }
+  UNPROTECT(1);
+  return(chaine);
+}
+
+
+SEXP getExon(SEXP nom){
+
+ char *mnemo;
+ int deb,fin,ss,nsub,i;
+ int total=0;
+
+ SEXP Exon;
+ 
+ mnemo = CHAR(STRING_ELT(nom,0));
+
+ nsub = isenum(mnemo);
+
+ if(nsub == 0) error("Ce mnemo est invalide");
+     
+ /* lecture de l'enregistrement correspondant */
+ readsub(nsub);
+
+/* si le CDS est une mere, alors pas de decoupage en exon */
+
+ if(psub->pext <= 0) {
+   error(" pas un CDS : sequence mere\n");
+ }
+
+ /* sinon s'il s'agit d'une subseq, parcours du decoupage du CDS */
+ else {
+   
+   ss = psub->pext;
+   /*parcours de la liste chainée pour connaitre nombre exon*/
+   while (ss != 0) {
+     total++;
+     readext(ss);
+     ss =  pext->next;
+   }
+
+   PROTECT(Exon=NEW_INTEGER(2*total));
+
+   ss = psub->pext;
+   
+   i=0;
+   while (ss != 0 && i<=(2*total)) {
+     readext(ss);
+     deb = pext->deb;
+     INTEGER(Exon)[i]=deb;
+     i++;
+     fin = pext->fin;
+     INTEGER(Exon)[i]=fin;
+     i++;
+     ss =  pext->next;
+   }
+ }
+ UNPROTECT(1);
+ return(Exon);
+}
+
+
+
+
