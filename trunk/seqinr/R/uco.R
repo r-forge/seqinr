@@ -2,7 +2,7 @@ uco = function( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = 
 	
 	choice <-  match.arg(index)
 
-	sequence <- splitseq( seq, frame)
+	sequence <- splitseq( seq = seq, frame = frame, word = 3)
 	eff <- table(factor( sequence , levels=SEQINR.UTIL$CODON.AA$CODON) )
 	freq <- round(eff/(floor(length(seq)/3)),4)
 	T <- split(freq,SEQINR.UTIL$CODON.AA$AA)
@@ -21,8 +21,7 @@ uco = function( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = 
 
 dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7, 
   alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), 
-  color = par("fg"), gcolor = par("fg"), lcolor = "gray", 
-  xlim, main = NULL, xlab = NULL, ylab = NULL, ...)
+  color = par("fg"), gcolor = par("fg"), lcolor = "gray", ...)
 {
   if( is.null(names(x)) ) names(x) <- words( alphabet = alphabet )
 #

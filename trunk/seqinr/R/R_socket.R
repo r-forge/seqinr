@@ -165,7 +165,7 @@ print.qaw <- function(x, ...)
 
 
 
-getKeyword.socket <- function( socket, name){
+getKeywordsocket <- function( socket, name){
 
          writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
          res = readLines( socket , n=1 )
