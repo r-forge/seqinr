@@ -3,7 +3,7 @@ uco = function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE, RSCU = FALS
 	sequence <- splitseq( seq, frame)
 	eff <- table(factor( sequence , levels=SEQINR.UTIL$CODON.AA$CODON) )
 
-         if(as.data.frame == FALSE && RSCU == TRUE) as.data.frame = TRUE
+         if(as.data.frame == FALSE && RSCU == TRUE) stop("as.data.frame must be TRUE")
         
 	if(as.data.frame==FALSE){
 		if(freq==FALSE){
