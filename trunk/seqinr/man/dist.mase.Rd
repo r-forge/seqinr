@@ -21,7 +21,7 @@ Fitch, W.M. (1966) Mutation values for the interconversion of amino acid pair.
 \author{D. Charif}
 \seealso{ \code{\link{read.mase} }}
 \examples{
- mase=read.mase()
- dist.mase(mase)
+ \dontrun{ mase=read.mase() }
+  \dontrun{dist.mase(mase) }
 }
 \keyword{ manip }

@@ -1,6 +1,5 @@
 \name{aaa}
 \alias{aaa}
-
 \title{Converts amino-acid one-letter code into the three-letter one}
 \description{
 This is a vectorized function to convert one-letter amino-acid code
