@@ -34,6 +34,6 @@ For further information about the socket, please see \code{connection} function.
 \note{ In order to know the current bankname, edit the object \code{bankname}.}
 \seealso{ \code{\link{query.socket}}, \code{\link{mkbank}}, \code{\link{connection}} }
 \examples{
-  choosebank.socket("genbank")
+  \dontrun{choosebank.socket("genbank")}
 }
 \keyword{ manip }

@@ -52,9 +52,10 @@ Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a n
 
 \seealso{\code{\link{query}},\code{\link{choosebank}}}
 \examples{
-  fileseq = system.file("sequences/felis.seq", package = "seqinr")  
-  mkbank("felis",fileseq)
-  choosebank("felis")
+  \dontrun{fileseq = system.file("sequences/felis.seq", package = "seqinr")}  
+ \dontrun{mkbank("felis",fileseq)}
+  \dontrun{choosebank("felis")}
+  \dontrun{toto=2}
 }
 \keyword{ utilities }
 
