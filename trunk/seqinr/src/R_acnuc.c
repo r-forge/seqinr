@@ -13,8 +13,8 @@
 
 
 
-#include "requete_acnuc.h"
-#include "dir_acnuc.h"
+#include ".exec/requete_acnuc.h"
+#include ".exec/dir_acnuc.h"
 #include <Rinternals.h>
 #include <R.h>
 #include <Rdefines.h>
@@ -340,79 +340,9 @@ SEXP getAnnots(SEXP name, SEXP nligne){
 }	
  
 
-/*##################################################*/
-/*# Convertir une string en vecteur de caractères  #*/
-/*##################################################*/
-
-
-SEXP s2c(SEXP seq){
-  char *string;
-  int lseq,i;
-  char mot[2];
-  
-  
-  SEXP chaine;
-
-  string = CHAR(STRING_ELT(seq,0));
-  
-  lseq = strlen(string);
-  
-  PROTECT(chaine=NEW_CHARACTER(lseq));
-
-
-  for(i=0;i<lseq;i++){  
-    mot[0]=toupper(string[i]);
-    mot[1]='\0';
-    SET_ELEMENT(chaine,i,mkChar(mot));
-    }
-  UNPROTECT(1);
-  return(chaine);
-}
 
 
 
-/* ==================================================================== */
-/* retourne un pointeur sur le nieme mot d'une phrase, chaque mot       */
-/* etant separe par un des caracteres contenus dans la chaine separat   */
-/* ==================================================================== */
-
-
-char *nieme_mot(string, n, separat)
-char *string;
-int n;
-char *separat;
-
-{
-
-int ii;
-char *mot;
-char  *phrase;
-char buffer[MAXMOT];
-
-if((phrase = (char*) malloc((1+strlen(string)) * sizeof(char))) == NULL){
-	printf("malloc a echoue: phrase in fonction: nieme_mot \n");
-	exit(3);
-	}
-
-strcpy(phrase,string);
-
-mot = strtok(phrase, separat);
-for(ii = 1; ii < n; ii++) 
-	if(mot != NULL)
-		mot = strtok(NULL, separat);
-if(mot != NULL)	
-  if(strlen(mot) >= MAXMOT -1) {
-     printf("Erreur dans nieme_mot! le mot est de longueur >= %d\n", MAXMOT -1);
-     exit(1);
-     }
-
-if(mot != NULL) strncpy(buffer, mot, MAXMOT);
-else strcpy(buffer, "\0");
-
-free(phrase);
-
-return(buffer);
-}
 
 
 
