@@ -98,7 +98,7 @@ getNumber.socket = function( socket, name){
 	return(parser.socket(s)[1])
 }
 
-query = function (socket, listname, query) 
+query = function (socket, listname, query, invisible = FALSE) 
 {
     writeLines("prep_requete", socket, sep = "\n")
     readLines(socket, n = 1)
@@ -126,7 +126,8 @@ query = function (socket, listname, query)
         socket = socket)
     class(result) = c("qaw")
     assign(listname, result, env = .GlobalEnv)
-    print(result)
+    if(invisible == TRUE) invisible(result)
+    else print(result)
 }
 
 
@@ -260,7 +261,7 @@ plot.SeqAcnucWeb = function(x,  type = "all", ...){
   
   q = paste("me n=",x,sep="")
   
-  query(socket,listname= "me",query = q)
+  query(socket,listname= "me",query = q,invisible = TRUE)
   l = getLength(me$req[[1]])
   cx = c(0,l+(1/10)*l)
   cy = c(0,15)
@@ -291,7 +292,7 @@ plot.SeqAcnucWeb = function(x,  type = "all", ...){
 
   else{
     q = paste("fi n=",x,sep="")
-    query(socket = socket, listname = "filles", query = q )
+    query(socket = socket, listname = "filles", query = q, invisible = TRUE)
     if(length(filles$req)==1 && filles$req == x){ 
       rect(0,1,getLength(x),2,col= "red",border="red")
       legend(9,legend=x,fill="red",bg="cornsilk",ncol = 1)
@@ -305,7 +306,7 @@ plot.SeqAcnucWeb = function(x,  type = "all", ...){
     for(i in 1:length(ptype)){
       cou = cou+1
       q=paste("filles et t=",ptype[i],sep="")
-      query(socket = socket, listname = "tmp", query = q )
+      query(socket = socket, listname = "tmp", query = q, invisible = TRUE)
       if(is.na(tmp$req[[1]]) || tmp$req[[1]] == x ){ 
         cou = cou-1
       }
