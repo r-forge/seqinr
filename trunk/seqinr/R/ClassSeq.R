@@ -13,38 +13,37 @@
 	#####################################################################################
 
 
-getSequence.default = function(x){
-	if(length(x) == 1) x=s2c(x)	
- 	xx = tolower(x)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
- 	if(y>length(xx) || z>length(xx) || y>z) stop("borns are not correct")	
+getSequence.default = function(object){
+	if(length(object) == 1) object=s2c(object)	
+ 	xx = tolower(object)
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
  	else return(xx)		
 }
 
-getFrag.default = function(x,y,z){ 
-	if(length(x) == 1) x=s2c(x)	
- 	xx = tolower(x)
+getFrag.default = function(object,begin,end){ 
+	if(length(object) == 1) object=s2c(object)	
+ 	xx = tolower(object)
  	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
- 	if(y>length(xx) || z>length(xx) || y>z) stop("borns are not correct")	
- 	else return(xx[y:z])		
+ 	if(begin>length(xx) || end>length(xx) || begin>end) stop("borns are not correct")	
+ 	else return(xx[begin:end])		
 }
 
-getLength.default = function(x){
-	if(length(x) == 1) x=s2c(x)	
- 	xx = tolower(x)
+getLength.default = function(object){
+	if(length(object) == 1) object=s2c(object)	
+ 	xx = tolower(object)
  	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
  	return(length(xx))
 }
 
-getName.default = function(x){
+getName.default = function(object){
  	stop("no name")
 }
 
-getProp.default = function(x){
+getProp.default = function(object){
  	stop("no property")
 }
 
-getAnnot.default = function(x,y){ 
+getAnnot.default = function(object,nl){ 
  	stop("no annotation for this sequence")
 }
 
@@ -54,35 +53,35 @@ Translate.default = function(seq,frame=0, sens= "F", numcode=1){
 
 ##################################################################
 
-getFrag =  function(x,y,z) {
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) { getFrag.default(x,y,z) }
+getFrag =  function(object,begin,end) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) { getFrag.default(object,begin,end) }
 	else UseMethod("getFrag")
 }
 
-getSequence = function(x){
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getSequence.default(x)}
+getSequence = function(object){
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getSequence.default(object)}
 	else UseMethod("getSequence")
 }
 
 
-getLength =  function(x) {
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getLength.default(x)}
+getLength =  function(object) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getLength.default(object)}
 	else UseMethod("getLength")
 }
 
-getName =  function(x) {
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getName.default(x)}
+getName =  function(object) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getName.default(object)}
 	else UseMethod("getName")
 }
 
-getProp =  function(x) {
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getProp.default(x)}
+getProp =  function(object) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getProp.default(object)}
 	else UseMethod("getProp")
 }
 
 
-getAnnot = function(x,y) {
-	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(x,y)}
+getAnnot = function(object,nl) {
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nl)}
 	else UseMethod("getAnnot")
 }
 
