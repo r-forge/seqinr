@@ -1,12 +1,15 @@
-count<-function(seq,nombre){
-	s=seq
-	if (nombre==1){
+count<-function(seq,word,frame=0){
+	l=(length(seq)-(word+frame))+1
+	s=seq[(frame+1):(frame+l)]
+	seq=seq[(frame+1):length(seq)]
+	if (word==1){
 	table(factor(seq,levels=levels(as.factor(alphabet(1)))))
 	}
 	else{
-	for(i in 2:nombre) s=paste(s,seq[i:length(seq)],sep="")
-	table(factor(s,levels=levels(as.factor(alphabet(nombre)))))
+	for(i in 2:word) s=paste(s,seq[i:(i+l-1)],sep="")
+	table(factor(s,levels=levels(as.factor(alphabet(word)))))
 	}
     }
+
 
 
