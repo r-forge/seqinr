@@ -19,8 +19,8 @@ read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype=
 }
 \author{ D. CHARIF }
 \examples{
-s = read.fasta()
-ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"))
+s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
+ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
 }
 \keyword{ manip }
 

@@ -32,6 +32,6 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 
 \seealso{ \code{\link{choosebank.socket}}, \code{\link{query}}, \code{\link{mkbank}} }
 \examples{
-  \dontrun{ choosebank("embl")}
+  choosebank()
 }
 \keyword{ manip }
