@@ -11,7 +11,7 @@
  is.SeqFrag(object)
 }
 \arguments{
-  \item{object}{ an object sequence of class \code{seqFastadna}, \code{seqFastaAA}, \code{seqAcnucLocal}, \code{seqAcnucWeb} or \code{seqFrag} }
+  \item{object}{ an object sequence of class \code{seqFastadna}, \code{seqFastaAA}, \code{seqAcnucWeb} or \code{seqFrag} }
   \item{begin}{ the first base of the fragment to get }
   \item{end}{ the last base of the fragment to get }
   \item{compl}{ if TRUE, you must give a name for the sequence}
