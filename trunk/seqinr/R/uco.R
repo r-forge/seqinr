@@ -11,7 +11,7 @@ uco<-function( seq, frame = 0, freq = FALSE, as.data.frame = FALSE){
 } 
 
 dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7, 
-  alphabet = s2c("TCAG"), pch = 21, gpch = 20, bg = par("bg"), 
+  alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), 
   color = par("fg"), gcolor = par("fg"), lcolor = "gray", 
   xlim, main = NULL, xlab = NULL, ylab = NULL, ...)
 {

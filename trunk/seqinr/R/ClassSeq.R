@@ -10,7 +10,7 @@
 ######################################################################
 
 
-
+getSequenceC=function(x){return(NULL)}
 getFragC=function(x,y,z){return(NULL)}
 getLengthC=function(x){return(0)}
 getNameC=function(x){return(NULL)}
@@ -21,17 +21,23 @@ if(is.null(attr(x,"class"))) {getFragC(x,y,z)}
 else UseMethod("getFrag")
 }
 
-getLength =  function(x,y,z) {
+getSequenceC = function(x){
+if(is.null(attr(x,"class"))) {getSequenceC(x)}
+else UseMethod("getSequence")
+}
+
+
+getLength =  function(x) {
 if(is.null(attr(x,"class"))) {getLengthC(x,y,z)}
 else UseMethod("getLength")
 }
 
-getName =  function(x,y,z) {
+getName =  function(x) {
 if(is.null(attr(x,"class"))) {getNameC(x,y,z)}
 else UseMethod("getName")
 }
 
-getProp =  function(x,y,z) {
+getProp =  function(x) {
 if(is.null(attr(x,"class"))) {getPropC(x,y,z)}
 else UseMethod("getProp")
 }
@@ -251,6 +257,14 @@ getFrag.SeqReq = function(SeqReq,born1=1,born2){
 	return(s2c(s))
 	}
 }
+
+
+getSequence.SeqReq = function(SeqReq){
+	s=return(.Call("getseq"))
+	return(s2c(s))
+	}
+
+
 
 getName.SeqReq = function(SeqReq){return(SeqReq)}
 

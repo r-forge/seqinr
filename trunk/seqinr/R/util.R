@@ -116,12 +116,12 @@ invers<-function(seq)
 ###########################################
 
 comp<-function(seq){
-	seq<-replace(seq,seq=="A","tmp1")
-	seq<-replace(seq,seq=="C","tmp2")
-	seq<-replace(seq,seq=="G","C")
-	seq<-replace(seq,seq=="T","A")
-	seq<-replace(seq,seq=="tmp1","T")
-	seq<-replace(seq,seq=="tmp2","G")
+	seq<-replace(seq,seq=="a","tmp1")
+	seq<-replace(seq,seq=="c","tmp2")
+	seq<-replace(seq,seq=="g","C")
+	seq<-replace(seq,seq=="t","A")
+	seq<-replace(seq,seq=="tmp1","t")
+	seq<-replace(seq,seq=="tmp2","g")
 	seq
 }
 
@@ -129,7 +129,7 @@ comp<-function(seq){
 
 alphabet<-function(al)
 {
-al1<-c("A","C","G","T")
+al1<-s2c("acgt")
 if(al==1) al1
 else
 {

@@ -3,7 +3,7 @@ translate <- function(seq, frame=0, sens="F", numcode=1)
 	if(sens=="R") seq<-comp(invers(seq))
 	else if(sens=="F") seq <- seq
 
-	n <- c(A=2,C=1,G=3,T=0)
+	n <- c(a=2,c=1,g=3,t=0)
     	seq <- as.vector(n[seq])
 	seq <- as.numeric(seq) 
 	l <- floor((length(seq)-frame)/3)*3
