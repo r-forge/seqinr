@@ -33,6 +33,7 @@ int fastlwl(char **, int, int, float **, float **, float **, float **, float **,
 SEXP kaks(SEXP sequences, SEXP nbseq)
 {
 
+  char **seqIn;
   char **seq;
   float *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   char  buff[40];
@@ -70,23 +71,47 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
   SEXP rvks;
   SEXP toto;
   SEXP res;
+  SEXP SEQINIT;
 
    totseqs = INTEGER_VALUE(nbseq);
-  
+   
    seq = (char **)malloc(totseqs*sizeof(char *));
+   seqIn = (char **)malloc(totseqs*sizeof(char *));
+   
    
    for(i=0;i<totseqs;i++){
       seq[i] = CHAR(STRING_ELT(sequences,i));
    }
    
    lgseq = strlen(seq[0]);
+   
+   for(i=0;i<totseqs;i++){
+     seqIn[i]= (char *)malloc((lgseq)*sizeof(char));
+   }
 
-   PROTECT(res=allocVector(VECSXP,4));
+    for(j=0;j<totseqs;j++){
+     for(i=0;i<(lgseq+1);i++){
+       seqIn[j][i]=seq[j][i];
+     }
+   }
+   
+   
+   // for(i=0;i<totseqs;i++){
+   //seq[i] = CHAR(STRING_ELT(sequences,i));
+   //}
+   
+   // for(i=0;i<totseqs;i++){
+   //seqIn[i]= strcpy(seqIn[i],seq[i]);
+   // }
+   
+   
+
+   PROTECT(res=allocVector(VECSXP,5));
    PROTECT(rka=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rks=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rvka=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rvks=NEW_NUMERIC(totseqs*totseqs));
-   
+   PROTECT(SEQINIT=NEW_CHARACTER(totseqs));
 
 	for (i = 0; i < 64; i++) {
 		if ((tl0[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
@@ -135,7 +160,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	}
 
 
-	lgseq = strlen(seq[0]);
+	//lgseq = strlen(seq[0]);
 
 	for (i=0;i<totseqs;i++){
 		for(j=0;j<lgseq;j++){
@@ -161,37 +186,45 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 		}
 	}
 
-
+	
 	reresh(seq,totseqs,0);
 	
 	
-	for (i = 0; i <= totseqs; i++) {
-		ka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-		vka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-		ks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
-		vks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
+	//	for (i = 0; i <= totseqs; i++) {
+	//	ka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
+	//	vka[i] = (float *) malloc((totseqs + 1) * sizeof(float));
+	//	ks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
+	//	vks[i] = (float *) malloc((totseqs + 1) * sizeof(float));
+	//}
+	
+	for (i = 0; i < totseqs; i++) {
+	  ka[i] = (float *) malloc((totseqs ) * sizeof(float));
+	  vka[i] = (float *) malloc((totseqs ) * sizeof(float));
+	  ks[i] = (float *) malloc((totseqs ) * sizeof(float));
+	  vks[i] = (float *) malloc((totseqs ) * sizeof(float));
 	}
+	
 
 	lgseq = strlen(seq[0]);
-
+	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
 	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
-
 	
-    /********************************************************************************/
-    /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ks       */
-    /********************************************************************************/
-
+	
+	/********************************************************************************/
+	/* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ks       */
+	/********************************************************************************/
+	
 	n=0;
-			
+	
        	for(i=0;i<totseqs-1;i++){
 	  for(j=i+1;j<totseqs;j++){
-		    REAL(rks)[n+j-i]=ks[i][j];
-		  }
-		  n=n+totseqs+1;
+	    REAL(rks)[n+j-i]=ks[i][j];
+	  }
+	  n=n+totseqs+1;
 	}
 	
-
+	
   /********************************************************************************/
     /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ka       */
     /********************************************************************************/
@@ -233,14 +266,20 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	}
 	
 
+	for(i=0;i<totseqs;i++){
+		SET_ELEMENT(SEQINIT,i,mkChar(seqIn[i]));
+	}	
+
+
 	 SET_ELEMENT(res,0,rka);
 	 SET_ELEMENT(res,1,rks);
-	 SET_ELEMENT(res,2,rvks);
-	 SET_ELEMENT(res,3,rvka);
+	 SET_ELEMENT(res,2,rvka);
+	 SET_ELEMENT(res,3,rvks);
+	 SET_ELEMENT(res,4,SEQINIT);
 
-	UNPROTECT(5);
-	return(res);
-}
+	UNPROTECT(6);
+	return(res);}
+	
 
 
 int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tti0, float **tti1, float **tti2, float **ttv0, float **ttv1, float **ttv2, float **tl0, float **tl1, float **tl2, float **vka, float **vks)
