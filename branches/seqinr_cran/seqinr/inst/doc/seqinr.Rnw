@@ -1,6 +1,7 @@
 \documentclass{svmult}
 % Springer-Verlag style for multiauthors books
 
+\SweaveOpts{prefix.string=figs/seqinr}
 
 
 \begin{document}
@@ -118,6 +119,31 @@ as the {\bf{R}}eciprocal function of sequin: with sequin you can submit sequence
 to Genbank, with \seqinr{} you can {\bf{R}}etrieve sequences from Genbank. This is
 a very good summary of a major functionality of the \seqinr{} package: to
 provide an efficient access to sequence databases under R.
+
+\subsection{About getting started}
+
+You need a computer connected to the Internet. First, install R on your computer.
+There are pre-compiled binary distributions for Linux, Mac and Windows users
+on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{ade4}
+and the \texttt{seqinr} packages. This can be done directly in an R console
+with the commands \texttt{install.packages("ade4")} and 
+\texttt{install.packages("seqinr")}. Last, load the \seqinr{} package
+with:
+
+<<seqinr>>=
+library(seqinr)
+@
+
+The command \texttt{lseqinr()} lists all what is defined in the package \seqinr{}:
+
+<<lseqinr>>=
+lseqinr()[1:9]
+@
+
+We have printed here only the first 9 entries because they are too numerous.
+To get help on a specific function, say \texttt{aaa()}, just prefix its name
+with a question mark, as in \texttt{?aaa} and press enter.
+
 %
 % How to get sequences
 %
@@ -127,11 +153,140 @@ provide an efficient access to sequence databases under R.
 
 \subsection{Complex queries in ACNUC databases}
 
+There is a utility in \seqinr{} called \texttt{get.db.growth()}
+to get some basic statistics about the size of DNA databases from their
+last release:
+
+<<dbg, fig = TRUE>>=
+dbg <- get.db.growth()
+plot(x = dbg$date,
+  y = log10(dbg$Nucl),
+  main = "The growth of DNA databases",
+  xlab = "Year",
+  ylab = "Log10 number of nucleotides")
+@
+
+As a rule of thumb, after compression one nucleotide needs one octet
+of disk space storage (because you need also the annotations corresponding
+to the sequences), so that most likely you won't have enough space on
+your computer to work with a local copy of a complete DNA database. 
 %
 % Sequence analyses
 %
+\section{Manipulation of sequence data}
+%
+% Multivariate analyses
+%
+\section{Multivariate analyses}
 
+\subsection{Correspondence analysis}
 
+This is the most popular multivariate data analysis technique for amino-acid
+and codon count tables. Its primary goal is to transform a table of counts
+into a graphical display, in which each gene (or protein) and each codon (or amino-acid)
+is depicted as a point. Correspondence analysis (CA) may be defined as a special 
+case of principal components analysis (PCA) with a different underlying metrics.
+The interest of the metrics in CA, that is the way we measure the distance between
+two individuals, is illustrated bellow with a very simple example with only
+three proteins having only three amino-acids, so that we can represent exactly
+on a map the consequences of the metric choice.
+
+<<df>>=
+df <- data.frame(matrix(c(130, 60, 60, 70, 40, 35, 0, 0, 5), nrow=3))
+names(df) <- c("Ala", "Val", "Cys")
+df
+@
+
+Let's first use the regular Euclidian metrics,
+\begin{equation}
+d^2(i,i') = \sum_{i=1}^{I}(n_{ij} - n_{i'j})^2
+\label{euclidian}
+\end{equation}
+to visualize this small data set:
+
+<<euclidian, fig = TRUE>>=
+pco <- dudi.pco(dist(df), scann = F, nf = 2)
+myplot <- function( res, ... )
+{
+  plot(res$li[ , 1], res$li[ , 2], ...)
+  text(x = res$li[ , 1], y = res$li[ , 2], labels = 1:3, pos = ifelse(res$li[ , 2] < 0, 1, 3))
+  perm <- c(3, 1, 2)
+  lines( c(res$li[ , 1], res$li[perm, 1]), c(res$li[ , 2], res$li[perm, 2]))
+}
+myplot(pco, main = "Euclidian distance", asp = 1, pch = 19, xlab = "", ylab = "")
+@
+
+From this point of view, the first individual is far away from the two others. But
+thinking about it, this is a rather trivial effect of protein size:
+
+<<protsize>>=
+rowSums(df)
+@
+
+With \Sexpr{rowSums(df)[1]} amino-acids, the first protein is two times bigger 
+than the others so that when computing the Euclidian distance (\ref{euclidian}) its $n_{ij}$ entries
+are on average very big, sending it away from the others.
+To get rid of this trivial effect, the first
+obvious idea is to divide counts by protein lengths so as to work with 
+\emph{protein profiles}. The corresponding distance is,
+
+\begin{equation}
+d^2(i,i') = \sum_{i=1}^{I}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bullet}})^2
+\label{euclprof}
+\end{equation}
+
+where $n_{i\bullet}$ and $n_{i'\bullet}$ stands for the total number of amino-acids
+in protein $i$ and $i'$, respectively.
+
+<<profile, fig = TRUE>>=
+df1 <- df/rowSums(df)
+df1
+dudi.pco(dist(df1), scann = F, nf = 2) -> pco1
+myplot(pco1, main = "Euclidian distance on protein profiles", asp = 1, pch = 19, xlab = "", ylab = "",
+  ylim = range(pco1$li[ , 2])*1.2)
+@
+
+The pattern is now completely different with the three protein equally spaced.
+This is normal because in terms of relative amino-acid composition they are
+all differing two-by-two by $5\%$ at the level of two amino-acids only. We
+have clearly removed the trivial protein size effect, but this is still not completely
+satisfactory. The proteins are differing by $5\%$ for all amino-acids but the situation 
+is somewhat different for \texttt{Cys} because this amino-acid is very rare.
+A difference of $5\%$ for a rare amino-acid has not the same significance than
+a difference of $5\%$ for a common amino-acid such as \texttt{Ala} in our
+example. To cope with this, CA make use of a variance-standardizing
+technique to compensate for the larger variance in high frequencies and the 
+smaller variance in low frequencies. This is achieved with the use of the 
+\emph{chi-square distance} ($\chi^2$) which differs from the previous Euclidean distance 
+on profiles (\ref{euclprof}) in that each square is weighted by the inverse of 
+the frequency corresponding to each term,
+
+\begin{equation}
+d^2(i,i') = \sum_{i=1}^{I}\frac{1}{n_{{\bullet}j}}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bullet}})^2
+\label{chi}
+\end{equation}
+
+where $n_{{\bullet}j}$ is the total number of amino-acid of kind $j$. With this point
+of view, the map is now like this:
+
+<<afc, fig = TRUE>>=
+coa <- dudi.coa(df, scann = FALSE, nf = 2)
+myplot(coa, main = expression(paste(chi^2,"distance")), 
+  asp = 1, pch = 19, xlab = "", ylab = "")
+@
+
+The pattern is completely different with now protein number 3 which is far away from
+the others because it is enriched in the rare amino-acid \texttt{Cys} as compared to
+others.
+
+%warning importance of metric choice (COA on RSCU)
+%advantages of COA
+% principe d'eqivalence distri
+% biplot
+
+<<scatter, fig = TRUE>>=
+scatter(coa, clab.col = 0.75, clab.row = 0.6)
+@
 %
 % ---- Bibliography ----
 %
@@ -153,9 +308,6 @@ Leisch, F.:
 Sweave: Dynamic generation of statistical reports using literate data analysis.
 Compstat 2002 --- Proceedings in Computational Statistics (2002) 575--580
 ISBN 3-7908-1517-9.
-
-
-
 
 
 \end{thebibliography}
