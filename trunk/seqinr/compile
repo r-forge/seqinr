@@ -6,14 +6,14 @@
 
 cd $HOME/seqinr
 
-mkdir $HOME/seqinr/library
+#mkdir $HOME/seqinr/library
 
-$HOME/seqinr/src/.exec/make
+#$HOME/seqinr/src/.exec/make
 
 R CMD check $HOME/seqinr/
 
-cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
-cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
+#cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
+#cp $HOME/seqinr/seqinr.Rcheck/seqinr/src/.exec/initf $HOME/seqinr/seqinr.Rcheck/seqinr/exec/.
 
 R CMD build --force $HOME/seqinr/seqinr.Rcheck/seqinr/
 
@@ -21,4 +21,4 @@ mv $HOME/seqinr/seqinr_1.0.tar.gz $HOME/seqinr/library/seqinr_1.0.tar.gz
 
 R CMD INSTALL $HOME/seqinr/library/seqinr_1.0.tar.gz
 
-export R_LIBS=$HOME/seqinr/library
+#export R_LIBS=$HOME/seqinr/library
