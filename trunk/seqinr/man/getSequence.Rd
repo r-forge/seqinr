@@ -19,3 +19,4 @@ getSequence(object)
  methods(getSequence)
 }
 \keyword{ utilities }
+

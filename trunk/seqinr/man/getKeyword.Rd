@@ -8,7 +8,7 @@
 getKeyword(object)
 }
 \arguments{
-  \item{object}{an object of class \code{SeqAcnucLocal}
+  \item{object}{an object of class \code{SeqAcnucLocal}}
 }
 \value{
    A vector of strings containing the keyword(s).

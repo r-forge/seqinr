@@ -8,8 +8,8 @@
 read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype="DNA")
 }
 \arguments{
-  \item{File}{ The name of the file which the sequences in fasta format are to be read from. If it does not contain an absolute path, the file name is relative to the current working directory, `getwd()' }
-  \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA}	
+  \item{File}{ The name of the file which the sequences in fasta format are to be read from. If it does not contain an absolute path, the file name is relative to the current working directory, getwd() }
+  \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA} }	
 }
 \details{
   By default \code{read.fasta}  
@@ -18,7 +18,6 @@ read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype=
   return a list of vector of chars. Each element is a sequence object of th class \code{SeqFastadna} or \code{SeqFastaAA}.
 }
 \author{ D. CHARIF }
-
 \examples{
 s = read.fasta()
 ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"))
