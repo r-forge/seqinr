@@ -6,7 +6,7 @@
 Draw a Cleveland dot plot for codon usage tables
 }
 \usage{
-dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("TCAG"), pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"), lcolor = "gray", xlim, main = NULL, xlab = NULL, ylab = NULL, ...)
+dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"), lcolor = "gray", xlim, main = NULL, xlab = NULL, ylab = NULL, ...)
 }
 
 \arguments{

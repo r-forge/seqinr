@@ -9,7 +9,7 @@ order (a > c > g > t), that is 0 for "a", 1 for "c", 2 for "g", 3 for
 "t" and NA for ambiguous bases.
 }
 \usage{
-s2n(seq, levels, base4 = TRUE, ...)
+s2n(seq, levels, base4 = TRUE)
 }
 \arguments{
   \item{seq}{ a vector of chars }

@@ -7,7 +7,7 @@
   \code{as.SeqFrag} is called by all methods of \code{getFrag}, but not directly by the users. It creates an object sequence of class \code{SeqFrag}. 
 }
 \usage{
- as.SeqFrag(object, begin, end, compl = F, name = "frag")
+ as.SeqFrag(object, begin, end, compl = FALSE, name = "frag")
  is.SeqFrag(object)
 }
 \arguments{

@@ -8,7 +8,7 @@
 \alias{getSequence.default}
 \alias{getNumber.socket}
 \alias{getseq}
-\alias{getsequence.socket}
+\alias{getSequence.socket}
 \alias{getseq2}
 
 \title{ Generic Function for obtaining a sequence }

@@ -6,7 +6,7 @@
 as "BigBang" into a vector of chars such as "B" "i" "g" "B" "a" "n" "g"
 }
 \usage{
-s2c(string = "BigBang")
+s2c(string)
 }
 
 \arguments{
