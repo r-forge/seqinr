@@ -107,7 +107,7 @@ stop("this data base is already in use")
 }
 
 
-choixbanque <- choosebank # Just an alias for compatibility
+
 
 
 query <- function(listname,request)
@@ -127,9 +127,9 @@ query <- function(listname,request)
 	liste<-lapply(liste,s2c)
 	p<-function(m) paste(m[m!=" "],collapse="")
 	liste<-lapply(liste,p)
-	liste = lapply(liste,initSeqReq)	
+	liste = lapply(liste,as.SeqAcnucLocal)	
 	toto=list(call = match.call(),name=listname,req=liste)
-	class(toto)=c("requete")
+	class(toto)=c("qal")
 	assign(listname,toto,env = .GlobalEnv)
 	print(toto)
 }
@@ -146,9 +146,8 @@ getseq2 <- function(name,B1,B2,as.string = TRUE)
  	.Call("getseq2",name,B1,B2)
 	}
 	else{
- 	tata<-.Call("getseq2",name,B1,B2)
- 	seq <- unlist(strsplit(tata,""))
-  	toupper(seq)
+ 	seq <- .Call("getseq2",name,B1,B2)
+ 	return(s2c(seq))
 	}
 }
 
@@ -160,7 +159,7 @@ changebank <- function(bankname)
 }
 
 
-print.requete <- function(x, ...)
+print.qal <- function(x, ...)
 {
 	cat("\n")
 	cat("class: ")

@@ -11,43 +11,73 @@
 	#####################################################################################
 
 
-getSequenceC=function(x){return(NULL)}
-getFragC=function(x,y,z){return(NULL)}
-getLengthC=function(x){return(0)}
-getNameC=function(x){return(NULL)}
-getPropC=function(x){return(list())}
-getAnnotC=function(x,y){return(NULL)}
+getSequence.default = function(x){
+	if(length(x) == 1) x=s2c(x)	
+ 	xx = tolower(x)
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	if(y>length(xx) || z>length(xx) || y>z) stop("borns are not correct")	
+ 	else return(xx)		
+}
+
+getFrag.default = function(x,y,z){ 
+	if(length(x) == 1) x=s2c(x)	
+ 	xx = tolower(x)
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	if(y>length(xx) || z>length(xx) || y>z) stop("borns are not correct")	
+ 	else return(xx[y:z])		
+}
+
+getLength.default = function(x){
+	if(length(x) == 1) x=s2c(x)	
+ 	xx = tolower(x)
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	return(length(xx))
+}
+
+getName.default = function(x){
+ 	stop("no name")
+}
+
+getProp.default = function(x){
+ 	stop("no property")
+}
+
+getAnnot.default = function(x,y){ 
+ 	stop("no annotation for this sequence")
+}
+
+##################################################################
 
 getFrag =  function(x,y,z) {
-if(is.null(attr(x,"class"))) {getFragC(x,y,z)}
-else UseMethod("getFrag")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) { getFrag.default(x,y,z) }
+	else UseMethod("getFrag")
 }
 
 getSequence = function(x){
-if(is.null(attr(x,"class"))) {getSequenceC(x)}
-else UseMethod("getSequence")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getSequence.default(x)}
+	else UseMethod("getSequence")
 }
 
 
 getLength =  function(x) {
-if(is.null(attr(x,"class"))) {getLengthC(x,y,z)}
-else UseMethod("getLength")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getLength.default(x)}
+	else UseMethod("getLength")
 }
 
 getName =  function(x) {
-if(is.null(attr(x,"class"))) {getNameC(x,y,z)}
-else UseMethod("getName")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getName.default(x)}
+	else UseMethod("getName")
 }
 
 getProp =  function(x) {
-if(is.null(attr(x,"class"))) {getPropC(x,y,z)}
-else UseMethod("getProp")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getProp.default(x)}
+	else UseMethod("getProp")
 }
 
 
 getAnnot = function(x,y) {
-if(is.null(attr(x,"class"))) {getAnnotC(x,y,z)}
-else UseMethod("getAnnot")
+	if(! inherits(x,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(x,y)}
+	else UseMethod("getAnnot")
 }
 
 
@@ -71,14 +101,18 @@ as.SeqFastadna = function(elemlist){
         }
 
 is.SeqFastadna = function(x){
-	
 	inherits(x,"SeqFastadna")
 }
 
+getSequence.SeqFastadna = function(SeqFastadna){
+	return(SeqFastadna)
+	}
 
-getFrag.SeqFastadna = function( SeqFastadna, begin = 1, end = getLength(SeqFastadna)){
+getFrag.SeqFastadna = function( SeqFastadna, begin, end){
 	if(end > getLength(SeqFastadna)) stop("invalid end")	
-	return(SeqFastadna[begin:end])
+	newSeq = SeqFastadna[begin:end]
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqFastadna))
+	return(newSeq)
 	}
 
 getLength.SeqFastadna = function( SeqFastadna){
@@ -109,14 +143,19 @@ as.SeqFastaAA = function(elemlist){
         }
 
 is.SeqFastaAA = function(x){
-	
 	inherits(x,"SeqFastaAA")
 }
 
+getSequence.SeqFastaAA = function(SeqFastAA){
+	return(SeqFastaAA)
+	}
 
-getFrag.SeqFastaAA = function( SeqFastaAA, begin = 1, end = getLength(SeqFastaAA)){
+
+getFrag.SeqFastaAA = function( SeqFastaAA, begin, end){
 	if(end > getLength(SeqFastaAA)) stop("invalid end")	
-	return(SeqFastaAA[begin:end])
+	newSeq = SeqFastaAA[begin:end]
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqFastaAA))
+	return(newSeq)
 	}
 
 
@@ -173,23 +212,24 @@ is.SeqAcnucLocal = function(x){
 }
 
 
-getFrag.SeqAcnucLocal = function(SeqAcnucLocal,born1=1,born2){
+getFrag.SeqAcnucLocal = function(SeqAcnucLocal,born1,born2){
 	b = getLength(SeqAcnucLocal)
 	if((born2 > b) || (born1 > b)) stop("born out of limits")
 	else{  
-	s = .Call("getseq2",SeqReq,born1,born2)
-	return(s2c(s))
+	s = .Call("getseq2",SeqAcnucLocal,born1,(born2-born1+1))
+	seq = s2c(s)
+	return(as.SeqFrag(seq,born1,born2,compl=T,name=getName(SeqAcnucLocal)))
 	}
 }
 
 
 getSequence.SeqAcnucLocal = function(SeqAcnucLocal){
-	return(getseq(SeqReq,as.string=F))
+	return(getseq(SeqAcnucLocal,as.string=F))
 	}
 
-
-
-getName.SeqAcnucLocal = function(SeqAcnucLocal){return(SeqAcnucLocal)}
+getName.SeqAcnucLocal = function(SeqAcnucLocal){
+	return(as.character(SeqAcnucLocal))
+}
 
 getLength.SeqAcnucLocal = function(SeqAcnucLocal){
 	return(getAttribut(SeqAcnucLocal)[[1]])
@@ -223,10 +263,6 @@ AApropr = function(SeqFastaAA){
 }
 
 
-
-
-
-
 ####################################################################################################
 #												   #
 #	Classe de Sequences SeqAcnucWeb                                                            #
@@ -245,10 +281,8 @@ as.SeqAcnucWeb = function( name, socket=F ){
 }
 
 
-is.SeqAcnucWeb = function( x ){
-	
+is.SeqAcnucWeb = function( x ){	
 	inherits(x,"SeqAcnucWeb")
-
 }
 
 
@@ -265,14 +299,16 @@ getFrag.SeqAcnucWeb = function( SeqAcnucWeb ,born1,born2 ){
 	b = getLength(SeqAcnucWeb)
 	if((born2 > b) || (born1 > b)) stop("born out of limits")  
 	bb=born2-born1+1
-	return( getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=born1,length=bb))
+	newSeq = getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=born1,length=bb))
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqAcnucWeb))
+	return(newSeq)
 }
 
 
 
 getName.SeqAcnucWeb = function( SeqAcnucWeb ){	
 
-	return( SeqAcnucWeb )
+	return( as.character(SeqAcnucWeb) )
 
 }
 
@@ -294,3 +330,50 @@ getAnnot.SeqAcnucWeb = function( SeqAcnucWeb, nbl ){
 	return( readAnnots.socket( socket= attr(SeqAcnucWeb,"socket"),name=SeqAcnucWeb, nl=nbl) ) 
 
 }
+
+
+
+	############################################################################
+	#		Classe de sequences SeqFrag et ses méthodes:               #
+	############################################################################
+
+
+
+
+as.SeqFrag = function(seq,begin,end,compl=F,name="frag"){
+	if(compl){ attr(seq,"seqMother") = name }
+	else attr(seq,"seqMother") = getName(seq)
+        attr(seq,"begin") = begin
+	attr(seq,"end") = end
+	class(seq) = "SeqFrag"
+        return(seq)
+        }
+
+
+getFrag.SeqFrag = function(seq,begin,end){
+        if((end<begin) || (end>getLength(seq)))  stop("invalid end")
+        newBegin = attr(seq,"begin")+begin-1
+        newEnd = attr(seq,"begin")+end-1
+	newSeq = seq[begin:end]
+        newSeq = as.SeqFrag(seq=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(seq))
+	return(newSeq)
+        }
+
+getLength.SeqFrag = function(seq){
+	return(attr(seq,"end")-(attr(seq,"begin")+1))
+}
+
+getName.SeqFrag = function(seq){
+	return(attr(seq,"seqMother"))
+}
+
+getprop.SeqFrag = function(seq){
+	return(list())
+}
+
+
+
+
+
+
+	
