@@ -7,7 +7,7 @@ oriloc <- function(
   g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
   oldoriloc = FALSE)
 {
-  seq <- tolower( read.fasta( seq.fasta )[[1]][[1]])
+  seq <- tolower( read.fasta( seq.fasta )[[1]])
   lseq <- length(seq)
   g2 <- readLines( g2.coord )
 #
