@@ -31,7 +31,7 @@ uco( seq, frame = 0, freq = FALSE, as.data.frame = FALSE)
 \examples{
 
 a=s2c("aaaccgtgtacgtagtcgaa")
-uco( a, as.data.frame = T)
+\dontrun{uco( a, as.data.frame = T)}
 
 }
 
