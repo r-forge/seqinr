@@ -26,8 +26,8 @@ summary.SeqFastadna(object,...)
 }
 \author{D. Charif}
 \examples{
- \dontrun{s = read.fasta(system.file("sequences/malM.fasta",package="seqinr"))}
- \dontrun{is.SeqFastadna(s[[1]])}
- \dontrun{summary(s[[1]])}
+ s = read.fasta(system.file("sequences/malM.fasta",package="seqinr"))
+ is.SeqFastadna(s[[1]])
+ summary(s[[1]])
 }
 \keyword{utilities}
