@@ -10,10 +10,14 @@ the doubling time in months.
 }
 \usage{
 get.db.growth()
-dia.db.growth( get.db.growth.out = get.db.growth() )
+dia.db.growth( get.db.growth.out = get.db.growth(), Moore = TRUE, ... )
 }
 \arguments{
   \item{get.db.growth.out}{ the output from get.db.growth() }
+  \item{Moore}{ logical, if TRUE add lines corresponding to an
+exponential growth rate with a doubling time of 18 months, that
+is Moore's law.}
+  \item{...}{further arguments to plot}
 }
 \value{
   A dataframe with the statistics from the embl site.
