@@ -196,7 +196,7 @@ getName.SeqFasta = function( SeqFasta){
 #EN COURS: INCORPORATION DU NOM DE LA BANQUE D'0RIGINE
 ######
 
-initSeqReq = function(name)
+initSeqReq = function(name){
 	class(name)="SeqReq"
 	return(name)
 }
