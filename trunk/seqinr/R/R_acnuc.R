@@ -1,4 +1,4 @@
-choosebank <- function( bankname )
+choosebank <- function( bankname = "demo")
 {
 #
 # Set defaults to local bank demo:
