@@ -80,7 +80,7 @@ changebanque <- function(nombanque)
 }
 
 
-print.requete <- function(x)
+print.requete <- function(x, ...)
 {
 	cat("class: ")
 	cat(class(x))
