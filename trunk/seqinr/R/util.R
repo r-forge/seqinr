@@ -118,8 +118,8 @@ invers<-function(seq)
 comp<-function(seq){
 	seq<-replace(seq,seq=="a","tmp1")
 	seq<-replace(seq,seq=="c","tmp2")
-	seq<-replace(seq,seq=="g","C")
-	seq<-replace(seq,seq=="t","A")
+	seq<-replace(seq,seq=="g","c")
+	seq<-replace(seq,seq=="t","a")
 	seq<-replace(seq,seq=="tmp1","t")
 	seq<-replace(seq,seq=="tmp2","g")
 	seq
