@@ -166,7 +166,7 @@ is.SeqFastaAA = function(object){
 	inherits(object,"SeqFastaAA")
 }
 
-getSequence.SeqFastaAA = function(SeqFastAA){
+getSequence.SeqFastaAA = function(SeqFastaAA){
 	return(SeqFastaAA)
 	}
 
@@ -193,7 +193,7 @@ getProp.SeqFastaAA = function(SeqfastaAA){
 	return(list(seqtype="AA"))
 }
 
-getAnnot.SeqFastaAA = function(Seqfastadna){
+getAnnot.SeqFastaAA = function(SeqFastaAA){
 	return(attr(SeqFastaAA,"Annot"))
 }
 
@@ -268,12 +268,14 @@ getAnnot.SeqAcnucLocal = function(SeqAcnucLocal,nbl){
 
 
 Translate.SeqAcnucLocal = function(SeqAcnucLocal){
-	translateCDS(SeqAcnucLocal)
+	seq = translateCDS(SeqAcnucLocal)
+	return(s2c(seq))
 }
 
 
 summary.SeqAcnucLocal = function(SeqAcnucLocal){
- 	return(list(name=getName(SeqAcnucLocal),GC.percent=GC(SeqAcnucLocal),base.count=count(SeqAcnucLocal,1)))
+	s=getSequence(SeqAcnucLocal)
+ 	return(list(name=getName(SeqAcnucLocal),GC.percent=GC(s),base.count=count(s,1)))
 	}
 
 

@@ -182,9 +182,9 @@ translateCDS <- function(name)
 	.Call("translateCDS",name)
 }
 
-getKeyword <- function(name)
+getKeyword <- function(object)
 {
-	k = .Call("getKey",name)
+	k = .Call("getKey",object)
 	k = as.character(k)
 	k = as.list(k)
 	k =strsplit(k," ")
@@ -195,9 +195,9 @@ getKeyword <- function(name)
 }
 
 
-getExon <- function(name)
+getExon <- function(object)
 {
-	a=.Call("getExon",name)
+	a=.Call("getExon",object)
 	deb=a[seq(1,length(a),2)]
 	fin=a[seq(2,length(a),2)]	
 	b=as.list(rep(0,(length(a)/2)))
