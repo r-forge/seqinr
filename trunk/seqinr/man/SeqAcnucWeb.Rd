@@ -20,8 +20,8 @@ is.SeqAcnucWeb(object)
 }
 \author{ D. Charif }
 \examples{
-  s = choosebank.socket("genbank")
-  query.socket(s$socket,"felis","sp=felis catus et t=cds et o=mitochondrion")
-  is.SeqAcnucWeb(felis$req[[1]])
+  \donrun{s = choosebank.socket("genbank")}
+  \dontrun{query.socket(s$socket,"felis","sp=felis catus et t=cds et o=mitochondrion")}
+  \dontrun{is.SeqAcnucWeb(felis$req[[1]])}
 }
 \keyword{utilities}

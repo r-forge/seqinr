@@ -25,7 +25,7 @@ summary.SeqAcnucLocal(object,...)
 }
 \author{ D. Charif }
 \examples{
-  choosebank()
+  choosebank(bank="demo")
   query("coli","sp=esherichia coli")
   is.SeqAcnucLocal(coli$req[[1]])
 }

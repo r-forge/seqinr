@@ -25,7 +25,7 @@ summary.SeqFastaAA(object,...)
 }
 \author{ D. Charif }
 \examples{
-  s = read.fasta(File=system.file("sequences/seqAA.fasta",package="seqinr"))
+  s = read.fasta(File=system.file("sequences/seqAA.fasta",package="seqinr"),seqtype="AA")
   is.SeqFastaAA(s[[1]])
   summary(s[[1]])
 }
