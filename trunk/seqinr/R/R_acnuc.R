@@ -5,18 +5,12 @@ choosebank <- function( bank = "demo")
 # Test if a bank is already in use
 #
 
- if( exists("bankname",envir=globalenv()) && (get("bankname",envir=globalenv()) != bank ))
-{ 
+if( exists("bankname",envir=globalenv())
+{
+ rm(bankname)  
 .C("Racnucclose")
 }
-else
-{	
-if( exists("bankname",envir=globalenv()) && get("bankname",envir=globalenv()) == bank )
-{ 
-stop("this data base is already in use")
-}
-}
- 
+
 #
 # Define a function to print something when we are unable
 # to locate the requested bank
