@@ -112,6 +112,16 @@ choixbanque <- choosebank # Just an alias for compatibility
 
 query <- function(listname,request)
 {	
+
+#
+# Test if a database is open
+#
+	if(exists("bankname",envir=globalenv()) == FALSE){
+	stop("you must first choose a database using choosebank()") 
+	}
+#	
+# call to the C funcion getreq() to obtain the list of sequences name 
+#
 	liste<-.Call("getreq",listname,request)
 	liste<-as.character(liste)
 	liste<-lapply(liste,s2c)
