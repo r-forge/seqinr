@@ -135,7 +135,7 @@ comp<-function(seq){
 ######################
 
 GC3 = function(seq){
-	sequence <- splitseq( seq, 3)
+	sequence <- splitseq( seq )
 	codons <- words(length = 3, alphabet = s2c("acgt"))	
 	eff=table(factor( sequence , levels=codons))
 	f =round(eff/(floor(length(seq)/3)),4)
@@ -148,7 +148,7 @@ GC3 = function(seq){
 
 
 GC2 = function(seq){
-	sequence <- splitseq( seq, 3)
+	sequence <- splitseq( seq )
 	codons <- words(length = 3, alphabet = s2c("acgt"))	
 	eff=table(factor( sequence , levels=codons))
 	f =round(eff/(floor(length(seq)/3)),4)
