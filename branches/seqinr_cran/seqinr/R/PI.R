@@ -19,7 +19,18 @@ computePI = function(seq){
 	critere <- function( p1, p2, p3, p4, p5){ 
 		computeCharge(pH = p1, compoAA = p2, pK = p3, nTermResidue = p4, cTermResidue = p5)^2
 		 }
-	return(nlm(critere, p = 7, p2 = compoAA, p3 = SEQINR.UTIL$pk, p4 = nTermR, p5 = cTermR)$estimate)
+
+    nlmres <- nlm(critere, 7, p2 = compoAA, p3 = SEQINR.UTIL$pk, 
+        p4 = nTermR, p5 = cTermR)
+    #
+    # If minimum is not zero, try whith a different guess
+    #
+    while( ! identical(all.equal( nlmres$minimum, 0 ), TRUE))
+    {
+      nlmres <- nlm(critere, runif(1, 0, 14), p2 = compoAA, p3 = SEQINR.UTIL$pk, 
+        p4 = nTermR, p5 = cTermR)
+    }
+    return(nlmres$estimate)
 }
 
 
