@@ -37,7 +37,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
   char **seq;
   float *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
-  float *ka[100], *ks[100],  *rl[21], a, b, *vka[100], *vks[100];
+  float *ka[100], *ks[100],  *rl[21], *vka[100], *vks[100];
   
  float mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
@@ -258,6 +258,39 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	
 
 
+
+
+int num(char *cod)
+{
+	int             n1, n2, n3;
+
+	n1 = n2 = n3 = 0;
+	if (cod[0] == 'C')
+		n1 = 1;
+	if (cod[1] == 'C')
+		n2 = 1;
+	if (cod[2] == 'C')
+		n3 = 1;
+	if (cod[0] == 'G')
+		n1 = 2;
+	if (cod[1] == 'G')
+		n2 = 2;
+	if (cod[2] == 'G')
+		n3 = 2;
+	if (cod[0] == 'T')
+		n1 = 3;
+	if (cod[1] == 'T')
+		n2 = 3;
+	if (cod[2] == 'T')
+		n3 = 3;
+
+	return 16 * n1 + 4 * n2 + n3;
+}
+
+
+
+
+
 int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tti0, float **tti1, float **tti2, float **ttv0, float **ttv1, float **ttv2, float **tl0, float **tl1, float **tl2, float **vka, float **vks)
 {
 
@@ -271,8 +304,7 @@ int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tt
 	sat = sat1 = sat2 = 2;
 	flgseq = (float) lgseq;
 	if (flgseq / trois != lgseq / 3) {
-		printf("Nombre de nt non multiple de trois.\n");
-		return;
+		error("Nombre de nt non multiple de trois.\n");
 	}
 	for (i = 0; i < nbseq - 1; i++) {
 		for (j = i + 1; j < nbseq; j++) {
@@ -364,34 +396,6 @@ es2=(aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii]);
 	return sat;
 }
 
-
-
-int num(char *cod)
-{
-	int             n1, n2, n3;
-
-	n1 = n2 = n3 = 0;
-	if (cod[0] == 'C')
-		n1 = 1;
-	if (cod[1] == 'C')
-		n2 = 1;
-	if (cod[2] == 'C')
-		n3 = 1;
-	if (cod[0] == 'G')
-		n1 = 2;
-	if (cod[1] == 'G')
-		n2 = 2;
-	if (cod[2] == 'G')
-		n3 = 2;
-	if (cod[0] == 'T')
-		n1 = 3;
-	if (cod[1] == 'T')
-		n2 = 3;
-	if (cod[2] == 'T')
-		n3 = 3;
-
-	return 16 * n1 + 4 * n2 + n3;
-}
 
 
 
@@ -487,11 +491,9 @@ char transf(char nt1, char nt2)
 
 void titv1(char *cod1, char *cod2, float poids, float *ti, float *tv, float* l)
 {
-	int             i, j, jj;
+	int             i;
 	char            a, b, ci1, ci2, ci3, cj1, cj2, cj3;
 	char            transf(char, char);
-	float		poids2 = poids/2;
-
 
 	ci1 = cod1[0];
 	ci2 = cod1[1];
@@ -632,8 +634,8 @@ void titv2(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, floa
 {
 
 	char            codint1[3], codint2[3];
-	int             i, j, n, a1, a2, a3, a4, b1, b2, b3,b4;
-	float           l1, l2, p1, p2,f1,f2,f3,f4;
+	int             i, j, n = 0;
+	float           l1, l2, p1, p2;
 	void            titv1(char *, char *, float, float *, float *,float*);
 
 
@@ -735,9 +737,9 @@ void titv3(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, floa
 void prefastlwl(float **rl, float **tl0, float **tl1, float **tl2, float **tti0, float **tti1, float **tti2, float **ttv0, float **ttv1, float **ttv2)
 {
 
-	float           l[3], k[3], ti[3], tv[3],cc[3], aaa[3], bb[3], flgseq;
+	float           l[3],  ti[3], tv[3];
 	char             cod1[3], cod2[3];
-	int             i, j, ii, jj, nbdiff, cat, pos[3], aa[64], n1, n2, n3;
+	int             i, j, ii, jj, nbdiff, pos[3], aa[64], n1, n2, n3;
 	void            titv2(char *, char *, float *, float *, float *, int *, float **, int *pos);
 	void            titv3(char *, char *, float *, float *, float *, int *, float **);
 	void            titv1(char *, char *, float, float *, float *, float *);
@@ -1001,4 +1003,3 @@ void reresh(char** seq, int nbseq, int option){
 
 	
 }
-

@@ -1,3 +1,6 @@
+#include <Rinternals.h>
+#include <R.h>
+#include <Rdefines.h>
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
@@ -5,9 +8,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <Rinternals.h>
-#include <R.h>
-#include <Rdefines.h>
+
 
 
 #define FALSE 0

@@ -9,7 +9,7 @@ char *check_alloc(int nbrelt, int sizelt)
 {
   char *retval;
   if( (retval=calloc(nbrelt,sizelt)) != NULL ) return(retval);
-  error("ERROR: not enough memory");
+  else error("ERROR: not enough memory");
 }
 
 /********************** end check_alloc ****************************/
@@ -270,12 +270,12 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   char **seq;
   int i, j, k, n,totseqs, seq_long, nbases,tutu;
   int mat_number, seq_type;
-
+  int **ndiff;
+  double **dist;
 
   tutu=0;
   MAXNSEQS = INTEGER_VALUE(nbseq);
-  int ndiff[MAXNSEQS][MAXNSEQS];
-  double dist[MAXNSEQS][MAXNSEQS];
+
   int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5,
                        -1, 19,  6, 3, 7,  8, -1, 11, 13, -1, 14, -1 };
 
@@ -317,11 +317,24 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
     seq[i] = CHAR(STRING_ELT(sequences,i));
   }
 
-
+  ndiff = (int **)malloc(MAXNSEQS*sizeof(int *));
+  
+  for(j=0; j < MAXNSEQS; j++){ 
+    ndiff[j] = (int *)malloc(MAXNSEQS*sizeof(int));
+  }
+  
+  dist = (double **)malloc(MAXNSEQS*sizeof(double *));
+  
+  for(j=0; j < MAXNSEQS; j++){ 
+    dist[j] = (double *)malloc(MAXNSEQS*sizeof(double));
+  }
+  
+  
+  
   /*********************************************************/
   /*     Computing distance between sequences i and j      */
   /*********************************************************/
-
+  
     seq_long = (int)strlen(seq[0]);
     
     for (i = 0; i < totseqs; i++)
@@ -760,7 +773,7 @@ SEXP read_clustal_align(SEXP ficname)
   char *fname;
   FILE *in;
   char line[200], *p;
-  int i, l, curr_spec, first=TRUEL, curr_len, next_len, tot_spec, curr_max_len, carac, wid_name;
+  int i, l = 0, curr_spec, first=TRUEL, curr_len, next_len, tot_spec, curr_max_len =0, carac, wid_name = 0;
   char **seq, **comments, **seqname = NULL;
   
 
@@ -888,5 +901,3 @@ SEXP read_clustal_align(SEXP ficname)
   tot_spec = -1;
   goto fini;
 }
-
-

@@ -93,5 +93,3 @@ SEXP is_a_protein_seq(SEXP sequence)
    UNPROTECT(1);
    return ( res );
 }
-
-
