@@ -1,0 +1,163 @@
+\documentclass{svmult}
+% Springer-Verlag style for multiauthors books
+
+
+
+\begin{document}
+
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+
+% SeqinR adds
+\mainmatter              % start of the contributions
+%
+\title{\Seqinr{}: a contributed package to the R project for statistical
+computing devoted to biological sequences retrieval and analysis}
+%
+\titlerunning{\Seqinr{}}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Delphine Charif\inst{1}, Jean R. Lobry\inst{1} }
+%
+\authorrunning{D. Charif \& J.R. Lobry}   % abbreviated author list (for running head)
+%
+%%%% modified list of authors for the TOC (add the affiliations)
+\tocauthor{Delphine Charif (Universit\'{e} Claude Bernard - Lyon I), Jean R. Lobry (Universit\'{e} Claude Bernard - Lyon I)}
+%
+\institute{Universit\'{e} Claude Bernard - Lyon I\\
+Laboratoire de Biom\'{e}trie, Biologie \'{E}volutive\\
+CNRS UMR 5558 - INRIA Helix project\\
+43 Bd 11/11/1918\\F-69622 VILLEURBANNE CEDEX, FRANCE\\
+\texttt{http://pbil.univ-lyon1.fr/members/lobry/}
+}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+The \seqinr{} package for the R environment is a library of
+utilities to retrieve and analyse biological sequences. It provides an
+interface between i) the R language and environment for statistical
+computing and graphics and ii) the ACNUC sequence retrieval system for
+nucleotide and protein sequence databases such as GenBank, EMBL,
+SWISS-PROT. ACNUC is very efficient in providing direct access to
+subsequences of biological interest (e.g. protein coding regions, tRNA
+or rRNA coding regions) present in GenBank and in EMBL. Thanks to a
+simple query language, it is then easy under R to select sequences of
+interest and then use all the power of the R environment to analyze
+them. The ACNUC databases can be locally installed but they are more
+conveniently accessed through a web server to take advantage of
+centralized daily updates. The aim of this paper is to provide a
+handout on basic sequence analyses under \seqinr{} with a special focus
+on multivariate methods.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{About R and CRAN}
+
+R \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
+which provides a wide variety of statistical and graphical techniques: linear and 
+nonlinear modelling, statistical tests, time series analysis, classification, clustering, etc. 
+Please consult the R project homepage at \texttt{http://www.R-project.org/} for 
+further information. 
+
+<<nmirrors, echo = FALSE>>=
+nmirrors <- function( url = paste(getOption("CRAN"), "mirrors.html", sep="/") )
+{
+  readLines(url) -> tmp
+  dtab <- grep("<table", tmp)
+  ftab <- grep("</table", tmp)
+  if( length(dtab) != length(ftab) )
+  {
+    stop("Unbalanced table while reading file")
+  }
+  if( ! all(ftab - dtab > 0) )
+  {
+    stop("overlapping table marks")
+  }
+  nm <- 0
+  for( i in 1:length(dtab) )
+  {
+    nm <- nm + length(grep("http:", tmp[dtab[i]:ftab[i]]))
+  }
+  nm <- nm / 2
+  return( list( nm = nm, nc = length(dtab) ) )
+}
+@
+ 
+ The Comprehensive R Archive Network, CRAN, is a network of servers 
+ around the world that store identical, up-to-date, versions of code and documentation 
+ for R.
+At compilation time of this document, there were \Sexpr{nmirrors()$nm} mirrors available 
+from \Sexpr{nmirrors()$nc} countries.
+Please use the CRAN mirror nearest to you to minimize network load, they are
+listed at \texttt{http://cran.r-project.org/mirrors.html}.
+
+\subsection{About this document}
+
+In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
+The examples given thereafter were run under \texttt{\Sexpr{R.version.string}}
+on \Sexpr{date()} with Sweave \cite{Sweave}.
+The last compiled version of this document is distributed along with the \seqinr{}
+package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
+full path to the package is given by the following R code :
+
+<<whereisdoc>>=
+.find.package("seqinr")
+@
+
+\subsection{About sequin and \seqinr{}}
+
+Sequin is the well known sofware used to submit sequences to GenBank, \seqinr{}
+has definitively no connection with sequin. \seqinr{} is just a shortcut, with
+no google hit, for "Sequences in R".
+
+However, as a mnemotechnic tip, you may think about the \seqinr{} package
+as the {\bf{R}}eciprocal function of sequin: with sequin you can submit sequences
+to Genbank, with \seqinr{} you can {\bf{R}}etrieve sequences from Genbank. This is
+a very good summary of a major functionality of the \seqinr{} package: to
+provide an efficient access to sequence databases under R.
+%
+% How to get sequences
+%
+\section{How to get sequence data}
+
+\subsection{Simple import from fasta files}
+
+\subsection{Complex queries in ACNUC databases}
+
+%
+% Sequence analyses
+%
+
+
+%
+% ---- Bibliography ----
+%
+\begin{thebibliography}{5}
+%
+
+\bibitem{R}
+Ihaka, R., Gentleman, R.:
+R: A Language for Data Analysis and Graphics.
+J. Comp. Graph. Stat. {\bf 3} (1996) 299--314
+
+\bibitem{RfromR}
+R Development Core Team:
+R: A language and environment for statistical computing
+(2004) ISBN 3-900051-00-3, http://www.R-project.org
+   
+\bibitem{Sweave}
+Leisch, F.:
+Sweave: Dynamic generation of statistical reports using literate data analysis.
+Compstat 2002 --- Proceedings in Computational Statistics (2002) 575--580
+ISBN 3-7908-1517-9.
+
+
+
+
+
+\end{thebibliography}
+
+\end{document}
