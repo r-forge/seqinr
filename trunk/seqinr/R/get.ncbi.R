@@ -1,9 +1,4 @@
-#
-# Constant for the location of the complete bacterial genome sequences
-# at ncbi ftp repository site:
-#
 
-.BACTNCBI <- "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"
 
 ########################################################################
 #                        get.ncbi
@@ -17,7 +12,7 @@
 #   Last update time
 #
 #########################################################################
-get.ncbi <- function(repository = .BACTNCBI)
+get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
 {
   #
   # First of all, check that this computer is not off the net:

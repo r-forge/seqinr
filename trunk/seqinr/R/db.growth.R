@@ -1,4 +1,4 @@
-get.db.growth <- function()
+get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt" )
 {
   if (!capabilities("http/ftp")) 
     stop("capabilities(\"http/ftp\") is not TRUE")
@@ -7,12 +7,8 @@ get.db.growth <- function()
       warning("I'am trying to neutralize proxies")
       Sys.putenv("no_proxy" = "")
   }
-#
-# I have removed this url:
-#  embl <- "ftp://ftp.ebi.ac.uk/pub/databases/embl/release/relnotes.txt"
-# and put this one instead:
-#
-  embl <- "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt"
+
+  embl <- where
   tmp <- readLines( embl )
   idx <- grep("Release Month", tmp)
   tmp <- tmp[ (idx + 2):length(tmp) ]
