@@ -109,3 +109,20 @@ translateCDS <- function(name)
 	.Call("translateCDS",name)
 }
 
+getKeyword <- function(name)
+{
+	k = .Call("getKey",name)
+	k = as.character(k)
+	k = as.list(k)
+	k =strsplit(k," ")
+	p<-function(m) paste(m[m!=""],collapse=" ")
+	k = lapply(k,p)
+	k = unlist(k)
+	k
+}
+
+getExon <- function(name)
+{
+	ex = .Call("getExon",name)
+	ex
+}
