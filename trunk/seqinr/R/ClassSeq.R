@@ -398,7 +398,7 @@ getFrag.SeqFrag = function(seq,begin,end){
         newBegin = attr(seq,"begin")+begin-1
         newEnd = attr(seq,"begin")+end-1
 	newSeq = seq[begin:end]
-        newSeq = as.SeqFrag(seq=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(seq))
+        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(seq))
 	return(newSeq)
         }
 
@@ -416,7 +416,7 @@ getprop.SeqFrag = function(seq){
 
 
 Translate.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
-	translate(Seq, frame=0, sens= "F", numcode=1)
+	translate(seq, frame=0, sens= "F", numcode=1)
 }
 
 
