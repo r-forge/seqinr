@@ -167,7 +167,7 @@ files written by Manolo Gouy}
 \seealso{ \code{\link{choosebank}} }
 \examples{
 # Select demo database:
-choosebank()
+choosebank(bank="demo")
 # Select 12 sequences from bacteria:
 query("bact","sp=bacteria")
 # Select 4 Escherichia coli complete genomes:
