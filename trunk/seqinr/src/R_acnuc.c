@@ -120,3 +120,22 @@ SEXP getseq2(SEXP nom, SEXP b1, SEXP b2){
   UNPROTECT(1);
   return(chaine);
 }
+
+SEXP translateCDS(SEXP nom){
+  
+  char *protein;
+  char *name,*seq;
+  int frame, code, num, lseq;
+  SEXP chaine;
+
+  name=CHAR(STRING_ELT(nom,0));
+  num=gsnuml(name,&lseq,&frame,&code);
+  seq=(char *)malloc(lseq*sizeof(char));
+  PROTECT(chaine=NEW_CHARACTER(1));
+  protein = translate_cds(num);
+  SET_ELEMENT(chaine,0,mkChar(protein));
+ 
+  UNPROTECT(1);
+  return(chaine);
+
+  }
