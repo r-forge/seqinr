@@ -23,7 +23,7 @@ splitseq(seq, frame = 0, word = 3)
 
 \examples{
 
-a=s2c("aacgttgcqqqggtcgctqgctqcgtqgctqctgttt")
+a=s2c("aacgttgcaggtcgctcgctacgtagctactgttt")
 ## To obtain the codon sequence in frame 0:
 splitseq(a)
 
