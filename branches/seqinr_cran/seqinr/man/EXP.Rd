@@ -10,7 +10,7 @@ in third codon positions. Base order is the lexical order: a,
 c, g, t (or u).
 }
 \usage{data(EXP)}
-\format{ List of 42 vectors of coefficients
+\format{ List of 24 vectors of coefficients
 \describe{
   \item{A   }{num [1:4] 1 0 0 0 }
   \item{A3  }{num [1:64] 1 0 0 0 1 0 0 0 1 0 ...}
@@ -27,31 +27,13 @@ c, g, t (or u).
   \item{CG2 }{num [1:64] 0 0 0 0 1 1 1 1 1 1 ...}
   \item{CG3 }{num [1:64] 0 1 1 0 0 1 1 0 0 1 ...}
   \item{CGN }{num [1:64] 0 0 0 0 0 0 0 0 0 0 ...}
-  \item{CGQ }{num [1:64] 0 0 0 0 0 1 1 0 0 0 ...}
-  \item{CU  }{num [1:64] 0 1 0 1 0 0 0 0 0 0 ...}
-  \item{DEN }{num [1:64] 0 1 0 1 0 0 0 0 0 0 ...}
-  \item{ECM }{num [1:64] 1 1 0 1 0 1 0 1 0 0 ...}
-  \item{ECO }{num [1:64] 17 29 17 29 71 21 71 21 143 68 ...}
   \item{F1  }{num [1:64]  1.026  0.239  1.026  0.239 -0.097 ...}
-  \item{FD  }{num [1:64] 1 1 1 1 1 1 1 1 1 0 ...}
-  \item{FN  }{num [1:64] 1 1 0 0 0 1 0 1 0 0 ...}
   \item{G   }{num [1:4] 0 0 1 0}
   \item{G3  }{num [1:64] 0 0 1 0 0 0 1 0 0 0 ...}
-  \item{GP  }{num [1:65] 6.77 4.56 6.77 4.56 3.63 ...}
-  \item{HI  }{num [1:64]  0.00  0.00 -2.91 -0.99 -1.03 ...}
   \item{KD  }{num [1:64] -3.9 -3.5 -3.9 -3.5 -0.7 -0.7 -0.7 -0.7 -4.5 -0.8 ...}
-  \item{LEC }{num [1:64] 1 0 1 0 1 1 0 1 1 0 ...}
-  \item{LEV }{num [1:64] 2.86 0 1.27 0 1.1 1.1 0 1.1 1.11 0 ...}
-  \item{MG  }{num [1:64]  0.000 -0.740 -1.236  0.000 -0.168 ...}
-  \item{MG2 }{num [1:64]  0.000 -0.740 -1.236  0.000 -0.168 ...}
-  \item{NUM }{num [1:64] 0 1 0 0 0 0 0 0 0 0 ...}
-  \item{OP  }{num [1:64] 0.17 0.29 0.17 0.29 0.21 0.21 0.21 0.21 0.19 0.42 ...}
   \item{Q   }{num [1:64] 0 0 0 0 1 1 1 1 0 0 ...}
-  \item{Q3  }{num [1:64] 0 0 0 0 0 1 1 0 0 0 ...}
   \item{QA3 }{num [1:64] 0 0 0 0 1 0 0 0 0 0 ...}
   \item{QC3 }{num [1:64] 0 0 0 0 0 1 0 0 0 0 ...}
-  \item{QT  }{num [1:64] 0 0 0 0 1 1 1 1 0 0 ...}
-  \item{SUB }{num [1:64]  0.00  0.00 -1.99 -1.26  0.00 ...}
   \item{U   }{num [1:4] 0 0 0 1}
   \item{U3  }{num [1:64] 0 0 0 1 0 0 0 1 0 0 ...}
   }
@@ -76,37 +58,38 @@ ANALSEQ EXPFILEs for command EXP.\cr
 \url{http://biomserv.univ-lyon1.fr/doclogi/docanals/manuel.html}
 }
 \references{
-  To be completed...
 \describe{
-  \item{AGZ }{ ? }
-  \item{ARG }{ Arg content ? }
-  \item{AU3 }{ (1-CG3)? }
-  \item{BC  }{ Good choice (Bon choix) ? }
-  \item{CAI }{Sharp, P.M., Li, W.-H. (1987) The codon adaptation index -
+  \item{A   }{ content in A nucleotide }
+  \item{A3  }{ content in A nucleotide in third position of codon }	
+  \item{AGZ }{ Arg content (aga and agg codons) }
+  \item{ARG }{ Arg content }
+  \item{AU3 }{ content in A and U nucleotides in third position of codon  }
+  \item{BC  }{ Good choice (Bon choix). Gouy M., Gautier C. (1982)
+ codon usage in bacteria : Correlation with gene expressivity. \emph{Nucleic Acids Research},\bold{10(22)}:7055-7074. }
+  \item{C   }{ content in C nucleotides }
+  \item{C3  }{ content in A nucleotides in third position of codon }
+  \item{CAI }{ Codon adaptation index for E. coli. Sharp, P.M., Li, W.-H. (1987) The codon adaptation index -
 a measure of directionam synonymous codon usage bias, and its potential
 applications. \emph{Nucleic Acids Research},\bold{15}:1281-1295.}
-  \item{CU  }{ ? }
-  \item{DEN }{ ? }
-  \item{ECM }{ ? }
-  \item{ECO }{ NMD E. coli ? Ref these Manolo ? }
+  \item{CG  }{ content in G + C nucleotides }
+  \item{CG1 }{ content in G + C nucleotides in first position of codon  }
+  \item{CG12}{ content in G + C nucleotides in first and second position of codon}
+  \item{CG2 }{ content in G + C nucleotides in second position of codon }
+  \item{CG3 }{ content in G + C nucleotides in third position of codon }
+  \item{CGN }{ content in CGA + CGU + CGA + CGG }
   \item{F1  }{From Table 2 in Lobry, J.R., Gautier, C. (1994) Hydrophobicity,
 expressivity and aromaticity are the major trends of amino-acid usage in
 999 \emph{Escherichia coli} chromosome-encode genes. \emph{Nucleic Acids
 Research},\bold{22}:3174-3180.}
-  \item{FD  }{ ? }
-  \item{FN  }{ ? }
-  \item{GP  }{ Guy Perriere? }
-  \item{HI  }{ Haemophilus influenzae? }
+  \item{G3  }{ content in G nucleotides in third position of codon }
   \item{KD  }{Kyte, J., Doolittle, R.F. (1982) A simple method for displaying
 the hydropathic character of a protein. \emph{J. Mol. Biol.},\bold{157}
 :105-132.}
-  \item{LEC }{ ? }
-  \item{LEV }{ ? }
-  \item{MG  }{ Mycoplasma genitalium? }
-  \item{MG2 }{ ? }
-  \item{NUM }{ ? }
-  \item{OP  }{ ? }
-  \item{SUB }{ Subcellular GP ? }
+  \item{Q   }{ content in quartet }
+  \item{QA3 }{ content in quartet with the A nucleotide in third position }
+  \item{QC3 }{ content in quartet with the A nucleotide in third position }
+  \item{U   }{ content in U nucleotide }
+  \item{U3  }{  content in U nucleotides in third position of codon }
   }
 To have an overview of the seqinR's functionnality, please consult this vignette: 
 Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
