@@ -1,6 +1,6 @@
 ######################################################################
 #classes de séquences
-# toutes les classes doivent aoir exactement la même interface à savoir:
+# toutes les classes doivent avoir exactement la même interface à savoir:
 # une fonction initNomClasse qui retourne une instance de la classe
 # des spécialisations des fonctions
 #                    getFrag(seq,begin=0,end=getLength(seq)) retourne un tableau de caractères
@@ -152,7 +152,7 @@ getFrag.seqDaugther = function(seq,begin=1,end=getLength(seq)){
 
 
 ##############################################################################################
-#		Classe de sequence SeqFasta et ses méthodes:
+#		Classe de sequence SeqFastadna et ses méthodes:
 #La classe de séquence SeqFasta pour les séquences résultants de la lecture d'un fichier au
 #format fasta. 
 ###########################################################################"
@@ -161,23 +161,68 @@ getFrag.seqDaugther = function(seq,begin=1,end=getLength(seq)){
 #initSeqFasta sera appelée au moment de la lecture d'un fichier au format fasta par read.fasta()
 ####################################
 
-initSeqFasta = function(elemlist){
-	class(elemlist)="SeqFasta"	
+initSeqFastadna = function(elemlist){
+	class(elemlist)="SeqFastadna"	
         return(elemlist)
         }
 
-getFrag.SeqFasta = function( SeqFasta, begin = 1, end = getLength(SeqFasta)){
+getFrag.SeqFastadna = function( SeqFastadna, begin = 1, end = getLength(SeqFastadna)){
 	if(end > getLength(SeqFasta)) stop("invalid end")	
-	return(SeqFasta[[1]][begin:end])
+	return(SeqFastadna[[1]][begin:end])
 	}
 
-getLength.SeqFasta = function( SeqFasta){
-	return(length(SeqFasta[[1]]))
+getLength.SeqFastadna = function( SeqFastadna){
+	return(length(SeqFastadna[[1]]))
 	}
 
-getName.SeqFasta = function( SeqFasta){
-	return(names(SeqFasta))
+getName.SeqFastadna = function( SeqFastadna){
+	return(names(SeqFastadna))
 }
+
+getProp.SeqFastadna = function(Seqfastadna){
+	return(list(seqtype=DNA))
+}
+
+summary.SeqFastadna = function(Seqfastadna){
+	compo=count(SeqFastadna,1)
+	return(list(composition=compo,GC=GC(SeqFastadna)))
+}
+
+
+##############################################################################################
+#		Classe de sequence SeqFastaAA et ses méthodes:
+################################################################################################"
+
+initSeqFastaAA = function(elemlist){
+	class(elemlist)="SeqFastaAA"	
+        return(elemlist)
+        }
+
+getFrag.SeqFastaAA = function( SeqFastaAA, begin = 1, end = getLength(SeqFastaAA)){
+	if(end > getLength(SeqFastaAA)) stop("invalid end")	
+	return(SeqFastaAA[[1]][begin:end])
+	}
+
+getLength.SeqFastaAA = function( SeqFastaAA){
+	return(length(SeqFastaAA[[1]]))
+	}
+
+getName.SeqFastaAA = function( SeqFastaAA){
+	return(names(SeqFastaAA))
+}
+
+getProp.SeqFastaAA = function(SeqfastaAA){
+	return(list(seqtype="AA"))
+}
+
+summary.SeqFastAA = function(SeqfastaAA){
+	compo=uco(SeqFastaAA)
+	compo=as.vector(compo)
+	names(compo)=SEQINR.UTIL$CODON.AA$L
+	return(list(composition=compo/getLength(SeqfastaAA),AA.Property=AApropr(SeqfastaAA)))
+}
+
+
 
 
 #############################################################################################
@@ -193,7 +238,6 @@ getName.SeqFasta = function( SeqFasta){
 ######
 # l'initialisation se fera au moment de l'appel à la fonction getreq. On attribuera à chaque mnemo
 # de la liste résultant de la requete la classe SeqReq 
-#EN COURS: INCORPORATION DU NOM DE LA BANQUE D'0RIGINE
 ######
 
 initSeqReq = function(name){
@@ -219,5 +263,30 @@ getLength.SeqReq = function(SeqReq){
 getProp.SeqReq = function(SeqReq){
 	return(getAttribut(SeqReq)[2:3])
 }
+
+
+#summary.SeqReq = function(SeqReq){
+# 	return(list(mnemo=getName(SeqReq),GC.percent=GC(SeqReq),base.count=count(SeqReq,1)))
+#	}
+
+
+
+
+deftype = function(seq){
+	c1=c("A","C","G","T")
+	c2=c("A","C","G","U")
+	if(sum(as.numeric(seq %in% c1))==length(seq)) seqtype="DNA"
+	else if(sum(as.numeric(seq %in% c2))==length(seq)) seqtype="RNA"
+	else if(sum(as.numeric(seq %in% SEQINR.UTIL$CODON.AA$L))==length(seq)) seqtype="AA"
+	return(seqtype)
+	}
+
+AApropr = function(seq){
+	s=as.vector(uco(seq))
+	t=sum(s)
+	names(s)=SEQINR.UTIL$CODON.AA$L
+	list(Tiny=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Tiny)])/t,Small=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Small)])/t,Aliphatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic)])/t,Aromatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aromatic)])/t,Non.polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Non.polar)])/t,Polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Polar)])/t,Charged=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Charged)])/t,Basic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Basic)])/t,Acidic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Acidic)])/t)
+}
+
 
 
