@@ -1,7 +1,6 @@
 	#####################################################################################
 	# 		classes de séquences						    #
 	#  toutes les classes doivent avoir exactement la même interface à savoir:	    #
-seqinr/
 	#  une fonction initNomClasse qui retourne une instance de la classe		    #
 	#  des spécialisations des fonctions                                                #
 	#	     getSequence(seq) retourne un vecteur de char	     		    #

@@ -56,14 +56,11 @@ closebank.socket = function( socket ){
 parser.socket = function(p)
 {
 	p1=s2c(p)
-	b=c(which(p1=="="))
-  	a=c(which(p1=="&"),length(p1)+1)
-	o=character(length(a))
-	for(i in 1:length(a)) {o[i]=substr(p,b[i]+1,a[i]-1) }
-	return(o)
+	b=grep("=",p1)
+  	a=c(grep("&",p1),length(p1)+1)
+	return(unlist(lapply(1:length(a),function(x){substr(m,(b[x]+1),(a[x]-1))})))
 }
 	
-
 
 getSequence.socket = function( socket, name, start, length){
 	
