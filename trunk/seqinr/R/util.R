@@ -1,14 +1,26 @@
-#
+########################
 # char to string
-#
+########################
+
 c2s <- function( chars = c("m","e","r","g","e","d") )
 {
   return( paste( chars, collapse = "" ) )
 }
-#
+
+###########################
+# string to char
+############################
+
+s2c <- function(string){
+	return(.Call("s2c",string))
+}
+
+
+###########################
 # Conversion of the numeric encoding of a DNA sequence into
 # a vector of chars
-#
+############################
+
 n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
@@ -16,10 +28,12 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
   else
     levels[nseq]
 }
-#
+
+###############################
 # simple numerical encoding of a DNA sequence that by default
 # is independent of locale.
-#
+###############################
+
 s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE, ... )
 {
   if( base4 )
@@ -27,14 +41,22 @@ s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE, ... )
   else
     codes(factor(seq, levels = levels , ...) )
 }
+
+################################
+# GC.percent
+#################################
+
 GC = function(seq)
 {
 c=count(seq,1)
 cc=(c[2]+c[3])/sum(c)
 return(cc)
-}#
+}
+
+##########################################
 # Conversion one-letter code to 3-letters code for amino-acids
-#
+##########################################
+
 aaa <- function( aa )
 {
   aa1 <- s2c("*ACDEFGHIKLMNPQRSTVWY")
@@ -56,11 +78,20 @@ aaa <- function( aa )
   return( as.vector(unlist(sapply( aa, convert ) ) ) )
 }
 
+
+#########################################
+# revers a sequence
+#######################################
+
 invers<-function(seq)
 {
 	seq=toupper(s2c)
 	rev(seq)
 }
+
+##########################################
+#complement a sequences
+###########################################
 
 comp<-function(seq){
 	seq<-replace(seq,seq=="A","tmp1")
@@ -71,6 +102,8 @@ comp<-function(seq){
 	seq<-replace(seq,seq=="tmp2","G")
 	seq
 }
+
+
 
 alphabet<-function(al)
 {
@@ -84,5 +117,4 @@ alx<-array(c(paste(alphabet(al-1),array("A",rep(4,(al-1))),sep=""),paste(alphabe
 alx
 }
 }
-
 

@@ -171,8 +171,12 @@ getKeyword <- function(name)
 
 getExon <- function(name)
 {
-	return(.Call("getExon",name))
-	
+	a=.Call("getExon",name)
+	deb=a[seq(1,length(a),2)]
+	fin=a[seq(2,length(a),2)]	
+	b=as.list(rep(0,(length(a)/2)))
+	for(i in 1:(length(a)/2)) b[[i]]=c(deb[i],fin[i])
+	b
 }
 
 
@@ -193,6 +197,3 @@ getAnnots <-function(name,ligne)
 }
 
 
-s2c <- function(string){
-	return(.Call("s2c",string))
-}
