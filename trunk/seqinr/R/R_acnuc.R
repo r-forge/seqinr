@@ -127,3 +127,21 @@ getExon <- function(name)
 	ex = .Call("getExon",name)
 	ex
 }
+
+
+getAttribut <- function(name)
+{
+	res = .Call("getAttribut",name)
+	att = list(lseq=res[1],frame=res[2],gencode=res[3])		
+	return(att)
+}
+
+
+
+getAnnots <-function(name,ligne)
+{
+
+	res = .Call("getAnnots",name,ligne)
+	res = as.character(res)
+	res
+}

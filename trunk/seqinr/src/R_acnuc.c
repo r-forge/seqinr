@@ -17,23 +17,15 @@ void Racnucopen(char **acnuc,char **gcgacnuc){
   prep_acnuc_requete();
 }
 
+
+
+
+
 void Racnucclose(){
 
   dir_acnucclose();
 }
 
-void getdesc(char **name,char **seq,char **p){
-
-  int tot,num, lseq, deb;
-  
-  /*obtenir le numero de la sequence dans acnuc à partir de son nom ou mnemo*/
-  num=gsnuml(*name,&lseq,NULL,NULL);
-  if(num==0) error("ce mnemo est invalide");
-	
-  /*acces à la séquence */
-  tot=gfrag(num,1,lseq,*seq);
-  *p=short_descr(num,*seq,80);
-}
 
 
 
@@ -71,6 +63,24 @@ SEXP getreq(SEXP nom,SEXP req){
 	 UNPROTECT(1);
 	 return(chaine);
 	 }
+
+
+
+SEXP getAttribut(SEXP nom){
+  char *name;
+  int lseq,num,frame,gencode;
+  SEXP l;
+
+  name=CHAR(STRING_ELT(nom,0));
+  num=gsnuml(name,&lseq,&frame,&gencode);
+  PROTECT(l = NEW_INTEGER(3));
+  INTEGER(l)[0]=lseq;
+  INTEGER(l)[1]=frame;
+  INTEGER(l)[2]=get_ncbi_gc_number(gencode);  
+  UNPROTECT(1);
+  return(l);
+}
+
 
 
 
@@ -140,6 +150,9 @@ SEXP translateCDS(SEXP nom){
   return(chaine);
 
   }
+
+
+
 SEXP getKey(SEXP nom){
   
   char *mnemo;
@@ -235,5 +248,32 @@ SEXP getExon(SEXP nom){
 }
 
 
+
+SEXP getAnnots(SEXP name, SEXP nligne){
+  
+  int nsub,div,i,lignes;
+  long annot;
+  char *mnemo;
+ 
+  SEXP chaine;
+  
+  lignes = INTEGER_VALUE(nligne);
+  PROTECT(chaine=allocVector(VECSXP,lignes));
+  mnemo = CHAR(STRING_ELT(name,0));
+ 
+  nsub = isenum(mnemo);
+  if(nsub == 0) error("Ce mnemo est invalide");
+  
+  seq_to_annots(nsub, &annot, &div);
+  
+  SET_ELEMENT(chaine,0,mkChar(read_annots(annot,div)));
+	      
+	      for(i=1;i<lignes;i++){
+		SET_ELEMENT(chaine,i,mkChar(next_annots(NULL)));
+	      }
+	      UNPROTECT(1);
+	      return(chaine);
+}	
+ 
 
 
