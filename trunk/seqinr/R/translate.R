@@ -1,7 +1,8 @@
 translate <- function(seq, frame=0, sens="F", numcode=1)
 {
 	if(sens=="R") seq<-comp(invers(seq))
-	else if(sens=="F") 
+	else if(sens=="F") seq <- seq
+
 	n <- c(A=2,C=1,G=3,T=0)
     	seq <- as.vector(n[seq])
 	seq <- as.numeric(seq) 
