@@ -274,7 +274,7 @@ Translate.SeqAcnucLocal = function(seq,frame=0, sens= "F", numcode=1){
 
 summary.SeqAcnucLocal = function(object,...){
 	s=getSequence(object)
- 	return(list(name=getName(object),GC.percent=GC(s),base.count=count(s,1)))
+ 	return(list(name=getName(object),composition=count(s,1),GC=GC(s)))
 	}
 
 
