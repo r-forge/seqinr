@@ -35,3 +35,5 @@ sortsubseq.c
 compressnewdiv.c 
 smjytload.c
 renamediv.c
+simext.h
+misc_acnuc.c

@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
+#include <math.h>
 
 
 
@@ -59,5 +61,37 @@ void Sysputenv(char **varname, char **valeur){
 }
 
  
+/*#####################################################*/
+/*# Tester si une séquence est protéique ou nucléique #*/
+/*#####################################################*/
+
+
+
+
+SEXP is_a_protein_seq(SEXP sequence)
+/* returns TRUE if seq looks like a protein sequence (less than 80% ACGTU) */
+{
+
+  SEXP res;
+  char *seq;
+  static char dna[]="ACGTU";
+  int total=0, length=0;
+  
+  seq = CHAR(STRING_ELT(sequence,0)); 
+
+  while(*seq != 0) {
+    if(*seq != '-') {
+      if( strchr(dna, toupper(*seq)) != NULL ) total++;
+      length++; 
+    }
+    seq++;
+  }
+  
+   PROTECT(res=NEW_NUMERIC(1));
+   REAL(res)[0]=(float)(total) / length ;
+   
+   UNPROTECT(1);
+   return ( res );
+}
 
 
