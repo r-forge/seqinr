@@ -22,17 +22,16 @@ uco( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE)
 
 \value{
   
-  If \code{as.data.frame} is TRUE \code{uco} returns a data frame with three columns: 
-  \item{ aa }{ a factor containing the name of amino-acid }
-  \item{ codon }{ a factor containing the corresponding codon }
-  \item{ eff/freq }{ a factor containing effectifs or frequencies of codons }
-  If \code{as.data.frame} and \code{RSCU} are TRUE, \code{uco} returns a data frame with four columns:
-  \item{ aa }{ a factor containing the name of amino-acid }
-  \item{ codon }{ a factor containing the corresponding codon }
-  \item{ eff/freq }{ a factor containing effectifs or frequencies of codons }
-  \item{ RSCU}{ a numeric vector containing the relative synonymous codon usage}
-  If \code{as.data.frame} is FALSE, it returns a factor whose levels are codons.
-	
+  If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
+  \item{ aa }{ a vector containing the name of amino-acid }
+  \item{ codon }{ a vector containing the corresponding codon }
+  \item{ eff }{ a numeric vector containing effectifs of codons }
+  \item{ freq }{  a numeric vector containing frequencies of codons }
+  \item{ rscu }{ a numeric vector containing the relative synonymous codon usage}
+  If \code{as.data.frame} is FALSE, \code{uco} returns one of this index: 
+  \item{ eff }{ a factor containing effectifs of codons }
+  \item{ freq }{  a factor containing frequencies of codons }	
+  \item{ rscu }{ a factor containing the relative synonymous codon usage}
 }
 
 \author{ D. CHARIF }
