@@ -1,7 +1,6 @@
 \name{getAnnot}
 \alias{getAnnot}
 \alias{getAnnot.SeqAcnucWeb}
-\alias{getAnnot.SeqAcnucLocal}
 \alias{getAnnot.SeqFastadna}
 \alias{getAnnot.SeqFastaAA}
 \alias{getAnnot.default}
@@ -9,7 +8,7 @@
 \alias{getAnnots}
 \title{ Generic Function to obtain annotation for a sequence }
 \description{
-  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. 
+  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb}. 
 }
 \usage{
 getAnnot(object, nbl)

@@ -1,20 +1,19 @@
 \name{getName}
 \alias{getName}
 \alias{getName.SeqAcnucWeb}
-\alias{getName.SeqAcnucLocal}
 \alias{getName.SeqFastadna}
 \alias{getName.SeqFastaAA}
 \alias{getName.SeqFrag}
 \alias{getName.default}
 \title{ Generic Function To obtain the name of a sequence }
 \description{
-  Method for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
+  Method for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb} or \code{SeqFrag}. 
 }
 \usage{
 getName(object)
 }
 \arguments{
-  \item{object}{ an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} or \code{SeqFrag}}
+  \item{object}{ an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb} or \code{SeqFrag}}
 }
 \value{
   A string of chars containing the name of the sequence.

@@ -1,18 +1,17 @@
 \name{getKeyword}
 \alias{getKeyword}
 \alias{getKeyword.SeqAcnucWeb}
-\alias{getKeyword.SeqAcnucLocal}
 \alias{getKeywordsocket}
 \alias{getKeyword.default}
 \title{ Generic Function to get keyword(s) associated to a sequence }
 \description{
-  This function allows to get keyword(s) associated to a sequence. Method for the class of sequences \code{SeqAcnucLocal} or \code{SeqAcnucWeb}. 
+  This function allows to get keyword(s) associated to a sequence. Method for the class of sequences \code{SeqAcnucWeb}. 
 }
 \usage{
 getKeyword(object)
 }
 \arguments{
-  \item{object}{an object of class \code{SeqAcnucLocal} or \code{SeqAcnucWeb}}
+  \item{object}{an object of the class \code{SeqAcnucWeb}}
 }
 \value{
    A vector of strings containing the keyword(s) associated to a sequence.

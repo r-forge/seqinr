@@ -1,20 +1,19 @@
 \name{getFrag}
 \alias{getFrag}
 \alias{getFrag.SeqAcnucWeb}
-\alias{getFrag.SeqAcnucLocal}
 \alias{getFrag.SeqFastadna}
 \alias{getFrag.SeqFastaAA}
 \alias{getFrag.SeqFrag}
 \alias{getFrag.default}
 \title{ Generic Function to obtain a fragment of a sequence }
 \description{
-  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
+  Methods for the classes of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb}, \code{SeqFrag}. 
 }
 \usage{
 getFrag(object, begin, end)
 }
 \arguments{
-  \item{object}{ an object of the class \code{SeqFastadna}, \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal} or \code{SeqFrag} }
+  \item{object}{ an object of the class \code{SeqFastadna}, \code{SeqFastaAA},  \code{SeqAcnucWeb} or \code{SeqFrag} }
   \item{begin}{ First base }
   \item{end}{ Last base }
 }
