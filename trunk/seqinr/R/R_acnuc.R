@@ -7,7 +7,7 @@ choosebank <- function( bank = "demo")
 
 if( exists("bankname",envir=globalenv()))
 {
- rm(bankname)  
+ rm(bankname, envir=globalenv())  
 .C("Racnucclose")
 }
 
