@@ -30,7 +30,7 @@ Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribon
 
 \examples{
 data(chargaff)
-op <- par(no.readonly=T)
+op <- par(no.readonly = TRUE)
 par(mfrow=c(4,4))
 xlim <- c(0,100)
 ylim <- xlim
