@@ -5,7 +5,7 @@ choosebank <- function( bank = "demo")
 # Test if a bank is already in use
 #
 
-if( exists("bankname",envir=globalenv())
+if( exists("bankname",envir=globalenv()))
 {
  rm(bankname)  
 .C("Racnucclose")
