@@ -1,6 +1,6 @@
 \name{words.pos}
 \alias{words.pos}
-\title{ Positions of (possiblity degenarated) motifs within sequences }
+\title{ Positions of possibly degenerated motifs within sequences }
 \description{
 \code{word.pos} searches all the occurences of the motif \code{pattern}
 within the sequence \code{text} and returns their positions. This
@@ -41,7 +41,7 @@ myseq <- "tatagaga"
 words.pos("t", myseq)   # Should be 1 3
 words.pos("tag", myseq) # Should be 3
 words.pos("ga", myseq)  # Should be 5 7
-# How to specify ambiguous base ? Look for YpN motifs by
+# How to specify ambiguous base ? Look for YpR motifs by
 words.pos("[ct][ag]", myseq) # Should be 1 3
 }
 \keyword{ utilities }
