@@ -1,12 +1,19 @@
-choixbanque <- function(nombanque)
+choosebank <- function( bankname )
 {
-	ad<-Sys.getenv(nombanque)
-	var<-unlist(strsplit(ad," "))
-	acnuc<-var[1]
-	gcgacnuc<-var[2]
-	.C("Racnucopen",acnuc,gcgacnuc)
+  if( missing( bankname ) )
+    stop("Mandatory argument is missing")
 
+  ad <- Sys.getenv( bankname )
+  if( ad == "" )
+    stop(paste("Unable to get environment variable ", bankname))
+
+  var <- unlist(strsplit(ad, " "))
+  acnuc <- var[1]
+  gcgacnuc <- var[2]
+  .C("Racnucopen", acnuc, gcgacnuc)
 }
+
+choixbanque <- choosebank # Just an alias for compatibility
 
 
 getreq <- function(nomliste,requete)
