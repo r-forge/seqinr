@@ -3,6 +3,54 @@
 
 
 
+
+
+char *check_alloc(int nbrelt, int sizelt)
+{
+  char *retval;
+  if( (retval=calloc(nbrelt,sizelt)) != NULL ) return(retval);
+  error("ERROR: not enough memory");
+}
+
+/********************** end check_alloc ****************************/
+
+
+void rem_blank(char *string)
+{
+  int ii;
+
+
+  ii = strlen(string);
+
+  for( ;ii >=0; ii--) {
+    if(string[ii] == 0 || string[ii] == '\n' ||
+       string[ii] == ' ' || string[ii] == '\t') string[ii] = 0;
+    else break;
+  }
+  
+
+}
+/**************************** end rem_blank ************************/
+
+void free_mase(struct SEQMASE * aln, int nbsq)
+     
+{
+  int ii;
+
+
+  for(ii = 0; ii <= nbsq; ii++) {
+    free(aln[ii].seq);
+    free(aln[ii].com);
+  }
+  
+  free((char *) aln);
+  
+  
+}
+
+/******************************** end free_mase ************************/
+
+
 /***********************************************************************************************************************/
 /*  lit un fichier MASE, renvoie une liste (objet R) contenant les séquences, les commentaies et les noms des espèces. */
 /***********************************************************************************************************************/
@@ -110,10 +158,8 @@ SEXP read_mase(SEXP nomfic)
      rem_blank(string);
 
      if((int) strlen(string) >= (MAXMNMASE - 1)) {
-       fprintf(stderr, "\nEXIT: sequence name too long!\n");
        fprintf(stderr, "max  %d characters\n", MAXMNMASE);
-       fprintf(stderr, "(line %d)\n", numline);
-       exit(1);
+       error("sequence name too long!");
      }
      strcpy(aln[ii].mn, string);
      
@@ -165,8 +211,7 @@ for(i=0;i<nb_seq;i++){
   
  free_mase(aln,nb_seq);
  UNPROTECT(5);
- //free_mase(aln,nb_seq);
-
+ 
  return(essai);
 
 }
@@ -175,51 +220,6 @@ for(i=0;i<nb_seq;i++){
 /********************** end read_mase ****************************/
 
   
-char *check_alloc(int nbrelt, int sizelt)
-{
-  char *retval;
-  if( (retval=calloc(nbrelt,sizelt)) != NULL ) return(retval);
-  fprintf(stderr,"\nERROR: not enough memory (check_alloc).\n");
-  exit(1);
-}
-
-/********************** end check_alloc ****************************/
-
-
-void rem_blank(char *string)
-{
-  int ii;
-
-
-  ii = strlen(string);
-
-  for( ;ii >=0; ii--) {
-    if(string[ii] == 0 || string[ii] == '\n' ||
-       string[ii] == ' ' || string[ii] == '\t') string[ii] = 0;
-    else break;
-  }
-  
-
-}
-/**************************** end rem_blank ************************/
-
-void free_mase(struct SEQMASE * aln, int nbsq)
-     
-{
-  int ii;
-
-
-  for(ii = 0; ii <= nbsq; ii++) {
-    free(aln[ii].seq);
-    free(aln[ii].com);
-  }
-  
-  free((char *) aln);
-  
-  
-}
-
-/******************************** end free_mase ************************/
 
 
 /*************************************************************************/
