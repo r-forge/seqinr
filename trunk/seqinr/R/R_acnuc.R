@@ -3,7 +3,7 @@ choosebank <- function( bankname = "demo")
 #
 # Set defaults to local bank demo:
 #
-  assign(bankname,.GlobalEnv)	
+  assign("bankname",bankname,.GlobalEnv)	
   acnuc <- system.file("sequences/entero", package = "seqinr")
   gcgacnuc <- acnuc
 #
@@ -45,9 +45,8 @@ getreq <- function(nomliste,requete)
 {	
 	liste<-.Call("getreq",nomliste,requete)
 	liste<-as.character(liste)
-	liste<-strsplit(liste,"")
-	p<-function(m) paste(m[m!=" "],collapse="")
-	liste<-lapply(liste,p)
+#liste<-strsplit(liste,"")
+#p<-function(m) paste(m[m!=" "],collapse="")#liste<-lapply(liste,p)
 	liste = lapply(liste,initSeqReq)	
 	toto=list(call = match.call(),name=nomliste,req=liste)
 	class(toto)=c("requete")
@@ -78,22 +77,20 @@ getseq2 <- function(name,B1,B2,as.string = TRUE)
 changebanque <- function(nombanque)
 {
 	.C("Racnucclose")
-	choixbanque(nombanque)
+	choosebank(nombanque)
 }
 
 
 print.requete <- function(x, ...)
 {
+	cat("\n")
 	cat("class: ")
 	cat(class(x))
-	cat("\nbanque: ")
-	cat(Sys.getenv("acnuc"))
-	cat("   ")
-	cat(Sys.getenv("gcgacnuc"))
-	cat("\n")
+	cat("\n$banque: ")
+	cat(get("bankname",env=.GlobalEnv))
 	cat("\n$call: ")
 	print(x$call)
-	cat("\n$name: ")
+	cat("$name: ")
 	print(x$name)
 	cat("\n")
 	sumry <- array("", c(1, 4), list(1, c("list", "length", 
@@ -124,8 +121,8 @@ getKeyword <- function(name)
 
 getExon <- function(name)
 {
-	ex = .Call("getExon",name)
-	ex
+	return(.Call("getExon",name))
+	
 }
 
 
@@ -137,11 +134,15 @@ getAttribut <- function(name)
 }
 
 
-
 getAnnots <-function(name,ligne)
 {
 
 	res = .Call("getAnnots",name,ligne)
 	res = as.character(res)
 	res
+}
+
+
+s2c <- function(string){
+	return(.Call("string2char",string))
 }
