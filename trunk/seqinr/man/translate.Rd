@@ -19,23 +19,23 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
 
  The following genetic codes are described here. The number preceding each code corresponds to \code{numcode}. 
 \arguments{	
-  \item{1}  standard
-  \item{2}  vertebrate.mitochondrial
-  \item{3}  yeast.mitochondrial
-  \item{4}  protozoan.mitochondrial+mycoplasma
-  \item{5}  invertebrate.mitochondrial
-  \item{6}  ciliate+dasycladaceal
-  \item{9}  echinoderm+flatworm.mitochondrial
-  \item{10} euplotid
-  \item{11} bacterial+plantplastid
-  \item{12} alternativeyeast
-  \item{13} ascidian.mitochondrial
-  \item{14} alternativeflatworm.mitochondrial
-  \item{15} blepharism
-  \item{16} chlorophycean.mitochondrial
-  \item{21} trematode.mitochondrial
-  \item{22} scenedesmus.mitochondrial
-  \item{23} hraustochytrium.mitochondria
+  \item{1}{ standard }
+  \item{2}{ vertebrate.mitochondrial }
+  \item{3}{ yeast.mitochondrial }
+  \item{4}{ protozoan.mitochondrial+mycoplasma }
+  \item{5}{ invertebrate.mitochondrial }
+  \item{6}{ ciliate+dasycladaceal }
+  \item{9}{ echinoderm+flatworm.mitochondrial }
+  \item{10}{ euplotid }
+  \item{11}{ bacterial+plantplastid }
+  \item{12}{ alternativeyeast }
+  \item{13}{ ascidian.mitochondrial } 
+  \item{14}{ alternativeflatworm.mitochondrial }
+  \item{15}{ blepharism }
+  \item{16}{ chlorophycean.mitochondrial }
+  \item{21}{ trematode.mitochondrial }
+  \item{22}{ scenedesmus.mitochondrial }
+  \item{23}{ hraustochytrium.mitochondria }
 } 
 }
 \value{
