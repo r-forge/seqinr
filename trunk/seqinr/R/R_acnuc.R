@@ -79,7 +79,7 @@ choosebank <- function( bankname = "demo")
     words <- words[nchar(words)>0]
     nlines <- as.numeric(words[length(words)])
     for( i in 2:(nlines+1) )
-      print( help[i] )
+      cat( help[i],"\n" )
   }
   else
   {
