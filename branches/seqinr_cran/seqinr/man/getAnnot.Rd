@@ -21,7 +21,6 @@ getAnnot(object, nbl)
   a vector of sting of character containing the annotation. 
 }
 \author{ D. Charif } 
-\seealso{ \code{\link{getProp}} }
 \examples{
   methods(getAnnot)
 }

@@ -17,7 +17,7 @@ getKeyword(object)
    A vector of strings containing the keyword(s) associated to a sequence.
 }
 \author{D. Charif }
-\seealso{ \code{\link{query.socket}} }
+\seealso{ \code{\link{query}} }
 \examples{
  \dontrun{s=choosebank.socket("embl")}
  \dontrun{query.socket(s$socket,"fc","sp=felis catus et t=cds")}
