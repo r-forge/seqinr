@@ -5,16 +5,6 @@
 
 
 
-char *check_alloc(int nbrelt, int sizelt)
-{
-  char *retval;
-  if( (retval=calloc(nbrelt,sizelt)) != NULL ) return(retval);
-  else error("ERROR: not enough memory");
-}
-
-/********************** end check_alloc ****************************/
-
-
 void rem_blank(char *string)
 {
   int ii;
@@ -164,11 +154,14 @@ SEXP read_mase(SEXP nomfic)
   PROTECT(listmn=allocVector(VECSXP,nb_seq));
   PROTECT(nombreseq=NEW_INTEGER(1));
  
- aln = (struct SEQMASE *) check_alloc(nb_seq + 1, sizeof(struct SEQMASE));
  
- for(ii = 0; ii <= nb_seq; ii++) {
-    aln[ii].seq = (char *) check_alloc(lg_max + 1, sizeof(char));
-    aln[ii].com = (char *) check_alloc(maxcom + 1, sizeof(char));
+ 
+  aln = (struct SEQMASE *) calloc(nb_seq + 1, sizeof(struct SEQMASE));
+
+ 
+  for(ii = 0; ii <= nb_seq; ii++) {
+    aln[ii].seq = (char *) calloc(lg_max + 1, sizeof(char));
+    aln[ii].com = (char *) calloc(maxcom + 1, sizeof(char));
     aln[ii].com[0] = 0;
  }
  
@@ -268,16 +261,12 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   SEXP d;
   int MAXNSEQS;
   char **seq;
-  int i, j, k, n,totseqs, seq_long, nbases,tutu;
+  int i, j, k, n,totseqs, seq_long, nbases;
   int mat_number, seq_type;
   int **ndiff;
   double **dist;
 
-  tutu=0;
-  MAXNSEQS = INTEGER_VALUE(nbseq);
-
-  int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5,
-                       -1, 19,  6, 3, 7,  8, -1, 11, 13, -1, 14, -1 };
+  int mat_pos[]  = { 17, -1, 15, 0, 1, 12, 18,  4,  9, -1,  2, 10, 16, 5, -1, 19,  6, 3, 7, 8, -1, 11, 13, -1, 14, -1 };
 
   const char DNA[]  = "ACGTXN-";
   const char Prot[] = "DEKRHNQSTILVFWYCMAGPX*-";
@@ -304,7 +293,8 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   
 
  
- 
+  
+  MAXNSEQS = INTEGER_VALUE(nbseq);
   totseqs = INTEGER_VALUE(nbseq);
   mat_number= INTEGER_VALUE(matNumber);
   seq_type = INTEGER_VALUE(seqtype);
@@ -569,6 +559,7 @@ SEXP read_phylip_align(SEXP ficname)
   char **seq, **comments, **seqname;
   int totseqs, lenseqs, i, l;
   
+  q=0;
   fname=CHAR(STRING_ELT(ficname,0)); 
   
   PROTECT(nombreseq=NEW_INTEGER(1));
