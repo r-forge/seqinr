@@ -25,7 +25,6 @@ s2c(string = "BigBang")
 \examples{
 c2s( "BigBang" )
 }
-\keyword{ Programming }
-\keyword{ utilities }
+\keyword{utilities}
 
 

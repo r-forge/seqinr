@@ -26,7 +26,6 @@ c2s(chars = c("m", "e", "r", "g", "e", "d"))
 \examples{
 c2s( c("m","e","r","g","e","d") )
 }
-\keyword{ Programming }
-\keyword{ utilities }
+\keyword{utilities}
 
 
