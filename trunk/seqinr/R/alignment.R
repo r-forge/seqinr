@@ -8,8 +8,8 @@ read.alignment = function( File, format)
 	msf = .Call("read_msf_align",File,PACKAGE="seqinr"),
 	clustal = .Call("read_clustal_align",File,PACKAGE="seqinr"))
 	ali = lapply(ali, as.character)
-	if(format == "mase") ali = list(nb = ali[[1]], nam = ali[[2]], seq = ali[[3]], com =ali[[4]]) 
-	else ali = list(nb = ali[[1]], nam = ali[[2]], seq = ali[[3]], com = NA)
+	if(format == "mase") ali = list(nb = as.numeric(ali[[1]]), nam = ali[[2]], seq = ali[[3]], com =ali[[4]]) 
+	else ali = list(nb = as.numeric(ali[[1]]), nam = ali[[2]], seq = ali[[3]], com = NA)
 	class(ali)="alignment"
 	return(ali)
 
@@ -23,7 +23,7 @@ dist.alignment = function( x , matrix = "similarity" )
 	t1 = c("similarity","identity")
 	m1 = grep(matrix,t1)
 	m2 = as.numeric(.Call("is_a_protein_seq",x$seq[1],PACKAGE="seqinr") >= 0.8)
-	l = as.numeric(x$nb)
+	l = x$nb
 	maxseq = length(x$seq)
 	dist = .Call("distance",x$seq,l,m1,m2,PACKAGE="seqinr")
 	mat = matrix(dist,l,l, byrow =TRUE)

@@ -11,7 +11,7 @@
 	#	     getAnnot(seq,nl) reourne un vecteur de string                          #   
         #            getExon(seq) retourne la position des exons                            # 
      	#	     getKeyword(seq) retourne les mots-clef associés à une séquence         #
-	#	     Translate(seq) retourne un vecteur de char                             # 
+	#	     getTrans(seq) retourne un vecteur de char                             # 
 	#####################################################################################
 
 
@@ -57,58 +57,58 @@ getKeyword.default = function(object){
  	stop("no keyword for this sequence")
 }
 
-Translate.default = function(seq,frame=0, sens= "F", numcode=1){
+getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
 	translate(seq,frame,sens,numcode)
 }
 
 ##################################################################
 
 getFrag =  function(object,begin,end) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) { getFrag.default(object,begin,end) }
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) { getFrag.default(object,begin,end) }
 	else UseMethod("getFrag")
 }
 
 getSequence = function(object){
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getSequence.default(object)}
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getSequence.default(object)}
 	else UseMethod("getSequence")
 }
 
 
 getLength =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getLength.default(object)}
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getLength.default(object)}
 	else UseMethod("getLength")
 }
 
 getName =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getName.default(object)}
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getName.default(object)}
 	else UseMethod("getName")
 }
 
 getProp =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getProp.default(object)}
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getProp.default(object)}
 	else UseMethod("getProp")
 }
 
 
 getAnnot = function(object,nbl) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
 	else UseMethod("getAnnot")
 }
 
 getLocation = function(object) {
-		if(! inherits(object,c("SeqAcnucWeb"))) {getLocation.default(object)}
+		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getLocation.default(object)}
 	else UseMethod("getLocation")
 }
 
 getKeyword = function(object) {
-		if(! inherits(object,c("SeqAcnucWeb"))) {getKeyword.default(object)}
+		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getKeyword.default(object)}
 	else UseMethod("getKeyword")
 }
 
 
-Translate = function(seq,frame=0, sens= "F", numcode=1){
-	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {Translate.default(seq,frame=0, sens= "F", numcode=1)}
-	else UseMethod("Translate")
+getTrans = function(seq,frame=0, sens= "F", numcode=1){
+	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucLocal","SeqAcnucWeb","SeqFrag"))) {getTrans.default(seq,frame=0, sens= "F", numcode=1)}
+	else UseMethod("getTrans")
 }
 
 
@@ -123,8 +123,10 @@ Translate = function(seq,frame=0, sens= "F", numcode=1){
 	# as.SeqFasta sera appelée au moment de la lecture d'un fichier au format fasta par read.fasta() #
 	##################################################################################################
 
-as.SeqFastadna = function(object){
-	class(object)="SeqFastadna"	
+as.SeqFastadna = function(object, name = NULL, Annot = NULL){
+	object = tolower(object)
+	attributes(object) = list(name = name, Annot = Annot)
+	class(object) = "SeqFastadna"	
         return(object)
         }
 
@@ -139,7 +141,7 @@ getSequence.SeqFastadna = function(object){
 getFrag.SeqFastadna = function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=TRUE,name=getName(object))
+	newSeq = as.SeqFrag(newSeq, begin, end, compl = TRUE, name = getName(object))
 	return(newSeq)
 	}
 
@@ -160,12 +162,13 @@ getAnnot.SeqFastadna = function(object,nbl){
 }
 
 summary.SeqFastadna = function(object,...){
-	compo=count(object,1)
-	return(list(composition=compo,GC=GC(object)))
+	length = getLength(object)
+	compo = count(object,1)
+	return(list(length=length ,composition=compo, GC=GC(object)))
 }
 
-Translate.SeqFastadna =  function(seq, frame=0, sens= "F", numcode=1){
-	translate(seq, frame=0, sens= "F", numcode=1)
+getTrans.SeqFastadna =  function(seq, frame = 0, sens = "F", numcode = 1){
+	translate(seq, frame = frame, sens = sens, numcode = numcode)
 }
 	
 
@@ -177,7 +180,8 @@ Translate.SeqFastadna =  function(seq, frame=0, sens= "F", numcode=1){
 	#		Classe de sequences SeqFastaAA et ses méthodes:               #
 	###############################################################################
 
-as.SeqFastaAA = function(object){
+as.SeqFastaAA = function(object, name = NULL, Annot = NULL){
+	attributes(object)=list(name = name, Annot= Annot)
 	class(object)="SeqFastaAA"	
         return(object)
         }
@@ -194,7 +198,7 @@ getSequence.SeqFastaAA = function(object){
 getFrag.SeqFastaAA = function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=TRUE,name=getName(object))
+	newSeq = as.SeqFrag(newSeq, begin, end, compl = TRUE, name = getName(object))
 	return(newSeq)
 	}
 
@@ -218,11 +222,98 @@ getAnnot.SeqFastaAA = function(object,nbl){
 }
 
 summary.SeqFastaAA = function(object,...){
-	compo=table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
-	return(list(composition=compo/getLength(object),AA.Property=AAprop(object)))
+	length = getLength(object)
+	compo = table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
+	return(list(length = length, composition=compo/length, AA.Property=AAprop(object)))
 }
 
 
+
+
+	############################################################################################
+	#	
+	#		Classe de sequences SeqAcnucLocal et ses méthodes: 			   #
+	# La classe de séquence SeqAcnucLocal pour les séquences provenant                         #
+	# d' une requete dans les banques structurées sous ACNUC                                   #
+	# Cette classe ne contiendra pas la sequence car le but est de ne pas la stocker.          #
+	# On stockera le mnemo et le nom de la banque d'où elle provient.                          #
+	#                                                                                          #
+	############################################################################################
+
+
+	###################################################################################################
+	# l'initialisation se fera au moment de l'appel à la fonction getreq. On attribuera à chaque mnemo#
+	# de la liste résultant de la requete la classe SeqAcnucLocal					  #	
+	###################################################################################################
+
+
+
+as.SeqAcnucLocal = function(object){
+	class(object)="SeqAcnucLocal"
+	return(object)
+}
+
+
+is.SeqAcnucLocal = function(object){
+
+	inherits(object, "SeqAcnucLocal")
+}
+
+
+getFrag.SeqAcnucLocal = function(object,begin,end){
+	b = getLength(object)
+	if((end > b) || (begin > b)) stop("born out of limits")
+	else{  
+	s = .Call("getseq2",object,begin,(end-begin+1),PACKAGE="seqinr")
+	seq = s2c(s)
+	return(as.SeqFrag(seq,begin,end,compl=TRUE,name=getName(object)))
+	}
+}
+
+
+getSequence.SeqAcnucLocal = function(object){
+	return(getseq(object,as.string=F))
+	}
+
+getName.SeqAcnucLocal = function(object){
+	return(as.character(object))
+}
+
+getLength.SeqAcnucLocal = function(object){
+	return(getAttribut(object)[[1]])
+	}
+
+getProp.SeqAcnucLocal = function(object){
+	return(getAttribut(object)[2:3])
+}
+
+getAnnot.SeqAcnucLocal = function(object,nbl){
+	return(getAnnots(object,nbl))
+}
+
+
+getKeyword.SeqAcnucLocal = function(object){
+	
+	return( getKeyword(object) )
+}
+
+getLocation.SeqAcnucLocal = function(object){ 
+	
+	return( getLocation(object) )
+}
+
+
+
+getTrans.SeqAcnucLocal = function(seq,frame=0, sens= "F", numcode=1){
+	seq = translateCDS(seq)
+	return(s2c(seq))
+}
+
+
+summary.SeqAcnucLocal = function(object,...){
+	s=getSequence(object)
+ 	return(list(name=getName(object),composition=count(s,1),GC=GC(s)))
+	}
 
 
 
@@ -249,7 +340,7 @@ AAprop = function(object){
 
 
 
-as.SeqAcnucWeb = function( object, socket=F ){
+as.SeqAcnucWeb = function( object, socket = F ){
 
 	class(object)="SeqAcnucWeb"
 	attributes(object)=list(class="SeqAcnucWeb",socket=socket)
@@ -303,7 +394,7 @@ getProp.SeqAcnucWeb = function(object){
 
 getAnnot.SeqAcnucWeb = function(object, nbl ){
 		
-	return( readAnnots.socket( socket= attr(object,"socket"),name=object, nl=nbl) ) 
+	return( readAnnots.socket( socket= attr(object,"socket"),name = object, nl = nbl) ) 
 
 }
 
@@ -321,8 +412,8 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-Translate.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
-	translate(seq, frame=0, sens= "F", numcode=1)
+getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
+	translate(seq, frame = frame, sens = sens, numcode = numcode)
 }
 
 
@@ -357,7 +448,7 @@ getFrag.SeqFrag = function(object,begin,end){
         newBegin = attr(object,"begin")+begin-1
         newEnd = attr(object,"begin")+end-1
 	newSeq = object[begin:end]
-        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=TRUE,name=getName(object))
+        newSeq = as.SeqFrag(object = newSeq, begin = newBegin, end = newEnd, compl = TRUE, name = getName(object))
 	return(newSeq)
         }
 
@@ -374,8 +465,8 @@ getProp.SeqFrag = function(object){
 }
 
 
-Translate.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
-	translate(seq, frame=0, sens= "F", numcode=1)
+getTrans.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
+	translate(seq, frame = frame, sens = sens, numcode = numcode)
 }
 
 

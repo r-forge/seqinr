@@ -1,5 +1,5 @@
 computePI = function(seq){
-	
+	seq = seq[- which(seq=="*")]
 	compoAA=table(factor(seq,levels=toupper(letters)))
 	nTermR = which(toupper(letters)==seq[1])
 	cTermR = which(toupper(letters)==seq[length(seq)])
@@ -17,9 +17,9 @@ computePI = function(seq){
 		charge = carg + clys + chis + nter - (casp + cglu + ctyr + ccys + cter)
 	}
 	critere <- function( p1, p2, p3, p4, p5){ 
-		computeCharge(pH = p1, compoAA =p2, pK = p3, nTermResidue = p4, cTermResidue = p5)^2
+		computeCharge(pH = p1, compoAA = p2, pK = p3, nTermResidue = p4, cTermResidue = p5)^2
 		 }
-	return(nlm(critere, 7, p2 = compoAA, p3 = SEQINR.UTIL$pk, p4 = nTermR, p5 = cTermR)$estimate)
+	return(nlm(critere, p = 7, p2 = compoAA, p3 = SEQINR.UTIL$pk, p4 = nTermR, p5 = cTermR)$estimate)
 }
 
 

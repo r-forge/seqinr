@@ -40,19 +40,6 @@ choosebank.socket = function(bank = NA ,host = "pbil.univ-lyon1.fr", port = 5558
 }	
 	
 
-
-closebank.socket = function( socket ){
-	
-	# fermeture de la banque acnuc
-
-	writeLines( "acnucclose", socket, sep="\n" )
-	rep = readLines( socket ,n=1)
-	if(parser.socket(rep)=="0") print("OK ACNUC SOCKET STOPED")
-	close(socket)
-	rm(socket)
-}
-
-
 parser.socket = function(p)
 {
 	p1=s2c(p)
@@ -209,13 +196,16 @@ getLocationSocket <- function( socket, name){
 	 # Test si subsequence           
      
 	 l=list()	
-         if(as.numeric(rr[5]) != 0) stop(" pas un CDS : sequence mere\n")
+         if(as.numeric(rr[5]) != 0){
+		 warning("It's a parent sequence\n")
+		 return( NA )
+		}
          else {
 		i=1
  	 	writeLines(paste("readext&num=",rr[6],sep=""),socket,sep="\n")		
 		res3 = readLines( socket , n=1 )
 		r = parser.socket(res3)
-		l[[i]] = c(r[3],r[4])
+		l[[i]] = as.numeric(c(r[3],r[4]))
 		n=r[5] 
 	}
         while(as.numeric(n) != 0){
@@ -223,11 +213,12 @@ getLocationSocket <- function( socket, name){
 		writeLines(paste("readext&num=",n,sep=""),socket,sep="\n")	 
 		res4 = readLines( socket , n=1 )
 		rrr = parser.socket(res4)
-		l[[i]] = c(rrr[3],rrr[4])
+		l[[i]] = as.numeric(c(rrr[3],rrr[4]))
 		n=rrr[5]
   		}
 	return(l)
 }	
+
 
 
 getType.socket = function(socket){
@@ -240,76 +231,106 @@ getType.socket = function(socket){
 	ss = readLines(socket,n=rep[2]-9)
 	occ = grep("name=\"04",ss)
 	h = ss[occ]
-	return(lapply(h,function(x){ c(noquote(parser.socket(x))[2],noquote(parser.socket(x))[4])  }))
+	return(lapply(h,function(x){ c(substring(noquote(parser.socket(x))[2],4,nchar(noquote(parser.socket(x))[2])-1),substring(noquote(parser.socket(x))[4],2,nchar(noquote(parser.socket(x))[4])-1)) }))
 }
 
 
-plot.SeqAcnucWeb = function(x, ...){
 
-	if(! inherits(x,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
-	socket = attr(x,"socket")
-	par(mfrow=c(2,1))
-	q = paste("me n=",x,sep="")
-	query.socket(socket,listname= "me",query = q)
-	l=getLength(me$req[[1]])
-	cx=c(0,l+(1/10)*l)
-	cy = c(0,15)
-	plot(cx,cy,ann=FALSE,type="n",axes=FALSE)
-	axis(1, col.axis = "blue")
-	title(main= paste("Physical position (base) of the subsequences","\n","on the parent sequence", me$req[[1]], sep=" "),font.main=3, col.main="blue")
-	mtext(paste("(length of the parent sequence = ", l, ")", sep=""), cex = 0.7, font = 3)
 
-	if(me$req[[1]] != x){
-		cat("It is a subsequence\n")
-		p = getLocationSocket(socket,name)
-		kk=lapply(p,function(x){rect(x[1],0,x[2],1,col="red", border="red" )})
-		plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
-		title("Legend",font.main=4)
-		legend(9,legend=x,fill="red",bg="cornsilk",ncol = 1)
-	}
 
-	else{ 
-		q = paste("fi n=",x,sep="")
-		query.socket(socket = socket, listname = "filles", query = q )
-		type = getType.socket(socket)
-		t = lapply(type,function(x){ substring(x[1],4,nchar(x[1])-1) } )
-		cat("It is a parent sequence\n")
-		f = 1
-		cou = 0
-		rap=numeric()
-		nb=numeric()
+plot.SeqAcnucWeb = function(x,  type = "all", ...){
 
-	while( f <= length(type) ){
-		cat("Enter the number of the group of subsequences that you wish to plot on the parent sequence ?\n")
-		cat("Enter 0 to stop\n\n")
 
-	noret = lapply(type,function(x){ 
-	cat(paste(x[2],"\n",sep=""),"\n")})
-	f=scan()
-	if(f == 0 || f>length(type) ) break
-	if(sum(as.numeric(f == rap)) == 1){
-	cat("This group of subsequences has already been ploted !")
-	cou=cou-1
-	} 
-	cou = cou+1
-	q=paste("filles et t=",t[[f]],sep="")
-	query.socket(socket = socket, listname = "tmp", query = q ) 
+  # Vérification des arguments
 
-	if(is.na(tmp$req[[1]]) || tmp$req[[1]] == x ){ 
-	cat("There is no",type[[f]][2],"on this parent sequence\n")
-	cou=cou-1
-	}
-	else{
-		u = lapply(tmp$req,getLocation )
-		lapply(u, function(x){ lapply(x,function(x){rect(x[1],0+cou,x[2],1+cou,col=cou, border=cou )})})
-		rap[cou]=f
-		nb[cou]=length(u)
-	}
-	}
-	if(length(rap)==0) stop("There is no type for this sequence")
-	plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
-	title("Legend",font.main=4)
-	legend(9,legend=paste(t[rap],"(",nb,")",sep=""),fill=c(1:cou),bg="cornsilk",ncol = 4)
-	par(mfrow=c(1,1))
-	}
+  if(! inherits(x,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
+  socket = attr(x,"socket")
+
+  types = unlist(lapply(getType.socket(socket),function(x) x[1]))
+  
+  if(type == "all") ptype = types
+  else{
+    if(sum(type %in% types) != length(type)) stop("Please check the type argument !")
+    else(ptype = type)
+  }
+
+  # Récupération de la séquence mère et organistion du plot
+
+  par(mfrow=c(2,1))
+  
+  q = paste("me n=",x,sep="")
+  
+  query.socket(socket,listname= "me",query = q)
+  l = getLength(me$req[[1]])
+  cx = c(0,l+(1/10)*l)
+  cy = c(0,15)
+  plot(cx,cy,ann=FALSE,type="n",axes=FALSE)
+  axis(1, col.axis = "blue")
+  title(main = paste("Physical position (base) of the subsequences","\n","on the parent sequence", me$req[[1]], sep=" "),font.main=3, col.main="blue")
+  mtext(paste("(length of the parent sequence = ", l, ")", sep=""), cex = 0.7, font = 3)
+
+  # Si x est une sous séquence alors dire le type
+
+  if(me$req[[1]] != x){
+  
+  writeLines(paste("isenum&name=",x,sep=""),socket,sep="\n")
+  res = readLines( socket , n=1 )
+  writeLines(paste("readsub&num=",as.numeric(parser.socket(res)[1]),sep=""),socket,sep="\n")
+  res=readLines( socket , n=1 )
+  writeLines(paste("readsmj&num=",as.numeric(parser.socket(res)[4]),"&nl=1",sep=""),socket,sep="\n")
+  res = readLines( socket , n=2 )
+  ty = substring(noquote(parser.socket(res[2]))[2],4,nchar(noquote(parser.socket(res[2]))[2])-1)
+  p = getLocationSocket(socket,x)
+  kk=lapply(p,function(x){rect(x[1],0,x[2],1,col="red", border="red" )})
+  plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
+  title("Legend",font.main=4)
+  legend(9,legend=ty,fill="red",bg="cornsilk",ncol = 1)
+  names(p)=x
+  return(p)
 }
+
+  else{
+    q = paste("fi n=",x,sep="")
+    query.socket(socket = socket, listname = "filles", query = q )
+    if(length(filles$req)==1 && filles$req == x){ 
+      rect(0,1,getLength(x),2,col= "red",border="red")
+      legend(9,legend=x,fill="red",bg="cornsilk",ncol = 1)
+      return(list(x))
+    }
+    cou = 0
+    rap=numeric()
+    nb=numeric()
+    posi = list()
+    
+    for(i in 1:length(ptype)){
+      cou = cou+1
+      q=paste("filles et t=",ptype[i],sep="")
+      query.socket(socket = socket, listname = "tmp", query = q )
+      if(is.na(tmp$req[[1]]) || tmp$req[[1]] == x ){ 
+        cou = cou-1
+      }
+      else{  
+      u = lapply(tmp$req,getLocation)
+      names(u)=tmp$req
+      lapply(u, function(x){ lapply(x,function(x){rect(x[1],0+cou,x[2],1+cou,col=cou, border=cou )})})
+      rap[cou]=i
+      nb[cou]=length(u)
+      posi[[cou]]=u
+    }
+    }
+    plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
+    title("Legend",font.main=4)
+    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill=c(1:cou),bg="cornsilk",ncol = 4)
+    par(mfrow=c(1,1))
+    resu = lapply(posi,function(x){lapply(x,unlist)})
+    names(resu) = ptype[rap]
+    return( resu )
+  }
+}
+
+         
+
+
+
+
+
