@@ -35,13 +35,6 @@ computing devoted to biological sequences retrieval and analysis. Springer Verla
 \seealso{\code{\link{read.alignment}} }
 \examples{
 
- # In this example, Ka and ks are calculated between the human/mouse orthologous genes of ubiquitin.
- # Ubiquitin is involved in many cells processes (replication, DNA repair, apoptosis ...). 
- ub = read.alignment(File=system.file("sequences/UBIQUITIN.mase", package = "seqinr"),format="mase")
- resu = kaks(ub)
- resu$ka/resu$ks
- # ka/ks <<< 1, selection eliminates deleterious mutations to conserv the protein.
-
  s = read.alignment(File=system.file("sequences/test.phylip", package = "seqinr"),format="phylip")
  kaks(s)	
 }
