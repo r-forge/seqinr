@@ -111,40 +111,40 @@ is.SeqFastadna = function(object){
 	inherits(object,"SeqFastadna")
 }
 
-getSequence.SeqFastadna = function(SeqFastadna){
-	return(SeqFastadna)
+getSequence.SeqFastadna = function(object){
+	return(object)
 	}
 
-getFrag.SeqFastadna = function( SeqFastadna, begin, end){
-	if(end > getLength(SeqFastadna)) stop("invalid end")	
-	newSeq = SeqFastadna[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqFastadna))
+getFrag.SeqFastadna = function(object, begin, end){
+	if(end > getLength(object)) stop("invalid end")	
+	newSeq = object[begin:end]
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(object))
 	return(newSeq)
 	}
 
-getLength.SeqFastadna = function( SeqFastadna){
-	return(length(SeqFastadna))
+getLength.SeqFastadna = function(object){
+	return(length(object))
 	}
 
-getName.SeqFastadna = function( SeqFastadna){
-	return(attr(SeqFastadna,"name"))
+getName.SeqFastadna = function(object){
+	return(attr(object,"name"))
 }
 
-getProp.SeqFastadna = function(Seqfastadna){
+getProp.SeqFastadna = function(object){
 	return(list(seqtype="DNA"))
 }
 
-getAnnot.SeqFastadna = function(SeqFastadna){
-	return(attr(SeqFastadna,"Annot"))
+getAnnot.SeqFastadna = function(object){
+	return(attr(object,"Annot"))
 }
 
-summary.SeqFastadna = function(SeqFastadna){
-	compo=count(SeqFastadna,1)
-	return(list(composition=compo,GC=GC(SeqFastadna)))
+summary.SeqFastadna = function(object){
+	compo=count(object,1)
+	return(list(composition=compo,GC=GC(object)))
 }
 
-Translate.SeqFastadna =  function(SeqFastadna, frame=0, sens= "F", numcode=1){
-	translate(SeqFastadna, frame=0, sens= "F", numcode=1)
+Translate.SeqFastadna =  function(object, frame=0, sens= "F", numcode=1){
+	translate(object, frame=0, sens= "F", numcode=1)
 }
 	
 
@@ -165,40 +165,40 @@ is.SeqFastaAA = function(object){
 	inherits(object,"SeqFastaAA")
 }
 
-getSequence.SeqFastaAA = function(SeqFastaAA){
-	return(SeqFastaAA)
+getSequence.SeqFastaAA = function(object){
+	return(object)
 	}
 
 
-getFrag.SeqFastaAA = function( SeqFastaAA, begin, end){
-	if(end > getLength(SeqFastaAA)) stop("invalid end")	
-	newSeq = SeqFastaAA[begin:end]
-	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(SeqFastaAA))
+getFrag.SeqFastaAA = function(object, begin, end){
+	if(end > getLength(object)) stop("invalid end")	
+	newSeq = object[begin:end]
+	newSeq = as.SeqFrag(newSeq,begin,end,compl=T,name=getName(object))
 	return(newSeq)
 	}
 
 
-getLength.SeqFastaAA = function( SeqFastaAA){
-	return(length(SeqFastaAA))
+getLength.SeqFastaAA = function(object){
+	return(length(object))
 	}
 
 
-getName.SeqFastaAA = function( SeqFastaAA){
-	return(attr(SeqFastaAA,"name"))
+getName.SeqFastaAA = function(object){
+	return(attr(object,"name"))
 }
 
 
-getProp.SeqFastaAA = function(SeqfastaAA){
+getProp.SeqFastaAA = function(object){
 	return(list(seqtype="AA"))
 }
 
-getAnnot.SeqFastaAA = function(SeqFastaAA){
-	return(attr(SeqFastaAA,"Annot"))
+getAnnot.SeqFastaAA = function(object){
+	return(attr(object,"Annot"))
 }
 
-summary.SeqFastaAA = function(SeqFastaAA){
-	compo=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
-	return(list(composition=compo/getLength(SeqFastaAA),AA.Property=AApropr(SeqFastaAA)))
+summary.SeqFastaAA = function(object){
+	compo=table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
+	return(list(composition=compo/getLength(object),AA.Property=AAprop(object)))
 }
 
 
@@ -234,47 +234,47 @@ is.SeqAcnucLocal = function(object){
 }
 
 
-getFrag.SeqAcnucLocal = function(SeqAcnucLocal,born1,born2){
-	b = getLength(SeqAcnucLocal)
-	if((born2 > b) || (born1 > b)) stop("born out of limits")
+getFrag.SeqAcnucLocal = function(object,begin,end){
+	b = getLength(object)
+	if((end > b) || (begin > b)) stop("born out of limits")
 	else{  
-	s = .Call("getseq2",SeqAcnucLocal,born1,(born2-born1+1))
+	s = .Call("getseq2",object,begin,(end-begin+1))
 	seq = s2c(s)
-	return(as.SeqFrag(seq,born1,born2,compl=T,name=getName(SeqAcnucLocal)))
+	return(as.SeqFrag(seq,begin,end,compl=T,name=getName(object)))
 	}
 }
 
 
-getSequence.SeqAcnucLocal = function(SeqAcnucLocal){
-	return(getseq(SeqAcnucLocal,as.string=F))
+getSequence.SeqAcnucLocal = function(object){
+	return(getseq(object,as.string=F))
 	}
 
-getName.SeqAcnucLocal = function(SeqAcnucLocal){
-	return(as.character(SeqAcnucLocal))
+getName.SeqAcnucLocal = function(object){
+	return(as.character(object))
 }
 
-getLength.SeqAcnucLocal = function(SeqAcnucLocal){
-	return(getAttribut(SeqAcnucLocal)[[1]])
+getLength.SeqAcnucLocal = function(object){
+	return(getAttribut(object)[[1]])
 	}
 
-getProp.SeqAcnucLocal = function(SeqAcnucLocal){
-	return(getAttribut(SeqAcnucLocal)[2:3])
+getProp.SeqAcnucLocal = function(object){
+	return(getAttribut(object)[2:3])
 }
 
-getAnnot.SeqAcnucLocal = function(SeqAcnucLocal,nbl){
-	return(getAnnots(SeqAcnucLocal,nbl))
+getAnnot.SeqAcnucLocal = function(object,nl){
+	return(getAnnots(object,nl))
 }
 
 
-Translate.SeqAcnucLocal = function(SeqAcnucLocal){
-	seq = translateCDS(SeqAcnucLocal)
+Translate.SeqAcnucLocal = function(object){
+	seq = translateCDS(object)
 	return(s2c(seq))
 }
 
 
-summary.SeqAcnucLocal = function(SeqAcnucLocal){
-	s=getSequence(SeqAcnucLocal)
- 	return(list(name=getName(SeqAcnucLocal),GC.percent=GC(s),base.count=count(s,1)))
+summary.SeqAcnucLocal = function(object){
+	s=getSequence(object)
+ 	return(list(name=getName(object),GC.percent=GC(s),base.count=count(s,1)))
 	}
 
 
@@ -285,8 +285,8 @@ summary.SeqAcnucLocal = function(SeqAcnucLocal){
 
 
 
-AApropr = function(SeqFastaAA){
-	s=table(factor(SeqFastaAA, levels = levels(SEQINR.UTIL$CODON.AA$L)))
+AAprop = function(object){
+	s=table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
 	t=sum(s)
 	list(Tiny=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Tiny)])/t,Small=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Small)])/t,Aliphatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic)])/t,Aromatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aromatic)])/t,Non.polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Non.polar)])/t,Polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Polar)])/t,Charged=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Charged)])/t,Basic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Basic)])/t,Acidic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Acidic)])/t)
 }
@@ -316,53 +316,53 @@ is.SeqAcnucWeb = function( x ){
 
 
 
-getSequence.SeqAcnucWeb = function( SeqAcnucWeb){
-	b=getLength( SeqAcnucWeb )
-	getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=1,length=b)
+getSequence.SeqAcnucWeb = function(){
+	b=getLength( object )
+	getsequence.socket(attr(object,"socket"),object,start=1,length=b)
 }
 
 
 
-getFrag.SeqAcnucWeb = function( SeqAcnucWeb ,born1,born2 ){
+getFrag.SeqAcnucWeb = function(object ,begin, end ){
 
-	b = getLength(SeqAcnucWeb)
-	if((born2 > b) || (born1 > b)) stop("born out of limits")  
-	bb=born2-born1+1
-	newSeq = getsequence.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb,start=born1,length=bb)
-	newSeq = as.SeqFrag(newSeq,begin=born1,end=born2,compl=T,name=getName(SeqAcnucWeb))
+	b = getLength(object)
+	if((end > b) || (begin > b)) stop("born out of limits")  
+	bb=end-begin+1
+	newSeq = getsequence.socket(attr(object,"socket"),object,start=begin,length=bb)
+	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=T,name=getName(object))
 	return(newSeq)
 }
 
 
 
-getName.SeqAcnucWeb = function( SeqAcnucWeb ){	
+getName.SeqAcnucWeb = function(object ){	
 
-	return( as.character(SeqAcnucWeb) )
-
-}
-
-getLength.SeqAcnucWeb = function( SeqAcnucWeb ){
-
-	return( getAttribut.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb)[[1]] )
+	return( as.character(object) )
 
 }
 
+getLength.SeqAcnucWeb = function( object ){
 
-getProp.SeqAcnucWeb = function( SeqAcnucWeb ){
-
-	return( getAttribut.socket(attr(SeqAcnucWeb,"socket"),SeqAcnucWeb) ) 
+	return( getAttribut.socket(attr(object,"socket"),object)[[1]] )
 
 }
 
-getAnnot.SeqAcnucWeb = function( SeqAcnucWeb, nbl ){
+
+getProp.SeqAcnucWeb = function(object){
+
+	return( getAttribut.socket(attr(object,"socket"),object) ) 
+
+}
+
+getAnnot.SeqAcnucWeb = function(object, nbl ){
 		
-	return( readAnnots.socket( socket= attr(SeqAcnucWeb,"socket"),name=SeqAcnucWeb, nl=nbl) ) 
+	return( readAnnots.socket( socket= attr(object,"socket"),name=object, nl=nbl) ) 
 
 }
 
 
-Translate.SeqAcnucWeb = function(SeqAcnucWeb,frame=0, sens= "F", numcode=1){
-	translate(SeqAcnucWeb, frame=0, sens= "F", numcode=1)
+Translate.SeqAcnucWeb = function(object,frame=0, sens= "F", numcode=1){
+	translate(object, frame=0, sens= "F", numcode=1)
 }
 
 
@@ -387,17 +387,17 @@ is.SeqFrag = function(object){
 }
 
 
-getSequence.SeqFrag = function(seq){
-	return(seq)
+getSequence.SeqFrag = function(object){
+	return(object)
 	}
 
 
-getFrag.SeqFrag = function(seq,begin,end){
-        if((end<begin) || (end>getLength(seq)))  stop("invalid end")
-        newBegin = attr(seq,"begin")+begin-1
-        newEnd = attr(seq,"begin")+end-1
-	newSeq = seq[begin:end]
-        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(seq))
+getFrag.SeqFrag = function(object,begin,end){
+        if((end<begin) || (end>getLength(object)))  stop("invalid end")
+        newBegin = attr(object,"begin")+begin-1
+        newEnd = attr(object,"begin")+end-1
+	newSeq = object[begin:end]
+        newSeq = as.SeqFrag(object=newSeq,begin=newBegin,end=newEnd,compl=T,name=getName(object))
 	return(newSeq)
         }
 
