@@ -2,7 +2,7 @@
 {
   library.dynam("seqinr", pkg, lib)
   file1 <- file.path(lib,pkg,"data","SEQINR.UTIL.RData")
-  load (file1,.GlobalEnv)
+  #load (file1,.GlobalEnv)
   load (file1,envir=as.environment(match("package:seqinr", search())))
   if(exists("bankname",envir=globalenv())) rm(bankname,envir=globalenv())
   #if (!require(ade4))
