@@ -2,7 +2,7 @@
 # Genetic code table as in Text Books
 #
 
-tablecode <- function(numcode = 1, urn.rna = c("U","C","A","G"), dia = TRUE)
+tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE)
 {
   aa1 <- c("*", "A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
            "P", "Q", "R", "S", "T", "V", "W", "Y")
@@ -34,7 +34,7 @@ tablecode <- function(numcode = 1, urn.rna = c("U","C","A","G"), dia = TRUE)
   text(x=0, y = 98.5, font = 2, adj = c(0, 0),
     lab = paste("Genetic code", numcode,":",codename))
 
-  urn <- c("T","C","A","G") # internal
+  urn <- c("t","c","a","g") # internal
   for( i in 0:3 )
   {
     for( j in 0:3 )
