@@ -5,16 +5,16 @@
 \description{
 This dataset is used to compute linear forms on codon frequencies:
 if \code{codfreq} is a vector of codon frequencies then
-\code{freq \%*\% EXP$GC3} will return for instance the G+C content
-in third codon positions. Base order is the lexical order: A,
-C, G, T (or U).
+\code{drop(freq \%*\% EXP$CG3)} will return for instance the G+C content
+in third codon positions. Base order is the lexical order: a,
+c, g, t (or u).
 }
 
 \usage{data(EXP)}
 
 \format{ List of 42 vectors of coefficients
 \describe{
-  \item{A   }{ num [1:4] 1 0 0 0 }
+  \item{A   }{num [1:4] 1 0 0 0 }
   \item{A3  }{num [1:64] 1 0 0 0 1 0 0 0 1 0 ...}
   \item{AGZ }{num [1:64] 0 0 0 0 0 0 0 0 1 0 ...}
   \item{ARG }{num [1:64] 0 0 0 0 0 0 0 0 1 0 ...}
@@ -71,6 +71,35 @@ ANALSEQ EXPFILEs for command EXP.\cr
 }
 \references{
   To be completed...
+\describe{
+  \item{AGZ }{ ? }
+  \item{ARG }{ ? }
+  \item{AU3 }{ ? }
+  \item{BC  }{ ? }
+  \item{CAI }{ ? }
+  \item{CU  }{ ? }
+  \item{DEN }{ ? }
+  \item{ECM }{ ? }
+  \item{ECO }{ ? }
+  \item{F1  }{From Table 2 in Lobry, J.R., Gautier, C. (1994) Hydrophobicity,
+expressivity and aromaticity are the major trends of amino-acid usage in
+999 \emph{Escherichia coli} chromosome-encode genes. \emph{Nucleic Acids
+Research},\bold{22}:3174-3180.}
+  \item{FD  }{ ? }
+  \item{FN  }{ ? }
+  \item{GP  }{ ? }
+  \item{HI  }{ ? }
+  \item{KD  }{Kyte, J., Doolittle, R.F. (1982) A simple method for displaying
+the hydropathic character of a protein. \emph{J. Mol. Biol.},\bold{157}
+:105-132.}
+  \item{LEC }{ ? }
+  \item{LEV }{ ? }
+  \item{MG  }{ ? }
+  \item{MG2 }{ ? }
+  \item{NUM }{ ? }
+  \item{OP  }{ ? }
+  \item{SUB }{ ? }
+  }
 }
 \examples{
 data(EXP)
