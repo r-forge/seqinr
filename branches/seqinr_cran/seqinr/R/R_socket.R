@@ -19,7 +19,7 @@ choosebank = function(bank = NA ,host = "pbil.univ-lyon1.fr", port = 5558){
 		 pos=grep(" ",s2c(x))
 		 substr(x,1,(pos[1]-1))
 		})
-	bank=as.vector(res)
+	return(as.vector(res))
 	}
 
 	# Ouverture de la banque
