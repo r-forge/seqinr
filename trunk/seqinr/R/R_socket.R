@@ -95,13 +95,9 @@ getAttribut.socket = function( socket, name){
 
 readAnnots.socket = function( socket, name, nl){
 
-	request= paste( "read_annots&name=", name, "&nl=", nl, sep= "")
-	annots=character(nl)
-	for(i in 1:nl){
+	  request= paste( "read_annots&name=", name, "&nl=", nl, sep= "")
 	   writeLines( request , socket, sep="\n")
-	   annots[i] =  readLines( socket , n=1 )
-	}
-	return(annots)
+	   readLines( socket , n=nl )
 }
 
 
