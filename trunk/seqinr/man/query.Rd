@@ -159,7 +159,7 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \emph{Biochimie}, \bold{67}:433-436.
 
 }
-\author{J.R. Lobry}
+\author{J.R. Lobry & D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
 

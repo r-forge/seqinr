@@ -8,7 +8,7 @@
 splitseq(seq, frame = 0, word = 3)
 }
 \arguments{
-  \item{seq}{ an object of class \code{seq} }
+  \item{seq}{ a vector of chars }
   \item{frame}{ an integer giving the frame to split the sequence }
   \item{word}{ an integer giving the size of the sub-sequences }
 }

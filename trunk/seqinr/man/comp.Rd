@@ -8,7 +8,7 @@
 comp(seq)
 }
 \arguments{
-  \item{seq}{ an object of class \code{seq} }
+  \item{seq}{ a vector of chars }
 }
 
 \value{

@@ -9,7 +9,7 @@ uco( seq, frame = 0, freq = FALSE, as.data.frame = FALSE)
 }
 
 \arguments{
-  \item{seq}{ an object of class \code{seq} }
+  \item{seq}{ a vector of chars }
   \item{frame}{ an integer (0,1,2) giving the frame }
   \item{freq}{ a logical value indicating whether the absolute frequence of codon must be return. 
 	       If \code{FALSE} you will just have the effectif of the codon.}
