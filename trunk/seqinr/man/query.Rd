@@ -1,6 +1,6 @@
 \name{query}
 \alias{query}
-
+\alias{print.qal}
 \title{To select sequences in an ACNUC data base}
 \description{
 This is a major command of the package. It executes all sequence           

@@ -20,4 +20,4 @@ alphabet(2)
 alphabet(5)
 as.vector(alphabet(3))
 }
-\keyword{ utilities }
+\keyword{utilities}

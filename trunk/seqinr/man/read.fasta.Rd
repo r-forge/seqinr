@@ -19,10 +19,13 @@ read.fasta(File = system.file("sequences/ct.fasta", package = "seqinr"),seqtype=
 }
 \author{ D. CHARIF }
 \examples{
-\dontrun{s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))}
-\dontrun{ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")}
+s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
+ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
 }
 \keyword{ manip }
+
+
+
 
 
  

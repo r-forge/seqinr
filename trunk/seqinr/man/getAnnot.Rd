@@ -5,6 +5,8 @@
 \alias{getAnnot.SeqFastadna}
 \alias{getAnnot.SeqFastaAA}
 \alias{getAnnot.default}
+\alias{readAnnots.socket}
+\alias{getAnnots}
 \title{ Generic Function to obtain annotation for a sequence }
 \description{
   Methods for the class of sequences: \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal}. 

@@ -1,6 +1,9 @@
 \name{get.ncbi}
 \alias{get.ncbi}
 \alias{ncbi.fna.url}
+\alias{ncbi.ptt.url}
+\alias{ncbi.stats}
+\alias{ncbi.gbk.url}
 
 \title{ Bacterial complete genome data from ncbi ftp site }
 \description{

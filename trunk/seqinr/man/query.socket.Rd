@@ -1,6 +1,6 @@
 \name{query.socket}
 \alias{query.socket}
-
+\alias{print.qaw}
 \title{To get a sequences in an ACNUC data base located on the web}
 \description{
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequences that fit the required criteria.

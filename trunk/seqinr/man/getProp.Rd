@@ -6,6 +6,9 @@
 \alias{getProp.SeqFastaAA}
 \alias{getProp.SeqFrag}
 \alias{getProp.default}
+\alias{AAprop}
+\alias{getAttribut.socket}
+\alias{getAttribut}
 \title{ Generic Function to obtain some property of a sequence }
 \description{
   Methods for the class of sequences:\code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

@@ -1,5 +1,6 @@
 \name{choosebank}
 \alias{choosebank}
+\alias{changebank}
 \title{To select a local database structured under ACNUC}
 \description{
   This function allows to select one of the available local databases structured under ACNUC. Then you can use \code{query} to compose your query and get some sequences. If the database are not installed in local, you can create your own database with \code{mkbank} and query it. 

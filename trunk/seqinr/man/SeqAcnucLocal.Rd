@@ -15,6 +15,7 @@ summary.SeqAcnucLocal(object,...)
 }
 \arguments{
   \item{object}{ a string giving the name of a sequence presents in the data base}
+  \item{...}{additional arguments affecting the summary produced}
 }
 \value{
   \code{as.SeqAcnucLocal} returns an object sequence of class \code{SeqAcnucLocal}

@@ -52,8 +52,8 @@ The IUPAC one-letter code for aminoacids is described at:
 \examples{
 
 a="atggatgccaaggtcgtcgccgtgctggccctcgtgctggctgcgctctgcctcagcgacgggaaaccggtcagcctgagctacagatgtccttgccgattcttcgagagccacgttgccagagccaacgtcaagcatctcaaaatcctcaacactcccaactgtgcccttcagatcgtggcgaggctgaagaacaacaatagacaagtgtgcattgacccgaaattgaagtggattcaggaatacctggagaaagctttaaacaagaggttcaagatgtga"
-\dontrun{translate(s2c(a))}
-\dontrun{translate(s2c(a),3,"R",6)}
+translate(s2c(a))
+translate(s2c(a),3,"R",6)
 
 }
 \keyword{ manip }

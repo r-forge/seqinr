@@ -6,6 +6,7 @@
 \alias{Translate.SeqFastaAA}
 \alias{Translate.SeqFrag}
 \alias{Translate.default}
+\alias{translateCDS}
 \title{ Generic Function to translate a sequence }
 \description{
    Methods for the class of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 

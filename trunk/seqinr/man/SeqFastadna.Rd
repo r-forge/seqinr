@@ -16,6 +16,7 @@ summary.SeqFastadna(object,...)
 }
 \arguments{
   \item{object}{a vector of chars representing a biological sequence} 
+  \item{...}{additional arguments affecting the summary produced}
 }
 \value{
   \code{as.SeqFastadna} returns an object sequence of class \code{SeqFastadna}.

@@ -6,6 +6,11 @@
 \alias{getSequence.SeqFastaAA}
 \alias{getSequence.SeqFrag}
 \alias{getSequence.default}
+\alias{getNumber.socket}
+\alias{getseq}
+\alias{getsequence.socket}
+\alias{getseq2}
+
 \title{ Generic Function for obtaining a sequence }
 \description{
    Methods for the class of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb},  \code{SeqAcnucLocal},  \code{SeqFrag}. 
