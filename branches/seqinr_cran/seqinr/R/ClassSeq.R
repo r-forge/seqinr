@@ -204,20 +204,7 @@ getAnnot.SeqFastaAA = function(object,nbl){
 summary.SeqFastaAA = function(object,...){
 	length = getLength(object)
 	compo = table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
-	return(list(length = length, composition=compo/length, AA.Property=AAprop(object)))
-}
-
-
-	######################
-	# fonctions annexes  #
-	######################
-
-
-
-AAprop = function(object){
-	s=table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
-	t=sum(s)
-	list(Tiny=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Tiny)])/t,Small=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Small)])/t,Aliphatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic)])/t,Aromatic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Aromatic)])/t,Non.polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Non.polar)])/t,Polar=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Polar)])/t,Charged=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Charged)])/t,Basic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Basic)])/t,Acidic=sum(s[which(names(s) %in% SEQINR.UTIL$AA.PROPERTY$Acidic)])/t)
+	return(list(length = length, composition=compo/length, AA.Property=AAstat(object,plot=FALSE)[[2]]))
 }
 
 
