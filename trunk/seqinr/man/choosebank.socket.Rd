@@ -5,10 +5,10 @@
   This function allows to select one of the databases structured under ACNUC and located at the \bold{pbil}. Then you can use \code{query.socket} to compose your query and get some sequences.  
 }
 \usage{
-choosebank.socket(bank, host = "pbil.univ-lyon1.fr", port = 5558))
+choosebank.socket(bank =NA, host = "pbil.univ-lyon1.fr", port = 5558))
 }
 \arguments{
-  \item{bank}{ The name of the bank}
+  \item{bank}{ The name of the bank. If NA, it returns, for each database known by the server, its name, availability (off means temporarily unavailable), and description.}
   \item{host}{ Host name for port}
   \item{port}{ The TCP port number}
 }
