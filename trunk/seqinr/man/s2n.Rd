@@ -5,30 +5,47 @@
 \description{
 By default, if no \code{levels} arguments is provided, this function will
 just code your DNA sequence in integer values following the lexical
-order (a > c > g > t), that is 1 for "a", 2 for "c", 3 for "g", 4 for
+order (a > c > g > t), that is 0 for "a", 1 for "c", 2 for "g", 3 for
 "t" and NA for ambiguous bases.
 }
 \usage{
-s2n(seq, levels, ...)
+s2n(seq, levels, base4 = TRUE, ...)
 }
 \arguments{
   \item{seq}{ a vector of chars }
   \item{levels}{ allowed char values, by default a, c, g and t }
+  \item{base4}{if TRUE the numerical encoding will start at O, if
+FALSE at 1}
   \item{\dots}{ further arguments to factor }
 }
 \value{
   a vector of integers
 }
 \author{J.R. Lobry }
-\note{ EXPERIMENTAL }
-
+\note{ EXPERIMENTAL 
+The idea of starting numbering at 0 by default is that it enforces 
+a kind of isomorphism between the paste operator on DNA chars and 
+the + operator on integer coding for DNA chars. By this way, you can
+work either in the char set, either in the integer set, depending
+on what is more convenient for your purpose, and then switch from one 
+set to the other one as you like.}
 
 \seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{codes}} }
 
 \examples{
-urn <- c("a","c","g","t")
-seq <- sample( urn, 100, replace = TRUE )
-seq
+#example of default behaviour
+urndna <- c("a","c","g","t")
+seq <- sample( urndna, 100, replace = TRUE ) ; seq
 s2n(seq)
+#How to deal with RNA
+urnrna <- c("a","c","g","t")
+seq <- sample( urnrna, 100, replace = TRUE ) ; seq
+s2n(seq)
+#what's happen with unknown characters
+urnmess <- c(urndna,"n")
+seq <- sample( urnmess, 100, replace = TRUE ) ; seq
+s2n(seq)
+#How to change the encoding for unknown characters
+tmp <- s2n(seq) ; tmp[is.na(tmp)] <- -1; tmp
 }
 \keyword{ utilities }
