@@ -1,3 +1,3 @@
-PKG_CPPFLAGS = -Dunix
-PKG_LIBS = -lm
+PKG_CPPFLAGS = -I/bge/charif/seqinr/src/.exec
+PKG_LIBS = -L/bge/charif/seqinr/src/.exec -lcacnuc
 
