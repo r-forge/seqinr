@@ -14,6 +14,7 @@
 #   accesion number
 #   size in bp
 #   type (chromosome or plasmid)
+#   Last update time
 #
 #########################################################################
 get.ncbi <- function(repository = .BACTNCBI)
@@ -101,6 +102,7 @@ get.ncbi <- function(repository = .BACTNCBI)
   accession <- character(0)
   size.bp <- integer(0)
   type <- character(0)
+  lastupdate <- character(0)
   
   #
   # Main loop on folders to see what's inside
@@ -111,14 +113,24 @@ get.ncbi <- function(repository = .BACTNCBI)
     cmd <- sprintf("echo \"ls\" | ftp %s", where)
     whatsin <- readLines(pipe(cmd))
     closeAllConnections()
-    whatsin <- whatsin[ grep("\\.gbk", whatsin)]
+    whatsin <- whatsin[ grep("\\.gbk", whatsin)] # Keep only files with ".gbk" extension
     
     for( i in seq(from=1, to=length(whatsin), by=1 )) # Loop on sequences data
     {
+      #
+      # Try to get the accession number of this entry:
+      #
       accname <- unlist(strsplit(whatsin[i], split=" "))
       accname <- accname[length(accname)]
       accname <- unlist(strsplit(accname, split="\\."))
       accname <- accname[1] # The accession number should be in this variable
+      #
+      # Try to get the last update date of this entry
+      #
+      last <- unlist(strsplit(whatsin[i], split=" "))
+      last <- last[nchar(last) > 0]
+      last <- last[(length(last) - 3):(length(last) - 1)]
+      last <- paste(last, collapse = " ")
       #
       # Try to get the size of this entry:
       #
@@ -131,6 +143,7 @@ get.ncbi <- function(repository = .BACTNCBI)
       species <- c(species, folder)
       accession <- c(accession, accname)
       size.bp <- c(size.bp, as.integer(bp))
+      lastupdate <- c(lastupdate, last)
       #
       # Try to get the type (chromosome versus plasmid) of this entry:
       #
@@ -143,12 +156,12 @@ get.ncbi <- function(repository = .BACTNCBI)
       else
         def <- NA
       type <- c(type, def)
-      cat("\n",folder,accname,bp,def,"\n")
+      cat("\n",folder,accname,bp,def,last,"\n")
     }
   }
 
 # shouldn't ftp_proxy be restored there ?
-  return(data.frame(I(species), I(accession), size.bp, type))
+  return(data.frame(I(species), I(accession), size.bp, type, I(lastupdate)))
 }
 
 
