@@ -11,7 +11,7 @@
 
 
 #define FALSE 0
-#define TRUE (!FALSE)
+#define TRUEL (!FALSE)
 #define MAXLENCOM 50000 /* long max des commentaires sous mase */
 #define MAX_SPECIES_SETS 50 /* nbre max de species sets */
 #define PHYNAME 10
