@@ -23,8 +23,8 @@ tablecode <- function(numcode = 1, urn.rna = c("U","C","A","G"), dia = TRUE)
 
   plot.new()
   plot.window(xlim=c(0,100),ylim=c(0,100))
-#  polygon(x=c(0,100,100,0),y=c(0,0,100,100))
-  segments( 0, 102, 102, 102, lwd = 2)
+
+  segments( 0, 102, 100, 102, lwd = 2)
   segments( 0, 0, 100, 0, lwd = 2)
   segments( 0, 97, 100, 97)
 
@@ -32,7 +32,7 @@ tablecode <- function(numcode = 1, urn.rna = c("U","C","A","G"), dia = TRUE)
   codename <- as.character(codename)
 
   text(x=0, y = 98.5, font = 2, adj = c(0, 0),
-    lab = paste("Genetic code number",numcode,":",codename))
+    lab = paste("Genetic code", numcode,":",codename))
 
   urn <- c("T","C","A","G") # internal
   for( i in 0:3 )
