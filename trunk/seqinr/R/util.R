@@ -107,7 +107,6 @@ aaa <- function( aa )
 
 invers<-function(seq)
 {
-	seq=toupper(s2c)
 	rev(seq)
 }
 
