@@ -1,15 +1,39 @@
 choosebank <- function( bankname )
 {
+#
+# Set defaults to local bank demo:
+#
+  acnuc <- system.file("sequences/entero", package = "seqinr")
+  gcgacnuc <- acnuc
+#
+# Check argument:
+#
   if( missing( bankname ) )
-    stop("Mandatory argument is missing")
-
-  ad <- Sys.getenv( bankname )
-  if( ad == "" )
-    stop(paste("Unable to get environment variable ", bankname))
-
-  var <- unlist(strsplit(ad, " "))
-  acnuc <- var[1]
-  gcgacnuc <- var[2]
+  {
+    print("bankname argument is missing")
+    print("seting ACNUC bank to local demo in sequences/entero")
+  }
+#
+# Look for local bank location:
+#
+  else
+  {
+    ad <- Sys.getenv( bankname )
+    if( ad == "" )
+    {
+      print(paste("Unable to get environment variable ", bankname))
+      print("seting ACNUC bank to local demo in sequences/entero")
+    }
+    else
+    {
+      var <- unlist(strsplit(ad, " "))
+      acnuc <- var[1]
+      gcgacnuc <- var[2]
+    }
+  }
+#
+# Open ACNUC database:
+#
   .C("Racnucopen", acnuc, gcgacnuc)
 }
 
