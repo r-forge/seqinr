@@ -15,18 +15,18 @@ is.SeqFastadna(object)
 summary.SeqFastadna(object,...)
 }
 \arguments{
-  \item{object}{ a vector of chars representing a biological sequence} 
+  \item{object}{a vector of chars representing a biological sequence} 
 }
 \value{
   \code{as.SeqFastadna} returns an object sequence of class \code{SeqFastadna}.
   \code{summary.SeqFastadna} returns a list which the following components:
-	\item{composition}{ the base counting of the sequence} 
-	\item{GC}{ the percentage of G+C in the sequence }
+	\item{composition}{the base counting of the sequence} 
+	\item{GC}{the percentage of G+C in the sequence}
 }
-\author{ D. Charif }
+\author{D. Charif}
 \examples{
-  s = read.fasta("sequences/malM.fasta")
+  s = read.fasta(system.file("sequences/malM.fasta",package="seqinr"))
   is.SeqFastadna(s[[1]])
   summary(s[[1]])
 }
-\keyword{ utilities }
+\keyword{utilities}
