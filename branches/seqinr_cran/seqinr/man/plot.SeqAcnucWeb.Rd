@@ -19,10 +19,10 @@ plot.SeqAcnucWeb(x, type = "all", ...)
 }
 \references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}}
 \author{D. Charif}
-\seealso{\code{\link{getType.socket}}, \code{\link{query.socket}} }
+\seealso{\code{\link{getType}}, \code{\link{query}} }
 \examples{
-\dontrun{ s=choosebank.socket("hovernucl")}
-\dontrun{ query.socket(s$socket,"list","sp=homo sapiens et k=globin@")}	
+\dontrun{ s=choosebank("hovernucl")}
+\dontrun{ query(s$socket,"list","sp=homo sapiens et k=globin@")}	
 \dontrun{ plot.SeqAcnucWeb(list$req[[22]]) }
 \dontrun{ plot.SeqAcnucWeb(list$req[[22]],type=c("CDS","5'NCR")) }
 }
