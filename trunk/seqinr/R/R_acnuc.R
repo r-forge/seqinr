@@ -193,5 +193,5 @@ getAnnots <-function(name,ligne)
 
 
 s2c <- function(string){
-	return(.Call("string2char",string))
+	return(.Call("s2c",string))
 }
