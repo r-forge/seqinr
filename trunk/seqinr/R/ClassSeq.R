@@ -1,6 +1,7 @@
 	#####################################################################################
 	# 		classes de séquences						    #
 	#  toutes les classes doivent avoir exactement la même interface à savoir:	    #
+seqinr/
 	#  une fonction initNomClasse qui retourne une instance de la classe		    #
 	#  des spécialisations des fonctions                                                #
 	#	     getSequence(seq) retourne un vecteur de char	     		    #
@@ -49,7 +50,7 @@ getAnnot.default = function(object,nbl){
  	stop("no annotation for this sequence")
 }
 
-getExon.default = function(object){
+getLocation.default = function(object){
  	stop("no information about exon")
 }
 
@@ -95,9 +96,9 @@ getAnnot = function(object,nbl) {
 	else UseMethod("getAnnot")
 }
 
-getExon = function(object) {
-		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getExon.default(object)}
-	else UseMethod("getExon")
+getLocation = function(object) {
+		if(! inherits(object,c("SeqAcnucLocal","SeqAcnucWeb"))) {getLocation.default(object)}
+	else UseMethod("getLocation")
 }
 
 getKeyword = function(object) {
@@ -292,9 +293,9 @@ getKeyword.SeqAcnucLocal = function(object){
 	return( getKeyword(object) )
 }
 
-getExon.SeqAcnucLocal = function(object){ 
+getLocation.SeqAcnucLocal = function(object){ 
 	
-	return( getExon(object) )
+	return( getLocation(object) )
 }
 
 
@@ -399,9 +400,9 @@ getKeyword.SeqAcnucWeb = function(object){
 	return( getKeyword.socket( socket= attr(object,"socket"), name=object))
 }
 
-getExon.SeqAcnucWeb = function(object){ 
+getLocation.SeqAcnucWeb = function(object){ 
 	
-	return( getExon.socket( socket= attr(object,"socket"), name=object))
+	return( getLocation.socket( socket= attr(object,"socket"), name=object))
 }
 
 
