@@ -1,0 +1,38 @@
+#!/bin/csh
+setenv PATH     .:/usr/bin:/usr/ucb:/bge/banques/bin:/appli/Solaris/bin
+setenv acnuc    $PWD
+setenv gcgacnuc $PWD
+echo $PWD
+#
+# Removal of the old version
+#
+  /usr/bin/rm -f ACCESS AUTHOR BIBLIO EXTRACT KEYWORDS LOCUS
+  /usr/bin/rm -f LONGL SHORTL SMJYT SPECIES SUBSEQ TEXT
+#
+# Creation of the Index and Data files
+#
+  initf genbank div=entero
+#
+# Generation of entero
+#
+  gbemgener d entero 
+#
+# Creation of the species tree
+#
+  readncbitaxo
+#
+# Sets non-standard code (not used here)
+#
+
+
+#
+# Sorting of the index files
+#
+
+newordalphab
+
+#
+# Updates the third line of HELP and HELP_WIN
+#
+
+updatehelp 
