@@ -28,7 +28,7 @@ tablecode <- function(numcode = 1, urn.rna = c("U","C","A","G"), dia = TRUE)
   segments( 0, 0, 100, 0, lwd = 2)
   segments( 0, 97, 100, 97)
 
-  codename <- .SEQINR.UTIL$CODES.NCBI[numcode, "ORGANISMES"]
+  codename <- SEQINR.UTIL$CODES.NCBI[numcode, "ORGANISMES"]
   codename <- as.character(codename)
 
   text(x=0, y = 98.5, font = 2, adj = c(0, 0),
