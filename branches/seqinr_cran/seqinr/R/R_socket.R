@@ -4,7 +4,7 @@
 
 
 
-choosebank.socket = function(bank = NA ,host = "pbil.univ-lyon1.fr", port = 5558){
+choosebank = function(bank = NA ,host = "pbil.univ-lyon1.fr", port = 5558){
 
 	# ouverture d'un "client socket" sur le serveur pbil et sur le port 5558
 	socket = socketConnection( host = host, port = port, server = F, blocking=T)
@@ -98,7 +98,7 @@ getNumber.socket = function( socket, name){
 	return(parser.socket(s)[1])
 }
 
-query.socket = function (socket, listname, query) 
+query = function (socket, listname, query) 
 {
     writeLines("prep_requete", socket, sep = "\n")
     readLines(socket, n = 1)
