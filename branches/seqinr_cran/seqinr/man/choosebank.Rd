@@ -6,7 +6,7 @@
 by opening a socket on a port (as an example on port number 5558 of pbil.univ-lyon1.fr) and by communicating on this socket following the protocol described in the section \code{references}.   
 }
 \usage{
-choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558))
+choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558)
 }
 \arguments{
   \item{bank}{ The name of the bank. If NA, it returns the name of all database known by the server.}
