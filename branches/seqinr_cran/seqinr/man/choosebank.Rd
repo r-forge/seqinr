@@ -39,10 +39,10 @@ When called with bank = NA, a vector of all available bank names.\cr
 When called with bank = NA and infobank = TRUE, data.frame with three columns:
   \item{bank}{ The name of the bank. }
   \item{status}{ The bank status (on/of). }
-  \item{info}{ Short description of bank with last release date } 
+  \item{info}{ Short description of bank with last release date. } 
 }
 \references{ 
-For further information about sockets, please see \code{connection} function. For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
+For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
 To get the release date and content of all the databases located at the pbil, please look at the following url: \url{http://pbil.univ-lyon1.fr/search/releases.php}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr
@@ -55,11 +55,12 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 
 To have an overview of the seqinR's functionnality, please consult this vignette: 
 Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+computing devoted to biological sequences retrieval and analysis. 
+Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in press.\cr
 }
 \note{ The object of class \code{socket} will be the first argument of the \code{query} function.}
 \author{ D. Charif }
-\seealso{ \code{\link{query}}, \code{\link{connection}} }
+\seealso{ \code{\link{query}}, \code{\link{connection}}, \code{\link{socketConnection}} }
 \examples{
   \dontrun{ mybank <- choosebank() }
   \dontrun{ choosebank(mybank[1]) }
