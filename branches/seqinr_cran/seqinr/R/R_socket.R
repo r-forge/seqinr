@@ -44,7 +44,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   options(timeout = timeout)
   socket <- try( socketConnection( host = host, port = port, server = FALSE, blocking = TRUE))
   options(timeout = oldtimeout)
-  if(class(socket)[1] == "try-error") {
+  if(inherits(socket, "try-error")) {
     errmess <- paste("I wasn't able to open the socket connection:\n",
                      "  o Check that your are connected to the internet.\n",
                      "  o Check that port", port, "is not closed by a firewall.\n",
