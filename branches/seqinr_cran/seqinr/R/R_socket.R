@@ -53,6 +53,14 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   } else {
     if(verbose) cat("... yes, I was able to open the socket connection.\n")
   }
+
+
+  # Definition du client id : seqinr
+  #request = "clientid&id=seqinr" 
+  request = paste("clientid&id=seqinr_",packageDescription("seqinr")$Version,sep="" )
+  writeLines( request, socket, sep = "\n")
+  rep = readLines(socket, n=1)  
+
   
   #
   # Read the answer from server:
@@ -172,7 +180,7 @@ parser.socket = function(p)
 
 getSequenceSocket = function( socket, name, start, length){
   
-  request2 = paste("gfrag&name=", name,"&start=", start, "&length=", length, sep= "")
+  request2 = paste("gfrag&name=", name,"&start=", start, "&length=", formatC(length, format = "d"), sep= "")
   writeLines( request2, socket, sep="\n" )
   s = readLines(socket,n=1)
 

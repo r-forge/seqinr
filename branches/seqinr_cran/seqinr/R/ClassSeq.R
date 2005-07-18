@@ -17,14 +17,17 @@
 getSequence.default = function(object){
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
- 	else return(xx)		
+# 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
+# 	else return(xx)	
+	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")	
+	return(xx)	
 }
 
 getFrag.default = function(object,begin,end){ 
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+# 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")
  	if(begin>length(xx) || end>length(xx) || begin>end) stop("borns are not correct")	
  	else return(xx[begin:end])		
 }
@@ -32,7 +35,8 @@ getFrag.default = function(object,begin,end){
 getLength.default = function(object){
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	#if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")
  	return(length(xx))
 }
 
@@ -54,6 +58,11 @@ getKeyword.default = function(object){
 
 getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
 	translate(seq,frame,sens,numcode)
+	
+getTransCDS.default = function(objet,frame=0, sens= "F", numcode=1){
+	seq=getSequence(objet)
+	translate(seq,frame,sens,numcode)
+		
 }
 
 ##################################################################
@@ -98,6 +107,11 @@ getKeyword = function(object) {
 getTrans = function(seq,frame=0, sens= "F", numcode=1){
 	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(seq,frame=0, sens= "F", numcode=1)}
 	else UseMethod("getTrans")
+}
+
+getTransCDS = function(objet,frame=0, sens= "F", numcode=1){
+	if(! inherits(objet,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTransCDS.default(objet,frame=0, sens= "F", numcode=1)}
+	else UseMethod("getTransCDS")
 }
 
 
@@ -284,7 +298,17 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
+getTransCDS.SeqAcnucWeb = function(objet,frame=0, sens= "F", numcode="auto"){
+
+	b=getLength( object )
+	seq=getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
+	if (numcode == "auto") {
+	numcode = getAttributsocket(attr(object,"socket"),object)[[4]]
+	warning("Utilisation code auto")
+	} else {
+	numcode=as.integer(numcode)
+	}
+
 	translate(seq, frame = frame, sens = sens, numcode = numcode)
 }
 
