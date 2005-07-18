@@ -308,30 +308,73 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   #
   if(verbose) cat("I'm checking the status of the socket connection...\n")
   status <- summary.connection(socket)
+  #
+  # Ca marche pas: summary.connection leve une exception et on ne va pas plus loin
+  #
   if(status$opened != "opened") stop(paste("socket:", socket, "is not opened."))
   if(status$"can read" != "yes") stop(paste("socket:", socket, "can not read."))
   if(status$"can write" != "yes") stop(paste("socket:", socket, "can not write."))
   if(verbose) cat("... and everything is OK up to now.\n")
 
-
-  request <- paste("proc_requete&query=\"", query, "\"&name=\"", 
-    listname, "\"", sep = "")
+  #
+  # Send request to server:
+  #
+  if(verbose) cat("I'm sending query to server...\n")
+  request <- paste("proc_requete&query=\"", query, "\"&name=\"", listname, "\"", sep = "")
   writeLines(request, socket, sep = "\n")
   res <- readLines(socket, n = 1)
+  if(verbose) cat(paste("... answer from server is:", res, "\n"))
+  
+  #
+  # Analysing answer from server:
+  #
+  if(verbose) cat("I'm trying to analyse answer from server...\n")
   p <- parser.socket(res)
-  if (as.numeric(p[1]) != 0) 
+  if(p[1] != "0"){
+    if(verbose) cat("... and I was able to detect an error.\n") 
     stop(paste("invalid request:", p[2], sep = ""))
+  }
+  
+  if(verbose) cat("... and everything is OK up to now.\n")
   lrank <- p[2]
-  first <- 1
-  liste <- character(as.numeric(p[3]))
+  if(verbose) cat(paste("... and the rank of the resulting list is:", lrank, ".\n"))
+  nelem <- p[3]
+  if(verbose) cat(paste("... and there are", nelem, "elements in the list.\n"))
+  typelist <- p[4]
+  if(verbose) cat(paste("... and the elements in the list are of type", typelist, ".\n"))
+  if(typelist == "SQ"){
+    if(p[5] == "T"){
+      onlyparents <- TRUE
+      if(verbose) cat("... and there are only parent sequences in the list.\n")
+    } else {
+      onlyparents <- FALSE
+      if(verbose) cat("... and there are *not* only parent sequences in the list.\n")
+    }
+  }
+  
+  #
+  # Main loop to get full list informations: 
+  #
+  # Ici, c'est idiot, on doit pouvoir lire tout d'un coup avec count=xx. Et on peut conserver
+  # plein d'infos utiles au passage (&length=xx&offset=xx&div=xx&frame=xx&ncbigc=xx)
+  # si c'est des sequences. (A passer a as.SeqAcnucWeb.)
+  #
+  first <- 1 # to start running through list
+  liste <- character(as.numeric(nelem)) # empty list with nelem elements
+
+  if(verbose) cat("Entering main loop...\n")
   for (i in 1:length(liste)) {
     writeLines(paste("nexteltinlist&lrank=", lrank, "&first=", 
       first, "&type=SQ", sep = ""), socket, sep = "\n")
     res <- readLines(socket, n = 1)
+    if(verbose) cat(paste(res,"\n"))
     r <- parser.socket(res)
     first <- r[1]
     liste[i] <- r[2]
   }
+  if(verbose) cat("Exiting main loop...\n")
+
+  
   liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
   liste <- lapply(liste, as.SeqAcnucWeb, socket) 
   result <- list(call = match.call(), name = listname, req = as.list(liste), 
