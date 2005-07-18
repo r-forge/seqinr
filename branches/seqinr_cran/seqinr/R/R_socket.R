@@ -338,7 +338,7 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   if(verbose) cat("... and everything is OK up to now.\n")
   lrank <- p[2]
   if(verbose) cat(paste("... and the rank of the resulting list is:", lrank, ".\n"))
-  nelem <- p[3]
+  nelem <- as.integer(p[3])
   if(verbose) cat(paste("... and there are", nelem, "elements in the list.\n"))
   typelist <- p[4]
   if(verbose) cat(paste("... and the elements in the list are of type", typelist, ".\n"))
@@ -353,28 +353,25 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   }
   
   #
-  # Main loop to get full list informations: 
+  # Get full list informations: 
   #
-  # Ici, c'est idiot, on doit pouvoir lire tout d'un coup avec count=xx. Et on peut conserver
+  if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
+  writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
+  res <- readLines(socket, n = nelem)
+  if( length(res) != nelem )
+  {
+    if(verbose) cat("... and I was able to detect an error...\n")
+    stop(paste("only", length(res), "list elements were send by server out of", nelem, "expected.\n")) 
+  } else {
+    if(verbose) cat(paste("... and I have received", nelem, "as expected.\n"))
+  }
+  
+  liste <- lapply(res, function(x){parser.socket(x)[2]}) # que les noms pour le moment
+  #
+  # On doit pouvoir conserver ici
   # plein d'infos utiles au passage (&length=xx&offset=xx&div=xx&frame=xx&ncbigc=xx)
   # si c'est des sequences. (A passer a as.SeqAcnucWeb.)
   #
-  first <- 1 # to start running through list
-  liste <- character(as.numeric(nelem)) # empty list with nelem elements
-
-  if(verbose) cat("Entering main loop...\n")
-  for (i in 1:length(liste)) {
-    writeLines(paste("nexteltinlist&lrank=", lrank, "&first=", 
-      first, "&type=SQ", sep = ""), socket, sep = "\n")
-    res <- readLines(socket, n = 1)
-    if(verbose) cat(paste(res,"\n"))
-    r <- parser.socket(res)
-    first <- r[1]
-    liste[i] <- r[2]
-  }
-  if(verbose) cat("Exiting main loop...\n")
-
-  
   liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
   liste <- lapply(liste, as.SeqAcnucWeb, socket) 
   result <- list(call = match.call(), name = listname, req = as.list(liste), 
