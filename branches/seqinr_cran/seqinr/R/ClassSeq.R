@@ -59,9 +59,6 @@ getKeyword.default = function(object){
 getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
 	translate(seq,frame,sens,numcode)
 	
-getTransCDS.default = function(objet,frame=0, sens= "F", numcode=1){
-	seq=getSequence(objet)
-	translate(seq,frame,sens,numcode)
 		
 }
 
@@ -109,10 +106,6 @@ getTrans = function(seq,frame=0, sens= "F", numcode=1){
 	else UseMethod("getTrans")
 }
 
-getTransCDS = function(objet,frame=0, sens= "F", numcode=1){
-	if(! inherits(objet,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTransCDS.default(objet,frame=0, sens= "F", numcode=1)}
-	else UseMethod("getTransCDS")
-}
 
 
 
