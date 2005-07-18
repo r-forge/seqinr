@@ -29,17 +29,22 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
   with more information is returned.
 }
 \value{
-When called with a regular bank name, a list with five components:
+\item{When called with a regular bank name, a list with five components}
+  \describe{
   \item{socket}{ an object of class \code{socket} }
   \item{bankname}{ the name of the bank }
   \item{totseqs}{ the total number of sequences present in the opened database }
   \item{totspecs}{ the total number of species present in the opened database }
   \item{totkeys}{ the total number of keywords present in the opened database }	
-When called with bank = NA, a vector of all available bank names.\cr
-When called with bank = NA and infobank = TRUE, data.frame with three columns:
+  }
+\item{When called with bank = NA}
+  \describe{\item{ }{ A vector of all available bank names.}}
+\item{When called with bank = NA and infobank = TRUE, a data.frame with three columns}
+  \describe{
   \item{bank}{ The name of the bank. }
   \item{status}{ The bank status (on/of). }
   \item{info}{ Short description of bank with last release date. } 
+  }
 }
 \references{ 
 For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
