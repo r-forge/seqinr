@@ -203,88 +203,113 @@ parser.socket <- function(p)
   return(unlist(lapply(1:length(a), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
 }
   
+###################################################################################################
+#                                                                                                 #
+#                                         getSequenceSocket                                       #
+#                                                                                                 #
+###################################################################################################
 
 getSequenceSocket <- function( socket, name, start, length){
-  
-  request2 = paste("gfrag&name=", name,"&start=", start, "&length=", formatC(length, format = "d"), sep= "")
-  writeLines( request2, socket, sep="\n" )
-  s = readLines(socket,n=1)
+  request <- paste("gfrag&name=", name, "&start=", start, "&length=", formatC(length, format = "d"), sep = "")
+  writeLines(request, socket, sep="\n")
+  s <- readLines(socket, n = 1)
 
-  if(length(s)==0){
-     print("invalid sequence name")
-    }
-  else{   
-    s = s2c(s)
-    sequence = s[(grep("&",s)+1):length(s)]
+  if(length(s) == 0){
+    warning(paste("invalid sequence name:", name))
+    return(NA)
+  } else {   
+    s <- s2c(s)
+    sequence <- s[(grep("&", s) + 1):length(s)]
+    # Ne devrait-on pas recuperer ici la longueur effectivement lue de la sequence sur
+    # le serveur et verifier que tout va bien ?
     return(sequence)
   }
 }
   
+###################################################################################################
+#                                                                                                 #
+#                                         getAttributsocket                                       #
+#                                                                                                 #
+# To get sequence attributes from server.                                                         #
+#                                                                                                 #
+###################################################################################################
 
-
-getAttributsocket = function( socket, name){
-  
-  # Récupération des attributs d'une séquence
-  
-  request = paste( "isenum&name=",name, sep="")
-  writeLines( request, socket, sep="\n")
-  res = readLines( socket, n=1 )
-  p=parser.socket(res)
-  l=list( length = as.numeric(p[2]),frame = as.numeric(p[3]), gencode =as.numeric(p[4]) )
-  return(l)
+getAttributsocket <- function( socket, name){
+  request <- paste("isenum&name=", name, sep = "")
+  writeLines( request, socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  p <- parser.socket(res)
+  return( list(length = as.numeric(p[2]), frame = as.numeric(p[3]), gencode = as.numeric(p[4])) )
 }
 
+###################################################################################################
+#                                                                                                 #
+#                                         readAnnots.socket                                       #
+#                                                                                                 #
+###################################################################################################
 
-readAnnots.socket = function( socket, name, nl){
-
-    request= paste( "read_annots&name=", name, "&nl=", nl, sep= "")
-     writeLines( request , socket, sep="\n")
-     readLines( socket , n=nl )
+readAnnots.socket <- function(socket, name, nl){
+  request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
+  writeLines(request , socket, sep="\n")
+  readLines(socket , n = nl)
 }
 
+###################################################################################################
+#                                                                                                 #
+#                                         getNumber.socket                                        #
+#                                                                                                 #
+###################################################################################################
 
-
-
-getNumber.socket = function( socket, name){
-  
-  request = paste( "isenum&name=",name, sep="")
-  writeLines( request, socket, sep="\n")
-  s = readLines(socket,n=1)
+getNumber.socket <- function( socket, name){
+  request <- paste("isenum&name=", name, sep = "")
+  writeLines(request, socket, sep = "\n")
+  s <- readLines(socket, n = 1)
   return(parser.socket(s)[1])
 }
 
-query = function (socket, listname, query, invisible = FALSE) 
+###################################################################################################
+#                                                                                                 #
+#                                         query                                                   #
+#                                                                                                 #
+###################################################################################################
+
+query <- function (socket, listname, query, invisible = FALSE) 
 {
-    writeLines("prep_requete", socket, sep = "\n")
-    readLines(socket, n = 1)
-    request = paste("proc_requete&query=\"", query, "\"&name=\"", 
-        listname, "\"", sep = "")
-    writeLines(request, socket, sep = "\n")
-    res = readLines(socket, n = 1)
-    p = parser.socket(res)
-    if (as.numeric(p[1]) != 0) 
-        stop(paste("invalid request:", p[2], sep = ""))
-    lrank = p[2]
-    first = 1
-    liste = character(as.numeric(p[3]))
-    for (i in 1:length(liste)) {
-        writeLines(paste("nexteltinlist&lrank=", lrank, "&first=", 
-            first, "&type=SQ", sep = ""), socket, sep = "\n")
-        res = readLines(socket, n = 1)
-        r = parser.socket(res)
-        first = r[1]
-        liste[i] = r[2]
-    }
-    liste = lapply(liste, function(x){substring(x,2,nchar(x)-1)})
-    liste = lapply(liste, as.SeqAcnucWeb, socket) 
-    result = list(call = match.call(), name = listname, req = as.list(liste), 
-        socket = socket)
-    class(result) = c("qaw")
-    assign(listname, result, env = .GlobalEnv)
-    if(invisible == TRUE) invisible(result)
-    else print(result)
+  writeLines("prep_requete", socket, sep = "\n")
+  readLines(socket, n = 1)
+  request <- paste("proc_requete&query=\"", query, "\"&name=\"", 
+    listname, "\"", sep = "")
+  writeLines(request, socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  p <- parser.socket(res)
+  if (as.numeric(p[1]) != 0) 
+    stop(paste("invalid request:", p[2], sep = ""))
+  lrank <- p[2]
+  first <- 1
+  liste <- character(as.numeric(p[3]))
+  for (i in 1:length(liste)) {
+    writeLines(paste("nexteltinlist&lrank=", lrank, "&first=", 
+      first, "&type=SQ", sep = ""), socket, sep = "\n")
+    res <- readLines(socket, n = 1)
+    r <- parser.socket(res)
+    first <- r[1]
+    liste[i] <- r[2]
+  }
+  liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
+  liste <- lapply(liste, as.SeqAcnucWeb, socket) 
+  result <- list(call = match.call(), name = listname, req = as.list(liste), 
+    socket = socket)
+  class(result) <- c("qaw")
+  assign(listname, result, env = .GlobalEnv)
+  if(invisible == TRUE) invisible(result)
+  else print(result)
 }
 
+###################################################################################################
+#                                                                                                 #
+#                                         print.qaw                                               #
+#                                                                                                 #
+###################################################################################################
 
 print.qaw <- function(x, ...)
 {
@@ -306,7 +331,11 @@ print.qaw <- function(x, ...)
   cat("\n")
 }
 
-
+###################################################################################################
+#                                                                                                 #
+#                                         getKeywordsocket                                        #
+#                                                                                                 #
+###################################################################################################
 
 getKeywordsocket <- function( socket, name){
 
@@ -338,6 +367,11 @@ getKeywordsocket <- function( socket, name){
 
 } 
 
+###################################################################################################
+#                                                                                                 #
+#                                         getLocationSocket                                       #
+#                                                                                                 #
+###################################################################################################
 
 getLocationSocket <- function( socket, name){
 
@@ -375,34 +409,43 @@ getLocationSocket <- function( socket, name){
   return(l)
 } 
 
+###################################################################################################
+#                                                                                                 #
+#                                         getType                                                 #
+#                                                                                                 #
+###################################################################################################
 
-
-getType = function(socket){
-  writeLines( "readfirstrec&type=SMJ",socket, sep="\n" ) 
-  s = readLines(socket,n=1)
-  rep = parser.socket(s)
-  if(rep[1]!="0") stop("erreur")
-  rep = as.numeric(rep)
-  writeLines( paste("readsmj&num=",10,"&nl=",rep[2]-10,sep=""), socket, sep="\n" ) 
-  ss = readLines(socket,n=rep[2]-9)
-  occ = grep("name=\"04",ss)
+getType <- function(socket){
+  writeLines("readfirstrec&type=SMJ", socket, sep = "\n") 
+  s <- readLines(socket, n = 1)
+  rep <- parser.socket(s)
+  if(rep[1] != "0") stop("erreur")
+  rep <- as.numeric(rep)
+  writeLines(paste("readsmj&num=", 10, "&nl=", rep[2] - 10, sep = ""), socket, sep = "\n" ) 
+  ss <- readLines(socket, n = rep[2] - 9)
+  occ <- grep("name=\"04", ss)
   h = ss[occ]
   return(lapply(h,function(x){ c(substring(noquote(parser.socket(x))[2],4,nchar(noquote(parser.socket(x))[2])-1),substring(noquote(parser.socket(x))[4],2,nchar(noquote(parser.socket(x))[4])-1)) }))
 }
 
 
+###################################################################################################
+#                                                                                                 #
+#                                         plot.SeqAcnucWeb                                        #
+#                                                                                                 #
+###################################################################################################
+
+plot.SeqAcnucWeb <- function(x,  type = "all", ...){
 
 
+  #
+  # Check arguments:
+  #
+  if(! inherits(x, "SeqAcnucWeb")) stop("Sequence of class SeqAcnucWeb is needed")
+  
+  socket <- attr(x, "socket")
 
-plot.SeqAcnucWeb = function(x,  type = "all", ...){
-
-
-  # Vérification des arguments
-
-  if(! inherits(x,c("SeqAcnucWeb"))) stop("Sequence of class SeqAcnucWeb is needed")
-  socket = attr(x,"socket")
-
-  types = unlist(lapply(getType(socket),function(x) x[1]))
+  types <- unlist(lapply(getType(socket),function(x) x[1]))
   
   if(type == "all") ptype = types
   else{
@@ -483,10 +526,3 @@ plot.SeqAcnucWeb = function(x,  type = "all", ...){
     return( resu )
   }
 }
-
-         
-
-
-
-
-
