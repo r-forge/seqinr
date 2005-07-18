@@ -145,28 +145,45 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     if( res[1] == "0") {
       if(verbose) cat("... and everything is OK up to now.\n")
     
-    #
-    # Je me demande si ca sert vraiment a quelque chose ca :
-    #
-    assign("banknameSocket", bank, .GlobalEnv)
-    #
-    # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
-    # ne pas avoir a repreciser la socket a chaque query... A voir.
-    #
-    return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5]))
+      #
+      # Set up the ACNUC server for following queries:
+      #
+      if(verbose) cat("I'm trying to set up the server for following queries...\n")
+      writeLines("prep_requete", socket, sep = "\n")
+      rep3 <- readLines(socket, n = 1)
+      if(verbose) cat("... answer from server is: ", rep3, "\n")
+      res3 <- parser.socket(rep3)
+      if( res3[1] == "0") {
+        if(verbose) {
+          cat("... and everything is OK up to now.\n")
+          cat(paste("... and there are", res3[2], "free lists available from server.\n"))
+        }
+      } else {
+        if(verbose) cat("I was able to detect an error while seting up remote bank.\n")
+        stop("There was an error while seting up remote bank.\n")
+      }
+      #
+      # Je me demande si ca sert vraiment a quelque chose ca :
+      #
+      assign("banknameSocket", bank, .GlobalEnv)
+      #
+      # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
+      # ne pas avoir a repreciser la socket a chaque query... A voir.
+      #
+      return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5]))
     } else {
-    if(verbose) cat("I was able to detect an error while opening remote bank.\n")
-    rm(socket)
-    if( res[1] == "3" ){
-      stop(paste("Database with name -->", bank, "<-- is not known by server.\n", sep = ""))
-    }
-    if( res[1] == "4" ){
-      stop(paste("Database with name -->", bank, "<-- is currently of for maintenance, please try again later.\n", sep = ""))
-    }
-    if( res[1] == "5" ){
-      stop(paste("Database with name -->", bank, "<-- is currently opened and has not been closed.\n", sep = ""))
-    }
-    stop("I don't know what this error code means for acnucopen, please contact package maintener.\n")
+      if(verbose) cat("I was able to detect an error while opening remote bank.\n")
+      rm(socket)
+      if( res[1] == "3" ){
+        stop(paste("Database with name -->", bank, "<-- is not known by server.\n", sep = ""))
+      }
+      if( res[1] == "4" ){
+        stop(paste("Database with name -->", bank, "<-- is currently of for maintenance, please try again later.\n", sep = ""))
+      }
+      if( res[1] == "5" ){
+        stop(paste("Database with name -->", bank, "<-- is currently opened and has not been closed.\n", sep = ""))
+      }
+      stop("I don't know what this error code means for acnucopen, please contact package maintener.\n")
     }
   }
 } 
@@ -273,10 +290,30 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-query <- function (socket, listname, query, invisible = FALSE) 
+query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE) 
 {
-  writeLines("prep_requete", socket, sep = "\n")
-  readLines(socket, n = 1)
+  #
+  # Check arguments:
+  #
+  if(verbose) cat("I'm checking the arguments...\n")
+  if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
+  if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))
+  if( !is.character(query) ) stop(paste("argument query = ", query, "is not a character string."))
+  if( !is.logical(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
+  if( is.na(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
+  if(verbose) cat("... and everything is OK up to now.\n")
+  
+  #
+  # Check the status of the socket connection:
+  #
+  if(verbose) cat("I'm checking the status of the socket connection...\n")
+  status <- summary.connection(socket)
+  if(status$opened != "opened") stop(paste("socket:", socket, "is not opened."))
+  if(status$"can read" != "yes") stop(paste("socket:", socket, "can not read."))
+  if(status$"can write" != "yes") stop(paste("socket:", socket, "can not write."))
+  if(verbose) cat("... and everything is OK up to now.\n")
+
+
   request <- paste("proc_requete&query=\"", query, "\"&name=\"", 
     listname, "\"", sep = "")
   writeLines(request, socket, sep = "\n")
@@ -313,7 +350,6 @@ query <- function (socket, listname, query, invisible = FALSE)
 
 print.qaw <- function(x, ...)
 {
-
   cat("\n")
   cat("\n$socket: ")
   print(x$socket)
