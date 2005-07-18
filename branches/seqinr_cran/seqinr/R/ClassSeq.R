@@ -290,20 +290,25 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-
-getTransCDS.SeqAcnucWeb = function(objet,frame=0, sens= "F", numcode="auto"){
-
-	b=getLength( object )
-	seq=getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
-	if (numcode == "auto") {
-	numcode = getAttributsocket(attr(object,"socket"),object)[[4]]
-	warning("Utilisation code auto")
-	} else {
-	numcode=as.integer(numcode)
-	}
-
+getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
 	translate(seq, frame = frame, sens = sens, numcode = numcode)
 }
+
+
+
+#getTransCDS.SeqAcnucWeb = function(objet,frame=0, sens= "F", numcode="auto"){
+#
+#	b=getLength( object )
+#	seq=getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
+#	if (numcode == "auto") {
+#	numcode = getAttributsocket(attr(object,"socket"),object)[[4]]
+#	warning("Utilisation code auto")
+#	} else {
+#	numcode=as.integer(numcode)
+#	}
+#
+#	translate(seq, frame = frame, sens = sens, numcode = numcode)
+#}
 
 
 	############################################################################
