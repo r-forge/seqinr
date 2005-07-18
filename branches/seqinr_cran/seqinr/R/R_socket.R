@@ -54,20 +54,30 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     if(verbose) cat("... yes, I was able to open the socket connection.\n")
   }
 
-
-  # Definition du client id : seqinr
-  #request = "clientid&id=seqinr" 
-  request = paste("clientid&id=seqinr_",packageDescription("seqinr")$Version,sep="" )
-  writeLines( request, socket, sep = "\n")
-  rep = readLines(socket, n=1)  
-
-  
   #
   # Read the answer from server:
   #
   if(verbose) cat("I'm trying to read answer from server...\n")
   rep1 <- readLines(socket, n = 1)
   if(verbose) cat(paste("... answer from server is:", rep1, "\n"))
+  
+  #
+  # Client ID definition : seqinr + package version number
+  #  (internal note: log file is: /mnt/users/ADE-User/racnuc/log)
+  #
+  clientID <- paste("seqinr_", packageDescription("seqinr")$Version, sep = "")
+  if(verbose) cat(paste("I'm trying to identify myself as", clientID, "to the server...\n"))
+  request <- paste("clientid&id=", clientID, sep = "")
+  writeLines( request, socket, sep = "\n")
+  rep <- readLines(socket, n = 1)  
+  if(verbose) cat(paste("... answer from server is:", rep, "\n"))
+  res <- parser.socket(rep)  
+  if( res[1] == "0") {
+    if(verbose) cat("... and everything is OK up to now.\n")  
+  } else {
+    stop("I don't know what this error code means for clientid, please contact package maintener.\n")
+  }
+
     
   ###############################################################################
   #
@@ -133,8 +143,16 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     res <- parser.socket(rep2)
     
     if( res[1] == "0") {
-    if(verbose) cat("... and everything is OK up to now.\n")
+      if(verbose) cat("... and everything is OK up to now.\n")
+    
+    #
+    # Je me demande si ca sert vraiment a quelque chose ca :
+    #
     assign("banknameSocket", bank, .GlobalEnv)
+    #
+    # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
+    # ne pas avoir a repreciser la socket a chaque query... A voir.
+    #
     return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5]))
     } else {
     if(verbose) cat("I was able to detect an error while opening remote bank.\n")
@@ -148,7 +166,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     if( res[1] == "5" ){
       stop(paste("Database with name -->", bank, "<-- is currently opened and has not been closed.\n", sep = ""))
     }
-    stop("I don't know what this error code means, please contact package maintener.\n")
+    stop("I don't know what this error code means for acnucopen, please contact package maintener.\n")
     }
   }
 } 
@@ -160,6 +178,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
 # Utility function to remove white spaces " " from the start and the end of a character string    #
 #                                                                                                 #
 ###################################################################################################
+
 removeTrailingSpaces <- function(string){
   while(substr(string, 1, 1) == " ")
     string <- substr(string, 2, nchar(string))
@@ -168,17 +187,24 @@ removeTrailingSpaces <- function(string){
   return( string )
 }
 
+###################################################################################################
+#                                                                                                 #
+#                                         parser.socket                                           #
+#                                                                                                 #
+# Utility function to parse answers from ACNUC server.
+#                                                                                                 #
+###################################################################################################
 
-parser.socket = function(p)
+parser.socket <- function(p)
 {
-  p1=s2c(p)
-  b=grep("=",p1)
-    a=c(grep("&",p1),length(p1)+1)
-  return(unlist(lapply(1:length(a),function(x){substr(p,(b[x]+1),(a[x]-1))})))
+  p1 <- s2c(p)
+  b <- grep("=", p1)
+  a <- c(grep("&", p1), length(p1) + 1)
+  return(unlist(lapply(1:length(a), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
 }
   
 
-getSequenceSocket = function( socket, name, start, length){
+getSequenceSocket <- function( socket, name, start, length){
   
   request2 = paste("gfrag&name=", name,"&start=", start, "&length=", formatC(length, format = "d"), sep= "")
   writeLines( request2, socket, sep="\n" )
