@@ -290,6 +290,11 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
+######################################################################################
+#	query
+######################################################################################
+
+
 query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE) 
 {
   #
@@ -358,6 +363,7 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
   writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
   res <- readLines(socket, n = nelem)
+  print (res)
   if( length(res) != nelem )
   {
     if(verbose) cat("... and I was able to detect an error...\n")
@@ -366,14 +372,16 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
     if(verbose) cat(paste("... and I have received", nelem, "as expected.\n"))
   }
   
-  liste <- lapply(res, function(x){parser.socket(x)[2]}) # que les noms pour le moment
+  #liste <- lapply(res, function(x){parser.socket(x)[2]}) # que les noms pour le moment
+  liste <- lapply(res, simon, socket=socket) 
+
   #
   # On doit pouvoir conserver ici
   # plein d'infos utiles au passage (&length=xx&offset=xx&div=xx&frame=xx&ncbigc=xx)
   # si c'est des sequences. (A passer a as.SeqAcnucWeb.)
   #
-  liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
-  liste <- lapply(liste, as.SeqAcnucWeb, socket) 
+  #  liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
+
   result <- list(call = match.call(), name = listname, req = as.list(liste), 
     socket = socket)
   class(result) <- c("qaw")
@@ -602,3 +610,15 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     return( resu )
   }
 }
+
+######################################################################################
+#	simon
+######################################################################################
+
+simon <-function(res,socket) {
+x<-parser.socket(res)
+y<-(x[c(2,3,6,7)])
+acnucy<-as.SeqAcnucWeb(substring(y[1],2,nchar(y[1])-1),y[2],y[3],y[4],socket=socket)
+acnucy
+}
+######################################################################################
