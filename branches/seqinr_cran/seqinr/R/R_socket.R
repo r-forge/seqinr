@@ -290,11 +290,6 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-######################################################################################
-#	query
-######################################################################################
-
-
 query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE) 
 {
   #
@@ -312,13 +307,12 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   # Check the status of the socket connection:
   #
   if(verbose) cat("I'm checking the status of the socket connection...\n")
-  status <- summary.connection(socket)
   #
   # Ca marche pas: summary.connection leve une exception et on ne va pas plus loin
   #
-  if(status$opened != "opened") stop(paste("socket:", socket, "is not opened."))
-  if(status$"can read" != "yes") stop(paste("socket:", socket, "can not read."))
-  if(status$"can write" != "yes") stop(paste("socket:", socket, "can not write."))
+  if(!isOpen(socket)) stop(paste("socket:", socket, "is not opened."))
+  if(!isOpen(socket, rw = "read")) stop(paste("socket:", socket, "can not read."))
+  if(!isOpen(socket, rw = "write")) stop(paste("socket:", socket, "can not write."))
   if(verbose) cat("... and everything is OK up to now.\n")
 
   #
@@ -327,7 +321,7 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   if(verbose) cat("I'm sending query to server...\n")
   request <- paste("proc_requete&query=\"", query, "\"&name=\"", listname, "\"", sep = "")
   writeLines(request, socket, sep = "\n")
-  res <- readLines(socket, n = 1)
+  res <- readLines(socket, n = 1, ok = FALSE)
   if(verbose) cat(paste("... answer from server is:", res, "\n"))
   
   #
@@ -362,14 +356,13 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   #
   if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
   writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
-  res <- readLines(socket, n = nelem)
-  print (res)
+  res <- readLines(socket, n = nelem, ok = FALSE)
   if( length(res) != nelem )
   {
     if(verbose) cat("... and I was able to detect an error...\n")
     stop(paste("only", length(res), "list elements were send by server out of", nelem, "expected.\n")) 
   } else {
-    if(verbose) cat(paste("... and I have received", nelem, "as expected.\n"))
+    if(verbose) cat(paste("... and I have received", nelem, "lines as expected.\n"))
   }
   
   #liste <- lapply(res, function(x){parser.socket(x)[2]}) # que les noms pour le moment
@@ -518,32 +511,33 @@ getType <- function(socket){
 #                                         plot.SeqAcnucWeb                                        #
 #                                                                                                 #
 ###################################################################################################
-
 plot.SeqAcnucWeb <- function(x,  type = "all", ...){
-
-
+  verbose <- FALSE # a passer en argument si besoin est
   #
   # Check arguments:
   #
-  if(! inherits(x, "SeqAcnucWeb")) stop("Sequence of class SeqAcnucWeb is needed")
+  if(!inherits(x, "SeqAcnucWeb")) stop("Sequence of class SeqAcnucWeb is needed")
   
   socket <- attr(x, "socket")
 
   types <- unlist(lapply(getType(socket),function(x) x[1]))
+  if(verbose) cat(paste("types:", types, sep = ""))
   
-  if(type == "all") ptype = types
-  else{
+  if(type == "all"){
+    ptype <- types
+  } else {
     if(sum(type %in% types) != length(type)) stop("Please check the type argument !")
-    else(ptype = type)
+    ptype <- type
   }
 
-  # Récupération de la séquence mère et organistion du plot
-
-  par(mfrow=c(2,1))
+  #
+  # Get parent sequence and plot organization:
+  #
+  par(mfrow = c(2,1))
   
-  q = paste("me n=",x,sep="")
+  q = paste("me n=", x, sep="")
   
-  query(socket,listname= "me",query = q,invisible = TRUE)
+  query(socket, listname= "me", query = q, invisible = TRUE)
   l = getLength(me$req[[1]])
   cx = c(0,l+(1/10)*l)
   cy = c(0,15)
@@ -609,6 +603,9 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     names(resu) = ptype[rap]
     return( resu )
   }
+  #
+  # Manque netoyage environement parent
+  #
 }
 
 ######################################################################################
