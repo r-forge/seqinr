@@ -321,9 +321,19 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   if(verbose) cat("I'm sending query to server...\n")
   request <- paste("proc_requete&query=\"", query, "\"&name=\"", listname, "\"", sep = "")
   writeLines(request, socket, sep = "\n")
-  res <- readLines(socket, n = 1, ok = FALSE)
-  if(verbose) cat(paste("... answer from server is:", res, "\n"))
+  res <- readLines(socket, n = 1)
+  #
+  # C'est ici qu'il y a un probleme de timeout. Suit un patch pas beau
+  #
   
+  if(verbose) cat(paste("... answer from server is:", res, "\n"))
+  if(length(res) == 0){
+    if(verbose) cat("... answer from server is empty!\n")
+    while(length(res) == 0){
+      if(verbose) cat("... reading again.\n")
+      res <- readLines(socket, n = 1)
+    }
+  }
   #
   # Analysing answer from server:
   #
