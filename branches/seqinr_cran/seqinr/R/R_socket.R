@@ -155,6 +155,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
 	nblhelp<-res2[1]
 	if (nblhelp>2){
 	rep2 <- readLines(socket, n =(as.integer(nblhelp)-1))
+	assign("bankhelpSocket", rep2, .GlobalEnv)
 	for (i in 1:length(rep2)) cat(rep2[i],"\n")
 	}else {
 	cat("Note: there is no information available about the contents of this bank.\n")
