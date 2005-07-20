@@ -158,6 +158,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
 	assign("bankhelpSocket", rep2, .GlobalEnv)
 	for (i in 1:length(rep2)) cat(rep2[i],"\n")
 	}else {
+	assign("bankhelpSocket", "there is no information available about the contents of this bank", .GlobalEnv)
 	cat("Note: there is no information available about the contents of this bank.\n")
 	}
 	
