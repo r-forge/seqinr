@@ -419,7 +419,7 @@ and their hosts. We want to plot the two trees face to face, and for this we mus
 R graphical parameters. The first thing to do is to save the current graphical parameter
 settings so as to be able to restore them later:
 
-<<savegraphicalparameters>>=
+<<savegraphicalparameters,eval=F>>=
 op <- par(no.readonly = TRUE)
 @
 
@@ -443,7 +443,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 We now restore the old graphical settings that were previously saved:
 
-<<restoregraphicalparameters>>=
+<<restoregraphicalparameters,eval=F>>=
 par(op)
 @
 
@@ -527,8 +527,9 @@ your computer to work with a local copy of a complete DNA database.
 The idea is to import under R only the subset of sequences you are
 interested in. This is done in three steps:
 
-\begin{enumerate}
-\item Select the database from which you want to extract sequences with the \texttt{choosebank()} function.
+\subsubsection{Choose a bank}
+
+Select the database from which you want to extract sequences with the \texttt{choosebank()} function.
 This function initiates a remote access to an ACNUC database. Called without arguments,
 \texttt{choosebank()} returns the list of available databases:
 
@@ -550,8 +551,7 @@ choosebank(infobank = TRUE)[1:4, ]
 Note that there is a \texttt{status} column because a database could be unavailable
 for a while during updates\footnote{
 If you try call \texttt{choosebank(bank = "bankname")} when the bank called \texttt{bankname}
-is of from server, you will get an explicit error message stating that this bank is temporarily unvailable
-from server.
+is of from server, you will get an explicit error message stating that this bank is temporarily unvailable.
 }. 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
 with \texttt{"genbank"} as its first argument and store the result in a variable
@@ -574,7 +574,9 @@ keywords. For the following, the most important item is the first one
 of the list, \texttt{mybank\$socket}, which contains all the required
 details of the socket connection.
 
-\item Then, you have to say what you want, that is to compose a query
+\subsubsection{Make your query}
+
+Then, you have to say what you want, that is to compose a query
 to select the subset of sequences you are interested in. The way to do this is
 documented under \texttt{?query}, we just give here a simple example. 
 In the query below, we want to select all the coding sequences 
@@ -590,7 +592,7 @@ does not contain the sequences themselves but the \emph{sequence names} that fit
 the query. They are stored in the \texttt{req} component of the object,
 let's see the first ten of them:
 
-<<getNames,eval=F>>=
+<<getNames,eval=T>>=
 sapply(list1$req[1:10], getName)
 @
 
@@ -620,14 +622,10 @@ length(list2$req)
 Hence, there were \Sexpr{length(list2$req)} complete coding sequences published in 2004 for
 \textit{Felis catus} in GenBank.
 
-% PROBLEME lenteur avec cette requêeste
-%<<query2>>=
-%query(socket = mybank$socket, listname = "list2", query = "sp=felis catus", invisible = TRUE)
-%query(socket = mybank$socket, listname = "list3", query = "list2 et t=cds", invisible = TRUE)
-%query(socket = mybank$socket, listname = "list4", query = "list3 et no k=partial", invisible = TRUE)
-%identical(list1$req, list4$req)
-%@
-\item The sequence itself is obtained with the function \texttt{getSequence()}.
+
+\subsubsection{Extract sequences of interest}
+
+The sequence itself is obtained with the function \texttt{getSequence()}.
 For example, the first 50 nucleotides of the first sequence of our request are:
 
 <<getSequence>>=
@@ -669,7 +667,6 @@ tsaa[1:50]
 %
 % QUESTION: gestion des codes genetiques variants avec seqAcnucWeb ???
 %
-\end{enumerate}
 
 
 \section{How to deal with sequence}
@@ -863,7 +860,7 @@ two individuals, is illustrated bellow with a very simple example (Table \ref{df
 three proteins having only three amino-acids, so that we can represent exactly
 on a map the consequences of the metric choice.
 
-<<df>>=
+<<df,eval=F>>=
 df <- data.frame(matrix(c(130, 60, 60, 70, 40, 35, 0, 0, 5), nrow=3))
 names(df) <- c("Ala", "Val", "Cys")
 df
@@ -1117,14 +1114,18 @@ variability, please consider reading this paper \cite{lobrychessel}, and follow 
 
 \begin{itemize}
 \item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
-laboratory that issued \seqinr (\texttt{penel@biomserv.univ-lyon1.fr}). Delphine Charif was
-successful too to get a fixed position in the same lab, with now a  different research task (but who knows ?).
+laboratory that issued \seqinr{}(\texttt{penel@biomserv.univ-lyon1.fr}). Delphine Charif was
+successful too to get a fixed position in the same lab, with now a  different research task (but who knows?).
 Thanks to the close vicinity of our pioneering maintainers the transition was sweet.
 
-\item The reference paper for the package is now \textit{in press}:
+\item The reference paper for the package is now \textit{in press}. We do not have the full
+reference for now, you may use \texttt{citation("seqinr")} to check if it is complete now:
 <<cite, fig=F>>=
 citation("seqinr")
 @
+
+\item
+
 \end{itemize}
 
 \section{Acknowledgments}
