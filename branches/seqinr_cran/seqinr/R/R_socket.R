@@ -134,8 +134,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     request <- paste("acnucopen&db=", bank, sep="") 
     writeLines( request, socket, sep = "\n")
     rep2 <- readLines(socket, n = 1)
-    if(verbose) cat(paste("... answer from server is: ", rep2, "\n")) 
-        
+    if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))             
     #
     # Check answer from server:
     #
@@ -144,6 +143,23 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     
     if( res[1] == "0") {
       if(verbose) cat("... and everything is OK up to now.\n")
+      
+      
+      # simon
+        if(verbose) cat("infobank parameter is TRUE, I'm returning all bank infos\n")
+    	request <- "ghelp&file=HELP_WIN&item=INTRODUCTION"
+    	writeLines( request, socket, sep = "\n")
+    	rep2 <- readLines(socket, n = 1)
+	if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))      
+	res2 <- parser.socket(rep2)
+	nblhelp<-res2[1]
+	rep2 <- readLines(socket, n =(as.integer(nblhelp)-1))
+	for (i in 1:length(rep2)) cat(rep2[i],"\n")
+	
+
+      
+      
+      
     
       #
       # Set up the ACNUC server for following queries:
