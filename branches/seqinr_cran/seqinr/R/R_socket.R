@@ -153,7 +153,8 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
 	if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))   
 	res2 <- parser.socket(rep2)
 	nblhelp<-res2[1]
-	if (nblhelp>2){
+	 if(verbose) cat("Number of lines=",nblhelp,"\n")
+	if (as.numeric(nblhelp)>2){
 	rep2 <- readLines(socket, n =(as.integer(nblhelp)-1))
 	assign("bankhelpSocket", rep2, .GlobalEnv)
 	for (i in 1:length(rep2)) cat(rep2[i],"\n")
@@ -649,5 +650,9 @@ x<-parser.socket(res)
 y<-(x[c(2,3,6,7)])
 acnucy<-as.SeqAcnucWeb(substring(y[1],2,nchar(y[1])-1),y[2],y[3],y[4],socket=socket)
 acnucy
+}
+
+dispinfo <-function() {
+ for (i in 1:length(bankhelpSocket)) cat(bankhelpSocket[i],"\n")
 }
 ######################################################################################
