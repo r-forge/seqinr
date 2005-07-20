@@ -141,7 +141,7 @@ with for instance the command \texttt{install.packages("seqinr")}.
 Last, load the \seqinr{} package with:
 
 % A changer plus tard
-<<seqinr, eval=F>>=
+<<seqinr, eval=T>>=
 library(seqinr, lib = "../../../library/")
 @
 
@@ -528,17 +528,34 @@ The idea is to import under R only the subset of sequences you are
 interested in. This is done in three steps:
 
 \begin{enumerate}
-\item Select the database you want to work with the \texttt{choosebank()} function.
-This function initiates remote access to an acnuc database. Called without arguments,
-\texttt{choosebank()} gives the list of available databases:
+\item Select the database from which you want to extract sequences with the \texttt{choosebank()} function.
+This function initiates a remote access to an ACNUC database. Called without arguments,
+\texttt{choosebank()} returns the list of available databases:
 
 <<choixbanque1>>=
 choosebank()
 @
 
-If you want to work with GenBank, for instance, you call \texttt{choosebank()}
-with \texttt{"genbank"} as an argument and store the result in a variable
-in the workspace:
+Biological sequence databases are fast moving targets, and for publication purposes it is
+recommended to specify on which release you were working on when you made the job.
+To get more informations about available databases on the server, just set 
+the \texttt{infobank} parameter to \texttt{TRUE}. For
+instance, here is the result for the four first databases on the default server 
+at the compilation time (\today) of this document:
+
+<<choixbanquemoreinfo>>=
+choosebank(infobank = TRUE)[1:4, ]
+@
+
+Note that there is a \texttt{status} column because a database could be unavailable
+for a while during updates\footnote{
+If you try call \texttt{choosebank(bank = "bankname")} when the bank called \texttt{bankname}
+is of from server, you will get an explicit error message stating that this bank is temporarily unvailable
+from server.
+}. 
+Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
+with \texttt{"genbank"} as its first argument and store the result in a variable
+in the workspace, called for instance \texttt{mybank} in the example thereafter:
 
 <<choixbanque2>>=
 mybank <- choosebank("genbank")
@@ -596,11 +613,11 @@ is that a list of sequences can be re-used. For instance, we can re-use \texttt{
 get only the list of sequences that were published in 2004:
 
 <<query2,eval=T>>=
-query(socket = mybank$socket, listname = "list2", query = "list1 et y=2004", invisible = TRUE, verbose = TRUE)
+query(socket = mybank$socket, listname = "list2", query = "list1 et y=2004", invisible = TRUE)
 length(list2$req)
 @
 
-Hence, there were \Sexpr{length(list2$req)} complete coding sequences in 2004 for
+Hence, there were \Sexpr{length(list2$req)} complete coding sequences published in 2004 for
 \textit{Felis catus} in GenBank.
 
 % PROBLEME lenteur avec cette requêeste
@@ -1099,8 +1116,12 @@ variability, please consider reading this paper \cite{lobrychessel}, and follow 
 \subsection{release 1.0-3}
 
 \begin{itemize}
-\item The new package maintainer is Simon Penel (\texttt{penel@biomserv.univ-lyon1.fr}).
-\item The reference paper for the package is now is press:
+\item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
+laboratory that issued \seqinr (\texttt{penel@biomserv.univ-lyon1.fr}). Delphine Charif was
+successful too to get a fixed position in the same lab, with now a  different research task (but who knows ?).
+Thanks to the close vicinity of our pioneering maintainers the transition was sweet.
+
+\item The reference paper for the package is now \textit{in press}:
 <<cite, fig=F>>=
 citation("seqinr")
 @
