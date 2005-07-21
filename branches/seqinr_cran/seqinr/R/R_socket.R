@@ -14,7 +14,7 @@
 ###################################################################################################
 
 choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
-              timeout = 5, infobank = FALSE){
+              timeout = 5, infobank = FALSE, tagbank = NA){
 
   #
   # Print parameter values if verbose mode is on:
@@ -26,6 +26,20 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     cat(paste("  port = ", deparse(substitute(port)), "\n"))
     cat(paste("  timeout = ", deparse(substitute(port)), "seconds \n"))
     cat(paste("  infobank = ", deparse(substitute(infobank)), "\n"))
+    cat(paste("  tagbank = ", deparse(substitute(tagbank)), "\n"))
+  }
+  
+  #
+  # Check parameter values (to be completed):
+  #
+  if( !is.na(tagbank) ){
+    if(verbose) cat("I'm checking the tagbank parameter value...\n")
+    if( !(tagbank %in% c("TEST", "TP")) ){
+      if(verbose) cat("... and I was able to detect an error.\n")
+      stop("non allowed value for tagbank parameter.\n")
+    } else {
+      if(verbose) cat("... and everything is OK up to now.\n")
+    }  
   }
   #
   # Check that sockets are available:
@@ -77,48 +91,43 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   } else {
     stop("I don't know what this error code means for clientid, please contact package maintener.\n")
   }
-
   ###############################################################################
   #
   # Try to get the list of available banks from server:
   #
   ###############################################################################
 
-
-    if(verbose) cat("I'm sending a knowndbs request to server...\n")
-    writeLines("knowndbs", socket, sep = "\n")
-    rep <- readLines(socket, n = 1)
-    nbank <- as.numeric(parser.socket(rep))
-    if(verbose) cat(paste("... there are", nbank, "banks available from server.\n"))
-    
-    #
-    # Read bank infos from server:
-    #
-    res <- readLines(socket, n = nbank)
-    if(verbose) cat(paste(res, "\n"))
-    
-     resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
-                                  status = I(rep("NAstatus", nbank)), 
-                                  info = I(rep("NAinfo", nbank))))
-      for(i in 1:nbank)
-        resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))
-      for(i in 1:nbank)
-        for(j in 1:3)
-          resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
-   
-    
-      res <- sapply(res, function(x){
-    	pos <- grep(" ",s2c(x))
-       	substr(x,1,(pos[1]-1))
-       })
-       
-       
-   
-
-    
+	if(verbose) cat("I'm sending a knowndbs request to server...\n")
+	if( !is.na(tagbank) ){
+	  askforbank <- paste("knowndbs&tag=", tagbank, sep = "")
+	  if(verbose) cat("... and the tagbank value wasn't empty.\n")
+	} else {
+		askforbank <- "knowndbs"
+	  if(verbose) cat("... and the tagbank value was empty.\n")
+	}
+	writeLines(askforbank, socket, sep = "\n")
+	rep <- readLines(socket, n = 1)
+	nbank <- as.numeric(parser.socket(rep))
+	if(verbose) cat(paste("... there are", nbank, "banks available from server.\n"))
+	
+	#
+	# Read bank infos from server:
+	#
+	res <- readLines(socket, n = nbank)
+	if(verbose) cat(paste(res, "\n"))
+	
+	resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
+									status = I(rep("NAstatus", nbank)), 
+									info = I(rep("NAinfo", nbank))))
+	for(i in 1:nbank)
+		resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
+	for(i in 1:nbank)
+		for(j in 1:3)
+	  	resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
+	         
   ###############################################################################
   #
-  # If no bank name is given, try to get the list of available banks from server:
+  # If no bank name is given, return the list of available banks from server:
   #
   ###############################################################################
   if( is.na(bank) ){  
@@ -130,7 +139,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     #
     if( !infobank ){
       if(verbose) cat("infobank parameter is FALSE, I'm just returning bank names\n")
-      return(as.vector(res))
+      return(as.vector(resdf$bank))
     } else {
       if(verbose) cat("infobank parameter is TRUE, I'm returning all bank infos\n")
       return(resdf) 
@@ -231,7 +240,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
         stop(paste("Database with name -->", bank, "<-- is not known by server.\n", sep = ""))
       }
       if( res[1] == "4" ){
-        stop(paste("Database with name -->", bank, "<-- is currently of for maintenance, please try again later.\n", sep = ""))
+        stop(paste("Database with name -->", bank, "<-- is currently off for maintenance, please try again later.\n", sep = ""))
       }
       if( res[1] == "5" ){
         stop(paste("Database with name -->", bank, "<-- is currently opened and has not been closed.\n", sep = ""))
