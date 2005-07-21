@@ -7,10 +7,11 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(socket,listname,query, invisible = FALSE, verbose = FALSE, virtual = FALSE)
+query(socket="auto",listname,query, invisible = FALSE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. }
+  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
+   that the socket will be set to to the socket component of the banknameSocket variable. }
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request with the syntax given in the details section}
   \item{invisible}{if \code{TRUE}, the result of the query will be invisible but assigned is the environment}
