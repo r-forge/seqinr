@@ -249,7 +249,62 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     }
   }
 } 
+
+###################################################################################################
+#                                                                                                 #
+#                                         closebank                                               #
+#                                                                                                 #
+# To close an ACNUC database                                                                      #
+#                                                                                                 #
+###################################################################################################
+
+closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE){
+
+  #
+  # Check arguments:
+  #
+  if(verbose) cat("I'm supposed to check arguments here...\n")
+  if(verbose) cat("... but I wasn't explained how to do that for now.\n")
   
+  #
+  # Use default bank if no bank is provided:
+  #
+  if( is.na(bank) ){
+    if(verbose) cat("No bank argument was provided, I'm trying to close default bank.\n")
+    bank <- banknameSocket
+  }
+  
+  #
+  # Send "acnucclose" to server:
+  #
+  if(verbose) cat("I'm trying to send an acnucclose message to server...\n")
+	writeLines("acnucclose", bank$socket, sep = "\n")
+	rep <- readLines(bank$socket, n = 1)
+  if(verbose) cat("... answer from server is: ", rep, "\n")
+  res <- parser.socket(rep)
+  if( res[1] == "0") {
+    if(verbose) cat("... and everything is OK up to now.\n")
+  } else {
+    if(verbose) cat("I was able to detect an error while closing remote bank.\n")
+    if(res[1] == "3") stop("no database was opened by the server on this socket.\n")
+    stop("I do not understand what this error code means, please contact package maintainer.\n")
+  }
+  
+  #
+  # Send "quit" to server:
+  #
+  if(verbose) cat("I'm trying to send a quit message to server...\n")
+  writeLines("quit", bank$socket, sep = "\n")
+	rep <- readLines(bank$socket, n = 1)
+  if(verbose) cat(paste("... answer from server is: -->", rep, "<--\n", sep = ""))
+  if(rep == "OK acnuc socket stopped"){
+    if(verbose) cat("... and everything is OK up to now, which is not too bad since we have closed everything!\n")
+  } else {
+    if(verbose) cat("... and I do not understand this answer from server.\n")
+    warning("I do not understand answer for quit from server, please contact package maintainer.\n")
+  }
+}
+
 ###################################################################################################
 #                                                                                                 #
 #                                         removeTrailingSpaces                                    #
