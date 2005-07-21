@@ -78,14 +78,14 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     stop("I don't know what this error code means for clientid, please contact package maintener.\n")
   }
 
-    
   ###############################################################################
   #
-  # If no bank name is given, try to get the list of available banks from server:
+  # Try to get the list of available banks from server:
   #
   ###############################################################################
-  if( is.na(bank) ){
-    if(verbose) cat("No bank name was specified so that I'm sending a knowndbs request to server...\n")
+
+
+    if(verbose) cat("I'm sending a knowndbs request to server...\n")
     writeLines("knowndbs", socket, sep = "\n")
     rep <- readLines(socket, n = 1)
     nbank <- as.numeric(parser.socket(rep))
@@ -97,28 +97,44 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     res <- readLines(socket, n = nbank)
     if(verbose) cat(paste(res, "\n"))
     
-    #
-    # Return just bank names or all info depending on infobank parameter value:
-    #
-    if( !infobank ){
-      if(verbose) cat("infobank parameter is FALSE, I'm just returning bank names\n")
-      res <- sapply(res, function(x){
-       pos <- grep(" ",s2c(x))
-       substr(x,1,(pos[1]-1))
-       })
-      return(as.vector(res))
-    } else {
-      if(verbose) cat("infobank parameter is TRUE, I'm returning all bank infos\n")
-      resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
+     resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
                                   status = I(rep("NAstatus", nbank)), 
                                   info = I(rep("NAinfo", nbank))))
       for(i in 1:nbank)
         resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))
       for(i in 1:nbank)
         for(j in 1:3)
-          resdf[i, j] <- removeTrailingSpaces(resdf[i, j])
-      return(resdf)
-    }
+          resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
+   
+    
+      res <- sapply(res, function(x){
+    	pos <- grep(" ",s2c(x))
+       	substr(x,1,(pos[1]-1))
+       })
+       
+       
+   
+
+    
+  ###############################################################################
+  #
+  # If no bank name is given, try to get the list of available banks from server:
+  #
+  ###############################################################################
+  if( is.na(bank) ){  
+  
+   if(verbose) cat("No  bank was given...\n")
+   
+    #
+    # Return just bank names or all info depending on infobank parameter value:
+    #
+    if( !infobank ){
+      if(verbose) cat("infobank parameter is FALSE, I'm just returning bank names\n")
+      return(as.vector(res))
+    } else {
+      if(verbose) cat("infobank parameter is TRUE, I'm returning all bank infos\n")
+      return(resdf) 
+      }
   } else {
 
     ###############################################################################
@@ -144,25 +160,35 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     if( res[1] == "0") {
       if(verbose) cat("... and everything is OK up to now.\n")
       
-      
-      # simon
+      #
+      # Recupere les infos de HELP 
+      #
         if(verbose) cat("I'm trying to get information on the bank\n")
-    	request <- "ghelp&file=HELP_WIN&item=INTRODUCTION"
+    	request <- "ghelp&file=HELP&item=CONT"
     	writeLines( request, socket, sep = "\n")
     	rep2 <- readLines(socket, n = 1)
 	if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))   
 	res2 <- parser.socket(rep2)
 	nblhelp<-res2[1]
-	 if(verbose) cat("Number of lines=",nblhelp,"\n")
+	if(verbose) cat("Number of lines=",nblhelp,"\n")
 	if (as.numeric(nblhelp)>2){
-	rep2 <- readLines(socket, n =(as.integer(nblhelp)-1))
-	assign("bankhelpSocket", rep2, .GlobalEnv)
-	for (i in 1:length(rep2)) cat(rep2[i],"\n")
-	}else {
-	assign("bankhelpSocket", "there is no information available about the contents of this bank", .GlobalEnv)
-	cat("Note: there is no information available about the contents of this bank.\n")
+		bankhelp <- readLines(socket, n =(as.integer(nblhelp)-1))
+		for (i in 1:length(bankhelp)) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+		bankrel<-bankhelp[1]
+		}
+	else {
+		bankhelp <- "there is no information available about the contents of this bank"
+		bankrel <-  "there is no information available about the contents of this bank"
+		#cat("Note: there is no information available about the contents of this bank.\n")
 	}
-	
+      
+        #
+        # Recupere le statut
+        #
+	status<-"unknown"
+          for(i in 1:nbank){
+          if (resdf[i,1] == bank) status<-resdf[i,2]
+	}
 
       
       
@@ -188,12 +214,12 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       #
       # Je me demande si ca sert vraiment a quelque chose ca :
       #
-      assign("banknameSocket", bank, .GlobalEnv)
+      assign("banknameSocket", c(bank,status,bankrel), .GlobalEnv)
       #
       # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
       # ne pas avoir a repreciser la socket a chaque query... A voir.
       #
-      return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5]))
+      return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp))
     } else {
       if(verbose) cat("I was able to detect an error while opening remote bank.\n")
       rm(socket)
@@ -220,10 +246,12 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
 ###################################################################################################
 
 removeTrailingSpaces <- function(string){
+  while(substr(string, 1, 1) == "\t")
+    string <- substr(string, 2, nchar(string))    
   while(substr(string, 1, 1) == " ")
     string <- substr(string, 2, nchar(string))
   while(substr(string, nchar(string), nchar(string)) == " ")
-    string <- substr(string, 1, nchar(string) - 1)
+    string <- substr(string, 1, nchar(string) - 1)    
   return( string )
 }
 
@@ -657,9 +685,5 @@ x<-parser.socket(res)
 y<-(x[c(2,3,6,7)])
 acnucy<-as.SeqAcnucWeb(substring(y[1],2,nchar(y[1])-1),y[2],y[3],y[4],socket=socket)
 acnucy
-}
-
-dispinfo <-function() {
- for (i in 1:length(bankhelpSocket)) cat(bankhelpSocket[i],"\n")
 }
 ######################################################################################
