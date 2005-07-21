@@ -117,7 +117,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       for(i in 1:nbank)
         for(j in 1:3)
           resdf[i, j] <- removeTrailingSpaces(resdf[i, j])
-      return(resdf) # whish list: remove trailing whites
+      return(resdf)
     }
   } else {
 
@@ -313,7 +313,7 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE) 
+query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
 {
   #
   # Check arguments:
@@ -387,33 +387,40 @@ query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE)
   #
   # Get full list informations: 
   #
-  if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
-  writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
-  res <- readLines(socket, n = nelem, ok = FALSE)
-  if( length(res) != nelem )
-  {
-    if(verbose) cat("... and I was able to detect an error...\n")
-    stop(paste("only", length(res), "list elements were send by server out of", nelem, "expected.\n")) 
-  } else {
-    if(verbose) cat(paste("... and I have received", nelem, "lines as expected.\n"))
-  }
+  if( !virtual ){
+    if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
+    writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
+    res <- readLines(socket, n = nelem, ok = FALSE)
+    if( length(res) != nelem )
+    {
+      if(verbose) cat("... and I was able to detect an error...\n")
+      stop(paste("only", length(res), "list elements were send by server out of", nelem, "expected.\n")) 
+    } else {
+      if(verbose) cat(paste("... and I have received", nelem, "lines as expected.\n"))
+    }
   
-  #liste <- lapply(res, function(x){parser.socket(x)[2]}) # que les noms pour le moment
-  liste <- lapply(res, simon, socket=socket) 
+    liste <- lapply(res, simon, socket=socket) 
+  
 
   #
-  # On doit pouvoir conserver ici
-  # plein d'infos utiles au passage (&length=xx&offset=xx&div=xx&frame=xx&ncbigc=xx)
-  # si c'est des sequences. (A passer a as.SeqAcnucWeb.)
+  # Virtual list case:
   #
-  #  liste <- lapply(liste, function(x){substring(x,2,nchar(x)-1)})
-
-  result <- list(call = match.call(), name = listname, req = as.list(liste), 
-    socket = socket)
+  } else {
+    if(verbose) cat("I'am *not* trying the infos about the elements of the list since virtual is TRUE.\n")
+    liste <- NA
+  }
+  #
+  # Return results:
+  #
+  result <- list(call = match.call(), name = listname, nelem = nelem, typelist = typelist, 
+    req = as.list(liste), socket = socket)
   class(result) <- c("qaw")
   assign(listname, result, env = .GlobalEnv)
-  if(invisible == TRUE) invisible(result)
-  else print(result)
+  if(invisible == TRUE){
+    invisible(result)
+  } else {
+    print(result)
+  }
 }
 
 ###################################################################################################
@@ -428,7 +435,7 @@ print.qaw <- function(x, ...)
   cat("\n$socket: ")
   print(x$socket)
   cat("\n$banque: ")
-  cat(get("banknameSocket",env=.GlobalEnv))
+  cat(get("banknameSocket",env=.GlobalEnv)) # Ca pas bon
   cat("\n$call: ")
   print(x$call)
   cat("$name: ")
