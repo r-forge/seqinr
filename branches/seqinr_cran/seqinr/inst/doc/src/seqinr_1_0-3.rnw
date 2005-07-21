@@ -141,13 +141,13 @@ with for instance the command \texttt{install.packages("seqinr")}.
 Last, load the \seqinr{} package with:
 
 % A changer plus tard
-<<seqinr, eval=F>>=
+<<seqinr, eval=T>>=
 library(seqinr, lib = "../../../library/")
 @
 
 The command \texttt{lseqinr()} lists all what is defined in the package \seqinr{}:
 
-<<lseqinr,eval=F>>=
+<<lseqinr,eval=T>>=
 lseqinr()[1:9]
 @
 
@@ -236,7 +236,7 @@ in single-stranded DNA. These data from Chargaff's lab give the base composition
 strand for 7 bacterial chromosomes.
 
 \setkeys{Gin}{width=0.5\textwidth}
-<<chargaff,fig=T, results=hide,eval=F>>=
+<<chargaff,fig=T, results=hide,eval=T>>=
 example(chargaff)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -253,7 +253,7 @@ Another example of highly specialised graph is given by the function \texttt{tab
 display a genetic code as in textbooks :
 
 \setkeys{Gin}{width=0.6\textwidth}
-<<tablecode1,fig=T, results=hide,eval=F>>=
+<<tablecode1,fig=T, results=hide,eval=T>>=
 tablecode(dia=F)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -262,7 +262,7 @@ It's very convenient in practice to have a genetic code at hand, and moreover he
 all genetic code variants are available :
 
 \setkeys{Gin}{width=0.6\textwidth}
-<<tablecode2,fig=T, results=hide,eval=F>>=
+<<tablecode2,fig=T, results=hide,eval=T>>=
 tablecode(numcode = 2, dia=F)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -270,7 +270,7 @@ tablecode(numcode = 2, dia=F)
 \item{\bf Data as fast moving targets:} in research area, data are not always stable. compare the following
 graph :
 \setkeys{Gin}{width=0.5\textwidth}
-<<dbg, fig = TRUE, eval=F>>=
+<<dbg, fig = TRUE, eval=T>>=
 dbg <- get.db.growth()
 plot(x = dbg$date,
   y = log10(dbg$Nucl),
@@ -307,14 +307,14 @@ of maximum 80 character each. Examples of files in fasta format
 are distributed with the \seqinr{} package in the \texttt{sequences}
 directory:
 
-<<fastafiles,eval=F>>=
+<<fastafiles,eval=T>>=
 list.files(path = system.file("sequences", package = "seqinr"), pattern = ".fasta")
 @
 
 The function \texttt{read.fasta()} imports sequences from fasta files
 into your workspace, for example:
 
-<<readfasta, eval=F>>=
+<<readfasta, eval=T>>=
 seqaa <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
 seqaa
 @
@@ -324,7 +324,7 @@ contains the complete genome of \textit{Chlamydia trachomatis} that was
 used in \cite{oriloc}. You should be able to reproduce figure 1b from this
 paper with the following code:
 
-<<oriloc, fig=TRUE, results = hide, eval=F>>=
+<<oriloc, fig=TRUE, results = hide, eval=T>>=
 out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
       g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
      oldoriloc = TRUE)
@@ -365,7 +365,7 @@ ubiquitous nature. Download on your local computer the following two sample test
 of aligned sequences of this gene (extracted from ParaFit \cite{parafit}), 
 this can be done directly at R prompt in the R console with :
 
-<<downloadlousegopher, eval=F>>=
+<<downloadlousegopher, eval=T>>=
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.fasta", 
 destfile = "louse.fasta")
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.fasta", 
@@ -376,14 +376,14 @@ The $8$ genes of the first sample are from various species of louse (insects par
 on warm-blooded animals) and the $8$ genes of the second sample are from their corresponding
 gopher hosts (a subset of rodents) :
 
-<<names,eval=F>>=
+<<names,eval=T>>=
 l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
 l.names
 g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
 g.names
 @
 
-<<readaln,eval=F>>=
+<<readaln,eval=T>>=
 louse <- read.alignment("louse.fasta",format="fasta")
 gopher <- read.alignment("gopher.fasta",format="fasta")
 @
@@ -405,7 +405,7 @@ from data. Let's try as an \emph{illustration} the famous neighbor-joining tree 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
 
-<<calculnjsurJC,eval=F>>=
+<<calculnjsurJC,eval=T>>=
 library(ape)
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c) , model = "JC69")
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c) , model = "JC69")
@@ -419,7 +419,7 @@ and their hosts. We want to plot the two trees face to face, and for this we mus
 R graphical parameters. The first thing to do is to save the current graphical parameter
 settings so as to be able to restore them later:
 
-<<savegraphicalparameters,eval=F>>=
+<<savegraphicalparameters,eval=T>>=
 op <- par(no.readonly = TRUE)
 @
 
@@ -428,7 +428,7 @@ parameters are not all settable, we just want to save those we can change at wil
 we can play with graphics :
 
 \setkeys{Gin}{width=\textwidth}
-<<face2face, fig=TRUE, width=16, height=8,eval=F>>=
+<<face2face, fig=TRUE, width=16, height=8,eval=T>>=
 g$tip.label <- paste(1:8, g.names)
 l$tip.label <- paste(1:8, l.names)
 
@@ -443,7 +443,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 We now restore the old graphical settings that were previously saved:
 
-<<restoregraphicalparameters,eval=F>>=
+<<restoregraphicalparameters,eval=T>>=
 par(op)
 @
 
@@ -493,7 +493,7 @@ save the file, and in the R console \texttt{source("essai.r")} again, you should
 obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
-<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=F>>=
+<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c))
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c))
 l <- nj(louse.JC)
@@ -584,7 +584,11 @@ choosebank("taxobacgen")$details
 
 For the following, the most important item is the first one
 of the list, \texttt{mybank\$socket}, which contains all the required
-details of the socket connection.
+details of the socket connection\footnote{
+As from \seqinr 1.0-3, the result of the \texttt{choosebank()} function is automatically
+stored in a global variable named \texttt{banknameSocket}, so that if no socket is given
+to the \texttt{query()} function, the last opened database will be used by default.
+}.
 
 \subsubsection{Make your query}
 
@@ -965,7 +969,7 @@ names(df) <- c("Ala", "Val", "Cys")
 df
 @
 
-<<xtabledf, fig = FALSE, echo = FALSE,eval=F>>=
+<<xtabledf, fig = FALSE, echo = FALSE,eval=T>>=
 library(xtable)
 print(xtable(df, digits = rep(0,4), caption = "A very simple example of amino-acid counts in three proteins.", label = "df"), 
 file = "df.tex")
@@ -979,7 +983,7 @@ d^2(i,i') = \sum_{j=1}^{J}(n_{ij} - n_{i'j})^2
 \end{equation}
 to visualize this small data set:
 
-<<euclidian, fig = TRUE,eval=F>>=
+<<euclidian, fig = TRUE,eval=T>>=
 library(ade4)
 pco <- dudi.pco(dist(df), scann = F, nf = 2)
 myplot <- function( res, ... )
@@ -1014,7 +1018,7 @@ d^2(i,i') = \sum_{j=1}^{J}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bu
 where $n_{i\bullet}$ and $n_{i'\bullet}$ are the total number of amino-acids
 in protein $i$ and $i'$, respectively.
 
-<<profile, fig = TRUE,eval=F>>=
+<<profile, fig = TRUE,eval=T>>=
 df1 <- df/rowSums(df)
 df1
 dudi.pco(dist(df1), scann = F, nf = 2) -> pco1
@@ -1045,7 +1049,7 @@ d^2(i,i') = \sum_{j=1}^{J}\frac{1}{n_{{\bullet}j}}(\frac{n_{ij}}{n_{i\bullet}} -
 where $n_{{\bullet}j}$ is the total number of amino-acid of kind $j$. With this point
 of view, the map is now like this:
 
-<<afc, fig = TRUE,eval=F>>=
+<<afc, fig = TRUE,eval=T>>=
 coa <- dudi.coa(df, scann = FALSE, nf = 2)
 myplot(coa, main = expression(paste(chi^2," distance")), 
   asp = 1, pch = 19, xlab = "", ylab = "")
@@ -1069,7 +1073,7 @@ columns of the dataset are simultaneously represented, in the
 right way, that is as a graphical \textit{translation} of a 
 mathematical theorem, but let's see how does it look like in practice: 
 
-<<scatter, fig = TRUE,eval=F>>=
+<<scatter, fig = TRUE,eval=T>>=
 scatter(coa, clab.col = 0.8, clab.row = 0.8, posi = "none")
 @
 
@@ -1088,7 +1092,7 @@ the most important factor foe the between-protein variability is
 hydrophilic - hydrophobic gradient. Let's try to reproduce this
 assertion :
 
-<<lobrygautier,fig=T,eval=F>>=
+<<lobrygautier,fig=T,eval=T>>=
 download.file(url="ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", destfile = "data.txt")
 
 ec <- read.table(
@@ -1112,7 +1116,7 @@ Genetic codes are surjective applications from the set codons ($n=64$)
 into the set of amino-acids ($n=20$) :
 
 \setkeys{Gin}{width=\textwidth}
-<<surjective, echo=F, fig=T, eval=F>>=
+<<surjective, echo=F, fig=T, eval=T>>=
 #
 # Insert 2 (surjective genetic codes)
 #
@@ -1189,7 +1193,7 @@ for a nice back to basics). Let's give a simple illustration with three ortholog
 thioredoxin familiy from \textit{Homo sapiens}, \textit{Mus musculus},
 and \textit{Rattus norvegicus} species: 
 
-<<ortho, eval=F>>=
+<<ortho, eval=T>>=
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/ortho.fasta", destfile = "ortho.fasta")
 ortho <- read.alignment("ortho.fasta", format="fasta")
 kaks.ortho <- kaks(ortho)
