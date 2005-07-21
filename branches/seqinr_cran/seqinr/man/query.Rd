@@ -7,17 +7,18 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(socket="auto",listname,query, invisible = TRUE, verbose = FALSE, virtual = FALSE)
+query(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request with the syntax given in the details section}
+  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
+   that the socket will be set to to the socket component of the banknameSocket variable. }
   \item{invisible}{if \code{FALSE}, the result is returned visibly.}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about
-    all the elements of the list. In this case, the req component of the list is set to NA.}
+    all the elements of the list. In this case, the \code{req} component of the list is set to 
+    \code{NA}.}
 }
 \details{
 Each selection criterion is written using the following syntax:
