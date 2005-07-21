@@ -354,7 +354,7 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-query <- function(socket = "auto", listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
+query <- function(socket = "auto", listname, query, invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
   #
   # Check arguments:
