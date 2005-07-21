@@ -12,7 +12,7 @@
 }
 \usage{
 choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
-              timeout = 5, infobank = FALSE)
+              timeout = 5, infobank = FALSE, tagbank = NA))
 }
 \arguments{
   \item{bank}{ String. The name of the bank. If NA, \code{choosebank} will return the names of all database known by the server.}
@@ -20,8 +20,11 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
   \item{port}{ Integer. The TCP port number}
   \item{verbose}{ Logical. If TRUE, verbose mode is on}
   \item{timeout}{ Integer. The timeout in seconds for \code{socketConnection}. Default 5 seconds.}
-  \item{infobank}{ Logical. If \code{infobank} is TRUE and \code{bank} is NA, a data.frame 
+  \item{infobank}{ Logical. If \code{infobank} is TRUE and \code{bank} is \code{NA}, a data.frame 
                    with all database informations will be returned}
+  \item{tagbank}{ String. If \code{bank} is \code{NA} and \code{tagbank} is documented, the names
+                  of special purposes databases are returned. Current allowed values are TP
+                  for frozen databases and TEST for test databases. }
 }
 \details{
   When called without arguments, \code{choosebank()} returns a list of all the databases names known 
