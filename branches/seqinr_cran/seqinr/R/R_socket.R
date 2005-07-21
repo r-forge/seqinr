@@ -214,12 +214,16 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       #
       # Je me demande si ca sert vraiment a quelque chose ca :
       #
-      assign("banknameSocket", c(bank,status,bankrel), .GlobalEnv)
+      #assign("bankName", bank, .GlobalEnv)
+      #assign("bankInfo", c(bank,status,bankrel), .GlobalEnv)
+      #assign("banknameSocket", socket, .GlobalEnv)
       #
       # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
       # ne pas avoir a repreciser la socket a chaque query... A voir.
       #
-      return(list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp))
+      res<-list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp)
+      assign("banknameSocket", res, .GlobalEnv)
+      return(res)
     } else {
       if(verbose) cat("I was able to detect an error while opening remote bank.\n")
       rm(socket)
@@ -341,11 +345,13 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-query <- function(socket, listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
+query <- function(socket="auto", listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
 {
   #
   # Check arguments:
   #
+  if (socket=="auto") socket=banknameSocket$socket
+  
   if(verbose) cat("I'm checking the arguments...\n")
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))
@@ -463,7 +469,7 @@ print.qaw <- function(x, ...)
   cat("\n$socket: ")
   print(x$socket)
   cat("\n$banque: ")
-  cat(get("banknameSocket",env=.GlobalEnv)) # Ca pas bon
+  #cat(get("bankName",env=.GlobalEnv)) # Ca pas bon
   cat("\n$call: ")
   print(x$call)
   cat("$name: ")
