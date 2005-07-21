@@ -232,7 +232,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       #
       res<-list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp)
       assign("banknameSocket", res, .GlobalEnv)
-      return(res)
+      invisible(res)
     } else {
       if(verbose) cat("I was able to detect an error while opening remote bank.\n")
       rm(socket)

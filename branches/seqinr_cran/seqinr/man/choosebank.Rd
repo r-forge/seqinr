@@ -32,7 +32,7 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
   with more information is returned.
 }
 \value{
-\item{When called with a regular bank name, a list with five components}
+\item{When called with a regular bank name, an (invisible) list with five components}
   \describe{
   \item{socket}{ an object of class \code{socket} }
   \item{bankname}{ the name of the bank }
