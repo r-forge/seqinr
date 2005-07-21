@@ -345,12 +345,15 @@ getNumber.socket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-query <- function(socket="auto", listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
+query <- function(socket = "auto", listname, query, invisible = FALSE, verbose = FALSE, virtual = FALSE) 
 {
   #
   # Check arguments:
   #
-  if (socket=="auto") socket=banknameSocket$socket
+  if (socket == "auto"){
+    if(verbose) cat("No socket were specified, using default.\n")
+    socket <- banknameSocket$socket
+  }
   
   if(verbose) cat("I'm checking the arguments...\n")
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
