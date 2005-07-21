@@ -303,6 +303,10 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
     if(verbose) cat("... and I do not understand this answer from server.\n")
     warning("I do not understand answer for quit from server, please contact package maintainer.\n")
   }
+  
+  #
+  # La fermeture n'est pas effective pour le client !!!!!
+  #
 }
 
 ###################################################################################################
@@ -502,7 +506,6 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
     }
   
     liste <- lapply(res, simon, socket=socket) 
-  
 
   #
   # Virtual list case:
