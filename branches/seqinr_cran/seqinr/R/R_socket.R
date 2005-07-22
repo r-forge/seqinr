@@ -305,8 +305,16 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   }
   
   #
-  # La fermeture n'est pas effective pour le client !!!!!
+  # Close connection:
   #
+  if(verbose) cat("I'm trying to close connection...\n")
+  res <- try(close.connection(bank$socket))
+  if( inherits(res, "try-error") ){
+    if(verbose) cat("I was able to detect an error while closing connection.\n")
+    stop("problem while closing connection.\n")
+  } else {
+    if(verbose) cat("... and everything is OK up to now.\n")
+  }
 }
 
 ###################################################################################################
