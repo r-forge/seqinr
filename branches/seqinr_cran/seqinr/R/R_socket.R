@@ -399,7 +399,11 @@ getAttributsocket <- function( socket, name){
 readAnnots.socket <- function(socket, name, nl){
   request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
   writeLines(request , socket, sep="\n")
-  readLines(socket , n = nl)
+  res<-readLines(socket , n = nl)
+  res1 <- res[1]
+  p<-unlist(strsplit(res1,"&"))
+  res[1]<-p[2]
+  res
 }
 
 ###################################################################################################
@@ -568,7 +572,6 @@ print.qaw <- function(x, ...)
 ###################################################################################################
 
 getKeywordsocket <- function( socket, name){
-
          writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
          res = readLines( socket , n=1 )
          number = parser.socket(res)[1] 
@@ -580,19 +583,23 @@ getKeywordsocket <- function( socket, name){
          writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
          res3 = readLines( socket , n=1 ) 
          
-   p1=s2c(res3)
-   b=c(which(p1=="="))
-     a=c(which(p1=="&"))
-         d=c(which(p1==","),length(p1)+1)
-   o=character(length(a))
-         o[1]=substr(res3,a[2]+1,d[1]-1)
-   s = seq(2,length(a)*2,by=2)
-         for(i in 1:(length(s)-1)){o[i+1] = substr(res3,d[s[i]]+1,d[s[i]+1]-1)} 
+#   p1=s2c(res3)
+#   b=c(which(p1=="="))
+#     a=c(which(p1=="&"))
+#         d=c(which(p1==","),length(p1)+1)
+#   o=character(length(a))
+#         o[1]=substr(res3,a[2]+1,d[1]-1)
+#   s = seq(2,length(a)*2,by=2)
+#         for(i in 1:(length(s)-1)){o[i+1] = substr(res3,d[s[i]]+1,d[s[i]+1]-1)} 
+#modif simon	 
+	tmpl<-unlist(strsplit(res3,","))
+	kwl<-tmpl[2:length(tmpl)]
 
-   lapply(o,function(x){
+   lapply(kwl,function(x){
             writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
           res4 = readLines( socket , n=1 ) 
-                parser.socket(res4)[2]
+              res<-parser.socket(res4)[2]
+	      substring(res[1],2,nchar(res[1])-1)
 })
 
 } 

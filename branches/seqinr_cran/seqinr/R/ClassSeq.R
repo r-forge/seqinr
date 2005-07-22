@@ -284,7 +284,7 @@ getAnnot.SeqAcnucWeb = function(object, nbl ){
 
 getKeyword.SeqAcnucWeb = function(object){
 	
-	return( getKeywordsocket( socket= attr(object,"socket"), name=object))
+	return( unlist(getKeywordsocket( socket= attr(object,"socket"), name=object)))
 }
 
 getLocation.SeqAcnucWeb = function(object){ 
