@@ -593,7 +593,7 @@ getKeywordsocket <- function( socket, name){
 #         for(i in 1:(length(s)-1)){o[i+1] = substr(res3,d[s[i]]+1,d[s[i]+1]-1)} 
 #modif simon	 
 	tmpl<-unlist(strsplit(res3,","))
-	kwl<-tmpl[2:length(tmpl)]
+	kwl<-tmpl[2:length(tmpl)-1]
 
    lapply(kwl,function(x){
             writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
