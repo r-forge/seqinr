@@ -115,9 +115,15 @@ The last compiled version of this document is distributed along with the \seqinr
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
 full path to the package is given by the following R code :
 
-<<whereisdoc>>=
-.find.package("seqinr")
-@
+\begin{Schunk}
+\begin{Sinput}
+ .find.package("seqinr")
+\end{Sinput}
+\begin{Soutput}
+[1] "/Users/lobry/Library/R/library/seqinr"
+\end{Soutput}
+\end{Schunk}
+
 
 \subsection{About sequin and \seqinr{}}
 
@@ -140,10 +146,11 @@ on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{ape}
 with for instance the command \texttt{install.packages("seqinr")}. 
 Last, load the \seqinr{} package with:
 
-% A changer plus tard
-<<seqinr, eval=T>>=
-library(seqinr, lib = "../../../library/")
-@
+\begin{Schunk}
+\begin{Sinput}
+library(seqinr)
+\end{Sinput}
+\end{Schunk}
 
 The command \texttt{lseqinr()} lists all what is defined in the package \seqinr{}:
 
@@ -330,7 +337,7 @@ out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
      oldoriloc = TRUE)
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
          ylab = "Cumulated composite skew in Kb", 
-         main = "Chlamydia trachomatis complete genome", las = 1)
+         main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
 abline(h = 0, lty = 2)
 text(400, -4, "Terminus")
 text(850, 9, "Origin")
@@ -342,6 +349,18 @@ if you are interested in the prediction of origins and terminus of
 replication from base composition biases (more on this at
 \url{http://pbil.univ-lyon1.fr/software/oriloc.html}). See also \cite{smorfland}
 for a recent review on this topic.
+
+<<oriloc2, fig=TRUE, results = hide, eval=T>>=
+out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+      g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
+         ylab = "Cumulated composite skew in Kb", 
+         main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
+mtext("New version")
+abline(h = 0, lty = 2)
+text(400, -4, "Terminus")
+text(850, 9, "Origin")
+@
 
 \subsection{Importing aligned sequence data}
 
@@ -541,18 +560,40 @@ Biological sequence databases are fast moving targets, and for publication purpo
 recommended to specify on which release you were working on when you made the job.
 To get more informations about available databases on the server, just set 
 the \texttt{infobank} parameter to \texttt{TRUE}. For
-instance, here is the result for the four first databases on the default server 
+instance, here is the result for the three first databases on the default server 
 at the compilation time (\today) of this document:
 
 <<choixbanquemoreinfo>>=
-choosebank(infobank = TRUE)[1:4, ]
+choosebank(infobank = TRUE)[1:3, ]
 @
 
 Note that there is a \texttt{status} column because a database could be unavailable
-for a while during updates\footnote{
-If you try call \texttt{choosebank(bank = "bankname")} when the bank called \texttt{bankname}
-is of from server, you will get an explicit error message stating that this bank is temporarily unvailable.
-}. 
+for a while during updates. If you try call \texttt{choosebank(bank = "bankname")} 
+when the bank called \texttt{bankname} is off from server, you will get an explicit 
+error message stating that this bank is temporarily unavailable, for instance:
+
+%
+% Ca on est obligé de le mettre en dur parce que ca génère une erreur !
+%
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("off")
+\end{Sinput}
+\begin{Soutput}
+Error in choosebank("off") : Database with name -->off<-- is currently off for maintenance, please try again later.
+\end{Soutput}
+\end{Schunk}
+
+Some special purpose databases are not listed by default. These are \textit{tagged} databases
+that are only listed if you provide an explicit \texttt{tagbank} argument to the \texttt{choosebank()}
+function. Of special interest for teaching purposes is the \texttt{TP} tag, an acronym for
+\textit{Travaux Pratiques} which means "practicals", and corresponds to \emph{frozen}
+databases so that you can set up a practical whose results are stable from year to year. Currently
+available frozen databases at the default server are:
+
+<<frozen>>=
+choosebank(tagbank = "TP", infobank = TRUE)
+@
 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
 with \texttt{"genbank"} as its first argument and store the result in a variable
@@ -582,15 +623,44 @@ For specialized databases, some relevant informations are also given in the
 choosebank("taxobacgen")$details
 @
 
-For the following, the most important item is the first one
-of the list, \texttt{mybank\$socket}, which contains all the required
-details of the socket connection\footnote{
-As from \seqinr 1.0-3, the result of the \texttt{choosebank()} function is automatically
-stored in a global variable named \texttt{banknameSocket}, so that if no socket is given
-to the \texttt{query()} function, the last opened database will be used by default.
-}.
+The previous command has a side-effect that is worth mentioning. 
+As from \seqinr~1.0-3, the result of the \texttt{choosebank()} function is automatically
+stored in a global variable named \texttt{banknameSocket}, so that if no socket argument
+is given to the \texttt{query()} function, the last opened database will be used by default
+for your requests.
+This is just a matter of convenience so that you don't have to explicitly specify the details of the
+socket connection when working with the last opened database. You have, however,
+full control of the process since \texttt{choosebank()} returns (invisibly) all the
+required details. There is no trouble to open \emph{simultaneously} many databases.
+You are just limited by the number of simultaneous connections your build of R is
+allowed\footnote{
+There is a very convenient function called \texttt{closeAllConnections()} in the R base package if
+you want to close all open connections at once.}.
+
+For advanced users who may wish to access to more than one database at time, a good advice
+is to close them with the function \texttt{closebank()} as soon as possible so that the maximum
+number of simultaneous connections is never reached. An example is given below.
+
+<<speciesperbank,fig=T>>=
+banks <- choosebank()
+nspecies <- numeric(0)
+for(i in banks){
+  nspecies[i] <- as.numeric(choosebank(i)$totspecs)
+  closebank()
+}
+dotchart(log10(nspecies[order(nspecies)]), pch = 19,
+main = "Number of species in available databases",
+xlab = "Log10(number of species)")
+@
 
 \subsubsection{Make your query}
+
+For this section, set up the default bank to GenBank, so that you don't have to provide the sockets details
+for the \texttt{query()} function:
+
+<<settogenbankbeforequery>>=
+choosebank("genbank")
+@
 
 Then, you have to say what you want, that is to compose a query
 to select the subset of sequences you are interested in. The way to do this is
@@ -598,22 +668,23 @@ documented under \texttt{?query}, we just give here a simple example.
 In the query below, we want to select all the coding sequences 
 (\texttt{t=cds}) from cat (\texttt{sp=felis catus}) that are not 
 (\texttt{et no}) partial sequences (\texttt{k=partial}). 
-We want the result to be stored in an object called \texttt{list1}.
-<<query1,eval=T>>=
-query(socket = mybank$socket, listname = "list1", 
-query = "sp=felis catus et t=cds et no k=partial", invisible = TRUE)
+We want the result to be stored in an object called \texttt{completeCatsCDS}.
+<<query1,eval=TRUE>>=
+query("completeCatsCDS", "sp=felis catus et t=cds et no k=partial")
 @
-Now, there is in the workspace an object called \texttt{list1}, which
-does not contain the sequences themselves but the \emph{sequence names} that fit 
+
+Now, there is in the workspace an object called \texttt{completeCatsCDS}, which
+does not contain the sequences themselves but the \emph{sequence names} (and various relevant informations
+such as the genetic code and the frame) that fit 
 the query. They are stored in the \texttt{req} component of the object,
-let's see the first ten of them:
+let's see the name of the first ten of them:
 
-<<getNames,eval=T>>=
-sapply(list1$req[1:10], getName)
+<<getNames,eval=TRUE>>=
+sapply(completeCatsCDS$req[1:10], getName)
 @
 
-The first sequence that fit our request is \texttt{\Sexpr{getName(list1$req[[1]])}},
-the second one is \texttt{\Sexpr{getName(list1$req[[2]])}}, and so on. Note that
+The first sequence that fit our request is \texttt{\Sexpr{getName(completeCatsCDS$req[[1]])}},
+the second one is \texttt{\Sexpr{getName(completeCatsCDS$req[[2]])}}, and so on. Note that
 the sequence name may have an extension, this corresponds to \emph{subsequences},
 a specificity of the ACNUC system that allows to handle easily a
 subsequence with a biological meaning, typically a gene. The list of available subsequences
@@ -621,7 +692,7 @@ in a given database is given by the function \texttt{getType()}, for example the
 of available subsequences in GenBank is given in table \ref{genbank}.
 
 %
-% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres spéciaux Latex
+% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres spéciaux Latex, ici "_"
 %
 <<xtablegenbank, fig = FALSE, echo = FALSE,eval=FALSE>>=
 library(xtable)
@@ -637,55 +708,62 @@ file = "genbank.tex")
 \input{genbank.tex}
 
 
-Note that the component \texttt{call} of \texttt{list1} keeps a 
+The component \texttt{call} of \texttt{completeCatsCDS} keeps automatically a 
 trace of the way you have selected the sequences: 
 
 <<list1call,fig=F,eval=T>>=
-list1$call
+completeCatsCDS$call
 @
 
 At this stage you can quit your R 
 session saving the workspace image. The next time an R session is opened with the 
-workspace image restored, there will be an object called \texttt{list1}, and 
+workspace image restored, there will be an object called \texttt{completeCatsCDS}, and 
 looking into its \texttt{call} component will tell you that it contains the names 
 of complete coding sequences from \textit{Felis catus}.
 
 In practice, queries for sequences are rarely done in one step and are more likely
 to be the result of an iterative, progressively refining, process. An important point
-is that a list of sequences can be re-used. For instance, we can re-use \texttt{list1}
+is that a list of sequences can be re-used. For instance, we can re-use \texttt{completeCatsCDS}
 get only the list of sequences that were published in 2004:
 
-<<query2,eval=T>>=
-query(socket = mybank$socket, listname = "list2", query = "list1 et y=2004", invisible = TRUE)
-length(list2$req)
+<<query2,eval=TRUE>>=
+query("ccc2004", "completeCatsCDS et y=2004")
+length(ccc2004$req)
 @
 
-Hence, there were \Sexpr{length(list2$req)} complete coding sequences published in 2004 for
+Hence, there were \Sexpr{length(ccc2004$req)} complete coding sequences published in 2004 for
 \textit{Felis catus} in GenBank.
 
 As from release 1.0-3 of the \seqinr{} package, there is new parameter \texttt{virtual}
-which allows not to download all information from list elements. This is interesting for list
+which allows to disable the automatic retrieval of information for all list elements. This is interesting for list
 whit many elements, for instance :
 
-<<queryvirtual,eval=T>>=
-query(socket = mybank$socket, listname = "allcds", query = "t=cds", invisible = TRUE, virtual = TRUE)
+<<queryvirtual,eval=TRUE>>=
+query("allcds", "t=cds", virtual = TRUE)
 allcds$nelem
 @
 
 There are therefore \texttt{\Sexpr{formatC(as.integer(allcds$nelem), big.mark=",")}} coding
-sequences in this version of GenBank. It would be long to get all the informations for the elements
+sequences in this version of GenBank\footnote{
+which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
+and current value is today (\today): \texttt{banknameSocket\$release = \Sexpr{banknameSocket$release}}.
+}. 
+It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
 component of the list has not been documented:
 
-<<nodoc,eval=T>>=
+<<nodoc,eval=TRUE>>=
 allcds$req
 @
 
-However, the list can still be re-used, for instance we may extract from this list all the sequences
+However, the list can still be re-used\footnote{
+of course, as long as the socket connection with the server has not been lost: virtual lists details are only
+known by the server.}, 
+for instance we may extract from this list all the sequences
 from, say, \textit{Mycoplasma genitalium}:
 
-<<chtouille,eval=T>>=
-query(socket = mybank$socket, listname = "small", query = "allcds et sp=mycoplasma genitalium", invisible = TRUE, virtual = TRUE)
+<<chtouille,eval=TRUE>>=
+query("small", "allcds et sp=mycoplasma genitalium", virtual = TRUE)
 small$nelem
 @
 
@@ -693,9 +771,9 @@ There are then \texttt{\Sexpr{formatC(as.integer(small$nelem), big.mark=",")}} e
 the list \texttt{small}, so that we can safely repeat the previous query without asking for a
 virtual list:
 
-<<chtouille,eval=T>>=
-query(socket = mybank$socket, listname = "small", query = "allcds et sp=mycoplasma genitalium", invisible = TRUE)
-sapply(small$req,getName)[1:10]
+<<chtouille2,eval=TRUE>>=
+query("small", "allcds et sp=mycoplasma genitalium")
+sapply(small$req, getName)[1:10]
 @
 
 \subsubsection{Extract sequences of interest}
@@ -704,7 +782,7 @@ The sequence itself is obtained with the function \texttt{getSequence()}.
 For example, the first 50 nucleotides of the first sequence of our request are:
 
 <<getSequence>>=
-myseq <- getSequence(list1$req[[1]])
+myseq <- getSequence(completeCatsCDS$req[[1]])
 myseq[1:50]
 @
 They can also be coerced as string of character with the function \texttt{c2s()}:
@@ -735,7 +813,7 @@ With \texttt{getSequence()} you don't have to think about this. Just make a
 query with the sequence name:
 
 <<transplicing1>>=
-query(socket = mybank$socket, listname = "transspliced", query = "N=AE003734.PE35", invisible = TRUE)
+query("transspliced", "N=AE003734.PE35")
 length(transspliced$req)
 getName(transspliced$req[[1]])
 @
@@ -757,6 +835,17 @@ with the \texttt{getTrans()} function to translate this coding sequence into pro
 <<transsplicing3>>=
 getTrans(transspliced$req[[1]])[1:50]
 table(getTrans(transspliced$req[[1]]))
+@
+
+In a more graphical way:
+
+<<transp4,fig=T>>=
+aacount <- table(getTrans(transspliced$req[[1]]))
+aacount <- aacount[order(aacount)]
+names(aacount) <- aaa(names(aacount))
+dotchart(aacount, pch = 19, xlab = "Stop and amino-acid counts",
+main = "There is only one stop codon in AE003734.PE35")
+abline(v=1, lty = 2)
 @
 
 Note that the relevant variant of the genetic code was automatically set up during the translation
@@ -899,7 +988,7 @@ graphically the different base counts in our sequence :
 
 <<vecto2, height = 3, fig=TRUE>>=
 basecount <- table(myseq)
-myseqname <- getName(list1$req[[1]])
+myseqname <- getName(completeCatsCDS$req[[1]])
 dotchart(basecount, xlim = c(0, max(basecount)), pch = 19,
   main = paste("Base count in",  myseqname))
 @
@@ -963,7 +1052,7 @@ two individuals, is illustrated bellow with a very simple example (Table \ref{df
 three proteins having only three amino-acids, so that we can represent exactly
 on a map the consequences of the metric choice.
 
-<<df,eval=T>>=
+<<df,eval=TRUE>>=
 df <- data.frame(matrix(c(130, 60, 60, 70, 40, 35, 0, 0, 5), nrow=3))
 names(df) <- c("Ala", "Val", "Cys")
 df
@@ -1246,9 +1335,13 @@ now possible.
 
 \item \Seqinr{}~sends now its name and version number to the server.
 
-\item A bug as been reported for intensive \texttt{kaks()} calls.
+% Pas arrvié à le repoduire
+%
+%\item A bug as been reported for intensive \texttt{kaks()} calls.
 
 \item Strict control on ambiguous DNA base alphabet has been relaxed.
+
+\item Default value for parameter \texttt{invisible} of function \texttt{query()} is now \texttt{TRUE}.
 
 \end{itemize}
 
