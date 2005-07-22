@@ -572,6 +572,7 @@ print.qaw <- function(x, ...)
 ###################################################################################################
 
 getKeywordsocket <- function( socket, name){
+#modif simon
          writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
          res = readLines( socket , n=1 )
          number = parser.socket(res)[1] 
@@ -583,24 +584,24 @@ getKeywordsocket <- function( socket, name){
          writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
          res3 = readLines( socket , n=1 ) 
          
-#   p1=s2c(res3)
-#   b=c(which(p1=="="))
-#     a=c(which(p1=="&"))
-#         d=c(which(p1==","),length(p1)+1)
-#   o=character(length(a))
-#         o[1]=substr(res3,a[2]+1,d[1]-1)
-#   s = seq(2,length(a)*2,by=2)
-#         for(i in 1:(length(s)-1)){o[i+1] = substr(res3,d[s[i]]+1,d[s[i]+1]-1)} 
-#modif simon	 
-	tmpl<-unlist(strsplit(res3,","))
-	kwl<-tmpl[2:length(tmpl)-1]
+	#modif simon	 
 
-   lapply(kwl,function(x){
-            writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
-          res4 = readLines( socket , n=1 ) 
-              res<-parser.socket(res4)[2]
-	      substring(res[1],2,nchar(res[1])-1)
-})
+	# recupere le nb de kw (inutile?)
+	nbkws<-parser.socket(res3)[2]
+
+	#recupere la liste de paires val,next 
+	tmpl<-unlist(strsplit(res3,"&"))
+	#transforme en liste
+	tmpl<-unlist(strsplit(tmpl[3],","))
+	kwl<-unlist(tmpl)[c(T,F)]
+
+        lapply(kwl,function(x){
+	 	writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
+            	res4 = readLines( socket , n=1 ) 
+            	res<-parser.socket(res4)[2]
+	    	substring(res[1],2,nchar(res[1])-1)
+	    	}
+	)
 
 } 
 
