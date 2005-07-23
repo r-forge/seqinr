@@ -639,18 +639,21 @@ you want to close all open connections at once.}.
 
 For advanced users who may wish to access to more than one database at time, a good advice
 is to close them with the function \texttt{closebank()} as soon as possible so that the maximum
-number of simultaneous connections is never reached. An example is given below.
+number of simultaneous connections is never reached. In the example below, we want to
+display the number of taxa (\textit{i.e.} the number of nodes) in the species taxonomy associated
+with each available database (including frozen databases). For this, we loop over available databases and 
+close them as soon as the information has been retrieved.
 
-<<speciesperbank,fig=T>>=
-banks <- choosebank()
-nspecies <- numeric(0)
+<<taxaperbank,fig=T>>=
+banks <- c(choosebank(), choosebank(tagbank="TP"))
+ntaxa <- numeric(0)
 for(i in banks){
-  nspecies[i] <- as.numeric(choosebank(i)$totspecs)
+  ntaxa[i] <- as.numeric(choosebank(i)$totspecs)
   closebank()
 }
-dotchart(log10(nspecies[order(nspecies)]), pch = 19,
-main = "Number of species in available databases",
-xlab = "Log10(number of species)")
+dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
+main = "Number of taxa in available databases",
+xlab = "Log10(number of taxa)")
 @
 
 \subsubsection{Make your query}
@@ -775,6 +778,78 @@ virtual list:
 query("small", "allcds et sp=mycoplasma genitalium")
 sapply(small$req, getName)[1:10]
 @
+
+Here are some illustrations of using virtual list to answer simple questions about the
+current GenBank release.
+
+\begin{description}
+\item[\textbf{Man.}] How many sequences are available for our species?
+<<man>>=
+query("man","sp=homo sapiens",virtual=T)
+man$nelem
+@
+There are \texttt{\Sexpr{formatC(man$nelem, big.mark=",")}} sequences from \textit{Homo sapiens}.
+
+\item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
+<<sex>>=
+query("sex","k=sex@",virtual=T)
+sex$nelem
+@
+There are \texttt{\Sexpr{formatC(sex$nelem, big.mark=",")}} such sequences.
+
+\item[\textbf{tRNA.}] How many complete tRNA sequences are available?
+<<trnacplt>>=
+query("trna","t=trna et no k=partial",virtual=T)
+trna$nelem
+@
+There are \texttt{\Sexpr{formatC(trna$nelem, big.mark=",")}} complete tRNA sequences.
+
+\item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
+<<natvsscience>>= 
+query("nature","j=nature",virtual=T)
+nature$nelem
+query("science","j=science",virtual=T)
+science$nelem
+@
+There are \texttt{\Sexpr{formatC(nature$nelem, big.mark=",")}} sequences published
+in \textit{Nature} and
+\texttt{\Sexpr{formatC(science$nelem, big.mark=",")}} sequences published in
+\textit{Science}, so that the winner is 
+\textit{\Sexpr{ifelse(nature$nelem < science$nelem, "Science", "Nature")}}.
+
+%
+% \item[TriTryp] quand la ref de Science/309/404 sera dans genbank
+%
+
+\item[\textbf{Smith.}] How many sequences have Smith (last name) as author?
+<<smith>>=
+query("smith","au=smith",virtual=T)
+smith$nelem
+@
+There are \texttt{\Sexpr{formatC(smith$nelem, big.mark=",")}} such sequences.
+
+\item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
+<<yk2>>=
+query("yk2","y>2000",virtual=T)
+yk2$nelem
+@
+There are \texttt{\Sexpr{formatC(yk2$nelem, big.mark=",")}} sequences published after year 2000.
+
+\item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
+<<organelles>>=
+query("chloro","o=chloroplast",virtual=T)
+chloro$nelem
+query("mito","o=mitochondrion",virtual=T)
+mito$nelem
+@
+There are \texttt{\Sexpr{formatC(chloro$nelem, big.mark=",")}} sequences from
+chloroplast genomes and
+\texttt{\Sexpr{formatC(mito$nelem, big.mark=",")}} sequences from mitochondrion
+genomes, so that the winner is 
+\Sexpr{ifelse(chloro$nelem < mito$nelem, "mitochondrion", "chloroplast")}.
+
+
+\end{description}
 
 \subsubsection{Extract sequences of interest}
 
