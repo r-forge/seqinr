@@ -41,6 +41,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("... and everything is OK up to now.\n")
     }  
   }
+  
   #
   # Check that sockets are available:
   #
@@ -50,6 +51,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
    } else {
     if(verbose) cat("... yes, sockets are available on this build of R.\n")
   }
+  
   # 
   # Try to open socket connection:
   #
@@ -97,34 +99,34 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   #
   ###############################################################################
 
-	if(verbose) cat("I'm sending a knowndbs request to server...\n")
-	if( !is.na(tagbank) ){
-	  askforbank <- paste("knowndbs&tag=", tagbank, sep = "")
-	  if(verbose) cat("... and the tagbank value wasn't empty.\n")
-	} else {
-		askforbank <- "knowndbs"
-	  if(verbose) cat("... and the tagbank value was empty.\n")
-	}
-	writeLines(askforbank, socket, sep = "\n")
-	rep <- readLines(socket, n = 1)
-	nbank <- as.numeric(parser.socket(rep))
-	if(verbose) cat(paste("... there are", nbank, "banks available from server.\n"))
-	
-	#
-	# Read bank infos from server:
-	#
-	res <- readLines(socket, n = nbank)
-	if(verbose) cat(paste(res, "\n"))
-	
-	resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
-									status = I(rep("NAstatus", nbank)), 
-									info = I(rep("NAinfo", nbank))))
-	for(i in 1:nbank)
-		resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
-	for(i in 1:nbank)
-		for(j in 1:3)
-	  	resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
-	         
+  if(verbose) cat("I'm sending a knowndbs request to server...\n")
+  if( !is.na(tagbank) ){
+    askforbank <- paste("knowndbs&tag=", tagbank, sep = "")
+    if(verbose) cat("... and the tagbank value wasn't empty.\n")
+  } else {
+    askforbank <- "knowndbs"
+    if(verbose) cat("... and the tagbank value was empty.\n")
+  }
+  writeLines(askforbank, socket, sep = "\n")
+  rep <- readLines(socket, n = 1)
+  nbank <- as.numeric(parser.socket(rep))
+  if(verbose) cat(paste("... there are", nbank, "banks available from server.\n"))
+  
+  #
+  # Read bank infos from server:
+  #
+  res <- readLines(socket, n = nbank)
+  if(verbose) cat(paste(res, "\n"))
+  
+  resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
+                  status = I(rep("NAstatus", nbank)), 
+                  info = I(rep("NAinfo", nbank))))
+  for(i in 1:nbank)
+    resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
+  for(i in 1:nbank)
+    for(j in 1:3)
+      resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
+           
   ###############################################################################
   #
   # If no bank name is given, return the list of available banks from server:
@@ -132,7 +134,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   ###############################################################################
   if( is.na(bank) ){  
   
-   if(verbose) cat("No  bank was given...\n")
+    if(verbose) cat("No  bank was given...\n")
    
     #
     # Return just bank names or all info depending on infobank parameter value:
@@ -156,10 +158,11 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     # Try to open bank from server:
     #
     if(verbose) cat("I'm trying to open the bank from server...\n")
-    request <- paste("acnucopen&db=", bank, sep="") 
+    request <- paste("acnucopen&db=", bank, sep = "") 
     writeLines( request, socket, sep = "\n")
     rep2 <- readLines(socket, n = 1)
     if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))             
+
     #
     # Check answer from server:
     #
@@ -170,39 +173,34 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("... and everything is OK up to now.\n")
       
       #
-      # Recupere les infos de HELP 
+      # Try to get informations from HELP file: 
       #
-        if(verbose) cat("I'm trying to get information on the bank\n")
-    	request <- "ghelp&file=HELP&item=CONT"
-    	writeLines( request, socket, sep = "\n")
-    	rep2 <- readLines(socket, n = 1)
-	if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))   
-	res2 <- parser.socket(rep2)
-	nblhelp<-res2[1]
-	if(verbose) cat("Number of lines=",nblhelp,"\n")
-	if (as.numeric(nblhelp)>2){
-		bankhelp <- readLines(socket, n =(as.integer(nblhelp)-1))
-		for (i in 1:length(bankhelp)) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
-		bankrel<-bankhelp[1]
-		}
-	else {
-		bankhelp <- "there is no information available about the contents of this bank"
-		bankrel <-  "there is no information available about the contents of this bank"
-		#cat("Note: there is no information available about the contents of this bank.\n")
-	}
+      if(verbose) cat("I'm trying to get information on the bank...\n")
+      request <- "ghelp&file=HELP&item=CONT"
+      writeLines( request, socket, sep = "\n")
+      rep2 <- readLines(socket, n = 1)
+      if(verbose) cat(paste("... and answer from server is: ", rep2, ".\n"))   
+      res2 <- parser.socket(rep2)
+      nblhelp <- res2[1]
+      if(verbose) cat("Number of lines=", nblhelp,".\n")
+      if (as.numeric(nblhelp) > 2){
+        bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
+        for(i in 1:length(bankhelp)) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+        bankrel <- bankhelp[1]
+      } else {
+        bankhelp <- "there is no information available about the contents of this bank"
+        bankrel <-  "there is no information available about the contents of this bank"
+        #cat("Note: there is no information available about the contents of this bank.\n")
+      }
       
-        #
-        # Recupere le statut
-        #
-	status<-"unknown"
-          for(i in 1:nbank){
+      #
+      # Try to get status info:
+      #
+      status <- "unknown"
+      for(i in 1:nbank){
           if (resdf[i,1] == bank) status<-resdf[i,2]
-	}
+      }
 
-      
-      
-      
-    
       #
       # Set up the ACNUC server for following queries:
       #
@@ -220,15 +218,9 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
         if(verbose) cat("I was able to detect an error while seting up remote bank.\n")
         stop("There was an error while seting up remote bank.\n")
       }
+      
       #
-      # Je me demande si ca sert vraiment a quelque chose ca :
-      #
-      #assign("bankName", bank, .GlobalEnv)
-      #assign("bankInfo", c(bank,status,bankrel), .GlobalEnv)
-      #assign("banknameSocket", socket, .GlobalEnv)
-      #
-      # Tant qu'a faire, autant sauver tout dans l'environement utilisateur pour
-      # ne pas avoir a repreciser la socket a chaque query... A voir.
+      # Build result and assign it in the global environment:
       #
       res<-list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp)
       assign("banknameSocket", res, .GlobalEnv)
@@ -278,8 +270,8 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   # Send "acnucclose" to server:
   #
   if(verbose) cat("I'm trying to send an acnucclose message to server...\n")
-	writeLines("acnucclose", bank$socket, sep = "\n")
-	rep <- readLines(bank$socket, n = 1)
+  writeLines("acnucclose", bank$socket, sep = "\n")
+  rep <- readLines(bank$socket, n = 1)
   if(verbose) cat("... answer from server is: ", rep, "\n")
   res <- parser.socket(rep)
   if( res[1] == "0") {
@@ -295,7 +287,7 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   #
   if(verbose) cat("I'm trying to send a quit message to server...\n")
   writeLines("quit", bank$socket, sep = "\n")
-	rep <- readLines(bank$socket, n = 1)
+  rep <- readLines(bank$socket, n = 1)
   if(verbose) cat(paste("... answer from server is: -->", rep, "<--\n", sep = ""))
   if(rep == "OK acnuc socket stopped"){
     if(verbose) cat("... and everything is OK up to now, which is not too bad since we have closed everything!\n")
@@ -584,24 +576,24 @@ getKeywordsocket <- function( socket, name){
          writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
          res3 = readLines( socket , n=1 ) 
          
-	#modif simon	 
+  #modif simon   
 
-	# recupere le nb de kw (inutile?)
-	nbkws<-parser.socket(res3)[2]
+  # recupere le nb de kw (inutile?)
+  nbkws<-parser.socket(res3)[2]
 
-	#recupere la liste de paires val,next 
-	tmpl<-unlist(strsplit(res3,"&"))
-	#transforme en liste
-	tmpl<-unlist(strsplit(tmpl[3],","))
-	kwl<-unlist(tmpl)[c(T,F)]
+  #recupere la liste de paires val,next 
+  tmpl<-unlist(strsplit(res3,"&"))
+  #transforme en liste
+  tmpl<-unlist(strsplit(tmpl[3],","))
+  kwl<-unlist(tmpl)[c(T,F)]
 
         lapply(kwl,function(x){
-	 	writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
-            	res4 = readLines( socket , n=1 ) 
-            	res<-parser.socket(res4)[2]
-	    	substring(res[1],2,nchar(res[1])-1)
-	    	}
-	)
+    writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
+              res4 = readLines( socket , n=1 ) 
+              res<-parser.socket(res4)[2]
+        substring(res[1],2,nchar(res[1])-1)
+        }
+  )
 
 } 
 
@@ -770,13 +762,13 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
 }
 
 ######################################################################################
-#	simon
+# simon
 ######################################################################################
 
-simon <-function(res,socket) {
-x<-parser.socket(res)
-y<-(x[c(2,3,6,7)])
-acnucy<-as.SeqAcnucWeb(substring(y[1],2,nchar(y[1])-1),y[2],y[3],y[4],socket=socket)
-acnucy
+simon <-function(res, socket) {
+  x <- parser.socket(res)
+  y <- (x[c(2,3,6,7)])
+  acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1),y[2], y[3], y[4], socket = socket)
+  acnucy
 }
-######################################################################################
+
