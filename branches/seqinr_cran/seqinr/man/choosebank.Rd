@@ -12,7 +12,7 @@
 }
 \usage{
 choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
-              timeout = 5, infobank = FALSE, tagbank = NA))
+              timeout = 5, infobank = FALSE, tagbank = NA)
 }
 \arguments{
   \item{bank}{ String. The name of the bank. If NA, \code{choosebank} will return the names of all database known by the server.}
