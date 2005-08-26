@@ -1,0 +1,59 @@
+o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
+  pour getTrans.
+
+o Revoir tablecode (Christian Request) e-mail du Tue, 26 Jul 2005 14:08:28 +0200
+  tablecode a deux problèmes:
+  1) de manière bizarre Ile se positionne mal, pourtant il semble que tu ais 
+     bien utilisé une police fixe
+  2) la dernière ligne est barrée, il faut décaler davantage la ligne de fin du tableau
+  
+  Faire une version qui genere la table en LaTeX (idee de Zan)
+
+o Exemples de calculs d'indices d'usage du code dans la vignette du package
+
+o Fichier CITATION a modifier quand ref disponible.
+
+o Mettre les downloads() de la vignette an data() de seqinR.
+
+o Il vaudrait mieux que les exemples de la vignette soient si possible fait
+  sur des banques frozen, sauf a montrer l'interest des daily updates.
+  
+o Mettre un fichier par fonction dans seqinr/R/ ?
+
+o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
+  pour pouvoir mettre les examples en run et pas en dontrun. Ne faire que des
+  warnings() sauf cas graves et mettre les exemple en suppressWarnings(expr).
+  Donc try-catch(de tous les stop) des fonction de base...
+  
+o Recuperer automatiquement les annotations en entier.
+
+
+------ PENDING --------
+
+o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
+  a partir de la 2.1.1.... A suivre.
+
+o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
+  Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
+  aastrict","aaambiguous","relax"), gapallowed = FALSE, gapchar = "-", forcetolower = FALSE)
+  pour couvrir les cas les plus courrants sans perdre en tests inutiles. Le top, faire
+  un "oracle" pour deviner le bon truc.
+  
+o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
+
+------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Recuperation du code genetique qui va bien ? A verifier de pres, important.
+  C'est fait dans la 1.0-3 normalement.
+
+o Bug a 10^6 de getfrag (voir avec Delphine). Fait dans 1.0-3.
+
+o Identification du client en tant que seqinr (Manolo request). Fait dans 1.0-3.
+
+o Changer le DESCRIPTION du package pour changer le mainteneur. Verifier
+  la visiblite (ce qui est vu de l'exterieur, i.e. sur le CRAN, voir avec Zan).
+  Fait depuis la 1.0-3.
+
+o Refbiblio a mettre a jour (article seqinr pour credibiliser le truc). Voir
+  aussi citation() pour retourner la bonne ref.
+  citation("seqinr") est mis en place depuis la 1.0-3, attente de la ref definitive.
