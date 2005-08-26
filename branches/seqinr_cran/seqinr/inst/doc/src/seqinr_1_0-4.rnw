@@ -1375,7 +1375,36 @@ with respect to your objectives, and that you want to quantify the synonymous an
 variability, please consider reading this paper \cite{lobrychessel}, and follow this link
 \url{http://pbil.univ-lyon1.fr/members/lobry/repro/jag03/} for on-line reproducibility.
 
+\section{FAQ: Frequently Asked Question}
+
+\subsection{How do I compute a score on my sequences?}
+
+In the example below we want to compute the G+C content in third codon
+positions for complete ribosomal CDS from \textit{Escherichia coli}:
+
+<<gc3, fig=F>>=
+choosebank("emblTP")
+query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
+sapply(sapply(ecribo$req, getSequence), GC3)
+@
+
+At the amino-acid level, we may get an estimate of the isoelectric point of
+the proteins this way:
+
+<<computePI,fig=F>>=
+sapply( sapply(sapply(ecribo$req, getSequence), getTrans), computePI)
+@
+
+Note that some pre-defined vectors to compute linear forms on sequences are
+available in the \texttt{EXP} data.
+
 \section{Releases notes}
+
+\subsection{release 1.0-4}
+
+\begin{itemize}
+\item A FAQ section was added to the vignette.
+\end{itemize}
 
 \subsection{release 1.0-3}
 
