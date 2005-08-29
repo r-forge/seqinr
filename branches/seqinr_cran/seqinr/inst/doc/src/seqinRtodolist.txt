@@ -1,3 +1,6 @@
+o Etudier la faisabilite de recuperer les sequences en mode compresse.
+  (idee de Christian depuis de Bresil)
+
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
 
@@ -13,7 +16,7 @@ o Exemples de calculs d'indices d'usage du code dans la vignette du package
 
 o Fichier CITATION a modifier quand ref disponible.
 
-o Mettre les downloads() de la vignette an data() de seqinR.
+o Mettre les downloads() de la vignette en data() de seqinR.
 
 o Il vaudrait mieux que les exemples de la vignette soient si possible fait
   sur des banques frozen, sauf a montrer l'interest des daily updates.
