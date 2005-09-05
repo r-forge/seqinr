@@ -1,3 +1,15 @@
+o La fonction uco() pour calculer l'usage du code n'est pas très rapide.
+  Par exemple :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,uco))
+  [1]  82.83   1.59 104.63   0.00   0.00
+  Plus d'une minute pour calculer l'usage du code de 999 CDS, c'est vraiment pas terrible.
+  Elle ne gère pas correctement le code génétique pour les RSCU (mais bon, les RSCU
+  c'est de la merde de toute façons).
+  Elle calcule le RSCU et les frequences relatives pour rien quand on en a pas besoin.
+  Elle ne récupère pas automatiquement la phase et le code génétique, la propager
+  comme pour getTrans().
+
 o Changer le mainteneur du site web de seqinR et mettre à jour.
 
 o Etudier la faisabilite de recuperer les sequences en mode compresse.
