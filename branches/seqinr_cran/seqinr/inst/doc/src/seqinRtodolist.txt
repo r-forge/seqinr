@@ -1,3 +1,13 @@
+o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
+
+  read.table("sequence")
+       V1
+  1 AE013218
+
+  > query("lista","f=sequence")
+
+   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
+
 o La fonction uco() pour calculer l'usage du code n'est pas très rapide.
   Par exemple :
   > data(ec999)
