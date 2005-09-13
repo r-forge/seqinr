@@ -1,3 +1,8 @@
+o Le site web pour la reproductibilite de l'article Bioinfo 
+  http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
+  utilise une version obsolete de R et de seqinR. Le garder dans
+  un coin et l'adapter a la derniere mouture de seqinR.
+
 o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
 
   read.table("sequence")

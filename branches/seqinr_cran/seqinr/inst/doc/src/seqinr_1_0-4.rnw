@@ -18,6 +18,7 @@
 <<options, echo=FALSE, fig=FALSE>>=
 options(prompt=" ", continue=" ", width = 77)
 CurFileName <- get("file", env = parent.frame(3))
+options("repos") <- "http://cran.univ-lyon1.fr"
 @
 
 % SeqinR adds
