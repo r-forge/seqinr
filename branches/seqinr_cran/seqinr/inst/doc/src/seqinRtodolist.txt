@@ -1,3 +1,7 @@
+o getType() appele sans argument ne se demerde pas tout seul comme un grand
+  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
+  le fait query() par exemple. 
+
 o Le site web pour la reproductibilite de l'article Bioinfo 
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
   utilise une version obsolete de R et de seqinR. Le garder dans
