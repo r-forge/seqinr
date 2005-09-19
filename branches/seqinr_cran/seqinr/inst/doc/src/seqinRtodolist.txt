@@ -1,3 +1,8 @@
+o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
+  corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
+  si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
+  la modif de tdr222 tient la route un peu et laisser tomber sinon.
+
 o getType() appele sans argument ne se demerde pas tout seul comme un grand
   pour trouver la socket qui va bien de la banque ouverte par defaut (comme
   le fait query() par exemple. 
