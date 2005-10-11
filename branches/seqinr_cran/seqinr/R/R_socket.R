@@ -389,13 +389,21 @@ getAttributsocket <- function( socket, name){
 ###################################################################################################
 
 readAnnots.socket <- function(socket, name, nl){
-  request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
-  writeLines(request , socket, sep="\n")
-  res<-readLines(socket , n = nl)
-  res1 <- res[1]
-  p<-unlist(strsplit(res1,"&"))
-  res[1]<-p[2]
-  res
+
+
+  if(nl == 0){
+    warning(paste("invalid annotations line number 0. Automatically set to 1."))
+    nl <- 1
+    }
+#  } else {
+    request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
+    writeLines(request , socket, sep="\n")
+    res<-readLines(socket , n = nl)
+    res1 <- res[1]
+    p<-unlist(strsplit(res1,"&"))
+    res[1]<-p[2]
+    res
+#  }
 }
 
 ###################################################################################################
