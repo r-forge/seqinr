@@ -71,6 +71,9 @@ o Recuperer automatiquement les annotations en entier.
 
 ------ PENDING --------
 
+o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
+  a 0 est resolu.   
+
 o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
   a partir de la 2.1.1.... A suivre.
 

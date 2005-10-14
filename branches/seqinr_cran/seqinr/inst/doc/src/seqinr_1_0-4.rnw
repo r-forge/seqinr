@@ -1521,6 +1521,7 @@ GC3m(ecribo, 1:10)
 
 \begin{itemize}
 \item A FAQ section was added to the vignette.
+\item Bug occuring in getAnnot when the number of lines is zero solved.
 \end{itemize}
 
 \subsection{release 1.0-3}
