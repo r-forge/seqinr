@@ -1,3 +1,10 @@
+o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
+  les infos sont definitivement perdues si la socket est fermee.
+  
+o Implementer la possibilite de rapatrier directement les sequences au format
+  fasta et autres du serveur avec
+  extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
+  
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
   si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
@@ -22,7 +29,9 @@ o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
 
    Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
 
-o La fonction uco() pour calculer l'usage du code n'est pas très rapide.
+  Mettre au moins la doc a jour (unimplemented)
+  
+o La fonction uco() pour calculer l'usage du code n'est pas tres rapide.
   Par exemple :
   > data(ec999)
   > system.time(tmp<-lapply(ec999,uco))
