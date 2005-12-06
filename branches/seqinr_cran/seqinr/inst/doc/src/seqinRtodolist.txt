@@ -31,23 +31,13 @@ o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
 
   Mettre au moins la doc a jour (unimplemented)
   
-o La fonction uco() pour calculer l'usage du code n'est pas tres rapide.
-  Par exemple :
-  > data(ec999)
-  > system.time(tmp<-lapply(ec999,uco))
-  [1]  82.83   1.59 104.63   0.00   0.00
-  Plus d'une minute pour calculer l'usage du code de 999 CDS, c'est vraiment pas terrible.
+o La fonction uco() pour calculer l'usage du code :
+
   Elle ne gère pas correctement le code génétique pour les RSCU (mais bon, les RSCU
   c'est de la merde de toute façons).
-  Elle calcule le RSCU et les frequences relatives pour rien quand on en a pas besoin.
   Elle ne récupère pas automatiquement la phase et le code génétique, la propager
   comme pour getTrans().
   
-  identification du facteur limitant : c'est splitseq() :
-  > data(ec999)
-  > system.time(tmp<-lapply(ec999,splitseq))
-  [1] 60.59  0.73 72.55  0.00  0.00
-
 o Changer le mainteneur du site web de seqinR et mettre à jour.
 
 o Etudier la faisabilite de recuperer les sequences en mode compresse.
@@ -104,6 +94,25 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
+o La fonction uco() pour calculer l'usage du code n'est pas tres rapide. - JRL pour 1.0-4
+  Par exemple :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,uco))
+  [1]  82.83   1.59 104.63   0.00   0.00
+  Plus d'une minute pour calculer l'usage du code de 999 CDS, c'est vraiment pas terrible.
+  06-DEC-2005 - JRL:
+  identification du facteur limitant : c'est splitseq() :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,splitseq))
+  [1] 60.59  0.73 72.55  0.00  0.00
+  OK, j'ai commite une modif de splitseq() entierement re-ecrit, gain d'un facteur 10 environ
+  > system.time(tmp<-lapply(ec999,uco))
+  [1] 8.43 0.11 8.65 0.00 0.00
+  
+  Elle calcule le RSCU et les frequences relatives pour rien quand on en a pas besoin.
+  C'est aussi modifie, ca ne gagne pas grand chose en perf - JRL pour 1.0-4
+
+  
 o Recuperation du code genetique qui va bien ? A verifier de pres, important.
   C'est fait dans la 1.0-3 normalement.
 
