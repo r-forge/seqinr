@@ -17,7 +17,21 @@ uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE)
   \item{as.data.frame}{ logical. If \code{TRUE}: all indices are returned into a data frame.}
 }
 \details{
-  Codons with ambiguous bases are ignored.
+  Codons with ambiguous bases are ignored.\cr
+  
+  RSCU is a simple measure of non-uniform usage of synonymous codons in a coding sequence
+  (Sharp \emph{et al.} 1986).
+  RSCU values are the number of times a particular codon is observed, relative to the number 
+  of times that the codon would be observed for a uniform synonymous codon usage (i.e. all the
+  codons for a given amino-acid have the same probability). 
+  In the absence of any codon usage bias, the RSCU values would be 1.00 (this is the case
+  for sequence \code{cds} in the exemple thereafter).  A codon that is used 
+  less frequently than expected will have an RSCU value of less than 1.00 and vice versa for a codon 
+  that is used more frequently than expected.\cr 
+  
+  Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
+  (Perriere and Thioulouse 2002). Within-aminoacid correspondence analysis is a
+  simple way to study synonymous codon usage (Charif \emph{et al.} 2005).
 }
 \value{
     If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
@@ -26,6 +40,7 @@ uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE)
   \item{ eff }{ a numeric vector of codon counts }
   \item{ freq }{ a numeric vector of codon relative frequencies }
   \item{ rscu }{ a numeric vector of RSCU index }
+  
   If \code{as.data.frame} is FALSE, \code{uco} returns one of this index: 
   \item{ eff }{ a table of codon counts }
   \item{ freq }{ a table of codon relative frequencies }	
@@ -33,6 +48,17 @@ uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE)
 }
 \references{
 \code{citation("seqinr")} \cr
+
+Sharp, P.M., Tuohy, T.M.F., Mosurski, K.R. (1986) Codon usage in yeast: cluster
+analysis clearly differentiates highly and lowly expressed genes.
+\emph{Nucl. Acids. Res.}, \bold{14}:5125-5143.\cr
+
+Perriere, G., Thioulouse, J. (2002) Use and misuse of correspondence analysis in
+codon usage studies. \emph{Nucl. Acids. Res.}, \bold{30}:4548-4555.\cr
+
+Charif, D., Thioulouse, J., Lobry, J.R., Perriere, G. (2005) Online 
+Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
+\emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.
 }
 \author{ D. Charif, J.R. Lobry }
 \examples{
