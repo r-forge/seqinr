@@ -42,6 +42,11 @@ o La fonction uco() pour calculer l'usage du code n'est pas tres rapide.
   Elle calcule le RSCU et les frequences relatives pour rien quand on en a pas besoin.
   Elle ne récupère pas automatiquement la phase et le code génétique, la propager
   comme pour getTrans().
+  
+  identification du facteur limitant : c'est splitseq() :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,splitseq))
+  [1] 60.59  0.73 72.55  0.00  0.00
 
 o Changer le mainteneur du site web de seqinR et mettre à jour.
 
