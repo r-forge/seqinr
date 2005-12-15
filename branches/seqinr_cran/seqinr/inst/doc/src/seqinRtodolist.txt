@@ -70,11 +70,6 @@ o Recuperer automatiquement les annotations en entier.
 
 ------ PENDING --------
 
-o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
-  a 0 est resolu.   - SP
- 
-o Supprimer ou modifier le script compile qui est  est obsolete   - SP
- 
 
 o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
   a partir de la 2.1.1.... A suivre.
@@ -89,6 +84,11 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
+o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
+  a 0 est resolu.   - SP
+ 
+o Supprimer ou modifier le script compile qui est  est obsolete   - SP
+ 
 o Revoir tablecode (Christian Request) e-mail du Tue, 26 Jul 2005 14:08:28 +0200
   tablecode a deux problèmes:
   1) de manière bizarre Ile se positionne mal, pourtant il semble que tu ais 
