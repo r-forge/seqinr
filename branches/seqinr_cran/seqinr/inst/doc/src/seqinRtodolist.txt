@@ -1,9 +1,12 @@
-o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
-  les infos sont definitivement perdues si la socket est fermee.
-  
 o Implementer la possibilite de rapatrier directement les sequences au format
   fasta et autres du serveur avec
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
+  Utiliser l'API en C
+  
+  
+o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
+  les infos sont definitivement perdues si la socket est fermee.
+  
   
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
