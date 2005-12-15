@@ -1524,7 +1524,7 @@ GC3m(ecribo, 1:10)
 \item A bug in \texttt{getAnnot()} when the number of lines was zero is now solved.
 \item There is now a new argument in \texttt{tablecode()} to export genetic codes
 in \LaTeX.
-\item Function \texttt{splitseq()} has entirely rewritten to improve speed.
+\item Function \texttt{splitseq()} has been entirely rewritten to improve speed.
 \end{itemize}
 
 \subsection{release 1.0-3}
