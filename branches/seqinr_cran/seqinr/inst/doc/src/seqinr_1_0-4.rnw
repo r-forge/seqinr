@@ -15,13 +15,16 @@
 %
 % R output options
 %
-<<options, echo=FALSE, fig=FALSE>>=
+<<options, echo=FALSE, fig=FALSE, eval=TRUE>>=
 options(prompt=" ", continue=" ", width = 77)
 CurFileName <- get("file", env = parent.frame(3))
 r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
-library(seqinr)
+#library(seqinr)
+library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")
+library(xtable)
+library(ade4)
 @
 
 % SeqinR adds
@@ -78,7 +81,7 @@ nonlinear modelling, statistical tests, time series analysis, classification, cl
 Please consult the R project homepage at \texttt{http://www.R-project.org/} for 
 further information. 
 
-<<nmirrors, echo = FALSE>>=
+<<nmirrors, echo = FALSE, eval=F>>=
 nmirrors <- function( url = paste("http://cran.r-project.org", "mirrors.html", sep="/") )
 {
   readLines(url) -> tmp
@@ -102,11 +105,12 @@ nmirrors <- function( url = paste("http://cran.r-project.org", "mirrors.html", s
 }
 @
 
- The Comprehensive R Archive Network, CRAN, is a network of servers 
- around the world that store identical, up-to-date, versions of code and documentation 
- for R.
-At compilation time of this document, there were \Sexpr{nmirrors()$nm} mirrors available 
-from \Sexpr{nmirrors()$nc} countries.
+The Comprehensive R Archive Network, CRAN, is a network of servers 
+around the world that store identical, up-to-date, versions of code and documentation 
+for R. At compilation time of this document, there were
+\Sexpr{ifelse(exists("nmirrors"), nmirrors()$nm, "???")} 
+mirrors available 
+from \Sexpr{ifelse(exists("nmirrors"), nmirrors()$nc, "???")} countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}.
 
@@ -158,7 +162,7 @@ library(seqinr)
 
 The command \texttt{lseqinr()} lists all what is defined in the package \seqinr{}:
 
-<<lseqinr,eval=T>>=
+<<lseqinr,eval=F>>=
 lseqinr()[1:9]
 @
 
@@ -202,9 +206,14 @@ beginning of the learning process because apparently simple things are not so ea
 obtained (\textit{ce n'est que le premier pas qui co{\^{u}te} !}).
 In the long term, however, you are a winner for the following reasons.
 
+<<numberofpackages, fig=F, echo=F, results = hide, eval=F>>=
+numberofpackages <- nrow(available.packages())
+@
+
 \begin{description}
 \item{\bf Wheel (the):} do not re-invent (there's a patent \cite{wheel} on it anyway).
-At the compilation time of this document there were \Sexpr{nrow(CRAN.packages(CRAN = "http://cran.univ-lyon1.fr/"))}
+At the compilation time of this document there were 
+\Sexpr{ifelse(exists("numberofpackages"), numberofpackages, "???")}
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -247,7 +256,7 @@ in single-stranded DNA. These data from Chargaff's lab give the base composition
 strand for 7 bacterial chromosomes.
 
 \setkeys{Gin}{width=0.5\textwidth}
-<<chargaff,fig=T, results=hide,eval=T>>=
+<<chargaff,fig=T, results=hide,eval=F>>=
 example(chargaff)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -264,7 +273,7 @@ Another example of highly specialised graph is given by the function \texttt{tab
 display a genetic code as in textbooks :
 
 \setkeys{Gin}{width=0.6\textwidth}
-<<tablecode1,fig=T, results=hide,eval=T>>=
+<<tablecode1,fig=T, results=hide,eval=F>>=
 tablecode(dia=F)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -273,7 +282,7 @@ It's very convenient in practice to have a genetic code at hand, and moreover he
 all genetic code variants are available :
 
 \setkeys{Gin}{width=0.6\textwidth}
-<<tablecode2,fig=T, results=hide,eval=T>>=
+<<tablecode2,fig=T, results=hide,eval=F>>=
 tablecode(numcode = 2, dia=F)
 @
 \setkeys{Gin}{width=0.8\textwidth}
@@ -281,7 +290,7 @@ tablecode(numcode = 2, dia=F)
 \item{\bf Data as fast moving targets:} in research area, data are not always stable. compare the following
 graph :
 \setkeys{Gin}{width=0.5\textwidth}
-<<dbg, fig = TRUE, eval=T>>=
+<<dbg, fig = TRUE, eval=F>>=
 dbg <- get.db.growth()
 plot(x = dbg$date,
   y = log10(dbg$Nucl),
@@ -318,14 +327,14 @@ of maximum 80 character each. Examples of files in fasta format
 are distributed with the \seqinr{} package in the \texttt{sequences}
 directory:
 
-<<fastafiles,eval=T>>=
+<<fastafiles,eval=F>>=
 list.files(path = system.file("sequences", package = "seqinr"), pattern = ".fasta")
 @
 
 The function \texttt{read.fasta()} imports sequences from fasta files
 into your workspace, for example:
 
-<<readfasta, eval=T>>=
+<<readfasta, eval=F>>=
 seqaa <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
 seqaa
 @
@@ -335,7 +344,7 @@ contains the complete genome of \textit{Chlamydia trachomatis} that was
 used in \cite{oriloc}. You should be able to reproduce figure 1b from this
 paper with the following code:
 
-<<oriloc, fig=TRUE, results = hide, eval=T>>=
+<<oriloc, fig=TRUE, results = hide, eval=F>>=
 out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
       g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
      oldoriloc = TRUE)
@@ -354,7 +363,7 @@ replication from base composition biases (more on this at
 \url{http://pbil.univ-lyon1.fr/software/oriloc.html}). See also \cite{smorfland}
 for a recent review on this topic.
 
-<<oriloc2, fig=TRUE, results = hide, eval=T>>=
+<<oriloc2, fig=TRUE, results = hide, eval=F>>=
 out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
       g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
@@ -388,7 +397,7 @@ ubiquitous nature. Download on your local computer the following two sample test
 of aligned sequences of this gene (extracted from ParaFit \cite{parafit}), 
 this can be done directly at R prompt in the R console with :
 
-<<downloadlousegopher, eval=T>>=
+<<downloadlousegopher, eval=F>>=
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.fasta", 
 destfile = "louse.fasta")
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.fasta", 
@@ -399,14 +408,14 @@ The $8$ genes of the first sample are from various species of louse (insects par
 on warm-blooded animals) and the $8$ genes of the second sample are from their corresponding
 gopher hosts (a subset of rodents) :
 
-<<names,eval=T>>=
+<<names,eval=F>>=
 l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
 l.names
 g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
 g.names
 @
 
-<<readaln,eval=T>>=
+<<readaln,eval=F>>=
 louse <- read.alignment("louse.fasta",format="fasta")
 gopher <- read.alignment("gopher.fasta",format="fasta")
 @
@@ -428,7 +437,7 @@ from data. Let's try as an \emph{illustration} the famous neighbor-joining tree 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
 
-<<calculnjsurJC,eval=T>>=
+<<calculnjsurJC,eval=F>>=
 library(ape)
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c) , model = "JC69")
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c) , model = "JC69")
@@ -442,7 +451,7 @@ and their hosts. We want to plot the two trees face to face, and for this we mus
 R graphical parameters. The first thing to do is to save the current graphical parameter
 settings so as to be able to restore them later:
 
-<<savegraphicalparameters,eval=T>>=
+<<savegraphicalparameters,eval=F>>=
 op <- par(no.readonly = TRUE)
 @
 
@@ -451,7 +460,7 @@ parameters are not all settable, we just want to save those we can change at wil
 we can play with graphics :
 
 \setkeys{Gin}{width=\textwidth}
-<<face2face, fig=TRUE, width=16, height=8,eval=T>>=
+<<face2face, fig=TRUE, width=16, height=8,eval=F>>=
 g$tip.label <- paste(1:8, g.names)
 l$tip.label <- paste(1:8, l.names)
 
@@ -466,7 +475,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 We now restore the old graphical settings that were previously saved:
 
-<<restoregraphicalparameters,eval=T>>=
+<<restoregraphicalparameters,eval=F>>=
 par(op)
 @
 
@@ -516,7 +525,7 @@ save the file, and in the R console \texttt{source("essai.r")} again, you should
 obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
-<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
+<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=F>>=
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c))
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c))
 l <- nj(louse.JC)
@@ -556,7 +565,7 @@ Select the database from which you want to extract sequences with the \texttt{ch
 This function initiates a remote access to an ACNUC database. Called without arguments,
 \texttt{choosebank()} returns the list of available databases:
 
-<<choixbanque1>>=
+<<choixbanque1, eval=F>>=
 choosebank()
 @
 
@@ -567,7 +576,7 @@ the \texttt{infobank} parameter to \texttt{TRUE}. For
 instance, here is the result for the three first databases on the default server 
 at the compilation time (\today) of this document:
 
-<<choixbanquemoreinfo>>=
+<<choixbanquemoreinfo, eval=F>>=
 choosebank(infobank = TRUE)[1:3, ]
 @
 
@@ -595,7 +604,7 @@ function. Of special interest for teaching purposes is the \texttt{TP} tag, an a
 databases so that you can set up a practical whose results are stable from year to year. Currently
 available frozen databases at the default server are:
 
-<<frozen>>=
+<<frozen, eval=F>>=
 choosebank(tagbank = "TP", infobank = TRUE)
 @
 
@@ -603,27 +612,27 @@ Now, if you want to work with a given database, say GenBank, just call \texttt{c
 with \texttt{"genbank"} as its first argument and store the result in a variable
 in the workspace, called for instance \texttt{mybank} in the example thereafter:
 
-<<choixbanque2>>=
+<<choixbanque2, eval=F>>=
 mybank <- choosebank("genbank")
 str(mybank)
 @
 
 The list returned by \texttt{choosebank()} here means that in the database
-called \texttt{\Sexpr{mybank$bankname}} at the compilation time
+called \texttt{\Sexpr{ifelse(exists("mybank"), mybank$bankname, "???")}} at the compilation time
 of this document there were 
-\texttt{\Sexpr{formatC(as.integer(mybank$totseqs), big.mark=",")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totseqs), big.mark=","), "???")}}
 sequences from
-\texttt{\Sexpr{formatC(as.integer(mybank$totspecs), big.mark=",")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totspecs), big.mark=","), "???")}}
 species and a total of
-\texttt{\Sexpr{formatC(as.integer(mybank$totkeys), big.mark=",")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totkeys), big.mark=","), "???")}}
 keywords. The status of the bank was
-\texttt{\Sexpr{mybank$status}}, 
+\texttt{\Sexpr{ifelse(exists("mybank"), mybank$status, "???")}}, 
 and the release information was
-\texttt{\Sexpr{mybank$release}}.
+\texttt{\Sexpr{ifelse(exists("mybank"), mybank$release, "???")}}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
-<<exdetails,fig=F>>=
+<<exdetails,fig=F, eval=F>>=
 choosebank("taxobacgen")$details
 @
 
@@ -648,7 +657,7 @@ display the number of taxa (\textit{i.e.} the number of nodes) in the species ta
 with each available database (including frozen databases). For this, we loop over available databases and 
 close them as soon as the information has been retrieved.
 
-<<taxaperbank,fig=T,eval=T>>=
+<<taxaperbank,fig=T,eval=F, eval=F>>=
 banks <- c(choosebank(), choosebank(tagbank="TP"))
 ntaxa <- numeric(0)
 for(i in banks){
@@ -665,7 +674,7 @@ xlab = "Log10(number of taxa)")
 For this section, set up the default bank to GenBank, so that you don't have to provide the sockets details
 for the \texttt{query()} function:
 
-<<settogenbankbeforequery>>=
+<<settogenbankbeforequery, eval=F>>=
 choosebank("genbank")
 @
 
@@ -676,7 +685,7 @@ In the query below, we want to select all the coding sequences
 (\texttt{t=cds}) from cat (\texttt{sp=felis catus}) that are not 
 (\texttt{et no}) partial sequences (\texttt{k=partial}). 
 We want the result to be stored in an object called \texttt{completeCatsCDS}.
-<<query1,eval=TRUE>>=
+<<query1,eval=F>>=
 query("completeCatsCDS", "sp=felis catus et t=cds et no k=partial")
 @
 
@@ -686,12 +695,12 @@ such as the genetic code and the frame) that fit
 the query. They are stored in the \texttt{req} component of the object,
 let's see the name of the first ten of them:
 
-<<getNames,eval=TRUE>>=
+<<getNames,eval=F>>=
 sapply(completeCatsCDS$req[1:10], getName)
 @
 
-The first sequence that fit our request is \texttt{\Sexpr{getName(completeCatsCDS$req[[1]])}},
-the second one is \texttt{\Sexpr{getName(completeCatsCDS$req[[2]])}}, and so on. Note that
+The first sequence that fit our request is \texttt{\Sexpr{ifelse(exists("completeCatsCDS"), getName(completeCatsCDS$req[[1]]), "???")}},
+the second one is \texttt{\Sexpr{ifelse(exists("completeCatsCDS"), getName(completeCatsCDS$req[[2]]), "???")}}, and so on. Note that
 the sequence name may have an extension, this corresponds to \emph{subsequences},
 a specificity of the ACNUC system that allows to handle easily a
 subsequence with a biological meaning, typically a gene. The list of available subsequences
@@ -702,7 +711,6 @@ of available subsequences in GenBank is given in table \ref{genbank}.
 % Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres spéciaux Latex, ici "_"
 %
 <<xtablegenbank, fig = FALSE, echo = FALSE,eval=FALSE>>=
-library(xtable)
 choosebank("genbank") -> bank
 tmp <- getType(bank$s)
 tmp <- t(data.frame(tmp))
@@ -718,7 +726,7 @@ file = "genbank.tex")
 The component \texttt{call} of \texttt{completeCatsCDS} keeps automatically a 
 trace of the way you have selected the sequences: 
 
-<<list1call,fig=F,eval=T>>=
+<<list1call,fig=F,eval=F>>=
 completeCatsCDS$call
 @
 
@@ -733,33 +741,34 @@ to be the result of an iterative, progressively refining, process. An important 
 is that a list of sequences can be re-used. For instance, we can re-use \texttt{completeCatsCDS}
 to get only the list of sequences that were published in 2004:
 
-<<query2,eval=TRUE>>=
+<<query2,eval=F>>=
 query("ccc2004", "completeCatsCDS et y=2004")
 length(ccc2004$req)
 @
 
-Hence, there were \Sexpr{length(ccc2004$req)} complete coding sequences published in 2004 for
+Hence, there were \Sexpr{ifelse(exists("ccc2004"), length(ccc2004$req), "???")} complete coding sequences published in 2004 for
 \textit{Felis catus} in GenBank.
 
 As from release 1.0-3 of the \seqinr{} package, there is new parameter \texttt{virtual}
 which allows to disable the automatic retrieval of information for all list elements. This is interesting for list
 whit many elements, for instance :
 
-<<queryvirtual,eval=TRUE>>=
+<<queryvirtual,eval=F>>=
 query("allcds", "t=cds", virtual = TRUE)
 allcds$nelem
 @
 
-There are therefore \texttt{\Sexpr{formatC(as.integer(allcds$nelem), big.mark=",")}} coding
+There are therefore \texttt{\Sexpr{ifelse(exists("allcds"), formatC(as.integer(allcds$nelem), big.mark=","), "???")}} coding
 sequences in this version of GenBank\footnote{
 which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
-and current value is today (\today): \texttt{banknameSocket\$release = \Sexpr{banknameSocket$release}}.
+and current value is today (\today): \texttt{banknameSocket\$release = 
+\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$release, "???")}}.
 }. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
 component of the list has not been documented:
 
-<<nodoc,eval=TRUE>>=
+<<nodoc,eval=F>>=
 allcds$req
 @
 
@@ -769,16 +778,16 @@ known by the server.},
 for instance we may extract from this list all the sequences
 from, say, \textit{Mycoplasma genitalium}:
 
-<<chtouille,eval=TRUE>>=
+<<chtouille,eval=F>>=
 query("small", "allcds et sp=mycoplasma genitalium", virtual = TRUE)
 small$nelem
 @
 
-There are then \texttt{\Sexpr{formatC(as.integer(small$nelem), big.mark=",")}} elements in
+There are then \texttt{\Sexpr{ifelse(exists("small"), formatC(as.integer(small$nelem), big.mark=","), "???")}} elements in
 the list \texttt{small}, so that we can safely repeat the previous query without asking for a
 virtual list:
 
-<<chtouille2,eval=TRUE>>=
+<<chtouille2,eval=F>>=
 query("small", "allcds et sp=mycoplasma genitalium")
 sapply(small$req, getName)[1:10]
 @
@@ -788,69 +797,69 @@ current GenBank release.
 
 \begin{description}
 \item[\textbf{Man.}] How many sequences are available for our species?
-<<man>>=
+<<man, eval=F>>=
 query("man","sp=homo sapiens",virtual=T)
 man$nelem
 @
-There are \texttt{\Sexpr{formatC(man$nelem, big.mark=",")}} sequences from \textit{Homo sapiens}.
+There are \texttt{\Sexpr{ifelse(exists("man"), formatC(man$nelem, big.mark=","), "???")}} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
-<<sex>>=
+<<sex, eval=F>>=
 query("sex","k=sex@",virtual=T)
 sex$nelem
 @
-There are \texttt{\Sexpr{formatC(sex$nelem, big.mark=",")}} such sequences.
+There are \texttt{\Sexpr{ifelse(exists("sex"), formatC(sex$nelem, big.mark=","), "???")}} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
-<<trnacplt>>=
+<<trnacplt, eval=F>>=
 query("trna","t=trna et no k=partial",virtual=T)
 trna$nelem
 @
-There are \texttt{\Sexpr{formatC(trna$nelem, big.mark=",")}} complete tRNA sequences.
+There are \texttt{\Sexpr{ifelse(exists("trna"), formatC(trna$nelem, big.mark=","), "???")}} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
-<<natvsscience>>= 
+<<natvsscience, eval=F>>= 
 query("nature","j=nature",virtual=T)
 nature$nelem
 query("science","j=science",virtual=T)
 science$nelem
 @
-There are \texttt{\Sexpr{formatC(nature$nelem, big.mark=",")}} sequences published
+There are \texttt{\Sexpr{ifelse(exists("nature"), formatC(nature$nelem, big.mark=","), "???")}} sequences published
 in \textit{Nature} and
-\texttt{\Sexpr{formatC(science$nelem, big.mark=",")}} sequences published in
+\texttt{\Sexpr{ifelse(exists("science"), formatC(science$nelem, big.mark=","), "???")}} sequences published in
 \textit{Science}, so that the winner is 
-\textit{\Sexpr{ifelse(nature$nelem < science$nelem, "Science", "Nature")}}.
+\textit{\Sexpr{ifelse(exists("nature"), ifelse(nature$nelem < science$nelem, "Science", "Nature"), "???")}}.
 
 %
 % \item[TriTryp] quand la ref de Science/309/404 sera dans genbank
 %
 
 \item[\textbf{Smith.}] How many sequences have Smith (last name) as author?
-<<smith>>=
+<<smith, eval=F>>=
 query("smith","au=smith",virtual=T)
 smith$nelem
 @
-There are \texttt{\Sexpr{formatC(smith$nelem, big.mark=",")}} such sequences.
+There are \texttt{\Sexpr{ifelse(exists("smith"), formatC(smith$nelem, big.mark=","), "???")}} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
-<<yk2>>=
+<<yk2, eval=F>>=
 query("yk2","y>2000",virtual=T)
 yk2$nelem
 @
-There are \texttt{\Sexpr{formatC(yk2$nelem, big.mark=",")}} sequences published after year 2000.
+There are \texttt{\Sexpr{ifelse(exists("yk2"), formatC(yk2$nelem, big.mark=","), "???")}} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
-<<organelles>>=
+<<organelles, eval=F>>=
 query("chloro","o=chloroplast",virtual=T)
 chloro$nelem
 query("mito","o=mitochondrion",virtual=T)
 mito$nelem
 @
-There are \texttt{\Sexpr{formatC(chloro$nelem, big.mark=",")}} sequences from
+There are \texttt{\Sexpr{ifelse(exists("chloro"), formatC(chloro$nelem, big.mark=","), "???")}} sequences from
 chloroplast genomes and
-\texttt{\Sexpr{formatC(mito$nelem, big.mark=",")}} sequences from mitochondrion
+\texttt{\Sexpr{ifelse(exists("mito"), formatC(mito$nelem, big.mark=","), "???")}} sequences from mitochondrion
 genomes, so that the winner is 
-\Sexpr{ifelse(chloro$nelem < mito$nelem, "mitochondrion", "chloroplast")}.
+\Sexpr{ifelse(exists("mito"), ifelse(chloro$nelem < mito$nelem, "mitochondrion", "chloroplast"), "???")}.
 
 
 \end{description}
@@ -860,12 +869,12 @@ genomes, so that the winner is
 The sequence itself is obtained with the function \texttt{getSequence()}.
 For example, the first 50 nucleotides of the first sequence of our request are:
 
-<<getSequence>>=
+<<getSequence, eval=F>>=
 myseq <- getSequence(completeCatsCDS$req[[1]])
 myseq[1:50]
 @
 They can also be coerced as string of character with the function \texttt{c2s()}:
-<<SequenceAsString>>=
+<<SequenceAsString, eval=F>>=
 c2s(myseq[1:50])
 @
 Note that what is done by \texttt{getSequence()} is much more complex
@@ -891,7 +900,7 @@ from \texttt{AE003734} and some of them are in the complementary strand.
 With \texttt{getSequence()} you don't have to think about this. Just make a
 query with the sequence name:
 
-<<transplicing1>>=
+<<transplicing1, eval=F>>=
 query("transspliced", "N=AE003734.PE35")
 length(transspliced$req)
 getName(transspliced$req[[1]])
@@ -899,10 +908,10 @@ getName(transspliced$req[[1]])
 
 Ok, now there is in your workspace an object called \texttt{transspliced} which \texttt{req}
 component is of length one (because you have asked for just one sequence) and the name of the
-single element of the req component is \Sexpr{getName(transspliced$req[[1]])} (because this
+single element of the req component is \Sexpr{ifelse(exists("transspliced"), getName(transspliced$req[[1]]), "???")} (because this
 is the name of the sequence you wanted). Let see the first 50 base of this sequence:
 
-<<transsplicing2>>=
+<<transsplicing2, eval=F>>=
 getSequence(transspliced$req[[1]])[1:50]
 @
 
@@ -911,14 +920,14 @@ in-frame stop codons\footnote{
 Stop codons are represented by the character \texttt{*} when translated into protein.} 
 with the \texttt{getTrans()} function to translate this coding sequence into protein:
 
-<<transsplicing3>>=
+<<transsplicing3, eval=F>>=
 getTrans(transspliced$req[[1]])[1:50]
 table(getTrans(transspliced$req[[1]]))
 @
 
 In a more graphical way:
 
-<<transp4,fig=T>>=
+<<transp4,fig=T, eval=F>>=
 aacount <- table(getTrans(transspliced$req[[1]]))
 aacount <- aacount[order(aacount)]
 names(aacount) <- aaa(names(aacount))
@@ -931,7 +940,7 @@ Note that the relevant variant of the genetic code was automatically set up duri
 of the sequence into protein. This is because the \texttt{transspliced\$req[[1]]} object belongs to the 
 \texttt{SeqAcnucWeb} class:
 
-<<transsplicing4>>=
+<<transsplicing4, eval=F>>=
 class(transspliced$req[[1]])
 @
 
@@ -998,7 +1007,7 @@ are at hand.
 elements are to be selected. As we have already seen, the first 50 elements of a sequence
 are easily extracted thanks to the binary operator \texttt{from:to}, as in:
 
-<<fromto>>=
+<<fromto,eval=F>>=
 1:50
 myseq[1:50]
 @
@@ -1007,7 +1016,7 @@ The \texttt{seq()} function allows to build more complexe integer vectors. For i
 in coding sequences it is very common to focus on third codon positions where
 selection is weak. Let's extract bases from third codon positions:
 
-<<seqtcp>>=
+<<seqtcp,eval=F>>=
 tcp <- seq(from = 3, to = length(myseq), by = 3)
 tcp[1:10]
 myseqtcp <- myseq[tcp]
@@ -1018,7 +1027,7 @@ myseqtcp[1:10]
 elements have to be removed. For instance, if we want to keep first and second codon positions,
 the easiest way is to remove third codon positions:
 
-<<seqfscp>>=
+<<seqfscp, eval=F>>=
 -tcp[1:10]
 myseqfscp <- myseq[-tcp]
 myseqfscp[1:10]
@@ -1028,23 +1037,23 @@ myseqfscp[1:10]
 values say which elements to keep. Here is a different way to extract all third coding positions
 from our sequence. First, we define a vector of three logicals with only the last one true:
 
-<<ind>>=
+<<ind, eval=F>>=
 ind <- c(F, F, T)
 ind
 @
 
 This vector seems too short for our purpose because our sequence is much more longer
-with its \Sexpr{length(myseq)} bases. But under R vectors are automatically \emph{recycled}
+with its \Sexpr{ifelse(exists("myseq"), length(myseq), "???")} bases. But under R vectors are automatically \emph{recycled}
 when they are not long enough:
 
-<<myseqtcp2>>=
+<<myseqtcp2, eval=F>>=
 (1:30)[ind]
 myseqtcp2 <- myseq[ind]
 @
 
 The result should be the same as previously:
 
-<<identical>>=
+<<identical, eval=F>>=
  identical(myseqtcp, myseqtcp2)
 @
 
@@ -1058,27 +1067,27 @@ Another advantage of working with vector of characters is that most R functions
 are vectorized so that many things can be done without explicit looping. Let's
 give some very simple examples:
 
-<<vectorized1>>=
+<<vectorized1, eval=F>>=
 tota <- sum(myseq == "a")
 @
 
-The total number of \texttt{a} in our sequence is \Sexpr{tota}. Let's compare
+The total number of \texttt{a} in our sequence is \Sexpr{ifelse(exists("tota"), tota, "???")}. Let's compare
 graphically the different base counts in our sequence :
 
-<<vecto2, height = 3, fig=TRUE>>=
+<<vecto2, height = 3, fig=TRUE, eval=F>>=
 basecount <- table(myseq)
 myseqname <- getName(completeCatsCDS$req[[1]])
 dotchart(basecount, xlim = c(0, max(basecount)), pch = 19,
   main = paste("Base count in",  myseqname))
 @
 
-<<vecto3, fig=TRUE>>=
+<<vecto3, fig=TRUE, eval=F>>=
 dinuclcount <- count(myseq, 2)
 dotchart(dinuclcount[order(dinuclcount)], xlim = c(0, max(dinuclcount)), pch = 19,
   main = paste("Dinucleotide count in",  myseqname))
 @
 
-<<vecto4, height = 9, fig=TRUE>>=
+<<vecto4, height = 9, fig=TRUE, eval=F>>=
 codonusage <- uco(myseq)
 dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 @
@@ -1092,7 +1101,7 @@ in R. The function \texttt{words.pos()} returns the positions of all occurrences
 of a given regular expression. Let's suppose we want to know where are the trinucleotides
 "cgt" in a sequence, that is the fragment CpGpT in the direct strand:
 
-<<cgt>>=
+<<cgt, eval=F>>=
 mystring <- c2s(myseq)
 words.pos("cgt", mystring)
 @
@@ -1100,12 +1109,12 @@ words.pos("cgt", mystring)
 We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
 Y (IUPAC code for pyrimidine) stands C or T:
 
-<<fuzzy>>=
+<<fuzzy, eval=F>>=
 words.pos("cgt[ct]", mystring)
 @
 
 To look for all CpC dinucleotides separated by 3 or 4 bases:
-<<fuzzy2>>=
+<<fuzzy2, eval=F>>=
 words.pos("cc.{3,4}cc", mystring)
 @
 
@@ -1131,18 +1140,16 @@ two individuals, is illustrated bellow with a very simple example (Table \ref{df
 three proteins having only three amino-acids, so that we can represent exactly
 on a map the consequences of the metric choice.
 
-<<df,eval=TRUE>>=
-df <- data.frame(matrix(c(130, 60, 60, 70, 40, 35, 0, 0, 5), nrow=3))
-names(df) <- c("Ala", "Val", "Cys")
-df
+<<toyaa,eval=F>>=
+data(toyaa)
+toyaa
 @
 
-<<df, fig = FALSE, echo = FALSE,eval=T>>=
-library(xtable)
-print(xtable(df, digits = rep(0,4), caption = "A very simple example of amino-acid counts in three proteins.", label = "df"), 
-file = "df.tex")
+<<toyaa, fig = FALSE, echo = FALSE,eval=F>>=
+print(xtable(toyaa, digits = rep(0,4), caption = "A very simple example of amino-acid counts in three proteins to be loaded with \\texttt{data(toyaa).}", label = "toyaa"), 
+file = "toyaa.tex")
 @
-\input{df.tex}
+\input{toyaa.tex}
 
 Let's first use the regular Euclidian metrics between two proteins $i$ and $i'$,
 \begin{equation}
@@ -1151,9 +1158,9 @@ d^2(i,i') = \sum_{j=1}^{J}(n_{ij} - n_{i'j})^2
 \end{equation}
 to visualize this small data set:
 
-<<euclidian, fig = TRUE,eval=T>>=
+<<euclidian, fig = TRUE,eval=F>>=
 library(ade4)
-pco <- dudi.pco(dist(df), scann = F, nf = 2)
+pco <- dudi.pco(dist(toyaa), scann = F, nf = 2)
 myplot <- function( res, ... )
 {
   plot(res$li[ , 1], res$li[ , 2], ...)
@@ -1167,11 +1174,11 @@ myplot(pco, main = "Euclidian distance", asp = 1, pch = 19, xlab = "", ylab = ""
 From this point of view, the first individual is far away from the two others. But
 thinking about it, this is a rather trivial effect of protein size:
 
-<<protsize,eval=T>>=
-rowSums(df)
+<<protsize,eval=F>>=
+rowSums(toyaa)
 @
 
-With \Sexpr{rowSums(df)[1]} amino-acids, the first protein is two times bigger 
+With \Sexpr{ifelse(exists("toyaa"), rowSums(toyaa)[1], "???")} amino-acids, the first protein is two times bigger 
 than the others so that when computing the Euclidian distance (\ref{euclidian}) its $n_{ij}$ entries
 are on average bigger, sending it away from the others.
 To get rid of this trivial effect, the first
@@ -1186,10 +1193,10 @@ d^2(i,i') = \sum_{j=1}^{J}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bu
 where $n_{i\bullet}$ and $n_{i'\bullet}$ are the total number of amino-acids
 in protein $i$ and $i'$, respectively.
 
-<<profile, fig = TRUE,eval=T>>=
-df1 <- df/rowSums(df)
-df1
-dudi.pco(dist(df1), scann = F, nf = 2) -> pco1
+<<profile, fig = TRUE,eval=F>>=
+profile <- toyaa/rowSums(toyaa)
+profile
+dudi.pco(dist(profile), scann = F, nf = 2) -> pco1
 myplot(pco1, main = "Euclidian distance on protein profiles", asp = 1, pch = 19, xlab = "", ylab = "",
   ylim = range(pco1$li[ , 2])*1.2)
 @
@@ -1217,8 +1224,8 @@ d^2(i,i') = \sum_{j=1}^{J}\frac{1}{n_{{\bullet}j}}(\frac{n_{ij}}{n_{i\bullet}} -
 where $n_{{\bullet}j}$ is the total number of amino-acid of kind $j$. With this point
 of view, the map is now like this:
 
-<<afc, fig = TRUE,eval=T>>=
-coa <- dudi.coa(df, scann = FALSE, nf = 2)
+<<afc, fig = TRUE,eval=F>>=
+coa <- dudi.coa(toyaa, scann = FALSE, nf = 2)
 myplot(coa, main = expression(paste(chi^2," distance")), 
   asp = 1, pch = 19, xlab = "", ylab = "")
 @
@@ -1241,7 +1248,7 @@ columns of the dataset are simultaneously represented, in the
 right way, that is as a graphical \textit{translation} of a 
 mathematical theorem, but let's see how does it look like in practice: 
 
-<<scatter, fig = TRUE,eval=T>>=
+<<scatter, fig = TRUE,eval=F>>=
 scatter(coa, clab.col = 0.8, clab.row = 0.8, posi = "none")
 @
 
@@ -1250,7 +1257,7 @@ variability here, no scoop. Please note how the information is well
 summarised here: protein number 3 differs because it's enriched in
 in Cys ; protein number 1 and 2 are almost the same but there is a
 small trend protein number 1 to be enriched in Ala. As compared to
-to table \ref{df} this graph is of poor information here, so let's
+to table \ref{toyaa} this graph is of poor information here, so let's
 try a more big-rooom-sized example (with $20$ columns so as to
 illustrate the dimension reduction technique).
 
@@ -1260,7 +1267,7 @@ the most important factor for the between-protein variability is
 hydrophilic - hydrophobic gradient. Let's try to reproduce this
 assertion :
 
-<<lobrygautier,fig=T,eval=T>>=
+<<lobrygautier,fig=T,eval=F>>=
 download.file(url="ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", destfile = "data.txt")
 
 ec <- read.table(file = "data.txt", header = TRUE, 
@@ -1277,7 +1284,7 @@ lines(density(F1, adjust = 0.5), lwd = 2)
 There is clearly a bimodal distribution of proteins on the first factor. What are the
 the amino-acid coordinates on this factor?
 
-<<lobrygautier2,fig=T,height=5>>=
+<<lobrygautier2,fig=T,height=5, eval=F>>=
 aacoo <- ec.coa$co[ , 1]
 names(aacoo) <- rownames(ec.coa$co)
 aacoo <- sort( aacoo)
@@ -1293,14 +1300,14 @@ hydropathic index\cite{KD}) of our proteins to compare this with their coordinat
 on the first factor. We need first the amino-acid \emph{relatives} frequencies in the
 proteins, for this we divide the all the amino-acid counts by the total by row:
 
-<<lobrygautier3,fig=F>>=
+<<lobrygautier3,fig=F, eval=F>>=
 ecfr <- ec/rowSums(ec)
 ecfr[1:5, 1:5]
 @
 
 We need also the coefficients corresponding to the GRAVY score:
 
-<<lobrygautier4,fig=F>>=
+<<lobrygautier4,fig=F, eval=F>>=
 gravy <- read.table(file ="ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/gravy.txt")
 gravy[1:5, ]
 coef <- gravy$V2
@@ -1309,13 +1316,13 @@ coef <- gravy$V2
 The coefficient are given in the alphabetical order of the three letter code for
 the amino acids, that is in a different order than in the object \texttt{ecfr}:
 
-<<lobrygautier5,fig=F>>=
+<<lobrygautier5,fig=F, eval=F>>=
 names(ecfr)
 @
 
 We then re-order the columns of the data set and check that everthing is OK:
 
-<<lobrygautier6,fig=F>>=
+<<lobrygautier6,fig=F, eval=F>>=
 ecfr <- ecfr[ , order(names(ecfr))]
 ecfr[1:5,1:5]
 all(names(ecfr) == tolower(as.character(gravy$V1)))
@@ -1324,7 +1331,7 @@ all(names(ecfr) == tolower(as.character(gravy$V1)))
 Now, thanks to R build-in matrix multiplication, it's only one line to compute
 the GRAVY score:
 
-<<lobrygautier5,fig=T>>=
+<<lobrygautier5,fig=T,eval=F>>=
 as.matrix(ecfr) %*% coef -> gscores
 plot(gscores,F1,xlab="GRAVY Score", ylab="F1 Score",las=1,main="The first factor is protein hydrophaty")
 @
@@ -1335,7 +1342,7 @@ a mixture of two normal distributions to get an estimate of the proportion of
 cytoplasmic and integral membrane proteins. We first have a look on the predefined
 distributions (Table \ref{dpqr}), but there is apparently not an out of the box
 solution.
-<<dpqrtable, fig = FALSE, results = hide, echo = FALSE>>=
+<<dpqrtable, fig = FALSE, results = hide, echo = FALSE, eval=F>>=
 noms <- ls("package:stats")
 startwith <- function(nom, char)
 {
@@ -1361,7 +1368,6 @@ suffix <- function(nom)
 data.frame(cbind(ddpqr,pdpqr, qdpqr, rdpqr), row.names = dpqr) -> data
 names(data) <- c("d","p","q","r")
 data
-library(xtable)
 print(xtable(data, 
 caption = "Density, distribution function, quantile function and random generation for the predefined distributions under R",
 label = "dpqr"), 
@@ -1371,7 +1377,7 @@ file = "dpqrtable.tex")
 We then define our own probability density function and then use \texttt{fitdistr} from package
 \texttt{MASS} to get a maximum likelihood estimate of the parameters:
 
-<<logfitdis,fig=T,eval=T>>=
+<<logfitdis,fig=T,eval=F>>=
 dmixnor <- function(x, p, m1, sd1, m2, sd2){
   p*dnorm(x, m1, sd1) + (1 - p)*dnorm(x, m2, sd2)
 }
@@ -1391,7 +1397,7 @@ Genetic codes are surjective applications from the set codons ($n=64$)
 into the set of amino-acids ($n=20$) :
 
 \setkeys{Gin}{width=\textwidth}
-<<surjective, echo=F, fig=T, eval=T>>=
+<<surjective, echo=F, fig=T, eval=F>>=
 #
 # Insert 2 (surjective genetic codes)
 #
@@ -1468,7 +1474,7 @@ for a nice back to basics). Let's give a simple illustration with three ortholog
 thioredoxin familiy from \textit{Homo sapiens}, \textit{Mus musculus},
 and \textit{Rattus norvegicus} species: 
 
-<<ortho, eval=T>>=
+<<ortho, eval=F>>=
 download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/ortho.fasta", destfile = "ortho.fasta")
 ortho <- read.alignment("ortho.fasta", format="fasta")
 kaks.ortho <- kaks(ortho)
@@ -1493,7 +1499,7 @@ variability, please consider reading this paper \cite{lobrychessel}, and follow 
 In the example below we want to compute the G+C content in third codon
 positions for complete ribosomal CDS from \textit{Escherichia coli}:
 
-<<gc3, fig=F,eval=T>>=
+<<gc3, fig=F,eval=F>>=
 choosebank("emblTP")
 query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
 sapply(sapply(ecribo$req, getSequence), GC3)
@@ -1502,7 +1508,7 @@ sapply(sapply(ecribo$req, getSequence), GC3)
 At the amino-acid level, we may get an estimate of the isoelectric point of
 the proteins this way:
 
-<<computePI,fig=F,eval=T>>=
+<<computePI,fig=F,eval=F>>=
 sapply( sapply(sapply(ecribo$req, getSequence), getTrans), computePI)
 @
 
@@ -1512,7 +1518,7 @@ available in the \texttt{EXP} data.
 As a matter of convenience, you may encapsulate the computation of your favorite score 
 within a function this way :
 
-<<encapsulate,fig=F,eval=T>>=
+<<encapsulate,fig=F,eval=F>>=
 GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
 GC3m(ecribo)
 GC3m(ecribo, 1:10)
@@ -1541,7 +1547,7 @@ file of the \seqinr{} package has been updated to take this into account.
 
 \item The reference paper for the package is now \textit{in press}. We do not have the full
 reference for now, you may use \texttt{citation("seqinr")} to check if it is complete now:
-<<cite, fig=F>>=
+<<cite, fig=F, eval=F>>=
 citation("seqinr")
 @
 
