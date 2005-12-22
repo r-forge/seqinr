@@ -1,4 +1,6 @@
-o Implementer la possibilite de rapatrier directement les sequences au format
+o Etudier la faisabilite de recuperer les sequences en mode compresse.
+  (idee de Christian depuis de Bresil)
+  Implementer la possibilite de rapatrier directement les sequences au format
   fasta et autres du serveur avec
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
@@ -41,10 +43,7 @@ o La fonction uco() pour calculer l'usage du code :
   Elle ne récupère pas automatiquement la phase et le code génétique, la propager
   comme pour getTrans().
   
-o Changer le mainteneur du site web de seqinR et mettre à jour.
 
-o Etudier la faisabilite de recuperer les sequences en mode compresse.
-  (idee de Christian depuis de Bresil)
 
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
@@ -83,6 +82,9 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Changer le mainteneur du site web de seqinR et mettre à jour. -- SP dec 2005
+
 
 o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
   a 0 est resolu.   - SP

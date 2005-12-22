@@ -19,9 +19,9 @@ latexfile = NULL)
 #  
   if( ! is.null(latexfile) ) {
     Tfile <- file(latexfile, open = "w")
-    writeLines("\\begin{center}", Tfile)
     writeLines("\\begin{table}", Tfile)
-    writeLines("\\begin{tabular}{llllllllllll}", Tfile)
+    writeLines("\\begin{center}", Tfile)
+    writeLines("\\begin{tabular}{*{13}{l}}", Tfile)
     writeLines("\\hline", Tfile)
     writeLines("\\\\", Tfile)
     for( i in 0:3 )
@@ -33,7 +33,7 @@ latexfile = NULL)
           codon <- c(urn[i+1], urn[k+1], urn[j+1])
           codon.urn <- paste(urn.rna[i+1], urn.rna[k+1], urn.rna[j+1], sep = "", collapse = "")
           aminoacid <- aa3[which(aa1 == translate(codon, numcode = numcode))]
-          writeLines(paste(codon.urn, aminoacid, " ", sep = " & "), Tfile)
+          writeLines(paste(codon.urn, aminoacid, " &", sep = " & "), Tfile)
         }
         writeLines("\\\\", Tfile)
       }
@@ -43,8 +43,8 @@ latexfile = NULL)
     writeLines("\\end{tabular}", Tfile)
     writeLines(paste("\\caption{Genetic code number ", numcode, ": ", codename, ".}", sep = ""), Tfile)
     writeLines(paste("\\label{", latexfile, "}", sep = ""), Tfile)
-    writeLines("\\end{table}", Tfile)
     writeLines("\\end{center}", Tfile)
+    writeLines("\\end{table}", Tfile)
     close(Tfile)
     return(invisible(NULL))
   }
