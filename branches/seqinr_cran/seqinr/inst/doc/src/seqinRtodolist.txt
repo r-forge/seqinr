@@ -5,7 +5,9 @@ o Etudier la faisabilite de recuperer les sequences en mode compresse.
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
   
-  
+o Pour read.alignment il manque des exemples pour le format fasta et clustal.
+
+
 o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
   les infos sont definitivement perdues si la socket est fermee.
   
