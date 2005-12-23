@@ -27,6 +27,8 @@ options(repos = r)
 library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")
 library(xtable)
 library(ade4)
+library(ape)
+library(MASS)
 myplot <- function( res, ... )
 {
   plot(res$li[ , 1], res$li[ , 2], ...)
@@ -300,7 +302,7 @@ tablecode(numcode = 2, dia=F)
 As from \seqinr{} 1.0-4, it is possible to export the table of a genetic code into a \LaTeX~document,
 for instance table \ref{code3.tex} and table \ref{code4.tex} were automatically generated with the following R code:
 
-<<latextablecode,fig=F,eval=T>>=
+<<latextablecode,fig=F,eval=F>>=
 tablecode(numcode = 3, urn.rna = s2c("TCAG"), latexfile = "code3.tex")
 tablecode(numcode = 4, urn.rna = s2c("TCAG"), latexfile = "code4.tex")
 @
@@ -424,7 +426,7 @@ ubiquitous nature. The following two sample tests
 of aligned sequences of this gene (extracted from ParaFit \cite{parafit}), 
 are distributed along with the \seqinr{} package:
 
-<<readaln,eval=T>>=
+<<readaln,eval=F>>=
 louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
 louse$nam
 gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
@@ -436,7 +438,7 @@ The $8$ genes of the first sample are from various species of louse (insects par
 on warm-blooded animals) and the $8$ genes of the second sample are from their corresponding
 gopher hosts (a subset of rodents) :
 
-<<names,eval=T>>=
+<<names,eval=F>>=
 l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
 l.names
 g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
@@ -459,7 +461,7 @@ from data. Let's try as an \emph{illustration} the famous neighbor-joining tree 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
 
-<<calculnjsurJC,eval=T>>=
+<<calculnjsurJC,eval=F>>=
 library(ape)
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c) , model = "JC69")
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c) , model = "JC69")
@@ -473,7 +475,7 @@ and their hosts. We want to plot the two trees face to face, and for this we mus
 R graphical parameters. The first thing to do is to save the current graphical parameter
 settings so as to be able to restore them later:
 
-<<savegraphicalparameters,eval=T>>=
+<<savegraphicalparameters,eval=F>>=
 op <- par(no.readonly = TRUE)
 @
 
@@ -482,7 +484,7 @@ parameters are not all settable, we just want to save those we can change at wil
 we can play with graphics :
 
 \setkeys{Gin}{width=\textwidth}
-<<face2face, fig=TRUE, width=16, height=8,eval=T>>=
+<<face2face, fig=TRUE, width=16, height=8,eval=F>>=
 g$tip.label <- paste(1:8, g.names)
 l$tip.label <- paste(1:8, l.names)
 
@@ -497,7 +499,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 We now restore the old graphical settings that were previously saved:
 
-<<restoregraphicalparameters,eval=T>>=
+<<restoregraphicalparameters,eval=F>>=
 par(op)
 @
 
@@ -545,7 +547,7 @@ save the file, and in the R console \texttt{source("essai.r")} again, you should
 obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
-<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
+<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=F>>=
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c))
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c))
 l <- nj(louse.JC)
@@ -1494,7 +1496,7 @@ for a nice back to basics). Let's give a simple illustration with three ortholog
 thioredoxin familiy from \textit{Homo sapiens}, \textit{Mus musculus},
 and \textit{Rattus norvegicus} species: 
 
-<<ortho, eval=T>>=
+<<ortho, eval=F>>=
 ortho <- read.alignment(system.file("sequences/ortho.fasta", package = "seqinr"), format="fasta")
 kaks.ortho <- kaks(ortho)
 kaks.ortho$ka/kaks.ortho$ks
@@ -1619,9 +1621,128 @@ as compared to the two others. Note that this is hard to see at the global codon
 strong amino-acid effect.
 
 
+To illustrate the interest of synonymous codon usage analyses, let's use now a more realistic example.
+In \cite{lobrygautier} there was an assertion stating that selection for
+translation optimisation in \textit{Escherichia coli} was also visible at the amino-acid level.
+The argument was in figure 5 of the paper, that can be reproduced\footnote{
+  the code to reproduce all figures from \cite{lobrygautier} is available at
+  \url{http://pbil.univ-lyon1.fr/members/lobry/repro/nar94/}.
+} with the following R code:
+
 %
-% Faire exemple plus réaliste avec ec999
+% C'est long celui-la, vaudrait mieux refaire les calculs a partir de ec999, ca illustrerait
+% comment on calcule le CAI
 %
+<<reprolobgau,fig=T, eval=F>>=
+ec <- read.table(
+     file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt",
+     header = TRUE,
+     row.names = 1)
+ec.coa <- dudi.coa(ec, scann = FALSE, nf=3)
+tmp <- read.table(
+     file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/ecoli999.cai")
+cai <- exp(tmp$V2)
+plot(cai, ec.coa$li[,2], pch=20, xlab="CAI Score", ylab="F2 Score",
+     main="Fig 5 from Lobry & Gautier (1994) NAR 22:3174")
+@
+
+
+So, there was a correlation between the CAI (Codon Adaptation Index \cite{CAI}) and
+the second factor for amino-acid composition variability. However, this
+is not completely convincing because the CAI is not completely independent
+of the amino-acid composition of the protein. Let's use within amino-acid
+correspondence analysis to remove the amino-acid effect. Here is a commented
+step-by-step analysis:
+
+<<vlg1, fig = F, eval=T>>=
+data(ec999)
+class(ec999)
+names(ec999)[1:10]
+ec999[[1]][1:50]
+@
+
+This is to load the data from \cite{lobrygautier} which is available as \texttt{ec999}
+in the \seqinr{} package. The letters \texttt{ec} are for the bacterium 
+\textit{Escherichia coli} and the number \texttt{999} means that there were
+$999$ coding sequences available from this species at that time. The class of the
+object \texttt{ec999} is a list, which names are the coding sequence names, for instance
+the first coding sequence name is 
+\texttt{\Sexpr{ifelse(exists("ec999"), names(ec999)[1], "???")}}.
+Each element of the list is a vector of character, we have listed just above the 50 first
+character of the first coding sequence of the list with \texttt{ec999[[1]][1:50]}, we
+can see that there is a start codon (ATG) at the beginning of the first coding sequence.
+
+<<vlg2, fig = F, eval=T>>=
+ec999.uco <- lapply(ec999, uco) # compute codon usage for all CDS
+class(ec999.uco)
+class(ec999.uco[[1]])
+ec999.uco[[1]]
+@
+
+This is to compute the codon usage, that is how many times each codon is used
+in each coding sequence. Because \texttt{ec999} is a list, we use the function
+\texttt{lapply()} to apply the same function, \texttt{uco()}, to all the
+elements of the list and we store the result in the object \texttt{ec999.uco}.
+The object \texttt{ec999.uco} is a list too, and all its elements belong to
+the class table.
+
+<<vlg3, fig = F, eval=T>>=
+df <- as.data.frame(lapply(ec999.uco, as.vector)) # put it in a dataframe
+dim(df)
+df[1:5,1:5]
+@
+
+This is to put the codon usage into a data.frame. Note that the codons are in row
+and the coding sequences are in columns. This is more convenient for the following
+because groups for within and between analyses are usually handled by row.
+
+<<vlg4, fig = F, eval=T>>=
+row.names(df) <- names(ec999.uco[[1]]) # add codon names
+df[1:5,1:5]
+@
+
+This is to keep a trace of codon names, just in case we would like to re-order
+the dataframe \texttt{df}. This is important because we can now play with
+the data at will without loosing any critical information. 
+
+<<vlg5, fig = F, eval=T>>=
+ec999.coa <- dudi.coa(df, scann = F, nf = 2) # run global correspondence analysis
+@
+
+This is to run global correspondence analysis of codon usage.
+
+<<vlg6, fig = F, eval=T>>=
+facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df)))))) # define a factor for amino-acids
+@
+
+This is to define a factor for amino-acids.
+
+<<vlg7, fig = F, eval=T>>=
+ec999.syn <- within(ec999.coa, facaa, scann=F, nf=2) # run synonymous codon usage analysis
+@
+
+This is to run synonymous codon usage analysis.
+
+<<vlg8, fig = F, eval=T>>=
+ec999.btw <- between(ec999.coa, facaa, scann=F, nf=2) # run non-sysnonymous codon usage analysis <=> amino-acid usage
+@
+
+This is to run non-sysnonymous codon usage analysis, or amino-acid usage analysis.
+
+<< vlg8,fig=T,eval=T>>=
+x <- ec999.syn$co[,1] 
+y <- ec999.btw$co[,2]
+kxy <- kde2d(x,y, n = 100)
+nlev <- 20
+filled.contour(kxy, xlim = c(-0.5, 0.5), ylim = c(-0.3, 0.3),
+nlevels = nlev,
+plot.axis = { contour(kxy, nlevels = nlev, add = TRUE, drawlabels = F); 
+abline(c(0,1))
+ })
+@
+
+This is to plot the whole thing.
+
 
 \section{FAQ: Frequently Asked Question}
 
@@ -1849,6 +1970,11 @@ Proc. Natl. Acad. Sci. USA, {\bf 63} (1969) 152--159.
 Saitou, N., Nei, M.:
 The neighbor-joining method: a new method for reconstructing phylogenetic trees.
 Mol. Biol. Evol. {\bf 4} (1984) 406--425.
+
+\bibitem{CAI}
+Sharp, P.M., Li, W.-H.:
+The codon adaptation index - a measure of directional synonymous codon usage bias, and its potential applications.
+Nucleic Acids Research {\bf 15} (1987) 1281---1295.
 
 \end{thebibliography}
 
