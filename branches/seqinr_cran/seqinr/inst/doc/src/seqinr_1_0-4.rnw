@@ -12,6 +12,8 @@
 \newcommand{\seqinr}{\texttt{seqin\bf{R}}}
 \newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
 \fvset{fontsize= \scriptsize}
+
+
 %
 % R output options
 %
@@ -119,7 +121,8 @@ for R. At compilation time of this document, there were
 mirrors available 
 from \Sexpr{ifelse(exists("nmirrors"), nmirrors()$nc, "???")} countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
-listed at \texttt{http://cran.r-project.org/mirrors.html}.
+listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
+selected with the function \texttt{chooseCRANmirror()}.
 
 \subsection{About this document}
 
@@ -417,35 +420,30 @@ produced by common external programs for multiple sequence alignment.
 
 Let's give an example. The gene coding for the mitochondrial cytochrome oxidase I 
 is essential and therefore often used in phylogenetic studies because of its
-ubiquitous nature. Download on your local computer the following two sample tests
+ubiquitous nature. The following two sample tests
 of aligned sequences of this gene (extracted from ParaFit \cite{parafit}), 
-this can be done directly at R prompt in the R console with :
+are distributed along with the \seqinr{} package:
 
-<<downloadlousegopher, eval=F>>=
-download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.fasta", 
-destfile = "louse.fasta")
-download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.fasta", 
-destfile = "gopher.fasta")
+<<readaln,eval=T>>=
+louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
+louse$nam
+gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
+gopher$nam
 @
 
+The aligned sequences are now imported in your R environment.
 The $8$ genes of the first sample are from various species of louse (insects parasitics
 on warm-blooded animals) and the $8$ genes of the second sample are from their corresponding
 gopher hosts (a subset of rodents) :
 
-<<names,eval=F>>=
-l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
+<<names,eval=T>>=
+l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
 l.names
-g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
+g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
 g.names
 @
 
-<<readaln,eval=F>>=
-louse <- read.alignment("louse.fasta",format="fasta")
-gopher <- read.alignment("gopher.fasta",format="fasta")
-@
-
-The aligned sequences are now imported in your R environment. \Seqinr{}
-has very few methods devoted to phylogenetic analyses but many are
+\Seqinr{} has very few methods devoted to phylogenetic analyses but many are
 available in the \texttt{ape} package. This allows for a very fine tuning
 of the graphical outputs of the analyses thanks to the power of the R
 facilities. For instance, a natural question
@@ -461,7 +459,7 @@ from data. Let's try as an \emph{illustration} the famous neighbor-joining tree 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
 
-<<calculnjsurJC,eval=F>>=
+<<calculnjsurJC,eval=T>>=
 library(ape)
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c) , model = "JC69")
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c) , model = "JC69")
@@ -475,7 +473,7 @@ and their hosts. We want to plot the two trees face to face, and for this we mus
 R graphical parameters. The first thing to do is to save the current graphical parameter
 settings so as to be able to restore them later:
 
-<<savegraphicalparameters,eval=F>>=
+<<savegraphicalparameters,eval=T>>=
 op <- par(no.readonly = TRUE)
 @
 
@@ -484,7 +482,7 @@ parameters are not all settable, we just want to save those we can change at wil
 we can play with graphics :
 
 \setkeys{Gin}{width=\textwidth}
-<<face2face, fig=TRUE, width=16, height=8,eval=F>>=
+<<face2face, fig=TRUE, width=16, height=8,eval=T>>=
 g$tip.label <- paste(1:8, g.names)
 l$tip.label <- paste(1:8, l.names)
 
@@ -499,7 +497,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 We now restore the old graphical settings that were previously saved:
 
-<<restoregraphicalparameters,eval=F>>=
+<<restoregraphicalparameters,eval=T>>=
 par(op)
 @
 
@@ -509,12 +507,12 @@ directory given by the \texttt{getwd()} command, create a text file called
 \texttt{essai.r} with your favourite text editor, and copy/paste the previous R
 commands, that is :
 
-\scriptsize
+\tiny
 \begin{verbatim}
+louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
+gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
 l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
 g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
-louse <- read.alignment("louse.fasta",format="fasta")
-gopher <- read.alignment("gopher.fasta",format="fasta")
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c), model = "JC69" )
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c), model = "JC69" )
 l <- nj(louse.JC)
@@ -539,9 +537,7 @@ source("essai.r")
 \end{verbatim}
 \normalsize
 
-This should reproduce the previous face-to-face phylogenetic trees in your R graphical
-device (we have assumed here that the files \texttt{louse.fasta} and \texttt{gopher.fasta}
-are present in your local working directory). 
+This should reproduce the previous face-to-face phylogenetic trees in your R graphical device. 
 Now, your boss is unhappy with working with the Jukes and Cantor's model \cite{JC}
 and wants you to use the Kimura's 2-parameters distance \cite{K80} instead.
 Go back to the text editor to change \texttt{model = "JC69"} by \texttt{model = "K80"},
@@ -549,7 +545,7 @@ save the file, and in the R console \texttt{source("essai.r")} again, you should
 obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
-<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=F>>=
+<<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
 louse.JC <- dist.dna(x =  lapply(louse$seq, s2c))
 gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c))
 l <- nj(louse.JC)
@@ -1498,12 +1494,11 @@ for a nice back to basics). Let's give a simple illustration with three ortholog
 thioredoxin familiy from \textit{Homo sapiens}, \textit{Mus musculus},
 and \textit{Rattus norvegicus} species: 
 
-<<ortho, eval=F>>=
-download.file(url="http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/ortho.fasta", destfile = "ortho.fasta")
-ortho <- read.alignment("ortho.fasta", format="fasta")
+<<ortho, eval=T>>=
+ortho <- read.alignment(system.file("sequences/ortho.fasta", package = "seqinr"), format="fasta")
 kaks.ortho <- kaks(ortho)
 kaks.ortho$ka/kaks.ortho$ks
-@ 
+@
 
 The  $\frac{K_{a}}{K_{s}}$ ratios are less than $1$, suggesting a selective 
 pressure on those proteins during evolution.
@@ -1665,6 +1660,10 @@ GC3m(ecribo, 1:10)
 \subsection{release 1.0-4}
 
 \begin{itemize}
+\item The files \texttt{louse.fasta}, \texttt{louse.names}, \texttt{gopher.fasta}, \texttt{gopher.names}
+and \texttt{ortho.fasta} that were used for examples in the previous version of this document are
+no more downloaded from the internet since they are now distributed in the \texttt{sequences/} folder
+of the package.
 \item An example of synonymous and non synonymous codon usage analysis was added to the
 vignette along with two toy data sets (\texttt{toyaa} and \texttt{toycodon}).
 \item A FAQ section was added to the vignette.

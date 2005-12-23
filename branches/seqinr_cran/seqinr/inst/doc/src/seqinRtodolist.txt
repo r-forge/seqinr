@@ -54,7 +54,6 @@ o Exemples de calculs d'indices d'usage du code dans la vignette du package
 
 o Fichier CITATION a modifier quand ref disponible.
 
-o Mettre les downloads() de la vignette en data() de seqinR.
 
 o Il vaudrait mieux que les exemples de la vignette soient si possible fait
   sur des banques frozen, sauf a montrer l'interest des daily updates.
@@ -85,14 +84,15 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
-o Changer le mainteneur du site web de seqinR et mettre à jour. -- SP dec 2005
+o Mettre les downloads() de la vignette en data() de seqinR. -- Fait JRL pour 1.0-4
 
+o Changer le mainteneur du site web de seqinR et mettre à jour. -- SP dec 2005
 
 o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
   a 0 est resolu.   - SP
  
 o Supprimer ou modifier le script compile qui est  est obsolete   - SP
- 
+
 o Revoir tablecode (Christian Request) e-mail du Tue, 26 Jul 2005 14:08:28 +0200
   tablecode a deux problèmes:
   1) de manière bizarre Ile se positionne mal, pourtant il semble que tu ais 
