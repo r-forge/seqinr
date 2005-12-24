@@ -580,7 +580,14 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 
 Nice congruence, isn't it? Now, something even worst, there was a error in the
 aligned sequence set : the first base in the first sequence in the file
-\texttt{louse.fasta} is not a C but a T. Open the \texttt{louse.fasta}
+\texttt{louse.fasta} is not a C but a T. To locate the file on your system,
+enter the following command:
+
+<<whereislouse,fig=F,eval=F>>=
+system.file("sequences/louse.fasta", package = "seqinr")
+@
+
+Open the \texttt{louse.fasta} file
 in your text editor, fix the error, go back to the R console to
 \texttt{source("essai.r")} again. That's all, your graph is now consistent with
 the updated dataset.
@@ -1636,11 +1643,23 @@ At the synonymous level, coding sequence number 2 is different because it is enr
 as compared to the two others. Note that this is hard to see at the global codon usage level because of the
 strong amino-acid effect.
 
+\begin{figure}[htbp]
+   \begin{center}
+      \includegraphics{figs/lobgau5}
+   \end{center}
+   \caption{Screenshot of figure 5 from \cite{lobrygautier}. Each point represents
+   a protein. This was to show the correlation between the codon adaptation index (CAI Score)
+   with the second factor of correspondence analysis at the amino-acid level (F2 Score). Highly
+   expressed genes have a high CAI value.
+   }
+   \label{lobgau5}
+\end{figure}
+
 
 To illustrate the interest of synonymous codon usage analyses, let's use now a more realistic example.
 In \cite{lobrygautier} there was an assertion stating that selection for
 translation optimisation in \textit{Escherichia coli} was also visible at the amino-acid level.
-The argument was in figure 5 of the paper, that can be reproduced\footnote{
+The argument was in figure 5 of the paper (\textit{cf} fig \ref{lobgau5}), that can be reproduced\footnote{
   the code to reproduce all figures from \cite{lobrygautier} is available at
   \url{http://pbil.univ-lyon1.fr/members/lobry/repro/nar94/}.
 } with the following R code:
@@ -1712,7 +1731,7 @@ This is to put the codon usage into a data.frame. Note that the codons are in ro
 and the coding sequences are in columns. This is more convenient for the following
 because groups for within and between analyses are usually handled by row.
 
-<<vlg4, fig = F, eval=F>>=
+<<vlg4, fig = F, eval=T>>=
 row.names(df) <- names(ec999.uco[[1]]) # add codon names
 df[1:5,1:5]
 @
@@ -1721,44 +1740,64 @@ This is to keep a trace of codon names, just in case we would like to re-order
 the dataframe \texttt{df}. This is important because we can now play with
 the data at will without loosing any critical information. 
 
-<<vlg5, fig = F, eval=F>>=
-ec999.coa <- dudi.coa(df, scann = F, nf = 2) # run global correspondence analysis
+<<vlg5, fig = F, eval=T>>=
+ec999.coa <- dudi.coa(df = df, scannf = FALSE) # run global correspondence analysis
+ec999.coa
 @
 
 This is to run global correspondence analysis of codon usage.
+We have set the \texttt{scannf} parameter to \texttt{FALSE}
+because otherwise the eigenvalue bar plot is displayed for the
+user to select manually the number of axes to be kept.
 
-<<vlg6, fig = F, eval=F>>=
+
+<<vlg6, fig = F, eval=T>>=
 facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df)))))) # define a factor for amino-acids
+facaa
 @
 
-This is to define a factor for amino-acids.
+This is to define a factor for amino-acids. The function \texttt{translate()} use by
+default the standard genetic code and this is OK for \textit{E. coli}.
 
-<<vlg7, fig = F, eval=F>>=
-ec999.syn <- within(ec999.coa, facaa, scann=F, nf=2) # run synonymous codon usage analysis
+<<vlg7, fig = F, eval=T>>=
+ec999.syn <- within(dudi = ec999.coa, fac = facaa, scannf = FALSE) # run synonymous codon usage analysis
+ec999.syn
 @
 
-This is to run synonymous codon usage analysis.
+This is to run the synonymous codon usage analysis. The value of the \texttt{ratio} component of
+the object \texttt{ec999.syn} shows that most of the variability is at the synonymous
+level, a common situation in codon usage studies.
 
-<<vlg8, fig = F, eval=F>>=
-ec999.btw <- between(ec999.coa, facaa, scann=F, nf=2) # run non-sysnonymous codon usage analysis <=> amino-acid usage
+<<vlg8, fig = F, eval=T>>=
+ec999.btw <- between(dudi = ec999.coa, fac  = facaa, scannf = FALSE) # run non-sysnonymous codon usage analysis <=> amino-acid usage
+ec999.btw
 @
 
-This is to run non-sysnonymous codon usage analysis, or amino-acid usage analysis.
+This is to run the non-sysnonymous codon usage analysis, or amino-acid usage analysis.
 
-<< vlg9,fig=T,eval=F>>=
+<< vlg9,fig=T,eval=T>>=
 x <- ec999.syn$co[,1] 
 y <- ec999.btw$co[,2]
 kxy <- kde2d(x,y, n = 100)
-nlev <- 20
-filled.contour(kxy, xlim = c(-0.5, 0.5), ylim = c(-0.3, 0.3),
-nlevels = nlev,
-plot.axis = { contour(kxy, nlevels = nlev, add = TRUE, drawlabels = F); 
-abline(c(0,1))
- })
+nlevels <- 25
+breaks <- seq(from = min(kxy$z), to = max(kxy$z), length = nlevels + 1)
+col <- cm.colors(nlevels)
+image(kxy, breaks = breaks, col = col, xlab = "First synonymous factor",
+ylab = "Second non-synonymous factor", xlim = c(-0.5, 0.5),
+ylim  = c(-0.3, 0.3), las = 1,
+main = "The second factor for amino-acid variability is\ncorrelated with gene expressivity")
+contour(kxy, add = TRUE, nlevels = nlevels, drawlabels = FALSE)
+box()
+abline(c(0,1), lty=2)
+abline(lm(y~x))
+legend("topleft", lty = c(2,1), legend = c("y = x", "y = lm(y~x)"), inset = 0.01, bg = "white")
 @
 
-This is to plot the whole thing.
-
+This is to plot the whole thing. We have extracted the coding sequences coordinates
+on the first synonymous factor and the second non-synonymous factor within
+\texttt{x} and \texttt{y}, respectively. Because we have many points, we
+use the two-dimensional kernel density estimation provided by the function
+\texttt{kde2d()} from package \texttt{MASS}.
 
 \section{FAQ: Frequently Asked Question}
 
