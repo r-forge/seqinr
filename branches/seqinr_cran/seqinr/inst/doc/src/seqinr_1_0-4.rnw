@@ -433,10 +433,25 @@ gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr
 gopher$nam
 @
 
+\begin{figure}[htbp]
+   \begin{center}
+   \begin{tabular}{cc}
+      \includegraphics[width=0.5\textwidth]{figs/louse}&
+      \includegraphics[width=0.5\textwidth]{figs/gopher}\\
+   \end{tabular}
+   \end{center}
+   \caption{Louse (left) and gopher (right). 
+   Images are from the wikipedia (\protect\url{http://www.wikipedia.org/}).
+   The picture of the chewing louse \textit{Damalinia limbata} found on Angora goats
+   was taken by Fiorella Carnevali (ENEA, Italy). The gopher drawing is from
+   Gustav Mützel, Brehms Tierleben, Small Edition 1927.}
+   \label{lousegopher}
+\end{figure}
+
 The aligned sequences are now imported in your R environment.
 The $8$ genes of the first sample are from various species of louse (insects parasitics
 on warm-blooded animals) and the $8$ genes of the second sample are from their corresponding
-gopher hosts (a subset of rodents) :
+gopher hosts (a subset of rodents), see figure \ref{lousegopher} :
 
 <<names,eval=F>>=
 l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
@@ -1239,11 +1254,12 @@ on profiles (\ref{euclprof}) in that each square is weighted by the inverse of
 the frequency corresponding to each term,
 
 \begin{equation}
-d^2(i,i') = \sum_{j=1}^{J}\frac{1}{n_{{\bullet}j}}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bullet}})^2
+d^2(i,i') = n_{\bullet\bullet}\sum_{j=1}^{J}\frac{1}{n_{{\bullet}j}}(\frac{n_{ij}}{n_{i\bullet}} - \frac{n_{i'j}}{n_{i'\bullet}})^2
 \label{chi}
 \end{equation}
 
-where $n_{{\bullet}j}$ is the total number of amino-acid of kind $j$. With this point
+where $n_{{\bullet}j}$ is the total number of amino-acid of kind $j$ and
+$n_{\bullet\bullet}$ the total number of amino-acids. With this point
 of view, the map is now like this:
 
 <<afc, fig = TRUE,eval=F>>=
@@ -1654,7 +1670,7 @@ of the amino-acid composition of the protein. Let's use within amino-acid
 correspondence analysis to remove the amino-acid effect. Here is a commented
 step-by-step analysis:
 
-<<vlg1, fig = F, eval=T>>=
+<<vlg1, fig = F, eval=F>>=
 data(ec999)
 class(ec999)
 names(ec999)[1:10]
@@ -1672,7 +1688,7 @@ Each element of the list is a vector of character, we have listed just above the
 character of the first coding sequence of the list with \texttt{ec999[[1]][1:50]}, we
 can see that there is a start codon (ATG) at the beginning of the first coding sequence.
 
-<<vlg2, fig = F, eval=T>>=
+<<vlg2, fig = F, eval=F>>=
 ec999.uco <- lapply(ec999, uco) # compute codon usage for all CDS
 class(ec999.uco)
 class(ec999.uco[[1]])
@@ -1686,7 +1702,7 @@ elements of the list and we store the result in the object \texttt{ec999.uco}.
 The object \texttt{ec999.uco} is a list too, and all its elements belong to
 the class table.
 
-<<vlg3, fig = F, eval=T>>=
+<<vlg3, fig = F, eval=F>>=
 df <- as.data.frame(lapply(ec999.uco, as.vector)) # put it in a dataframe
 dim(df)
 df[1:5,1:5]
@@ -1696,7 +1712,7 @@ This is to put the codon usage into a data.frame. Note that the codons are in ro
 and the coding sequences are in columns. This is more convenient for the following
 because groups for within and between analyses are usually handled by row.
 
-<<vlg4, fig = F, eval=T>>=
+<<vlg4, fig = F, eval=F>>=
 row.names(df) <- names(ec999.uco[[1]]) # add codon names
 df[1:5,1:5]
 @
@@ -1705,31 +1721,31 @@ This is to keep a trace of codon names, just in case we would like to re-order
 the dataframe \texttt{df}. This is important because we can now play with
 the data at will without loosing any critical information. 
 
-<<vlg5, fig = F, eval=T>>=
+<<vlg5, fig = F, eval=F>>=
 ec999.coa <- dudi.coa(df, scann = F, nf = 2) # run global correspondence analysis
 @
 
 This is to run global correspondence analysis of codon usage.
 
-<<vlg6, fig = F, eval=T>>=
+<<vlg6, fig = F, eval=F>>=
 facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df)))))) # define a factor for amino-acids
 @
 
 This is to define a factor for amino-acids.
 
-<<vlg7, fig = F, eval=T>>=
+<<vlg7, fig = F, eval=F>>=
 ec999.syn <- within(ec999.coa, facaa, scann=F, nf=2) # run synonymous codon usage analysis
 @
 
 This is to run synonymous codon usage analysis.
 
-<<vlg8, fig = F, eval=T>>=
+<<vlg8, fig = F, eval=F>>=
 ec999.btw <- between(ec999.coa, facaa, scann=F, nf=2) # run non-sysnonymous codon usage analysis <=> amino-acid usage
 @
 
 This is to run non-sysnonymous codon usage analysis, or amino-acid usage analysis.
 
-<< vlg8,fig=T,eval=T>>=
+<< vlg9,fig=T,eval=F>>=
 x <- ec999.syn$co[,1] 
 y <- ec999.btw$co[,2]
 kxy <- kde2d(x,y, n = 100)
@@ -1781,6 +1797,7 @@ GC3m(ecribo, 1:10)
 \subsection{release 1.0-4}
 
 \begin{itemize}
+\item The scaling factor $n_{\bullet\bullet}$ was missing in equation \ref{chi}.
 \item The files \texttt{louse.fasta}, \texttt{louse.names}, \texttt{gopher.fasta}, \texttt{gopher.names}
 and \texttt{ortho.fasta} that were used for examples in the previous version of this document are
 no more downloaded from the internet since they are now distributed in the \texttt{sequences/} folder
