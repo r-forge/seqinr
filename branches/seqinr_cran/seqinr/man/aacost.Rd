@@ -36,19 +36,28 @@ monotonously decrease with G+C content. The frequencies of High G+C amino-
 acids monotonously increase with G+C content. The frequencies of Middle G+C
 amino-acids first increase and then decrease with G+C content. These G+C classes 
 are from Lobry (1997).\cr
+\code{example(aacost)} reproduces figure 2 from Lobry (2004).
 }
 \source{
 Akashi, H, Gojobori, T. (2002) Metabolic efficiency and amino acid composition
 in the proteomes of \emph{Escherichia coli} and \emph{Bacillus subtilis}.
 \emph{Proceedings of the National Academy of Sciences of the United States of America}, 
 \bold{99}:3695-3700.\cr
-Lobry, J.R. (1997) nfluence of genomic G+C content on average amino-acid composition 
-of proteins from 59 bacterial species. \emph{Gene}, \bold{205}:309-316.
+Lobry, J.R. (1997) Influence of genomic G+C content on average amino-acid composition 
+of proteins from 59 bacterial species. \emph{Gene}, \bold{205}:309-316.\cr
+Lobry, J.R. (2004) Life history traits and genome structure: aerobiosis and G+C content in bacteria. 
+{Lecture Notes in Computer Sciences}, \bold{3039}:679-686.
 }
 \references{
 \code{citation("seqinr")}.
 }
 \examples{
 data(aacost)
+levels(aacost$gc) <- c("low G+C", "mid G+C", "high G+C")
+stripchart(aacost$tot~aacost$gc, pch = 19, ylim = c(0.5,3.5),
+     xlim = c(0, max(aacost$tot)),
+     xlab = "Metabolic cost (high-energy phosphate bonds equivalent)",
+     main = "Metabolic cost of the 20 amino-acids\nas function of their G+C class" )
+boxplot(aacost$tot~aacost$gc, horizontal = TRUE, add = TRUE)   
 }
 \keyword{datasets}
