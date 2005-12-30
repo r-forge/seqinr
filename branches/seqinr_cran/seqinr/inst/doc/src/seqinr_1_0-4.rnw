@@ -17,7 +17,7 @@
 %
 % R output options
 %
-<<options, echo=FALSE, fig=FALSE, eval=TRUE>>=
+<<options, echo=FALSE, fig=FALSE, results=hide, eval=TRUE>>=
 options(prompt=" ", continue=" ", width = 77)
 CurFileName <- get("file", env = parent.frame(3))
 r <- getOption("repos")
@@ -795,7 +795,7 @@ Hence, there were \Sexpr{ifelse(exists("ccc2004"), length(ccc2004$req), "???")} 
 
 As from release 1.0-3 of the \seqinr{} package, there is new parameter \texttt{virtual}
 which allows to disable the automatic retrieval of information for all list elements. This is interesting for list
-whit many elements, for instance :
+with many elements, for instance :
 
 <<queryvirtual,eval=F>>=
 query("allcds", "t=cds", virtual = TRUE)
@@ -1731,7 +1731,7 @@ This is to put the codon usage into a data.frame. Note that the codons are in ro
 and the coding sequences are in columns. This is more convenient for the following
 because groups for within and between analyses are usually handled by row.
 
-<<vlg4, fig = F, eval=T>>=
+<<vlg4, fig = F, eval=F>>=
 row.names(df) <- names(ec999.uco[[1]]) # add codon names
 df[1:5,1:5]
 @
@@ -1740,7 +1740,7 @@ This is to keep a trace of codon names, just in case we would like to re-order
 the dataframe \texttt{df}. This is important because we can now play with
 the data at will without loosing any critical information. 
 
-<<vlg5, fig = F, eval=T>>=
+<<vlg5, fig = F, eval=F>>=
 ec999.coa <- dudi.coa(df = df, scannf = FALSE) # run global correspondence analysis
 ec999.coa
 @
@@ -1751,7 +1751,7 @@ because otherwise the eigenvalue bar plot is displayed for the
 user to select manually the number of axes to be kept.
 
 
-<<vlg6, fig = F, eval=T>>=
+<<vlg6, fig = F, eval=F>>=
 facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df)))))) # define a factor for amino-acids
 facaa
 @
@@ -1759,7 +1759,7 @@ facaa
 This is to define a factor for amino-acids. The function \texttt{translate()} use by
 default the standard genetic code and this is OK for \textit{E. coli}.
 
-<<vlg7, fig = F, eval=T>>=
+<<vlg7, fig = F, eval=F>>=
 ec999.syn <- within(dudi = ec999.coa, fac = facaa, scannf = FALSE) # run synonymous codon usage analysis
 ec999.syn
 @
@@ -1768,14 +1768,14 @@ This is to run the synonymous codon usage analysis. The value of the \texttt{rat
 the object \texttt{ec999.syn} shows that most of the variability is at the synonymous
 level, a common situation in codon usage studies.
 
-<<vlg8, fig = F, eval=T>>=
+<<vlg8, fig = F, eval=F>>=
 ec999.btw <- between(dudi = ec999.coa, fac  = facaa, scannf = FALSE) # run non-sysnonymous codon usage analysis <=> amino-acid usage
 ec999.btw
 @
 
 This is to run the non-sysnonymous codon usage analysis, or amino-acid usage analysis.
 
-<< vlg9,fig=T,eval=T>>=
+<< vlg9,fig=T,eval=F>>=
 x <- ec999.syn$co[,1] 
 y <- ec999.btw$co[,2]
 kxy <- kde2d(x,y, n = 100)
@@ -1799,6 +1799,21 @@ on the first synonymous factor and the second non-synonymous factor within
 use the two-dimensional kernel density estimation provided by the function
 \texttt{kde2d()} from package \texttt{MASS}.
 
+
+%
+% Akashi Gojobori
+%
+
+<<xaacost, fig = FALSE, echo = FALSE,eval=F>>=
+data(aacost)
+print(xtable(aacost, digits = rep(0,8), caption = "Aerobic cost of amino-acids in \\textit{Escherichia coli} and G+C classes to be loaded with \\texttt{data(aacost).}", 
+label = "aacost"), 
+file = "aacost.tex")
+@
+\input{aacost.tex}
+
+
+\clearpage
 \section{FAQ: Frequently Asked Question}
 
 \subsection{How do I compute a score on my sequences?}
