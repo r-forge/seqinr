@@ -1,14 +1,14 @@
 \name{aacost}
 \alias{aacost}
 \docType{data}
-\title{Aerobic cost of amino-acids in Escherichia coli}
+\title{Aerobic cost of amino-acids in Escherichia coli and G+C classes}
 \description{
 The metabolic cost of amino-acid biosynthesis in \emph{E. coli} under aerobic conditions
-from table 1 in Akashi and Gojobori (2002).
+from table 1 in Akashi and Gojobori (2002). The G+C classes are from Lobry (1997).
 }
 \usage{data(aacost)}
 \format{
-  A data frame with 20 rows for the amino-acids and the following 6 columns:
+  A data frame with 20 rows for the amino-acids and the following 7 columns:
   \describe{
     \item{aaa}{amino-acid (three-letters code).}
     \item{a}{amino-acid (one-letter code).}
@@ -18,29 +18,36 @@ from table 1 in Akashi and Gojobori (2002).
     and FADH2 molcules.}
     \item{tot}{total metabolic cost assuming 2 high-energy phosphate bonds
     per hydrogen atom.}
+    \item{gc}{an ordered factor (l<m<h) for the G+C class of the amino-acid (see details)}
   }
 }
 \details{
 precursor metabolites: penP, ribose 5-phosphate; PRPP,
-    5-phosphoribosyl pyrophosphate; eryP, erythrose 4-phosphate; 3pg,
-    3-phosphoglycerate; pep, phospho\emph{enol}pyruvate; pyr, pyruvate;
-    acCoA, acetyl-CoA; akg, alpha-ketoglutarate; oaa, oxaloacetate. Negative
-    signs on precursor metabolites indicate chemicals \emph{gained} through
-    biosynthetic pathways. Costs of precursors reflect averages for growth on
-    glucose, acetate, and malate (see Table 6 in the supporting information
-    from Akashi and Gojobori 2002).
+5-phosphoribosyl pyrophosphate; eryP, erythrose 4-phosphate; 3pg,
+3-phosphoglycerate; pep, phospho\emph{enol}pyruvate; pyr, pyruvate;
+acCoA, acetyl-CoA; akg, alpha-ketoglutarate; oaa, oxaloacetate. Negative
+signs on precursor metabolites indicate chemicals \emph{gained} through
+biosynthetic pathways. Costs of precursors reflect averages for growth on
+glucose, acetate, and malate (see Table 6 in the supporting information
+from Akashi and Gojobori 2002).\cr
+The levels l<m<h for the \code{gc} ordered factor stand for Low G+C, Middle G+C,
+High G+C amino-acid, respectively. The frequencies of Low G+C amino-acids
+monotonously decrease with G+C content. The frequencies of High G+C amino-
+acids monotonously increase with G+C content. The frequencies of Middle G+C
+amino-acids first increase and then decrease with G+C content. These G+C classes 
+are from Lobry (1997).\cr
 }
 \source{
 Akashi, H, Gojobori, T. (2002) Metabolic efficiency and amino acid composition
 in the proteomes of \emph{Escherichia coli} and \emph{Bacillus subtilis}.
 \emph{Proceedings of the National Academy of Sciences of the United States of America}, 
-\bold{99}:3695-3700.
+\bold{99}:3695-3700.\cr
+Lobry, J.R. (1997) nfluence of genomic G+C content on average amino-acid composition 
+of proteins from 59 bacterial species. \emph{Gene}, \bold{205}:309-316.
 }
-
 \references{
 \code{citation("seqinr")}.
 }
-
 \examples{
 data(aacost)
 }
