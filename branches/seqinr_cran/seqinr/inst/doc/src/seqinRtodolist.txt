@@ -67,6 +67,16 @@ o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
   
 o Recuperer automatiquement les annotations en entier.
 
+o Probleme souleve par Marcus G Daniels 
+
+	Hello,
+
+	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
+	The result of the current behavior (the former) is that some sequence names get truncated.
+
+	Thanks!
+  Le remercier dans la vignette. 
+
 
 ------ PENDING --------
 
