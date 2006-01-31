@@ -19,7 +19,7 @@ tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE, latexfile = 
 \references{ 
 citation("seqinr")
 }
-\author{J.R. Lobry }
+\author{ J.R. Lobry }
 \seealso{ \code{\link{translate}} }
 \examples{
  tablecode()
