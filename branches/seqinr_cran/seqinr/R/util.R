@@ -53,9 +53,7 @@ s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 
 GC = function(seq)
 {
-	c=count(seq,1)
-	cc=(c[2]+c[3])/sum(c)
-	return(as.vector(cc))
+        sum(seq=='c'|seq=='g')/length(seq)
 }
 
 
@@ -135,12 +133,8 @@ comp<-function(seq){
 ######################
 
 GC3 = function(seq){
-	sequence <- splitseq( seq )
-	codons <- words(length = 3, alphabet = s2c("acgt"))	
-	eff=table(factor( sequence , levels=codons))
-	f =round(eff/(floor(length(seq)/3)),4)
-	return(as.vector(f %*% EXP$CG3))
-	}
+        GC(seq[seq(2,length(seq),by=3)])
+}
 
 ######################
 # GC2		     #
@@ -148,9 +142,5 @@ GC3 = function(seq){
 
 
 GC2 = function(seq){
-	sequence <- splitseq( seq )
-	codons <- words(length = 3, alphabet = s2c("acgt"))	
-	eff=table(factor( sequence , levels=codons))
-	f =round(eff/(floor(length(seq)/3)),4)
-	return(as.vector(f %*% EXP$CG2))
-	}
+	GC(seq[seq(3,length(seq),by=3)])
+}
