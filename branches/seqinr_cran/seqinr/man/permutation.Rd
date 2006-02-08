@@ -56,13 +56,13 @@
 
   new=permutation(sequence,modele='position')
   identical(GC(new),GC(sequence))
-  identical(GC2(new),GC2(sequence)
-  identical(GC3(new),GC3(sequence)
+  identical(GC2(new),GC2(sequence))
+  identical(GC3(new),GC3(sequence))
 
   new=permutation(sequence,modele='codon')
   identical(uco(new),uco(sequence))
 
-  new=permutation(sequence,modele='syncodon')
+  new=permutation(sequence,modele='syncodon',numcode=1)
   identical(translate(new),translate(sequence))
 }
 \keyword{ utilities }
