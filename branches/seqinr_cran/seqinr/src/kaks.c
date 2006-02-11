@@ -9,7 +9,12 @@
 #include <Rdefines.h>
 
 #define maxnseqs 100
-  
+/*
+  C'est quoi cette valeur magique qui n'est pas utilisee ???
+  On dirait vu la declaration de ka, ks, vka et vks que c'est le
+  nombre maxi de sequences. Pourquoi ne pas faire une allocation
+  dynamique vu qu'a ce moment on connait nbseq en argument de kaks ?
+*/
 
 /********************************************************************/
 /****************************** LWL93 *******************************/
@@ -21,25 +26,30 @@
 /* un ou deux fichier .num contenant les Ka et/ou Ks avec/sans leurs */
 /* variances. */
 
-int code_mt;
+int code_mt = 0;
 
 int readmaseseqs(char *, char **, char **, char **, int);
+/*
+  A quoi ca sert vu que les sequences sont passees en argument ?
+*/
+
 void reresh(char **, int, int);
-void prefastlwl(float **, float **, float **, float **, float **, float **, float **, float **, float **, float **);
-int fastlwl(char **, int, int, float **, float **, float **, float **, float **, float **, float **, float **, float **, float **, float **, float **, float **);
+void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
+int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
 
 
 
-SEXP kaks(SEXP sequences, SEXP nbseq)
+SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 {
 
   char **seqIn;
   char **seq;
-  float *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
+  double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
-  float *ka[100], *ks[100],  *rl[21], *vka[100], *vks[100];
+  int debugon;
+  double *ka[100], *ks[100],  *rl[21], *vka[100], *vks[100];
   
- float mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
+ double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
 		     { .343, .128, .343, .382, .382, .382, .343, .128, .040, .128, .128, .343, .128, .343, .128, .343, .343, .128, .040 },
 		     { .382, .343, .382, .343, .343, .343, .343, .343, .040, .343, .343, .382, .343, .382, .343, .382, .382, .382, .343 },
@@ -69,7 +79,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
   SEXP res;
   SEXP SEQINIT;
 
+  debugon = INTEGER_VALUE(debugkaks);
    totseqs = INTEGER_VALUE(nbseq);
+   
+   if(debugon) {
+     Rprintf("C> %s", "mode degug is on at C level\n");
+   }
    
    seq = (char **)malloc(totseqs*sizeof(char *));
    seqIn = (char **)malloc(totseqs*sizeof(char *));
@@ -100,38 +115,38 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
    PROTECT(SEQINIT=NEW_CHARACTER(totseqs));
 
 	for (i = 0; i < 64; i++) {
-		if ((tl0[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tl0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((tl1[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tl1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((tl2[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tl2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((tti0[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tti0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((tti1[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tti1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((tti2[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((tti2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((ttv0[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((ttv0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((ttv1[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((ttv1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
-		if ((ttv2[i] = (float *) malloc(64 * sizeof(float))) == NULL) {
+		if ((ttv2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
 			error("Pas assez de memoire\n");
 		}
 	}
 
 
 	for (i = 0; i < 21; i++)
-		rl[i] = (float *) malloc(21 * sizeof(float));
+		rl[i] = (double *) malloc(21 * sizeof(double));
 
 	for (i = 2; i < 21; i++) {
 		for (j = 1; j < i; j++) {
@@ -174,10 +189,10 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	reresh(seq,totseqs,0);
 	
 	for (i = 0; i < totseqs; i++) {
-	  ka[i] = (float *) malloc((totseqs ) * sizeof(float));
-	  vka[i] = (float *) malloc((totseqs ) * sizeof(float));
-	  ks[i] = (float *) malloc((totseqs ) * sizeof(float));
-	  vks[i] = (float *) malloc((totseqs ) * sizeof(float));
+	  ka[i] = (double *) malloc((totseqs ) * sizeof(double));
+	  vka[i] = (double *) malloc((totseqs ) * sizeof(double));
+	  ks[i] = (double *) malloc((totseqs ) * sizeof(double));
+	  vks[i] = (double *) malloc((totseqs ) * sizeof(double));
 	}
 	
 
@@ -187,20 +202,21 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
 	
-	/********************************************************************************/
-	/* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ks       */
-	/********************************************************************************/
+  /********************************************************************************/
+  /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ks         */
+  /********************************************************************************/
+
+  if(debugon) Rprintf("C> %s\n", "Loop on Ks values:");
+  n = 0;
+  for(i = 0 ; i < totseqs - 1 ; i++){
+    for(j = i + 1 ; j < totseqs ; j++){
+      REAL(rks)[n + j - i] = ks[i][j];
+      if(debugon) Rprintf("C> i = %d, j = %d, n = %d, n+j-i = %d, ks[i][j] = %lf\n", i, j, n, n+j-i, ks[i][j]);
+    }
+    n = n + totseqs + 1;
+  }
 	
-	n=0;
-	
-       	for(i=0;i<totseqs-1;i++){
-	  for(j=i+1;j<totseqs;j++){
-	    REAL(rks)[n+j-i]=ks[i][j];
-	  }
-	  n=n+totseqs+1;
-	}
-	
-	
+
   /********************************************************************************/
     /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ka       */
     /********************************************************************************/
@@ -240,7 +256,10 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 		  }
 		  n=n+totseqs+1;
 	}
-	
+
+/*
+  Le code de ces quatre boucles est factorisable
+*/
 
 	for(i=0;i<totseqs;i++){
 		SET_ELEMENT(SEQINIT,i,mkChar(seqIn[i]));
@@ -254,7 +273,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq)
 	 SET_ELEMENT(res,4,SEQINIT);
 
 	UNPROTECT(6);
-	return(res);}
+	
+  if(debugon) {
+     Rprintf("C> %s", "End of C level....................\n");
+  }
+  return(res);
+}
 	
 
 
@@ -291,18 +315,18 @@ int num(char *cod)
 
 
 
-int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tti0, float **tti1, float **tti2, float **ttv0, float **ttv1, float **ttv2, float **tl0, float **tl1, float **tl2, float **vka, float **vks)
+int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks, double **tti0, double **tti1, double **tti2, double **ttv0, double **ttv1, double **ttv2, double **tl0, double **tl1, double **tl2, double **vka, double **vks)
 {
 
-	const float     trois = 3.0;
-	float           l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
+	const double     trois = 3.0;
+	double           l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
 	                aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
 	char            cod1[3], cod2[3];
 	int             i, j, ii, num1, num2,
 	                sat, sat1, sat2;
 
 	sat = sat1 = sat2 = 2;
-	flgseq = (float) lgseq;
+	flgseq = (double) lgseq;
 	if (flgseq / trois != lgseq / 3) {
 		error("Nombre de nt non multiple de trois.\n");
 	}
@@ -343,12 +367,12 @@ int fastlwl(char **seq, int nbseq, int lgseq, float **ka, float **ks, float **tt
 				if (bb[ii] <= 0) {
 					b[ii] = 10;
 				} else
-					b[ii] = 0.5 * (float) log(bb[ii]);
+					b[ii] = 0.5 * (double) log(bb[ii]);
 
 				if ((aaa[ii] <= 0) || (bb[ii] <= 0)) {
 					a[ii] = 10;
 				} else
-					a[ii] = 0.5 * (float) log(aaa[ii]) - 0.25 * log(bb[ii]);
+					a[ii] = 0.5 * (double) log(aaa[ii]) - 0.25 * log(bb[ii]);
 
 
 
@@ -489,7 +513,7 @@ char transf(char nt1, char nt2)
 }
 
 
-void titv1(char *cod1, char *cod2, float poids, float *ti, float *tv, float* l)
+void titv1(char *cod1, char *cod2, double poids, double *ti, double *tv, double* l)
 {
 	int             i;
 	char            a, b, ci1, ci2, ci3, cj1, cj2, cj3;
@@ -630,13 +654,13 @@ code_mt: des TI syno en site 2-fold qui ont ete comptees normalement
 }
 
 
-void titv2(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, float **rl, int* pos)
+void titv2(char *cod1, char *cod2, double *ti, double *tv, double* l, int *aa, double **rl, int* pos)
 {
 
 	char            codint1[3], codint2[3];
 	int             i, j, n = 0;
-	float           l1, l2, p1, p2;
-	void            titv1(char *, char *, float, float *, float *,float*);
+	double           l1, l2, p1, p2;
+	void            titv1(char *, char *, double, double *, double *,double*);
 
 
 	memcpy(codint1, cod1, 3);
@@ -673,13 +697,13 @@ void titv2(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, floa
 
 }
 
-void titv3(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, float **rl)
+void titv3(char *cod1, char *cod2, double *ti, double *tv, double* l, int *aa, double **rl)
 {
 
 	char           *codint1[6], *codint2[6];
 	int             i, j, ii,a,b,c,d,aaa,aab,aac,aad;
-	float           like[6], p[6], somli, rlab, rlbc, rlcd;
-	void            titv1(char *, char *, float, float *, float *, float*);
+	double           like[6], p[6], somli, rlab, rlbc, rlcd;
+	void            titv1(char *, char *, double, double *, double *, double*);
 	int             num(char *);
 
 	for (i = 0; i < 6; i++) {
@@ -734,16 +758,16 @@ void titv3(char *cod1, char *cod2, float *ti, float *tv, float* l, int *aa, floa
 
 
 
-void prefastlwl(float **rl, float **tl0, float **tl1, float **tl2, float **tti0, float **tti1, float **tti2, float **ttv0, float **ttv1, float **ttv2)
+void prefastlwl(double **rl, double **tl0, double **tl1, double **tl2, double **tti0, double **tti1, double **tti2, double **ttv0, double **ttv1, double **ttv2)
 {
 
-	float           l[3],  ti[3], tv[3];
+	double           l[3],  ti[3], tv[3];
 	char             cod1[3], cod2[3];
 	int             i, j, ii, jj, nbdiff, pos[3], aa[64], n1, n2, n3;
-	void            titv2(char *, char *, float *, float *, float *, int *, float **, int *pos);
-	void            titv3(char *, char *, float *, float *, float *, int *, float **);
-	void            titv1(char *, char *, float, float *, float *, float *);
-	float		 minrl;
+	void            titv2(char *, char *, double *, double *, double *, int *, double **, int *pos);
+	void            titv3(char *, char *, double *, double *, double *, int *, double **);
+	void            titv1(char *, char *, double, double *, double *, double *);
+	double		 minrl;
 
 /* code des acides amines:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20    0
