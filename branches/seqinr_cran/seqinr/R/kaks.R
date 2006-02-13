@@ -25,19 +25,19 @@ kaks <- function(x, debug = FALSE){
       cat("<--- Result l storage is --->\n")
     }
     #
+    # If the sequences names are missing, we call them seq1, seq2, and so on:
+    #
+    if( is.null(x$nam) ) x$nam <- paste("seq", 1:x$nb, sep = "")
+    
+    #
     # This is to compute the list of results:
     #
     mkresult <- function(k){
-      if(! is.null(x$nam)){
-        tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(x$nam,x$nam))
-      } else {
-        n <- paste("seq", c(1:x$nb), sep = "")
-        tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(n,n))
-      }
+      tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(x$nam, x$nam))
       as.dist(t(tmp))
     }
-    m <- lapply(l[1:4], mkresult)
-    names(m) <- c("ka", "ks", "vka", "vks")
-    return(m)
+    result <- lapply(l[1:4], mkresult)
+    names(result) <- c("ka", "ks", "vka", "vks")
+    return(result)
 }
 
