@@ -16,6 +16,22 @@ kaks <- function(x, debug = FALSE){
       return(NA)
     }
     #
+    # Check that all sequences are of the same length:
+    #
+    lseqs <- nchar(x$seq)
+    if( !all(lseqs == lseqs[1])) {
+      warning("all sequences should be the same length in an alignment")
+      return(NA)
+    }
+    #
+    # Check that the length of sequences is a mutiple of 3 since we are dealing
+    # with coding sequences here:
+    #
+    if( lseqs[1] %% 3 != 0){
+      warning("sequence lengths are not a multiple of 3")
+      return(NA)
+    }
+    #
     # Call internal C function:
     #
     l <- .Call("kaks", x$seq, x$nb, debug, PACKAGE = "seqinr")
