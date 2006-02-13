@@ -86,20 +86,25 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
      Rprintf("C> %s", "mode degug is on at C level\n");
    }
    
-   seq = (char **)malloc(totseqs*sizeof(char *));
-   seqIn = (char **)malloc(totseqs*sizeof(char *));
+   seq = (char **)malloc(totseqs*sizeof(char *)); /* je crains le pire ici */
+   seqIn = (char **)malloc(totseqs*sizeof(char *)); /* Pourquoi on aurait besoin de deux jeux de sequences ??? */
    
    
    for(i=0;i<totseqs;i++){
       seq[i] = CHAR(STRING_ELT(sequences,i));
+      if(debugon) Rprintf("-->%s<--\n", seq[i]);
    }
    
    lgseq = strlen(seq[0]);
    
-   /* Question Simon : pourquoi on prend cette longeur comme reference? Je suppose que toutes les sequences 
-   doivent avoir ka meme longuer dans l'alignement pour le calcul de lals. Dans ce cas, il faudrait peut etre tester ca? */
+   /* Question de Simon : pourquoi on prend cette longeur comme reference? Je suppose que toutes les sequences 
+   doivent avoir ka meme longuer dans l'alignement pour le calcul de lals. Dans ce cas, il faudrait peut etre tester ca? 
+   Reponse de Jean : oui a priori les sequences font la mesme longueur dans un alignement, mais c'est une bonne
+   idee de tester ca, je le met dans la couche R.
+   
+   */
    for(i=0;i<totseqs;i++){
-     seqIn[i]= (char *)malloc((lgseq)*sizeof(char));
+     seqIn[i]= (char *)malloc((lgseq)*sizeof(char)); /* On compte pas le caractere nul ? */
    }
 
     for(j=0;j<totseqs;j++){
@@ -197,72 +202,31 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	  vks[i] = (double *) malloc((totseqs ) * sizeof(double));
 	}
 	
-
-	lgseq = strlen(seq[0]);
-	/* ceci est redondant ?*/
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
 	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
-	
-  /********************************************************************************/
-  /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ks         */
-  /********************************************************************************/
 
-  if(debugon) Rprintf("C> %s\n", "Loop on Ks values:");
+/******************************************************************************/
+/*                                                                            */
+/* In this section we copy the results from ka, ks, vka and vks into the R    */
+/* objects rka, rks, rvka and rvka, respectively.                             */
+/*                                                                            */
+/******************************************************************************/
+
   n = 0;
-  for(i = 0 ; i < totseqs - 1 ; i++){
-    for(j = i + 1 ; j < totseqs ; j++){
-      REAL(rks)[n + j - i] = ks[i][j];
-      if(debugon) Rprintf("C> i = %d, j = %d, n = %d, n+j-i = %d, ks[i][j] = %lf\n", i, j, n, n+j-i, ks[i][j]);
+  for(i = 0 ; i < totseqs  ; i++){
+    for(j = 0  ; j < totseqs ; j++){
+      REAL(rka)[n] = ka[i][j];
+      REAL(rks)[n] = ks[i][j];
+      REAL(rvka)[n] = vka[i][j];
+      REAL(rvks)[n] = vks[i][j];
+      if(debugon) Rprintf("C> i = %d, j = %d, n = %d, ka = %lf, ks = %lf, vka = %lf, vks = %lf\n", i, j, n, ka[i][j], ks[i][j], vka[i][j], vks[i][j]);
+      n++;
     }
-    n = n + totseqs + 1;
   }
-	
+  
 
-  /********************************************************************************/
-    /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec ka       */
-    /********************************************************************************/
-
-	n=0;
-			
-       	for(i=0;i<totseqs-1;i++){
-	  for(j=i+1;j<totseqs;j++){
-		    REAL(rka)[n+j-i]=ka[i][j];
-		  }
-		  n=n+totseqs+1;
-	}
-	
-  /********************************************************************************/
-    /* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec vks       */
-    /********************************************************************************/
-
-	n=0;
-			
-       	for(i=0;i<totseqs-1;i++){
-	  for(j=i+1;j<totseqs;j++){
-		    REAL(rvks)[n+j-i]=vks[i][j];
-		  }
-		  n=n+totseqs+1;
-	}
-	
-
-      /********************************************************************************/
-	/* Remplissage de l'objet R (matrice de taille nb_seq * nb_seq  avec vka       */
-    /********************************************************************************/
-
-	n=0;
-			
-       	for(i=0;i<totseqs-1;i++){
-	  for(j=i+1;j<totseqs;j++){
-		    REAL(rvka)[n+j-i]=vka[i][j];
-		  }
-		  n=n+totseqs+1;
-	}
-
-/*
-  Le code de ces quatre boucles est factorisable
-*/
 
 	for(i=0;i<totseqs;i++){
 		SET_ELEMENT(SEQINIT,i,mkChar(seqIn[i]));
@@ -333,6 +297,10 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks, double *
 	if (flgseq / trois != lgseq / 3) {
 		error("Nombre de nt non multiple de trois.\n");
 	}
+	/*
+	  Note from Jean Lobry : I have included this test at the R level, but I keep the test active at the C
+	  level just in case...
+	*/
 	for (i = 0; i < nbseq - 1; i++) {
 		for (j = i + 1; j < nbseq; j++) {
 			l[0] = l[1] = l[2] = 0;
