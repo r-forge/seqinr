@@ -96,6 +96,8 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    
    lgseq = strlen(seq[0]);
    
+   /* Question Simon : pourquoi on prend cette longeur comme reference? Je suppose que toutes les sequences 
+   doivent avoir ka meme longuer dans l'alignement pour le calcul de lals. Dans ce cas, il faudrait peut etre tester ca? */
    for(i=0;i<totseqs;i++){
      seqIn[i]= (char *)malloc((lgseq)*sizeof(char));
    }
@@ -197,6 +199,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	
 
 	lgseq = strlen(seq[0]);
+	/* ceci est redondant ?*/
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
 	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
