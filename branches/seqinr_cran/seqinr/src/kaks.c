@@ -80,14 +80,14 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SEXP SEQINIT;
 
   debugon = INTEGER_VALUE(debugkaks);
-   totseqs = INTEGER_VALUE(nbseq);
+  totseqs = INTEGER_VALUE(nbseq);
    
-   if(debugon) {
+  if(debugon) {
      Rprintf("C> %s", "mode degug is on at C level\n");
-   }
+  }
    
-   seq = (char **)malloc(totseqs*sizeof(char *)); /* je crains le pire ici */
-   seqIn = (char **)malloc(totseqs*sizeof(char *)); /* Pourquoi on aurait besoin de deux jeux de sequences ??? */
+  seq = (char **)malloc(totseqs*sizeof(char *)); /* je crains le pire ici */
+  seqIn = (char **)malloc(totseqs*sizeof(char *)); /* Pourquoi on aurait besoin de deux jeux de sequences ??? */
    
    
    for(i=0;i<totseqs;i++){
@@ -193,8 +193,15 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	}
 
 	
-	reresh(seq,totseqs,0);
-	
+	reresh(seq,totseqs,0); /* Pourquoi toujours option avec elemination des gaps ? C'est voulu ? 
+	                          Ne faudrait il pas tester que les gaps vonts toujours par trois pour
+	                          ne pas perdre la phase ? 
+	                        */
+
+   for(i = 0 ; i < totseqs ; i++){
+      if(debugon) Rprintf("reresh-->%s<--\n", seq[i]);
+   }
+
 	for (i = 0; i < totseqs; i++) {
 	  ka[i] = (double *) malloc((totseqs ) * sizeof(double));
 	  vka[i] = (double *) malloc((totseqs ) * sizeof(double));
@@ -206,7 +213,9 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
 	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
-
+   for(i = 0 ; i < totseqs ; i++){
+      if(debugon) Rprintf("fastlwl-->%s<--\n", seq[i]);
+   }
 /******************************************************************************/
 /*                                                                            */
 /* In this section we copy the results from ka, ks, vka and vks into the R    */
