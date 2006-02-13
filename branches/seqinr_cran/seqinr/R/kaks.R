@@ -11,7 +11,10 @@ kaks <- function(x, debug = FALSE){
     #
     # Check that there are at least two sequences in the alignment:
     #
-    if(x$nb <= 1) return(0)
+    if(x$nb < 2){
+      warning("there should be at least two sequences in the alignment")
+      return(NA)
+    }
     #
     # Call internal C function:
     #
