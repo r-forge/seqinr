@@ -170,6 +170,14 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 
 
 	/* A partir d'ici je remplace seq par seqIn  S.P. */
+	
+
+/******************************************************************************/
+/*                                                                            */
+/* Replace codons with ambiguous bases with ---                               */
+/*                                                                            */
+/******************************************************************************/
+
 	for (i=0;i<totseqs;i++){
 		for(j=0;j<lgseq;j++){
 			if ((*(seqIn[i]+j)!='A') && (*(seqIn[i]+j)!='G') && (*(seqIn[i]+j)!='C') && (*(seqIn[i]+j)!='T') && (*(seqIn[i]+j)!='-') ) {
@@ -194,7 +202,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 		}
 	}
 
-	
+/******************************************************************************/
+/*                                                                            */
+/* Remove positions with gaps                                                 */
+/*                                                                            */
+/******************************************************************************/
+
 	reresh(seqIn,totseqs,0); /* Pourquoi toujours option avec elemination des gaps ? C'est voulu ? 
 	                          Ne faudrait il pas tester que les gaps vonts toujours par trois pour
 	                          ne pas perdre la phase ? 
