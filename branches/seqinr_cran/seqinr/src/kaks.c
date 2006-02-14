@@ -28,11 +28,6 @@
 
 int code_mt = 0;
 
-int readmaseseqs(char *, char **, char **, char **, int);
-/*
-  A quoi ca sert vu que les sequences sont passees en argument ?
-*/
-
 void reresh(char **, int, int);
 void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
 int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
@@ -42,8 +37,8 @@ int fastlwl(char **, int, int, double **, double **, double **, double **, doubl
 SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 {
 
-  char **seqIn;
-  char **seq;
+  char **seqIn; // local working copy of sequences
+  char **seq;   // pointer to original sequences from R object
   double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
   int debugon;
@@ -86,8 +81,8 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
      Rprintf("C> %s", "mode degug is on at C level\n");
   }
    
-  seq = (char **)malloc(totseqs*sizeof(char *)); /* je crains le pire ici */
-  seqIn = (char **)malloc(totseqs*sizeof(char *)); /* Pourquoi on aurait besoin de deux jeux de sequences ??? */
+  seq = (char **)malloc(totseqs*sizeof(char *)); 
+  seqIn = (char **)malloc(totseqs*sizeof(char *)); 
    
    
    for(i=0;i<totseqs;i++){
@@ -104,15 +99,22 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    
    */
    for(i=0;i<totseqs;i++){
-     /* seqIn[i]= (char *)malloc((lgseq)*sizeof(char)); /* On compte pas le caractere nul ? */
-     seqIn[i]= (char *)malloc((lgseq+1)*sizeof(char));   /* Voila qui est fait  S.P.*/
+     seqIn[i]= (char *)malloc((lgseq+1)*sizeof(char));
    }
 
-    for(j=0;j<totseqs;j++){
-     for(i=0;i<(lgseq+1);i++){
-       seqIn[j][i]=seq[j][i];	/* On pourrait aussi compter jusqu' a lgseq et ajouter le carcatere nul?. Je trouve ca plus rassurant*/
-     }
-   }
+/******************************************************************************/
+/*                                                                            */
+/* Make a local copy of sequence into char **seqIn because the sequences are  */
+/* modified by the program before computations (gap removal)                  */
+/*                                                                            */
+/******************************************************************************/
+
+  for(i = 0 ; i < totseqs ; i++){
+    for(j = 0 ; j < lgseq ; j++){
+      seqIn[i][j] = seq[i][j];
+    }
+    seqIn[i][lgseq] = '\0';
+  }
    
    
    PROTECT(res=allocVector(VECSXP,5));
@@ -167,9 +169,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 		for (j = i + 1; j <= 20; j++)
 			*(rl[i] + j) = *(rl[j] + i);
 	}
-
-
-	/* A partir d'ici je remplace seq par seqIn  S.P. */
 	
 
 /******************************************************************************/
@@ -208,10 +207,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /*                                                                            */
 /******************************************************************************/
 
-	reresh(seqIn,totseqs,0); /* Pourquoi toujours option avec elemination des gaps ? C'est voulu ? 
-	                          Ne faudrait il pas tester que les gaps vonts toujours par trois pour
-	                          ne pas perdre la phase ? 
-	                        */
+	reresh(seqIn,totseqs,0);
 
    for(i = 0 ; i < totseqs ; i++){
       if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
@@ -226,6 +222,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
+	lgseq = strlen(seqIn[0]);
 	fastlwl(seqIn, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
    for(i = 0 ; i < totseqs ; i++){
