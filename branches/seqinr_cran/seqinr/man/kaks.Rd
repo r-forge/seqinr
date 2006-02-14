@@ -27,7 +27,9 @@ The C programm implementing this method was provided by M. Gouy.\cr
 }
 \note{ 
  When the alignment does not contain enough information (i.e we approach saturation), the Ka and Ks values take the value 10.
- Negative values indicate that Ka and Ks can not be computed.
+ Negative values indicate that Ka and Ks can not be computed.\cr
+ Codons with ambiguous bases are treated as gaps.\cr
+ Codons with gaps are not used for computations.
  }
 \author{ D. Charif, J.R. Lobry }
 \seealso{\code{\link{read.alignment}} }
