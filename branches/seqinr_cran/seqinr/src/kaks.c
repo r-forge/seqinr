@@ -104,12 +104,13 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    
    */
    for(i=0;i<totseqs;i++){
-     seqIn[i]= (char *)malloc((lgseq)*sizeof(char)); /* On compte pas le caractere nul ? */
+     /* seqIn[i]= (char *)malloc((lgseq)*sizeof(char)); /* On compte pas le caractere nul ? */
+     seqIn[i]= (char *)malloc((lgseq+1)*sizeof(char));   /* Voila qui est fait  S.P.*/
    }
 
     for(j=0;j<totseqs;j++){
      for(i=0;i<(lgseq+1);i++){
-       seqIn[j][i]=seq[j][i];
+       seqIn[j][i]=seq[j][i];	/* On pourrait aussi compter jusqu' a lgseq et ajouter le carcatere nul?. Je trouve ca plus rassurant*/
      }
    }
    
@@ -119,7 +120,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    PROTECT(rks=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rvka=NEW_NUMERIC(totseqs*totseqs));
    PROTECT(rvks=NEW_NUMERIC(totseqs*totseqs));
-   PROTECT(SEQINIT=NEW_CHARACTER(totseqs));
+/**   PROTECT(SEQINIT=NEW_CHARACTER(totseqs)); je vire ce truc S.P. **/
 
 	for (i = 0; i < 64; i++) {
 		if ((tl0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
@@ -168,38 +169,39 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	}
 
 
+	/* A partir d'ici je remplace seq par seqIn  S.P. */
 	for (i=0;i<totseqs;i++){
 		for(j=0;j<lgseq;j++){
-			if ((*(seq[i]+j)!='A') && (*(seq[i]+j)!='G') && (*(seq[i]+j)!='C') && (*(seq[i]+j)!='T') && (*(seq[i]+j)!='-') ) {
+			if ((*(seqIn[i]+j)!='A') && (*(seqIn[i]+j)!='G') && (*(seqIn[i]+j)!='C') && (*(seqIn[i]+j)!='T') && (*(seqIn[i]+j)!='-') ) {
 				if (j%3==0) {
-					*(seq[i]+j)='-';
-					*(seq[i]+j+1)='-';
-					*(seq[i]+j+2)='-';
+					*(seqIn[i]+j)='-';
+					*(seqIn[i]+j+1)='-';
+					*(seqIn[i]+j+2)='-';
 				}
 
 				if (j%3==1) {
-					*(seq[i]+j)='-';
-					*(seq[i]+j+1)='-';
-					*(seq[i]+j-1)='-';
+					*(seqIn[i]+j)='-';
+					*(seqIn[i]+j+1)='-';
+					*(seqIn[i]+j-1)='-';
 				}
 
 				if (j%3==2) {
-					*(seq[i]+j)='-';
-					*(seq[i]+j-1)='-';
-					*(seq[i]+j-2)='-';
+					*(seqIn[i]+j)='-';
+					*(seqIn[i]+j-1)='-';
+					*(seqIn[i]+j-2)='-';
 				}
 			}
 		}
 	}
 
 	
-	reresh(seq,totseqs,0); /* Pourquoi toujours option avec elemination des gaps ? C'est voulu ? 
+	reresh(seqIn,totseqs,0); /* Pourquoi toujours option avec elemination des gaps ? C'est voulu ? 
 	                          Ne faudrait il pas tester que les gaps vonts toujours par trois pour
 	                          ne pas perdre la phase ? 
 	                        */
 
    for(i = 0 ; i < totseqs ; i++){
-      if(debugon) Rprintf("reresh-->%s<--\n", seq[i]);
+      if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
    }
 
 	for (i = 0; i < totseqs; i++) {
@@ -211,10 +213,10 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 	
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
-	fastlwl(seq, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
+	fastlwl(seqIn, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
    for(i = 0 ; i < totseqs ; i++){
-      if(debugon) Rprintf("fastlwl-->%s<--\n", seq[i]);
+      if(debugon) Rprintf("fastlwl-->%s<--\n", seqIn[i]);
    }
 /******************************************************************************/
 /*                                                                            */
@@ -236,19 +238,20 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   }
   
 
-
+/**On vire ce truc S.P.
 	for(i=0;i<totseqs;i++){
 		SET_ELEMENT(SEQINIT,i,mkChar(seqIn[i]));
 	}	
-
+**/
 
 	 SET_ELEMENT(res,0,rka);
 	 SET_ELEMENT(res,1,rks);
 	 SET_ELEMENT(res,2,rvka);
 	 SET_ELEMENT(res,3,rvks);
-	 SET_ELEMENT(res,4,SEQINIT);
+/**	 SET_ELEMENT(res,4,SEQINIT);  et ca uassi**/
 
-	UNPROTECT(6);
+	/**UNPROTECT(6); et je rempalce par **/
+	 UNPROTECT(5);
 	
   if(debugon) {
      Rprintf("C> %s", "End of C level....................\n");
