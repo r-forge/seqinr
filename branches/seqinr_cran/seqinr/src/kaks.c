@@ -7,13 +7,6 @@
 #include <R.h>
 #include <Rdefines.h>
 
-#define maxnseqs 100
-/*
-  C'est quoi cette valeur magique qui n'est pas utilisee ???
-  On dirait vu la declaration de ka, ks, vka et vks que c'est le
-  nombre maxi de sequences. Pourquoi ne pas faire une allocation
-  dynamique vu qu'a ce moment on connait nbseq en argument de kaks ?
-*/
 
 /********************************************************************/
 /****************************** LWL93 *******************************/
@@ -41,7 +34,8 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
   int debugon;
-  double *ka[100], *ks[100],  *rl[21], *vka[100], *vks[100];
+  double *rl[21];
+  double **ka, **ks, **vka, **vks;
   
   double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
@@ -119,7 +113,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 
   for (i = 0; i < 21 ; i++)
     rl[i] = (double *) R_alloc(21, sizeof(double));
-      
+
+  ka = (double **) R_alloc(totseqs, sizeof(double *));
+  ks = (double **) R_alloc(totseqs, sizeof(double *));
+  vka = (double **) R_alloc(totseqs, sizeof(double *));
+  vks = (double **) R_alloc(totseqs, sizeof(double *));
+  
   for (i = 0; i < totseqs; i++) {
     ka[i] = (double *) R_alloc(totseqs, sizeof(double));
     vka[i] = (double *) R_alloc(totseqs, sizeof(double));
