@@ -22,7 +22,8 @@ Li WH. (1993) Unbiased estimation of the rates of synonymous and nonsynonymous s
 \emph{J Mol Evol.}, \bold{Jan};36(1):96-9.\cr 
 Hurst LD. (2002) The Ka/Ks ratio: diagnosing the form of sequence evolution.
 \emph{Trends Genet.}, \bold{Sept};18(9):486.\cr  
-The C programm implementing this method was provided by M. Gouy.\cr
+The C programm implementing this method was provided by Manolo Gouy. More info is
+needed here to trace back the original C source so as to credit correct source.\cr
 \code{citation("seqinr")}
 }
 \note{ 
@@ -40,10 +41,14 @@ The C programm implementing this method was provided by M. Gouy.\cr
  s <- read.alignment(File = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
  kaks(s)
  #
- # Check numeric results on an test example:
+ # Check numeric results on an simple test example:
  #
  data(AnoukResult)
  Anouk <- read.alignment(File = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")	
- all.equal(kaks(Anouk), AnoukResult)
+ if( ! all.equal(kaks(Anouk), AnoukResult) ) {
+   warning("Poor numeric results with Anouk test file")
+ } else {
+   print("Results are OK with Anouk test file")
+ }
 }
 \keyword{ manip }
