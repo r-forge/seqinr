@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <math.h>
 #include <Rinternals.h>
 #include <R.h>
 #include <Rdefines.h>
@@ -26,7 +25,7 @@
 /* un ou deux fichier .num contenant les Ka et/ou Ks avec/sans leurs */
 /* variances. */
 
-int code_mt = 0;
+int code_mt = 0; // Not used yet
 
 void reresh(char **, int, int);
 void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
@@ -44,7 +43,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   int debugon;
   double *ka[100], *ks[100],  *rl[21], *vka[100], *vks[100];
   
- double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
+  double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
 		     { .343, .128, .343, .382, .382, .382, .343, .128, .040, .128, .128, .343, .128, .343, .128, .343, .343, .128, .040 },
 		     { .382, .343, .382, .343, .343, .343, .343, .343, .040, .343, .343, .382, .343, .382, .343, .382, .382, .382, .343 },
@@ -65,42 +64,68 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 		     {.040, .040, .040, .343, .040, .040, .040, .040, .128, .040, .128, .343, .343, .343, .343, .382, .128, .343, .382 }};
 
 
-
-
   SEXP rka;
   SEXP rks;
   SEXP rvka;
   SEXP rvks;
   SEXP res;
-  SEXP SEQINIT;
+  SEXP lsequtil; // The effective number of sites used, to be implemented
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
    
-  if(debugon) {
-     Rprintf("C> %s", "mode degug is on at C level\n");
+  if(debugon) Rprintf("C> mode degug is on at C level with %d sequences\n", totseqs);
+
+/******************************************************************************/
+/*                                                                            */
+/* Transient storage allocation with R_alloc: R will reclaim the memory at    */
+/* the end of the call to kaks. R_alloc do its own error checking and will    */
+/* raise an error if the memory cannot be allocated.                          */
+/*                                                                            */
+/******************************************************************************/
+
+  seq = (char **) R_alloc(totseqs, sizeof(char *));
+  //
+  // Initialisation of seq so that seq[i] points to sequence number i:
+  //
+  for(i = 0 ; i < totseqs ; i++){
+    seq[i] = CHAR(STRING_ELT(sequences, i));
+    if(debugon) Rprintf("-->%s<--\n", seq[i]);
   }
-   
-  seq = (char **)malloc(totseqs*sizeof(char *)); 
-  seqIn = (char **)malloc(totseqs*sizeof(char *)); 
-   
-   
-   for(i=0;i<totseqs;i++){
-      seq[i] = CHAR(STRING_ELT(sequences,i));
-      if(debugon) Rprintf("-->%s<--\n", seq[i]);
-   }
-   
-   lgseq = strlen(seq[0]);
-   
-   /* Question de Simon : pourquoi on prend cette longeur comme reference? Je suppose que toutes les sequences 
-   doivent avoir ka meme longuer dans l'alignement pour le calcul de lals. Dans ce cas, il faudrait peut etre tester ca? 
-   Reponse de Jean : oui a priori les sequences font la mesme longueur dans un alignement, mais c'est une bonne
-   idee de tester ca, je le met dans la couche R.
-   
-   */
-   for(i=0;i<totseqs;i++){
-     seqIn[i]= (char *)malloc((lgseq+1)*sizeof(char));
-   }
+  // The length of the first sequence is used as a reference since in an
+  // alignment all sequences are supposed to be of the same length, this point
+  // is controlled before call to kaks at the R level.
+  lgseq = strlen(seq[0]);
+  if(debugon) Rprintf("C> lgseq = %d\n", lgseq);
+ 
+ 
+  seqIn = (char **) R_alloc(totseqs, sizeof(char *)); 
+  
+  for(i = 0 ; i < totseqs ; i++){
+    seqIn[i]= (char *) R_alloc(lgseq + 1, sizeof(char));
+  }
+  
+  for (i = 0 ; i < 64 ; i++) {
+    tl0[i] = (double *) R_alloc(64, sizeof(double));
+    tl1[i] = (double *) R_alloc(64, sizeof(double));
+    tl2[i] = (double *) R_alloc(64, sizeof(double));
+    tti0[i] = (double *) R_alloc(64, sizeof(double));
+    tti1[i] = (double *) R_alloc(64, sizeof(double));
+    tti2[i] = (double *) R_alloc(64, sizeof(double));
+    ttv0[i] = (double *) R_alloc(64, sizeof(double));
+    ttv1[i] = (double *) R_alloc(64, sizeof(double));
+    ttv2[i] = (double *) R_alloc(64, sizeof(double));
+  }
+
+  for (i = 0; i < 21 ; i++)
+    rl[i] = (double *) R_alloc(21, sizeof(double));
+      
+  for (i = 0; i < totseqs; i++) {
+    ka[i] = (double *) R_alloc(totseqs, sizeof(double));
+    vka[i] = (double *) R_alloc(totseqs, sizeof(double));
+    ks[i] = (double *) R_alloc(totseqs, sizeof(double));
+    vks[i] = (double *) R_alloc(totseqs, sizeof(double));
+  }
 
 /******************************************************************************/
 /*                                                                            */
@@ -115,48 +140,23 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
     }
     seqIn[i][lgseq] = '\0';
   }
-   
-   
-   PROTECT(res=allocVector(VECSXP,5));
-   PROTECT(rka=NEW_NUMERIC(totseqs*totseqs));
-   PROTECT(rks=NEW_NUMERIC(totseqs*totseqs));
-   PROTECT(rvka=NEW_NUMERIC(totseqs*totseqs));
-   PROTECT(rvks=NEW_NUMERIC(totseqs*totseqs));
-/**   PROTECT(SEQINIT=NEW_CHARACTER(totseqs)); je vire ce truc S.P. **/
 
-	for (i = 0; i < 64; i++) {
-		if ((tl0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((tl1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((tl2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((tti0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((tti1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((tti2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((ttv0[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((ttv1[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-		if ((ttv2[i] = (double *) malloc(64 * sizeof(double))) == NULL) {
-			error("Pas assez de memoire\n");
-		}
-	}
+/******************************************************************************/
+/*                                                                            */
+/* Creation of R objects in the C code                                        */
+/*                                                                            */
+/******************************************************************************/
 
 
-	for (i = 0; i < 21; i++)
-		rl[i] = (double *) malloc(21 * sizeof(double));
+  PROTECT(res = allocVector(VECSXP, 5));
+  PROTECT(rka = allocVector(REALSXP, totseqs*totseqs));
+  PROTECT(rks = allocVector(REALSXP, totseqs*totseqs));
+  PROTECT(rvka = allocVector(REALSXP, totseqs*totseqs));
+  PROTECT(rvks = allocVector(REALSXP, totseqs*totseqs));
+  
+  
+
+
 
 	for (i = 2; i < 21; i++) {
 		for (j = 1; j < i; j++) {
@@ -207,18 +207,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /*                                                                            */
 /******************************************************************************/
 
-	reresh(seqIn,totseqs,0);
+  reresh(seqIn,totseqs,0);
 
-   for(i = 0 ; i < totseqs ; i++){
-      if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
-   }
+  for(i = 0 ; i < totseqs ; i++){
+    if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
+  }
 
-	for (i = 0; i < totseqs; i++) {
-	  ka[i] = (double *) malloc((totseqs ) * sizeof(double));
-	  vka[i] = (double *) malloc((totseqs ) * sizeof(double));
-	  ks[i] = (double *) malloc((totseqs ) * sizeof(double));
-	  vks[i] = (double *) malloc((totseqs ) * sizeof(double));
-	}
 	
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
@@ -228,6 +222,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    for(i = 0 ; i < totseqs ; i++){
       if(debugon) Rprintf("fastlwl-->%s<--\n", seqIn[i]);
    }
+
 /******************************************************************************/
 /*                                                                            */
 /* In this section we copy the results from ka, ks, vka and vks into the R    */
@@ -246,31 +241,17 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
       n++;
     }
   }
-  
 
-/**On vire ce truc S.P.
-	for(i=0;i<totseqs;i++){
-		SET_ELEMENT(SEQINIT,i,mkChar(seqIn[i]));
-	}	
-**/
+  SET_ELEMENT(res, 0, rka);
+  SET_ELEMENT(res, 1, rks);
+  SET_ELEMENT(res, 2, rvka);
+  SET_ELEMENT(res, 3, rvks);
 
-	 SET_ELEMENT(res,0,rka);
-	 SET_ELEMENT(res,1,rks);
-	 SET_ELEMENT(res,2,rvka);
-	 SET_ELEMENT(res,3,rvks);
-/**	 SET_ELEMENT(res,4,SEQINIT);  et ca uassi**/
+  UNPROTECT(5);
 
-	/**UNPROTECT(6); et je rempalce par **/
-	 UNPROTECT(5);
-	
-  if(debugon) {
-     Rprintf("C> %s", "End of C level....................\n");
-  }
+  if(debugon) Rprintf("C> %s", "End of C level....................\n");
   return(res);
 }
-	
-
-
 
 
 int num(char *cod)
