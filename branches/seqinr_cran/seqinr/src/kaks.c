@@ -681,14 +681,8 @@ void titv3(char *cod1, char *cod2, double *ti, double *tv, double* l, int *aa, d
 	int             num(char *);
 
 	for (i = 0; i < 6; i++) {
-		if ((codint1[i] = (char *) malloc(3 * sizeof(char))) == NULL) {
-			printf("Erreur d'allocation\n");
-			exit(1);
-		}
-		if ((codint2[i] = (char *) malloc(3 * sizeof(char))) == NULL) {
-			printf("Erreur d'allocation\n");
-			exit(1);
-		}
+		codint1[i] = (char *) R_alloc(3, sizeof(char));
+		codint2[i] = (char *) R_alloc(3, sizeof(char));
 	}
 	for (i = 0; i < 3; i++) {
 		for (j = 0; j < 3 ; j++)
@@ -951,16 +945,14 @@ void reresh(char** seq, int nbseq, int option){
   int lgseq, l, drapeau, i, j, k;
   char **seqref; 
 
-   seqref=(char **)malloc(nbseq*sizeof(char *));
+   seqref = (char **) R_alloc(nbseq, sizeof(char *));
   
-   lgseq=strlen(seq[1]);
+   lgseq = strlen(seq[1]);
 
-   for(i=0;i<nbseq;i++)
-	   /* Modif S.P. ici*/
-     /*if ((seqref[i]=(char*)malloc(lgseq*sizeof(char)))==NULL){*/
-	   if ((seqref[i]=(char*)malloc((lgseq+1)*sizeof(char)))==NULL){
-       error("Erreur d'allocation");
-     }
+   for(i = 0 ; i < nbseq ; i++){
+     seqref[i] = (char*) R_alloc(lgseq + 1, sizeof(char));
+   }
+
 
 	l=-1;
 	if (option==0){
