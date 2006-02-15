@@ -29,6 +29,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   int debugon;
   double *rl[21];
   double **ka, **ks, **vka, **vks;
+  double *xka, *xks, *xvka, *xvks;
   
   double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
@@ -140,11 +141,11 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /******************************************************************************/
 
 
-  PROTECT(res = allocVector(VECSXP, 5));
-  PROTECT(rka = allocVector(REALSXP, totseqs*totseqs));
-  PROTECT(rks = allocVector(REALSXP, totseqs*totseqs));
-  PROTECT(rvka = allocVector(REALSXP, totseqs*totseqs));
-  PROTECT(rvks = allocVector(REALSXP, totseqs*totseqs));
+  PROTECT(res = NEW_LIST(5));
+  PROTECT(rka = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rks = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rvka = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rvks = NEW_NUMERIC(totseqs*totseqs));
   
   
 
@@ -204,10 +205,45 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   for(i = 0 ; i < totseqs ; i++){
     if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
   }
-
+  for(i = 0 ; i < totseqs  ; i++){
+    for(j = 0  ; j < totseqs ; j++){
+      ka[i][j] = -1;
+      ks[i][j] = -1;
+      vka[i][j] = -1;
+      vks[i][j] = -1;
+    } 
+  }
 	
 	
 	prefastlwl(rl, tl0, tl1, tl2, tti0, tti1, tti2, ttv0, ttv1, ttv2);
+
+/*
+  Dump memoire commenterise
+  if(debugon){
+    FILE *out;
+    out = fopen("dumpkaks", "w");
+    for(i = 0 ; i < 21 ; i++){
+      for(j = 0 ; j < 21 ; j++){
+        fprintf(out, "%lf\n", rl[i][j]);
+      }
+    }
+    for(i = 0 ; i < 64 ; i++){
+      for(j = 0 ; j < 64 ; j++){
+        fprintf(out, "%lf\n", tl0[i][j]);
+        fprintf(out, "%lf\n", tl1[i][j]);
+        fprintf(out, "%lf\n", tl2[i][j]);
+        fprintf(out, "%lf\n", tti0[i][j]);
+        fprintf(out, "%lf\n", tti1[i][j]);
+        fprintf(out, "%lf\n", tti2[i][j]);
+        fprintf(out, "%lf\n", ttv0[i][j]);
+        fprintf(out, "%lf\n", ttv1[i][j]);
+        fprintf(out, "%lf\n", ttv2[i][j]);
+      }
+    }
+    fclose(out);
+  }
+*/
+
 	lgseq = strlen(seqIn[0]);
 	fastlwl(seqIn, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
 	
@@ -223,12 +259,17 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /******************************************************************************/
 
   n = 0;
+  xka = NUMERIC_POINTER(rka);
+  xks = NUMERIC_POINTER(rks);
+  xvka = NUMERIC_POINTER(rvka);
+  xvks = NUMERIC_POINTER(rvks);
+
   for(i = 0 ; i < totseqs  ; i++){
     for(j = 0  ; j < totseqs ; j++){
-      REAL(rka)[n] = ka[i][j];
-      REAL(rks)[n] = ks[i][j];
-      REAL(rvka)[n] = vka[i][j];
-      REAL(rvks)[n] = vks[i][j];
+      xka[n] = ka[i][j];
+      xks[n] = ks[i][j];
+      xvka[n] = vka[i][j];
+      xvks[n] = vks[i][j];
       if(debugon) Rprintf("C> i = %d, j = %d, n = %d, ka = %lf, ks = %lf, vka = %lf, vks = %lf\n", i, j, n, ka[i][j], ks[i][j], vka[i][j], vks[i][j]);
       n++;
     }
@@ -821,11 +862,10 @@ for(i=1; i<=20; i++)
 	for(i= 0; i<=20; i++) rl[0][i] = rl[i][0] = minrl;
 
 
-	for (i = 0; i < 63; i++) {
-
+/****** for (i = 0; i < 63; i++) { je l'ai passe a 64  JRL ********/
+	
+	for(i = 0; i < 64; i++) {
 		for (j = i; j < 64; j++) {
-	
-	
 			for(ii=0;ii<3;ii++){
 				l[ii]=ti[ii]=tv[ii]=0;
 			}
