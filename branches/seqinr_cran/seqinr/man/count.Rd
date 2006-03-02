@@ -11,7 +11,7 @@ count(seq,word,frame=0)
 \arguments{
   \item{seq}{ a vector of chars }
   \item{word}{ an integer giving the size of word (n-mer) to count }
-  \item{frame}{	an integer (0,1,2) giving the frame (starting position) }
+  \item{frame}{	an integer (0,1,2,...) giving the frame (starting position) }
 }
 \details{
  \code{count} counts the occurence of all words by moving a window of
