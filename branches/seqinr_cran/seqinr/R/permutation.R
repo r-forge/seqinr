@@ -1,6 +1,6 @@
 "permutation" <-
 function (sequence, modele = "base", frame = 0, replace = FALSE, 
-    prot = FALSE, numcode = "auto", ucoweight = NULL) 
+    prot = FALSE, numcode = 1, ucoweight = NULL) 
 {
     if (modele == "base") { #modele 1 : permute toutes les bases entre elles
         new <- sample(sequence, replace = replace)
@@ -36,14 +36,6 @@ function (sequence, modele = "base", frame = 0, replace = FALSE,
     }
     else if (modele == "syncodon") { #modele 4 : permute/remplace les codons synonymes
         CDSseq <- sequence[(frame + 1):length(sequence)]
-        if (numcode == "auto") {
-            if (is.SeqAcnucWeb(sequence) != TRUE) {
-                stop("no genetic code specified")
-            }
-            else {
-                numcode <- as.numeric(attr(sequence, "ncbigc"))
-            }
-        }
         newCDSseq <- synsequence(CDSseq, numcode = numcode, ucoweight = ucoweight)
         new <- c(sequence[0:frame], newCDSseq, tail(sequence, 
             (length(sequence) - frame)%%3))
