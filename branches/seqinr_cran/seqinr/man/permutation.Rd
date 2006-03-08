@@ -23,7 +23,7 @@
     codon usage of the given sequence is used. }
 }
 \value{
-  a sequence generated from the first one by a given model
+  a sequence generated from the original one by a given model
 }
 \details{
   The \code{base} model allows for random sequence generation by
