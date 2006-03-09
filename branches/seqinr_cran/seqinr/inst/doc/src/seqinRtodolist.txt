@@ -1,3 +1,8 @@
+o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
+  de caracteres automatiquement pour les requestes Web. Une fois implemente dans
+  la version du CRAN de seqinr, modifier le script de 
+  http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
+
 o Etudier la faisabilite de recuperer les sequences en mode compresse.
   (idee de Christian depuis de Bresil)
   Implementer la possibilite de rapatrier directement les sequences au format
