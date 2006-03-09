@@ -49,7 +49,7 @@ Lobry, J.R. (2004) Life history traits and genome structure: aerobiosis and G+C 
 {Lecture Notes in Computer Sciences}, \bold{3039}:679-686.
 }
 \references{
-\code{citation("seqinr")}.
+\code{citation("seqinr")}
 }
 \examples{
 data(aacost)

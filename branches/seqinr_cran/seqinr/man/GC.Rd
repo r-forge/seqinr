@@ -30,9 +30,7 @@ GC3(seq)
   \code{GC3} returns the fraction of G+C at third codon position  as a numeric vector.
 }
 \references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+  \code{citation("seqinr")}
 }
 \author{D. Charif and L. Palmeira}
 \examples{

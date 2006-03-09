@@ -17,7 +17,7 @@
   one (cf. \code{translate}), but containing synonymous codons  
 }
 \references{
-  citation("seqinr")
+  \code{citation("seqinr")}
 }
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{ucoweight}} }

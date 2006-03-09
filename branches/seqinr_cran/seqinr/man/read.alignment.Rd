@@ -32,7 +32,7 @@ read.alignment(File, format)
   \item{com}{ a vector of chars containing the commentaries for each sequence or \code{NA} if there is no comments }
 }
 \references{ 
-Use \code{citation("seqinr")} to get the reference for the seqinr package.
+\code{citation("seqinr")}
 }
 \author{ D. Charif }
 \examples{

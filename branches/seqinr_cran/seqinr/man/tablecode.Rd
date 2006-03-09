@@ -17,7 +17,7 @@ tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE, latexfile = 
   \item{latexfile}{ The name of a LaTex file if you want to redirect the output}
 }
 \references{ 
-citation("seqinr")
+  \code{citation("seqinr")}
 }
 \author{ J.R. Lobry }
 \seealso{ \code{\link{translate}} }

@@ -20,7 +20,7 @@ Analyses statistiques et évolution des séquences d'acides nucléiques.
 PhD thesis (1987), Université Claude Bernard - Lyon I.
 }
 \references{
-\code{citation("seqinr")}
+  \code{citation("seqinr")}
 }
 \examples{
 data(toyaa)

@@ -12,7 +12,7 @@ This is a toy data set to illustrate synonymous and non-synonymous codon usage a
 Created for release 1.0-4 of seqinr's vignette.
 }
 \references{
-\code{citation("seqinr")}
+  \code{citation("seqinr")}
 }
 \examples{
 data(toycodon)

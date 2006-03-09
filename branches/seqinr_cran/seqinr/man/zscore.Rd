@@ -45,7 +45,7 @@ zscore(sequence, simulations = NULL, modele, ... )
   a table containing the computed statistic for each dinucleotide
 }
 \references{
-  citation("seqinr")
+  \code{citation("seqinr")}
   
   Karlin S. and Cardon LR. (1994) Computational DNA sequence analysis.
   \emph{Annu Rev Microbiol}, \bold{48}, 619--54.

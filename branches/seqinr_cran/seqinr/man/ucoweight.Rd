@@ -17,7 +17,7 @@
   original one).
 }
 \references{
-  citation("seqinr")
+  \code{citation("seqinr")}
 }
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{synsequence}} }
