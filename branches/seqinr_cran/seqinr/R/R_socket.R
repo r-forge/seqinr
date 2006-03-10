@@ -349,7 +349,7 @@ parser.socket <- function(p)
 #                                                                                                 #
 ###################################################################################################
 
-getSequenceSocket <- function( socket, name, start, length){
+getSequenceSocket <- function( socket, name, start, length, as.string = FALSE){
   request <- paste("gfrag&name=", name, "&start=", start, "&length=", formatC(length, format = "d"), sep = "")
   writeLines(request, socket, sep="\n")
   s <- readLines(socket, n = 1)
@@ -358,11 +358,12 @@ getSequenceSocket <- function( socket, name, start, length){
     warning(paste("invalid sequence name:", name))
     return(NA)
   } else {   
-    s <- s2c(s)
-    sequence <- s[(grep("&", s) + 1):length(s)]
-    # Ne devrait-on pas recuperer ici la longueur effectivement lue de la sequence sur
-    # le serveur et verifier que tout va bien ?
-    return(sequence)
+    sequence <- unlist(strsplit(s, split = "&"))[2]
+    if( as.string ){
+      return(sequence)
+    } else {
+      return(s2c(sequence))
+    }
   }
 }
   

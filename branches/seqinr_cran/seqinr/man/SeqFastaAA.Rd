@@ -26,15 +26,15 @@ summary.SeqFastaAA(object,...)
 	\item{composition}{ the AA counting of the sequence} 
 	\item{AA.Property}{ the percentage of each group of amino acid in the sequence. By example, the groups are small, tiny, aliphatic, aromatic ... }
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ D. Charif }
 \examples{
-  s = read.fasta(File=system.file("sequences/seqAA.fasta",package="seqinr"),seqtype="AA")
+  s <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
   is.SeqFastaAA(s[[1]])
   summary(s[[1]])
-  myseq = s2c("MSPTAYRRGSPAFLV*")
+  myseq <- s2c("MSPTAYRRGSPAFLV*")
   as.SeqFastaAA(myseq, name = "myseq", Annot = "blablabla")
   myseq
 }
