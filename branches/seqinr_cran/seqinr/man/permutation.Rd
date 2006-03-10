@@ -50,17 +50,17 @@
   sequence=ec999[1][[1]]
 
   new=permutation(sequence,modele='base')
-  identical(count(new,1),count(sequence,1))
+  identical((all.equal(count(new,1),count(sequence,1)),TRUE)
 
   new=permutation(sequence,modele='position')
-  identical(GC(new),GC(sequence))
-  identical(GC2(new),GC2(sequence))
-  identical(GC3(new),GC3(sequence))
+  identical(all.equal(GC(new),GC(sequence)),TRUE)
+  identical(all.equal(GC2(new),GC2(sequence)),TRUE)
+  identical(all.equal(GC3(new),GC3(sequence)),TRUE)
 
   new=permutation(sequence,modele='codon')
-  identical(uco(new),uco(sequence))
+  identical(all.equal(uco(new),uco(sequence)),TRUE)
 
   new=permutation(sequence,modele='syncodon',numcode=1)
-  identical(translate(new),translate(sequence))
+  identical(all.equal(translate(new),translate(sequence)),TRUE)
 }
 \keyword{ utilities }
