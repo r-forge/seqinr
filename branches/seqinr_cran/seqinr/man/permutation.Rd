@@ -50,7 +50,7 @@
   sequence=ec999[1][[1]]
 
   new=permutation(sequence,modele='base')
-  identical((all.equal(count(new,1),count(sequence,1)),TRUE)
+  identical(all.equal(count(new,1),count(sequence,1)),TRUE)
 
   new=permutation(sequence,modele='position')
   identical(all.equal(GC(new),GC(sequence)),TRUE)
