@@ -40,6 +40,23 @@ zscore(sequence, simulations = NULL, modele, ... )
   of each of the models). We provide analytical calculus for two of
   them: the \code{base} permutations model and the  \code{codon}
   permutations model.
+  
+  The \code{base} model allows for random sequence generation by
+  shuffling (with/without replacement) of all bases in the sequence.
+  Analytical computation is available for this model.
+
+  The \code{position} model allows for random sequence generation
+  by shuffling (with/without replacement) of bases within their
+  position in the codon (bases in position I, II or III stay in
+  position I, II or III in the new sequence.
+
+  The \code{codon} model allows for random sequence generation by
+  shuffling (with/without replacement) of codons. Analytical
+  computation is available for this model.
+
+  The \code{syncodon} model allows for random sequence generation
+  by shuffling (with/without replacement) of synonymous codons.
+  }
 }
 \value{
   a table containing the computed statistic for each dinucleotide
