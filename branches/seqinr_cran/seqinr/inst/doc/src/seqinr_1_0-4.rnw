@@ -1,11 +1,11 @@
 \documentclass{svmult}
 % Springer-Verlag style for multiauthors books
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{url}
 \usepackage{amsfonts}
 
 \SweaveOpts{prefix.string=figs/seqinr,eps=F}
-
 
 \begin{document}
 
@@ -24,7 +24,7 @@ r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
 #library(seqinr)
-library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")
+library(seqinr, lib = "/home/palmeira/work/CVS/seqinr.Rcheck")#Users/lobry/seqinr.Rcheck")
 library(xtable)
 library(ade4)
 library(ape)
@@ -48,12 +48,14 @@ for statistical computing devoted to biological sequences retrieval and analysis
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
-\author{Delphine Charif\inst{1}, Jean R. Lobry\inst{1} }
+\author{Delphine Charif\inst{1}, Jean R. Lobry\inst{1}, Leonor Palmeira\inst{1} }
 %
-\authorrunning{D. Charif \& J.R. Lobry}   % abbreviated author list (for running head)
+\authorrunning{D. Charif \& J.R. Lobry \& L. Palmeira}   % abbreviated author list (for running head)
 %
 %%%% modified list of authors for the TOC (add the affiliations)
-\tocauthor{Delphine Charif (Universit\'{e} Claude Bernard - Lyon I), Jean R. Lobry (Universit\'{e} Claude Bernard - Lyon I)}
+\tocauthor{Delphine Charif (Universit\'{e} Claude Bernard - Lyon I),
+  Jean R. Lobry (Universit\'{e} Claude Bernard - Lyon I), Leonor
+  Palmeira (Universit\'{e} Claude Bernard - Lyon I)}
 %
 \institute{Universit\'{e} Claude Bernard - Lyon I\\
 Laboratoire de Biom\'{e}trie, Biologie \'{E}volutive\\
@@ -1812,6 +1814,8 @@ file = "aacost.tex")
 @
 \input{aacost.tex}
 
+\clearpage
+\SweaveInput{prochlo.rnw}
 
 \clearpage
 \section{FAQ: Frequently Asked Question}
@@ -2046,6 +2050,31 @@ Mol. Biol. Evol. {\bf 4} (1984) 406--425.
 Sharp, P.M., Li, W.-H.:
 The codon adaptation index - a measure of directional synonymous codon usage bias, and its potential applications.
 Nucleic Acids Research {\bf 15} (1987) 1281---1295.
+
+\bibitem{Karlin}
+Karlin, S., Brendel, V.:
+Chance and Statistical Significance in Protein and DNA Sequence Analysis.
+Science {\bf 257} (1992) 39--49.
+
+\bibitem{UV}
+Palmeira, L., Guéguen L., Lobry, J.R.:
+UV-targeted dinucleotides are not depleted in light-exposed Prokaryotic genomes.
+\textit{in prep.}
+
+\bibitem{Singer}
+Singer, C.E., Ames, B.N.:
+Sunlight Ultraviolet and Bacterial DNA Base Ratios.
+Science {\bf 170} (1970) 822--826.
+
+\bibitem{Bak}
+Bak, A.L., Atkins, J.F., Singer, C.E., Ames, B.N.:
+Evolution of DNA Base Compositions in Microorganisms.
+Science {\bf 175} (1972) 1391--1393.
+
+\bibitem{Setlow}
+Setlow, R. B.:
+Cyclobutane-Type Pyrimidine Dimers in Polynucleotides.
+Science {\bf 153} (1966) 379--386.
 
 \end{thebibliography}
 
