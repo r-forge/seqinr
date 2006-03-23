@@ -207,6 +207,17 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("I'm trying to set up the server for following queries...\n")
       writeLines("prep_requete", socket, sep = "\n")
       rep3 <- readLines(socket, n = 1)
+      
+      #
+      # Re-patch pas beau:
+      #
+      if(length(rep3) == 0){
+        if(verbose) cat("... answer from server is empty!\n")
+        while(length(rep3) == 0){
+          if(verbose) cat("... reading again.\n")
+          rep3 <- readLines(socket, n = 1)
+        }
+      }
       if(verbose) cat("... answer from server is: ", rep3, "\n")
       res3 <- parser.socket(rep3)
       if( res3[1] == "0") {
