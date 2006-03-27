@@ -14,12 +14,12 @@ data(dinucl)
 \format{
   List of two dataframes of 242 chromosomes and 16 dinucleotides: one
   for intergenic, one for coding sequences.
-}
 \describe{
-  \item{intergenic} the mean of \code{zscore} computed with the
-\code{base} model on each intergenic sequence
-  \item{coding} the mean of \code{zscore} computed with the \code{codon}
-  model on each coding sequence
+  \item{intergenic}{the mean of \code{zscore} computed with the \code{base}
+   model on each intergenic sequence}
+   \item{coding}{the mean of \code{zscore} computed with the \code{codon}
+  model on each coding sequence}
+}
 }
 \references{
   Palmeira, L., Guéguen, L. and Lobry JR. (in prep) UV-targeted dinucleotides are not depleted in light-exposed Prokaryotic genomes.

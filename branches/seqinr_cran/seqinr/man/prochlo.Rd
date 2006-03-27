@@ -13,15 +13,16 @@ data(prochlo)
 \format{
   List of three dataframes of the zscore of each of the 16 dinucleotides
   on each CDS retrieved from the specific strain.
-}
+
 \describe{
-  \item{BX548174} strain adapted to living at a depth of 5
+  \item{BX548174}{strain adapted to living at a depth of 5
   meters (high levels of UV exposure)
-  \code{base} model on each intergenic sequence
-  \item{AE017126} strain adapted to living at a depth of 120
-  meters (low levels of UV exposure)
-  \item{BX548175} strain adapted to living at a depth of 135
-  meters (low levels of UV exposure)
+  \code{base} model on each intergenic sequence}
+  \item{AE017126}{strain adapted to living at a depth of 120
+  meters (low levels of UV exposure)}
+  \item{BX548175}{strain adapted to living at a depth of 135
+  meters (low levels of UV exposure)}
+}
 }
 \references{
   Palmeira, L., Guéguen, L. and Lobry JR. (in prep) UV-targeted dinucleotides are not depleted in light-exposed Prokaryotic genomes.
