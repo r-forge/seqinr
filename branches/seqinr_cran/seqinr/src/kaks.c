@@ -11,7 +11,7 @@
 /* un ou deux fichier .num contenant les Ka et/ou Ks avec/sans leurs */
 /* variances. */
 
-int code_mt = 0; // Not used yet
+int code_mt = 0; /* Not used yet */
 
 void reresh(char **, int, int);
 void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
@@ -22,8 +22,8 @@ int fastlwl(char **, int, int, double **, double **, double **, double **, doubl
 SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 {
 
-  char **seqIn; // local working copy of sequences
-  char **seq;   // pointer to original sequences from R object
+  char **seqIn; /* local working copy of sequences */
+  char **seq;   /* pointer to original sequences from R object */
   double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
   int debugon;
@@ -57,7 +57,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SEXP rvka;
   SEXP rvks;
   SEXP res;
-  SEXP lsequtil; // The effective number of sites used, to be implemented
+  SEXP lsequtil; /* The effective number of sites used, to be implemented */
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
@@ -73,16 +73,16 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /******************************************************************************/
 
   seq = (char **) R_alloc(totseqs, sizeof(char *));
-  //
-  // Initialisation of seq so that seq[i] points to sequence number i:
-  //
+  /*
+   Initialisation of seq so that seq[i] points to sequence number i:
+  */
   for(i = 0 ; i < totseqs ; i++){
     seq[i] = CHAR(STRING_ELT(sequences, i));
     if(debugon) Rprintf("-->%s<--\n", seq[i]);
   }
-  // The length of the first sequence is used as a reference since in an
-  // alignment all sequences are supposed to be of the same length, this point
-  // is controlled before call to kaks at the R level.
+  /* The length of the first sequence is used as a reference since in an
+    alignment all sequences are supposed to be of the same length, this point
+  */ is controlled before call to kaks at the R level.
   lgseq = strlen(seq[0]);
   if(debugon) Rprintf("C> lgseq = %d\n", lgseq);
  
