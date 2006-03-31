@@ -51,7 +51,10 @@ sequences, we can fit a normal distribution which is centered on 1
 rhoseq <- sapply(seq(n),function(x){rho(sample(s2c('acgt'),6000,rep=TRUE))})
 hist(rhoseq[di,],freq=FALSE,xlab="Rho statistic",main=paste("Distribution for dinucleotide",toupper(labels(rhoseq)[[1]][di]),"on",n,"random sequences"),las=1,col=grey(0.8),border=grey(0.5))
 abline(v=1,lwd=2,lty=3)
-lines(density(rnorm(1000,mean=mean(rhoseq[di,]),sd=sqrt(var(rhoseq[di,])))),lwd=2,lty=2)
+min=min(rhoseq[di,])
+max=max(rhoseq[di,])
+x=seq(min,max,length.out=1000)
+lines(x,dnorm(x,mean=mean(rhoseq[di,]),sd=sd(rhoseq[di,])),lwd=2,lty=2)
 @ 
 \end{center}
    \caption{Distribution of the $\rho$ statistic computed on
