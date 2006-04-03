@@ -64,8 +64,8 @@ getKeyword.default = function(object){
  	stop("no keyword for this sequence")
 }
 
-getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
-	translate(seq,frame,sens,numcode)
+getTrans.default = function(object,frame=0, sens= "F", numcode=1){
+	translate(object,frame,sens,numcode)
 	
 		
 }
@@ -109,8 +109,8 @@ getKeyword = function(object) {
 }
 
 
-getTrans = function(seq,frame=0, sens= "F", numcode=1){
-	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(seq,frame=0, sens= "F", numcode=1)}
+getTrans = function(object,frame=0, sens= "F", numcode=1){
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(object,frame=0, sens= "F", numcode=1)}
 	else UseMethod("getTrans")
 }
 
@@ -171,8 +171,8 @@ summary.SeqFastadna = function(object,...){
 	return(list(length=length ,composition=compo, GC=GC(object)))
 }
 
-getTrans.SeqFastadna =  function(seq, frame = 0, sens = "F", numcode = 1){
-	translate(seq, frame = frame, sens = sens, numcode = numcode)
+getTrans.SeqFastadna =  function(object, frame = 0, sens = "F", numcode = 1){
+	translate(object, frame = frame, sens = sens, numcode = numcode)
 }
 	
 
@@ -311,13 +311,13 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 #simon:
-#getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
-getTrans.SeqAcnucWeb = function(seq,frame=0,sens="F",numcode="auto"){
+#getTrans.SeqAcnucWeb = function(object,frame=0, sens= "F", numcode=1){
+getTrans.SeqAcnucWeb = function(object,frame=0,sens="F",numcode="auto"){
 	dnaseq <- getSequence(seq)
 	if (numcode == "auto") {
-		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(attr(seq,"ncbigc")))
+		translate(dnaseq, frame =  as.numeric(attr(object,"frame")), sens = "F", numcode = as.numeric(attr(object,"ncbigc")))
 		} else {
-		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(numcode))
+		translate(dnaseq, frame =  as.numeric(attr(object,"frame")), sens = "F", numcode = as.numeric(numcode))
 		} 
 	
 	
@@ -373,8 +373,8 @@ getName.SeqFrag = function(object){
 	return(attr(object,"seqMother"))
 }
 
-getTrans.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
-	translate(seq, frame = frame, sens = sens, numcode = numcode)
+getTrans.SeqFrag = function(object, frame=0, sens= "F", numcode=1){
+	translate(object, frame = frame, sens = sens, numcode = numcode)
 }
 
 
