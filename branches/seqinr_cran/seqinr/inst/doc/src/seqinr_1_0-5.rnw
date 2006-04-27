@@ -1852,6 +1852,14 @@ GC3m(ecribo, 1:10)
 
 \section{Releases notes}
 
+\subsection{release 1.0-5}
+
+\begin{itemize}
+\item The function \texttt{kaks()} now forces character in sequences to upper case.
+This default behavior can be neutralized in order to save time by setting the 
+argument \texttt{forceUpperCase} to \texttt{FALSE}.
+\end{itemize}
+
 \subsection{release 1.0-4}
 
 \begin{itemize}

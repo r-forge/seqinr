@@ -5,11 +5,13 @@
   Ks and Ka  are respectively the number of substitutions per synonymous site and per nonsynonymous site between two protein-coding genes. The ratio of nonsynonymous (Ka) to synonymous (Ks) nucleotide substitution rates is an indicator of selective pressures on genes. A ratio significantly greater than 1 indicates positive selective pressure. A ratio around 1 indicates either neutral evolution at the protein level or an averaging of sites under positive and negative selective pressures. A ratio less than 1 indicates pressures to conserve protein sequence (i.e. purifying selection). This function estimates the Ka and Ks values for a set of aligned sequences using the method published by Li (1993) and gives the associated variance matrix. 
 }
 \usage{
-kaks(x, debug = FALSE)
+kaks(x, debug = FALSE, forceUpperCase = TRUE)
 }
 \arguments{
   \item{x}{ An object of class \code{alignment} }
   \item{debug}{ If TRUE turns debug mode on}
+  \item{forceUpperCase}{ If TRUE, the default value, all character in sequences are forced to the upper case. 
+  Turning it to FALSE if the sequences are already in upper case will save time.}
 }
 \value{
   \item{ ks }{ matrix of Ks values }
