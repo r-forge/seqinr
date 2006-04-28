@@ -27,7 +27,7 @@ Hurst, L.D. (2002) The Ka/Ks ratio: diagnosing the form of sequence evolution.
 \emph{Trends Genet.}, \bold{18}:486-486.\cr  
 The C programm implementing this method was provided by Manolo Gouy. More info is
 needed here to trace back the original C source so as to credit correct source.
-The original FORTRAN-77 code by Chung-I Wu mofified by Ken Wolfe is available
+The original FORTRAN-77 code by Chung-I Wu modified by Ken Wolfe is available
 here \url{http://wolfe.gen.tcd.ie/lab/pub/li93/}.\cr
 For a recent discussion about the estimation of Ka and Ks see:\cr
 Tzeng, Y.H., Pan, R., Li, W.-H. (2004) Comparison of three methods for estimating 
