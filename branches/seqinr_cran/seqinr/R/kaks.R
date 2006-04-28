@@ -32,10 +32,13 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
       return(NA)
     }
     #
-    # Force sequences to upper case letters:
+    # Force sequences characters to upper case letters when at least one
+    # one 'a', 'c', 'g', or 't' is found in the sequences:
     #
     if(forceUpperCase){
-      x$seq <- toupper(x$seq)
+      if( length(grep("[acgt]", x$seq)) != 0){
+        x$seq <- toupper(x$seq)
+      }
     }
     #
     # Call internal C function:
