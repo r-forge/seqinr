@@ -310,17 +310,21 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-#simon:
-#getTrans.SeqAcnucWeb = function(object,frame=0, sens= "F", numcode=1){
-getTrans.SeqAcnucWeb = function(object,frame=0,sens="F",numcode="auto"){
-	dnaseq <- getSequence(seq)
-	if (numcode == "auto") {
-		translate(dnaseq, frame =  as.numeric(attr(object,"frame")), sens = "F", numcode = as.numeric(attr(object,"ncbigc")))
-		} else {
-		translate(dnaseq, frame =  as.numeric(attr(object,"frame")), sens = "F", numcode = as.numeric(numcode))
-		} 
-	
-	
+#
+# Translation of CDS into proteins from sequences from an ACNUC server. By
+# default, the genetic code and the frame are automatically propagated.
+#
+getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "auto"){
+  dnaseq <- getSequence(object)
+  if(numcode == "auto") {
+    numcode <- attr(object, "ncbigc")
+  }
+  numcode <- as.numeric(numcode)
+  if(frame == "auto") {
+    frame <- attr(object, "frame")
+  }
+  frame <- as.numeric(frame)
+  translate(seq = dnaseq, frame = frame, numcode = numcode) 
 }
 
 
