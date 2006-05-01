@@ -10,7 +10,6 @@ o Etudier la faisabilite de recuperer les sequences en mode compresse.
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
   
-o Pour read.alignment il manque des exemples pour le format fasta et clustal.
 
 
 o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
@@ -86,9 +85,6 @@ o Probleme souleve par Marcus G Daniels
 ------ PENDING --------
 
 
-o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
-  a partir de la 2.1.1.... A suivre.
-
 o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
   Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
   aastrict","aaambiguous","relax"), gapallowed = FALSE, gapchar = "-", forcetolower = FALSE)
@@ -98,6 +94,11 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Pour read.alignment il manque des exemples pour le format fasta et clustal. -- Fait JRL pour 1.0-5
+
+o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
+  a partir de la 2.1.1.... A suivre. -- Fait (bug dans le code C) JRL pour 1.0-4
 
 o Mettre les downloads() de la vignette en data() de seqinR. -- Fait JRL pour 1.0-4
 
