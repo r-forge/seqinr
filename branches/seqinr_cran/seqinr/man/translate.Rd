@@ -75,5 +75,20 @@ translate(seq = realcds)
 # Biologically correct, only one stop codon at the end
 translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
 # Biologically meaningless, note the in-frame stop codons
+
+\dontrun{
+## Need internet connection.
+## Translation of the following genbank entry:
+##
+## AE003734.PE35        Location/Qualifiers    (length=1833 bp)
+##      CDS             join(complement(162997..163210),
+##                      complement(162780..162919),complement(161238..162090),
+##                      146568..146732,146806..147266)
+choosebank("genbank")
+query("trans", "N=AE003734.PE35")
+getTrans(trans$req[[1]])
+## Complex transsplicing operations, the correct frame and the correct 
+## genetic code are automatically used for translation into protein.
+}
 }
 \keyword{ manip }
