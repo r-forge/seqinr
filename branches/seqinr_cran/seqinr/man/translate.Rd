@@ -54,7 +54,7 @@ The IUPAC one-letter code for aminoacids is described at:
 
 \code{citation("seqinr")}
 }
-\author{ D. Charif }
+\author{ D. Charif, J.R. Lobry }
 \seealso{
 For coding sequences obtained from an ACNUC server with \code{\link{query}} it's
 better to use the function \code{\link{getTrans}} so that the relevant genetic
