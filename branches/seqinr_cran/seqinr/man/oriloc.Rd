@@ -81,7 +81,7 @@ corresponds to the movement in the positive y-direction and G to a movement
 in the negative y-direction. T and A are mapped by analogous steps along the 
 x-axis. When there is a strand asymmetry, this will form a trajectory that 
 turns at the origin and terminus of replication. Each step is the sum of 
-nucleotides in a gene in third codon positions. Then ortogonal regression is 
+nucleotides in a gene in third codon positions. Then orthogonal regression is 
 used to find a line through this trajectory. Each point in the trajectory will 
 have a corresponding point on the line, and the coordinates of each are 
 calculated. Thereafter, the distances from each of these points to the origin
