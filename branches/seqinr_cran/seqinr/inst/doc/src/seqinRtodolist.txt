@@ -1,3 +1,16 @@
+o Trouve le commentaire suivant dans la doc de la fonction readFASTA de 
+  Biostrings de bioconductor:
+  
+  QUOTE
+  There are many other packages that provide similar, but different capabilities. 
+  The one in the package seqinr seems most similar but they separate the 
+  biological sequence into single character strings, which is too inefficient 
+  for large problems.
+  UNQUOTE
+  
+  Donc rajouter une option as.string = FALSE pour desactiver le c2s si besoin
+  est (mettre exemple dans la vignette).
+
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
   la version du CRAN de seqinr, modifier le script de 
