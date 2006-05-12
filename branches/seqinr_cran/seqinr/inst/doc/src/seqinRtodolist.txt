@@ -1,5 +1,5 @@
 o Mieux documenter les nouvelles options de read.fasta dans la vignette.
-
+  Faire un exemple avec A. thaliana ?
 
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
