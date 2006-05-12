@@ -1858,6 +1858,19 @@ GC3m(ecribo, 1:10)
 \item The function \texttt{kaks()} now forces character in sequences to upper case.
 This default behavior can be neutralized in order to save time by setting the 
 argument \texttt{forceUpperCase} to \texttt{FALSE}.
+
+\item There was a bug in \texttt{read.fasta()} : some sequence names were
+truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
+In order to be more consistent with standard functions such as \texttt{read.table()}
+or \texttt{scan()}, the file argument starts now with a lower case letter (\texttt{file})
+in function \texttt{read.fasta()}, but the old-style \texttt{File} is still
+functional for upper-compatibility. There is a new logical argument in \texttt{read.fasta()}
+named \texttt{as.string} to allow sequences to be returned as strings instead of
+vector of single characters. The automatic conversion of DNA sequences into
+lower case letters can now be disabled with the new logical argument
+\texttt{forceDNAtolower}. It is also possible to disable the automatic attributes
+settings with the new logical argument \texttt{set.attributes}.
+
 \end{itemize}
 
 \subsection{release 1.0-4}
