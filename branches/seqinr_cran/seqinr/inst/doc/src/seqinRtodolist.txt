@@ -1,15 +1,5 @@
-o Trouve le commentaire suivant dans la doc de la fonction readFASTA de 
-  Biostrings de bioconductor:
-  
-  QUOTE
-  There are many other packages that provide similar, but different capabilities. 
-  The one in the package seqinr seems most similar but they separate the 
-  biological sequence into single character strings, which is too inefficient 
-  for large problems.
-  UNQUOTE
-  
-  Donc rajouter une option as.string = FALSE pour desactiver le c2s si besoin
-  est (mettre exemple dans la vignette).
+o Mieux documenter les nouvelles options de read.fasta dans la vignette.
+
 
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
@@ -23,7 +13,6 @@ o Etudier la faisabilite de recuperer les sequences en mode compresse.
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
   
-
 
 o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
   les infos sont definitivement perdues si la socket est fermee.
@@ -63,7 +52,6 @@ o La fonction uco() pour calculer l'usage du code :
   comme pour getTrans().
   
 
-
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
 
@@ -84,15 +72,7 @@ o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
   
 o Recuperer automatiquement les annotations en entier.
 
-o Probleme souleve par Marcus G Daniels 
 
-	Hello,
-
-	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
-	The result of the current behavior (the former) is that some sequence names get truncated.
-
-	Thanks!
-  Le remercier dans la vignette. 
 
 
 ------ PENDING --------
@@ -107,6 +87,29 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Trouve le commentaire suivant dans la doc de la fonction readFASTA de 
+  Biostrings de bioconductor:
+  
+  QUOTE
+  There are many other packages that provide similar, but different capabilities. 
+  The one in the package seqinr seems most similar but they separate the 
+  biological sequence into single character strings, which is too inefficient 
+  for large problems.
+  UNQUOTE
+  
+  Donc rajouter une option as.string = FALSE pour desactiver le c2s si besoin
+  est (mettre exemple dans la vignette). -- fait pour 1.0-5 JRL
+
+o Probleme souleve par Marcus G Daniels 
+
+	Hello,
+
+	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
+	The result of the current behavior (the former) is that some sequence names get truncated.
+
+	Thanks!
+  Le remercier dans la vignette.  -- Fait pour 1.0-5
 
 o Pour read.alignment il manque des exemples pour le format fasta et clustal. -- Fait JRL pour 1.0-5
 
