@@ -33,7 +33,7 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   \code{citation("seqinr")}
 }
 \author{ D. Charif, J.R. Lobry }
-\seealso{ \code{\link{read.alignment}} }
+\seealso{ \code{\link{write.fasta}}, \code{\link{read.alignment}} }
 \examples{
 #
 # Example of a DNA file in FASTA format:
