@@ -1855,9 +1855,10 @@ GC3m(ecribo, 1:10)
 \subsection{release 1.0-5}
 
 \begin{itemize}
-\item The function \texttt{kaks()} now forces character in sequences to upper case.
-This default behavior can be neutralized in order to save time by setting the 
-argument \texttt{forceUpperCase} to \texttt{FALSE}.
+\item An undocumented behavior was reported by Guy Perrière for \texttt{uco()}
+when computing RSCU on sequences where an amino-acid is missing. There is
+now a new argument \texttt{NA.rscu} that allows the user to force the
+missing values to his favorite magic value.
 
 \item There was a bug in \texttt{read.fasta()} : some sequence names were
 truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
@@ -1870,6 +1871,10 @@ vector of single characters. The automatic conversion of DNA sequences into
 lower case letters can now be disabled with the new logical argument
 \texttt{forceDNAtolower}. It is also possible to disable the automatic attributes
 settings with the new logical argument \texttt{set.attributes}.
+
+\item The function \texttt{kaks()} now forces character in sequences to upper case.
+This default behavior can be neutralized in order to save time by setting the 
+argument \texttt{forceUpperCase} to \texttt{FALSE}.
 
 \end{itemize}
 
