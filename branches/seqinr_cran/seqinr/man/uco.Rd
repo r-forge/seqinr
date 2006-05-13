@@ -5,7 +5,8 @@
   \code{uco} calculates some codon usage indices: the codon counts \code{eff}, the relative frequencies \code{freq} or the Relative Synonymous Codon Usage \code{rscu}.
 }
 \usage{
-uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE) 
+uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE,
+NA.rscu = NA) 
 }
 \arguments{
   \item{seq}{ a coding sequence as a vector of chars }
@@ -15,6 +16,9 @@ uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE)
                 \code{freq} for codon relative frequencies, 
                 and \code{rscu} the RSCU index}
   \item{as.data.frame}{ logical. If \code{TRUE}: all indices are returned into a data frame.}
+  \item{NA.rscu}{ when an amino-acid is missing, RSCU are no more defined and repported
+  as missing values (\code{NA}). You can force them to another value (typically 0 or
+  1) with this argument.}
 }
 \details{
   Codons with ambiguous bases are ignored.\cr
