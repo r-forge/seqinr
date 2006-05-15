@@ -64,25 +64,39 @@ Charif, D., Thioulouse, J., Lobry, J.R., Perriere, G. (2005) Online
 Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
 \emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.
 }
-\author{ D. Charif, J.R. Lobry }
+\author{ D. Charif, J.R. Lobry, G. Perriere }
 \examples{
+
 ## Show all possible codons:
 words()
+
 ## Make a coding sequence from this:
 (cds <- s2c(paste(words(), collapse = "")))
+
 ## Get codon counts:
 uco(cds, index = "eff")
+
 ## Get codon relative frequencies:
 uco(cds, index = "freq")
+
 ## Get RSCU values:
 uco(cds, index = "rscu")
+
 ## Show what's happen with ambiguous bases:
 uco(s2c("aaannnttt"))
+
 ## Use a real coding sequence:
 rcds <- read.fasta(File = system.file("sequences/malM.fasta", package = "seqinr"))[[1]]
 uco( rcds, index = "freq")
 uco( rcds, index = "eff")
 uco( rcds, index = "rscu")
 uco( rcds, as.data.frame = TRUE)
+
+## Show what's happen with RSCU when an amino-acid is missing:
+ecolicgpe5 <- read.fasta(file = system.file("sequences/ecolicgpe5.fasta",package="seqinr"))[[1]]
+uco(ecolicgpe5, index = "rscu")
+
+## Force NA to zero:
+uco(ecolicgpe5, index = "rscu", NA.rscu = 0)
 }
 \keyword{ manip }
