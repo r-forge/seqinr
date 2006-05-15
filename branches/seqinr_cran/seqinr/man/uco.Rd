@@ -27,11 +27,11 @@ NA.rscu = NA)
   (Sharp \emph{et al.} 1986).
   RSCU values are the number of times a particular codon is observed, relative to the number 
   of times that the codon would be observed for a uniform synonymous codon usage (i.e. all the
-  codons for a given amino-acid have the same probability). 
+  codons for a given amino-acid have the same probability).
   In the absence of any codon usage bias, the RSCU values would be 1.00 (this is the case
-  for sequence \code{cds} in the exemple thereafter).  A codon that is used 
+  for sequence \code{cds} in the exemple thereafter). A codon that is used
   less frequently than expected will have an RSCU value of less than 1.00 and vice versa for a codon 
-  that is used more frequently than expected.\cr 
+  that is used more frequently than expected.\cr
   
   Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
   (Perriere and Thioulouse 2002). Within-aminoacid correspondence analysis is a
