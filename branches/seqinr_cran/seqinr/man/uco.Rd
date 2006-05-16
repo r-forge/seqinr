@@ -36,19 +36,26 @@ NA.rscu = NA)
   Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
   (Perriere and Thioulouse 2002). Within-aminoacid correspondence analysis is a
   simple way to study synonymous codon usage (Charif \emph{et al.} 2005).
-}
-\value{
-    If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
+  
+  If \code{as.data.frame} is FALSE, \code{uco} returns one of these:
+  \describe{
+  \item{ eff }{ a table of codon counts }
+  \item{ freq }{ a table of codon relative frequencies }
+  \item{ rscu }{ a numeric vector of relative synonymous codon usage values}
+  }
+  If \code{as.data.frame} is TRUE, \code{uco} returns a data frame with five columns:
+  \describe{
   \item{ aa }{ a vector containing the name of amino-acid }
   \item{ codon }{ a vector containing the corresponding codon }
   \item{ eff }{ a numeric vector of codon counts }
   \item{ freq }{ a numeric vector of codon relative frequencies }
   \item{ rscu }{ a numeric vector of RSCU index }
-  
-  If \code{as.data.frame} is FALSE, \code{uco} returns one of this index: 
-  \item{ eff }{ a table of codon counts }
-  \item{ freq }{ a table of codon relative frequencies }	
-  \item{ rscu }{ a vector of relative synonymous codon usage values}
+  }  
+}
+\value{
+  If \code{as.data.frame} is FALSE, the default, a table for \code{eff} and \code{freq} and
+  a numeric vector for \code{rscu}. If \code{as.data.frame} is TRUE,
+  a data frame with all indices is returned.  
 }
 \references{
 \code{citation("seqinr")} \cr
