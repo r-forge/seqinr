@@ -24,7 +24,7 @@ r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
 #library(seqinr)
-library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")#Users/lobry/seqinr.Rcheck")
+library(seqinr, lib = "/home/palmeira/work/CVS/seqinr.Rcheck")#Users/lobry/seqinr.Rcheck")
 library(xtable)
 library(ade4)
 library(ape)
@@ -2201,7 +2201,33 @@ vignette along with two toy data sets (\texttt{toyaa} and \texttt{toycodon}).
 \item A bug in \texttt{getAnnot()} when the number of lines was zero is now fixed.
 \item There is now a new argument, \texttt{latexfile}, in \texttt{tablecode()} to export genetic codes
 tables in a \LaTeX~document, for instance table \ref{code3.tex} and table \ref{code4.tex} here.
+\item There is now a new argument, \texttt{freq}, in \texttt{count()}
+  to compute word frequencies instead of counts.
 \item Function \texttt{splitseq()} has been entirely rewritten to improve speed.
+\item Functions computing the G+C content: \texttt{GC(), GC1(), GC2(),
+  GC3()} were rewritten to improve speed, and their document files
+  were merged to facilitate usage.
+\item The following new functions have been added:
+\begin{itemize}
+\item \texttt{syncodons()} returns all synonymous codons for a given
+  codon. Argument \texttt{numcode} specifies the desired genetic code.
+\item \texttt{ucoweight()} returns codon usage bias on a sequence as
+  the number of synonymous codons present in the sequence for each
+  amino acid.
+\item \texttt{synsequence()} generates a random coding sequence which
+      is synonymous to a given sequence and has a chosen codon usage
+      bias.
+\item \texttt{permutation()} generates a new sequence from a given
+  sequence, while maintaining some constraints from the given sequence
+  such as nucleotide frequency, codon usage bias, ...
+\item \texttt{rho()} computes the rho statistic on dinucleotides as
+  defined in \cite{Karlin}.
+\item \texttt{zscore()} computes the zscore statistic on dinucleotides
+  as defined in \cite{UV}.
+\end{itemize}
+\item Two datasets (\texttt{dinucl} and \texttt{prochlo}) were added
+  to illustrate these new functions.
+
 \end{itemize}
 
 \subsection{release 1.0-3}
@@ -2392,7 +2418,7 @@ Chance and Statistical Significance in Protein and DNA Sequence Analysis.
 Science {\bf 257} (1992) 39--49.
 
 \bibitem{UV}
-Palmeira, L., Guéguen L., Lobry, J.R.:
+Palmeira, L., Gu\'eguen L., Lobry, J.R.:
 UV-targeted dinucleotides are not depleted in light-exposed Prokaryotic genomes.
 \textit{in revision}
 
