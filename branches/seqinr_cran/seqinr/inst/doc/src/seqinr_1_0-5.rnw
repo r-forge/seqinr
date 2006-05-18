@@ -2162,17 +2162,23 @@ GC3m(ecribo, 1:10)
 \subsection{release 1.0-5}
 
 \begin{itemize}
+
+\item A new function \texttt{reverse.align()} contributed by Anamaria Nec\c{s}ulea
+is now available to align CDS at the protein level and then reverse translate this at
+the nucleic acid level from a \texttt{clustalw} output. This can be done on the fly
+if \texttt{clustalw} is available on your platform.
+
 \item An undocumented behavior was reported by Guy Perri{\`e}re for \texttt{uco()}
 when computing RSCU on sequences where an amino-acid is missing. There is
 now a new argument \texttt{NA.rscu} that allows the user to force the
 missing values to his favorite magic value.
 
-\item There was a bug in \texttt{read.fasta()} : some sequence names were
+\item There was a bug in \texttt{read.fasta()}: some sequence names were
 truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
 In order to be more consistent with standard functions such as \texttt{read.table()}
 or \texttt{scan()}, the file argument starts now with a lower case letter (\texttt{file})
 in function \texttt{read.fasta()}, but the old-style \texttt{File} is still
-functional for upper-compatibility. There is a new logical argument in \texttt{read.fasta()}
+functional for forward-compatibility. There is a new logical argument in \texttt{read.fasta()}
 named \texttt{as.string} to allow sequences to be returned as strings instead of
 vector of single characters. The automatic conversion of DNA sequences into
 lower case letters can now be disabled with the new logical argument
