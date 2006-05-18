@@ -2,7 +2,7 @@ Package: seqinr
 Version: 1.0-5
 Date: 2006-03-31
 Title: Biological Sequences Retrieval and Analysis 
-Author: Delphine Charif and Jean Lobry and Leonor Palmeira
+Author: Delphine Charif and Jean Lobry and Anamaria Necsulea and Leonor Palmeira
 Maintainer: Simon Penel <penel@biomserv.univ-lyon1.fr> 
 Description: Exploratory data analysis and data visualization
   for biological sequence (DNA and protein) data. Include also
