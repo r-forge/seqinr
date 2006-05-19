@@ -82,9 +82,9 @@ triplet.pep<- read.alignment(system.file('sequences/bordetella.pep.aln',package=
 #
 #
 
-\dontrun{reverse.align(nucl.file=system.file('sequences/bordetella.fasta',package='seqinr'),
+reverse.align(nucl.file=system.file('sequences/bordetella.fasta',package='seqinr'),
 protaln.file=system.file('sequences/bordetella.pep.aln',package='seqinr'),
-input.format='clustal', out.file='test.revalign')}
+input.format='clustal', out.file='test.revalign')
 
 #
 # Alternatively, we can use ClustalW to align the translated nucleic
