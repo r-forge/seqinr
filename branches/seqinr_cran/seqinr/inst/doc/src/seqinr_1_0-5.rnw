@@ -24,7 +24,8 @@ r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
 #library(seqinr)
-library(seqinr, lib = "/home/palmeira/work/CVS/seqinr.Rcheck")#Users/lobry/seqinr.Rcheck")
+#library(seqinr, lib = "/home/palmeira/work/CVS/seqinr.Rcheck")
+library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")
 library(xtable)
 library(ade4)
 library(ape)
@@ -85,6 +86,26 @@ on multivariate methods.
 \end{abstract}
 
 \section{Introduction}
+
+\section{About ACNUC}
+
+\marginpar{
+\includegraphics[width=\marginparwidth]{figs/acnucbook1}\\
+\tiny{Cover of ACNUC book vol. 1}
+}
+\marginpar{
+\includegraphics[width=\marginparwidth]{figs/acnucbook2}\\
+\tiny{Cover of ACNUC book vol. 2}
+}
+
+ACNUC is a contraction of ACides NUCl{\'e}iques, that is nucleic acids
+in french. ACNUC was first a database of nucleic developed in the early
+80's in the same lab (Lyon, France) that issued \seqinr{}. ACNUC was first published
+as a printed book in two volumes \cite{GautierC1982a, GautierC1982b}
+whose covers are reproduced in margins there. At about the same time, two
+other databases were created, one in the United States of America (GenBank,
+at Los Alamos and now managed by the NCBI), and another one in Germany
+(created in K{\"o}ln by K. St{\"u}ber). \emph{To be completed later}
 
 \subsection{About R and CRAN}
 
@@ -358,14 +379,14 @@ of maximum 80 character each. Examples of files in fasta format
 are distributed with the \seqinr{} package in the \texttt{sequences}
 directory:
 
-<<fastafiles,eval=T>>=
+<<fastafiles,eval=F>>=
 list.files(path = system.file("sequences", package = "seqinr"), pattern = ".fasta")
 @
 
 The function \texttt{read.fasta()} imports sequences from fasta files
 into your workspace, for example:
 
-<<readfasta, eval=T>>=
+<<readfasta, eval=F>>=
 seqaa <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
 seqaa
 @
@@ -410,7 +431,7 @@ As from \seqinr{} 1.0-5 the automatic conversion of sequences into vector
 of single characters and the automatic attribute settings can be neutralized, for
 instance :
 
-<<readfastaasstring, fig=F,eval=T>>=
+<<readfastaasstring, fig=F,eval=F>>=
 smallAA <- system.file("sequences/smallAA.fasta", package = "seqinr")
 read.fasta(smallAA, seqtype = "AA", as.string = TRUE, set.attributes = FALSE)
 @
@@ -441,7 +462,7 @@ in XDR binary format to read them faster later at will:
 <<saveath,fig=F,eval=F>>=
 save(ath, file = "ath.RData")
 @
-<<loadath,fig=F,eval=T>>=
+<<loadath,fig=F,eval=F>>=
 system.time(load("ath.RData"))
 @
 
@@ -449,7 +470,7 @@ Now it's about one second to load the whole data set thanks to the XDR format.
 The object size is about 15 Mo in RAM, that is something very close to
 the flat file size on disk:
 
-<<sizeath,fig=F,eval=T>>=
+<<sizeath,fig=F,eval=F>>=
 object.size(ath)/2^20
 file.info(athfile)$size/2^20
 @
@@ -474,7 +495,7 @@ character vector representation of sequences. For instance, to count
 the number of glycine (G), we first play with one sequence, let's
 take the smallest one in the data set:
 
-<<playwithonesequence,fig=F,eval=T>>=
+<<playwithonesequence,fig=F,eval=F>>=
 which.min(nres)
 ath[[9523]]
 s2c(ath[[9523]])
@@ -485,7 +506,7 @@ sum(s2c(ath[[9523]]) == "G")
 We can now easily define a vectorised function to count the number
 of glycine:
 
-<<ngly,fig=F,eval=T>>=
+<<ngly,fig=F,eval=F>>=
 ngly <- function(data){
  res <- sapply(data, function(x) sum(s2c(x) == "G"))
  names(res) <- NULL
@@ -503,7 +524,7 @@ fgly <- ngly(ath)/nres
 
 And we can have a look at the distribution:
 
-<<histgly,fig=T,eval=T>>=
+<<histgly,fig=T,eval=F>>=
 hist(fgly, col = grey(0.7), main = "Distribution of Glycine frequency",
 xlab = "Glycine content", ylab = "Protein count")
 abline(v = 0.08, col = "red")
@@ -512,7 +533,7 @@ legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines
 
 Let's use a boxplot instead:
 
-<<boxplotgly,fig=T,eval=T>>=
+<<boxplotgly,fig=T,eval=F>>=
 boxplot(fgly, horizontal = TRUE, col = grey(0.7), main = "Distribution of Glycine frequency",
 xlab = "Glycine content", ylab = "Protein count")
 abline(v = 0.08, col = "red")
@@ -522,7 +543,7 @@ legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines
 The threshold value for the glycine content in hydrophilines is therefore
 very close to the third quartile of the distribution:
 
-<<summaryfgly,fig=F,eval=T>>=
+<<summaryfgly,fig=F,eval=F>>=
 summary(fgly)
 @
 
@@ -539,21 +560,21 @@ $f_{i}$ the relative frequency of amino acid number $i$. The coefficients
 $\alpha_{i}$ are given in the \texttt{KD} component of the data set
 \texttt{EXP}:
 
-<<dataEXP,fig=F,eval=T>>=
+<<dataEXP,fig=F,eval=F>>=
 data(EXP)
 EXP$KD
 @
 
 This is for codons in lexical order, that is:
 
-<<lexicalorder,fig=F,eval=T>>=
+<<lexicalorder,fig=F,eval=F>>=
 words()
 @
 
 But since we are working with protein sequences here we name the
 coefficient according to their amino acid :
 
-<<putexpkdnames,fig=F,eval=T>>=
+<<putexpkdnames,fig=F,eval=F>>=
 names(EXP$KD) <- sapply(words(),function(x) translate(s2c(x)))
 @
 
@@ -561,7 +582,7 @@ We just need one value per amino acid, we sort them in the lexical
 order, and we reverse the scale so as to have positive values for
 hydrophilic proteins as in \cite{HannahMA2005} :
 
-<<kdc,fig=F,eval=T>>=
+<<kdc,fig=F,eval=F>>=
 kdc <- EXP$KD[unique(names(EXP$KD))]
 kdc <- -kdc[order(names(kdc))]
 kdc
@@ -571,7 +592,7 @@ Now that we have the vector of coefficient $\alpha_{i}$, we need the
 amino acid relative frequencies $f_{i}$, let's play with one protein
 first:
 
-<<playwithoneforkd,fig=F,eval=T>>=
+<<playwithoneforkd,fig=F,eval=F>>=
 ath[[9523]]
 s2c(ath[[9523]])
 table(s2c(ath[[9523]]))
@@ -599,7 +620,7 @@ kdath <- linform(ath,kdc)
 
 Let's have a look at the distribution:
 
-<<distriKD,fig=T,eval=T>>=
+<<distriKD,fig=T,eval=F>>=
 boxplot(kdath, horizontal = TRUE, col = grey(0.7),
 main = "Distribution of Hydropathy index",
 xlab = "Kyte and Doolittle GRAVY score")
@@ -610,14 +631,14 @@ legend("topleft",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines"
 The threshold is therefore much more stringent here than the previous one on
 glycine content. Let's define a vector of logicals to select the hydrophilines:
 
-<<hydrophilinesindex,fig=F,eval=T>>=
+<<hydrophilinesindex,fig=F,eval=F>>=
 hydrophilines <- fgly > 0.08 & kdath > 1
 names(ath)[hydrophilines]
 @
 
 Check with a simple graph that there is no mistake here:
 
-<<chekhydro,fig=T,eval=T>>=
+<<chekhydro,fig=T,eval=F>>=
 library(MASS)
 dst <- kde2d(kdath,fgly, n = 50)
 filled.contour(x = dst, color.palette = topo.colors,
@@ -636,7 +657,7 @@ plot.axes = {
 
 Everything seems to be OK, we can save the results in a data frame:
 
-<<hyd,fig=F,eval=T>>=
+<<hyd,fig=F,eval=F>>=
 data.frame(list("name"=names(ath), 
 "KD"=kdath, "Gly"=fgly)) -> athres
 head(athres)
@@ -648,7 +669,7 @@ head(athres)
 %
 % We can also export the data frame in a \LaTeX~table:
 %
-%<<hydlatex,fig=F,eval=T>>=
+%<<hydlatex,fig=F,eval=F>>=
 %library(xtable)
 %print(xtable(x = hyd, caption = "Hydrophilines from \\textit{Arabidopsis thaliana}.", 
 %    label = "hyd", digits = c(0,0,0,3,3)), file = "hyd.tex", size = "tiny")
@@ -665,7 +686,7 @@ material table S3 in \cite{HannahMA2005} and available at
 Only the protein names, the hydrophilicity and the glycine content were
 extracted:
 
-<<readhannah,fig=F,eval=T>>=
+<<readhannah,fig=F,eval=F>>=
 read.table(system.file("sequences/hannah.txt", package = "seqinr"), sep = "\t", header = TRUE)->hannah
 head(hannah)
 @
@@ -674,21 +695,21 @@ The protein names are not exactly the same because they have no extension.
 As explained in \cite{HannahMA2005}, when multiple gene models 
 were predicted only the first was one used. Then:
 
-<<renamehannah,fig=F,eval=T>>=
+<<renamehannah,fig=F,eval=F>>=
 hannah$AGI <- paste(hannah$AGI, "1", sep = ".")
 head(hannah)
 @
 
 We join now the two data frames thanks to their common key:
 
-<<jointure,fig=F,eval=T>>=
+<<jointure,fig=F,eval=F>>=
 join <- merge(hannah, athres, by.x = "AGI", by.y = "name")
 head(join)
 @
 
 Let's compare the glycine content :
 
-<<comparegly,fig=T,eval=T>>=
+<<comparegly,fig=T,eval=F>>=
 plot(join$Glycine, join$Gly, xlab = "Glycine content in Hannah et al. (2005)",
 ylab = "Glycine content here", main = "Comparison of Glycine content results")
 abline(c(0,1), col = "red")
@@ -699,7 +720,7 @@ there are only two figures after the decimal point in the Excel\footnote{
 this software is a real \textbf{pain} for the reproducibility of results.
 } file. Let's have a look at the GRAVY score now:
 
-<<comparekd,fig=T,eval=T>>=
+<<comparekd,fig=T,eval=F>>=
 plot(join$Hydrophilicity, join$KD, xlab = "GRAVY score in Hannah et al. (2005)",
 ylab = "GRAVY score here", main = "Comparison of hydropathy score results", las = 1)
 abline(c(0,-1), col = "red")
@@ -2304,6 +2325,16 @@ Wavelab and reproducible research.
 Gautier, C:
 Analyses statistiques et {\'e}volution des s{\'e}quences d'acides nucl{\'e}iques.
 PhD thesis (1987), Universit{\'e} Claude Bernard - Lyon I.
+
+\bibitem{GautierC1982a}
+Gautier, C., Gouy, M., Jacobzone, M., Grantham, R.:
+Nucleic acid sequences handbook. Vol. 1.
+ISBN 0-275-90798-8 (1982), Praeger Publishers, London, UK.
+
+\bibitem{GautierC1982b}
+Gautier, C., Gouy, M., Jacobzone, M., Grantham, R.:
+Nucleic acid sequences handbook. Vol. 2.
+ISBN 0-275-90799-6 (1982), Praeger Publishers, London, UK.
 
 \bibitem{RFAQ}
 Hornik, K.: 
