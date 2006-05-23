@@ -98,14 +98,51 @@ on multivariate methods.
 \tiny{Cover of ACNUC book vol. 2}
 }
 
-ACNUC is a contraction of ACides NUCl{\'e}iques, that is nucleic acids
-in french. ACNUC was first a database of nucleic developed in the early
+ACNUC\footnote{
+A contraction of ACides NUCl{\'e}iques, that is \emph{NUCleic ACids}
+in french (\url{http://pbil.univ-lyon1.fr/databases/acnuc/acnuc.html})}
+was first a database of nucleic acids developed in the early
 80's in the same lab (Lyon, France) that issued \seqinr{}. ACNUC was first published
 as a printed book in two volumes \cite{GautierC1982a, GautierC1982b}
-whose covers are reproduced in margins there. At about the same time, two
-other databases were created, one in the United States of America (GenBank,
-at Los Alamos and now managed by the NCBI), and another one in Germany
-(created in K{\"o}ln by K. St{\"u}ber). \emph{To be completed later}
+whose covers are reproduced in margin there. At about the same time, two
+other databases were created, one in the USA (GenBank,
+at Los Alamos and now managed by the NCBI\footnote{National Center for Biotechnology Information}), 
+and another one in Germany
+(created in K{\"o}ln by K. St{\"u}ber). To avoid duplication of efforts at the
+european level, a single repository database was initiated in Germany yielding
+the EMBL\footnote{European Molecular Biology Laboratory} database that moved from K{\"o}ln
+to Heidelberg, and then to its current location at the EBI\footnote{European Bioinformatic
+Institute} near Cambridge. The DDBJ\footnote{DNA Data Bank of Japan} started
+in 1986 at the NIG\footnote{National Institute of Genetics} in Mishima. These three
+main repository DNA databases are now collaborating to maintain the INSD\footnote{
+International Nucleotide Sequence Database (\url{http://www.insdc.org/})} 
+and are sharing data on a daily basis.
+
+
+The sequences present in the ACNUC book \cite{GautierC1982a, GautierC1982b} were all
+the published nucleic acid sequences of about 150 or more continuous
+unambiguous nucleotides up to May or June 1981 from the following journals:
+
+\begin{small}
+\begin{itemize}
+\item\textit{Biochimie}
+\item\textit{Biochemistry (ACS)}
+\item\textit{Cell}
+\item\textit{Comptes Rendus de l'Acad{\'e}mie des Sciences, Paris}
+\item\textit{European Journal of Biochemistry}
+\item\textit{FEBS Letters}
+\item\textit{Gene}
+\item\textit{Journal of Bacteriology}
+\item\textit{Journal of Biological Chemistry}
+\item\textit{Journal of Molecular Biology}
+\item\textit{Molecular and General Genetics}
+\item\textit{Nature}
+\item\textit{Nucleic Acids Research}
+\item\textit{Proceedings of the National Academy of Sciences of the United States of America}
+\item\textit{Science}
+\end{itemize}
+\end{small}
+
 
 \subsection{About R and CRAN}
 
