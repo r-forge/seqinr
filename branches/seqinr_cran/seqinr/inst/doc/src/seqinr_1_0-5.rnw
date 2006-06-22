@@ -2215,6 +2215,18 @@ GC3m(ecribo)
 GC3m(ecribo, 1:10)
 @
 
+\subsection{How do I get a sequence from its name?}
+
+This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
+I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
+if I know its name, how can I get the sequence?
+
+<<uniprot,fig=F,eval=F>>=
+choosebank("swissprot") 
+query("myprot","AC=P08758")
+getSequence(myprot$req[[1]])       
+@
+
 \section{Releases notes}
 
 \subsection{release 1.0-5}
