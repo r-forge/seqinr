@@ -1,3 +1,8 @@
+o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
+  il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
+
+o Mettre aaindex en data ?
+
 o Mieux documenter les nouvelles options de read.fasta dans la vignette.
   Faire un exemple avec A. thaliana ?
 
