@@ -1,5 +1,3 @@
-o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
-  il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
 
 o Mettre aaindex en data ?
 
@@ -92,6 +90,10 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
+  il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
+  -- fait pour 1.0-5 JRL
 
 o Trouve le commentaire suivant dans la doc de la fonction readFASTA de 
   Biostrings de bioconductor:

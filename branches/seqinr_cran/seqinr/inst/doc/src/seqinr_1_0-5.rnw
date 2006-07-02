@@ -2233,6 +2233,9 @@ getSequence(myprot$req[[1]])
 
 \begin{itemize}
 
+\item A new function \texttt{pmw()} to compute the molecular weight of
+a protein is now available.
+
 \item A new function \texttt{reverse.align()} contributed by Anamaria Nec\c{s}ulea
 is now available to align CDS at the protein level and then reverse translate this at
 the nucleic acid level from a \texttt{clustalw} output. This can be done on the fly
