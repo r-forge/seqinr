@@ -15,11 +15,7 @@ o Etudier la faisabilite de recuperer les sequences en mode compresse.
   fasta et autres du serveur avec
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
-  
-
-o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
-  les infos sont definitivement perdues si la socket est fermee.
-  
+   
   
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
@@ -34,18 +30,6 @@ o Le site web pour la reproductibilite de l'article Bioinfo
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
   utilise une version obsolete de R et de seqinR. Le garder dans
   un coin et l'adapter a la derniere mouture de seqinR.
-
-o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
-
-  read.table("sequence")
-       V1
-  1 AE013218
-
-  > query("lista","f=sequence")
-
-   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
-
-  Mettre au moins la doc a jour (unimplemented)
   
 o La fonction uco() pour calculer l'usage du code :
 
@@ -75,7 +59,9 @@ o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
   
 o Recuperer automatiquement les annotations en entier.
 
-
+o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
+  les infos sont definitivement perdues si la socket est fermee.
+ 
 
 
 ------ PENDING --------
@@ -90,6 +76,20 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
+
+  read.table("sequence")
+       V1
+  1 AE013218
+
+  > query("lista","f=sequence")
+
+   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
+
+  Mettre au moins la doc a jour (unimplemented)
+  
+  -- fait pour 1.0-5 JRL (voir crelistfromclientdata)
 
 o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
   il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
