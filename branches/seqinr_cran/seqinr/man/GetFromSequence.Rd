@@ -65,7 +65,7 @@
   \code{SeqFrag}.
 }
 \usage{
-getAnnot(object, nbl)
+getAnnot(object, nbl = 10000)
 getFrag(object, begin, end)
 getKeyword(object)
 getLength(object)
@@ -78,7 +78,9 @@ getTrans(object, frame = 0, sens = "F", numcode = 1)
   \item{object}{ an object of the class \code{SeqAcnucWeb}
     [ or of the classes \code{SeqFastadna}, \code{SeqFastaAA}] [ or of
     the class \code{SeqFrag}] }
-  \item{nbl}{ the number of line of annotation to read }
+  \item{nbl}{ the maximum number of line of annotation to read. Reading of 
+     lines stops when nl lines have been transmitted or at the last annotation 
+     line of the sequence (SQ or ORIGIN line). }
   \item{begin}{ First base }
   \item{end}{ Last base }
   \item{as.string}{if TRUE sequences are returned as a string instead of a vector of chars.}

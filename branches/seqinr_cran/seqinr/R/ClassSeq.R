@@ -52,7 +52,7 @@ getName.default = function(object){
  	stop("no name")
 }
 
-getAnnot.default = function(object,nbl){ 
+getAnnot.default <- function(object, nbl){ 
  	stop("no annotation for this sequence")
 }
 
@@ -93,8 +93,11 @@ getName =  function(object) {
 	else UseMethod("getName")
 }
 
-getAnnot = function(object,nbl) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
+getAnnot <- function(object, nbl = 10000) {
+	if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+	{
+	  getAnnot.default(object, nbl = nbl)
+	}
 	else UseMethod("getAnnot")
 }
 
@@ -291,7 +294,7 @@ getLength.SeqAcnucWeb = function( object ){
 
 
 
-getAnnot.SeqAcnucWeb = function(object, nbl ){
+getAnnot.SeqAcnucWeb <- function(object, nbl = 10000){
 		
 	return( readAnnots.socket( socket= attr(object,"socket"),name = object, nl = nbl) ) 
 
