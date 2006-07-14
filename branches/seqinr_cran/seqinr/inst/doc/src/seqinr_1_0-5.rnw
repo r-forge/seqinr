@@ -790,6 +790,8 @@ abline(c(0,1), col = "red")
 The results are consistent, we have just lost some resolution because
 there are only two figures after the decimal point in the Excel\footnote{
 this software is a real \textbf{pain} for the reproducibility of results.
+This is well documented, see \url{http://www.burns-stat.com/pages/Tutor/spreadsheet_addiction.html}
+and references therein.
 } file. Let's have a look at the GRAVY score now:
 
 <<comparekd,fig=T,eval=T>>=
