@@ -57,7 +57,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SEXP rvka;
   SEXP rvks;
   SEXP res;
-  SEXP lsequtil; /* The effective number of sites used, to be implemented */
+/*  SEXP lsequtil; The effective number of sites used, to be implemented */
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
