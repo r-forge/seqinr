@@ -430,9 +430,7 @@ was used to produce the figure, ensuring an automatic update. For \LaTeX~users, 
 worth mentioning the fantastic tool contributed by Friedrich Leish \cite{Sweave}
 called \texttt{Sweave()} that allows for the automatic insertion
 of R outputs (including graphics) in a \LaTeX~document. In the same spirit, there
-is a package called \texttt{xtable} to coerce R data into \LaTeX~tables, for instance
-table \ref{df} here was produced this way, enforcing a complete coherence between
-the R code example and the table.
+is a package called \texttt{xtable} to coerce R data into \LaTeX~tables.
 
 \end{description}
 
