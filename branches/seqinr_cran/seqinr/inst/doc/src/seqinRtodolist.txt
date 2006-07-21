@@ -1,3 +1,6 @@
+o Mettre dia=F par defaut dans tablecode
+
+o Le rose est trop fashy dans example(chargaff)
 
 o Mettre aaindex en data ?
 
