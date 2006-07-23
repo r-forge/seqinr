@@ -2,7 +2,7 @@
 # Genetic code table as in Text Books
 #
 
-tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE,
+tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = FALSE,
 latexfile = NULL)
 {
   aa1 <- c("*", "A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",

@@ -7,7 +7,7 @@ following the order \code{u > c > a > g} so that synonymous codons
 are almost always in the same boxes.
 }
 \usage{
-tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = TRUE, latexfile = NULL)
+tablecode(numcode = 1, urn.rna = c("u", "c", "a", "g"), dia = FALSE, latexfile = NULL)
 }
 \arguments{
   \item{numcode}{ The genetic code number as in \code{translate} }
