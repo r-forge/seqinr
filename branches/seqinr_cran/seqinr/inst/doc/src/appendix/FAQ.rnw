@@ -1,0 +1,61 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{FAQ: Frequently Asked Questions}
+\author{Lobry, J.R.}
+
+\begin{document}
+\SweaveInput{../config/commonrnw.rnw}
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{How do I compute a score on my sequences?}
+
+In the example below we want to compute the G+C content in third codon
+positions for complete ribosomal CDS from \textit{Escherichia coli}:
+
+<<gc3, fig=F,eval=T>>=
+choosebank("emblTP")
+query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
+sapply(sapply(ecribo$req, getSequence), GC3)
+@
+
+At the amino-acid level, we may get an estimate of the isoelectric point of
+the proteins this way:
+
+<<computePI,fig=F,eval=T>>=
+sapply( sapply(sapply(ecribo$req, getSequence), getTrans), computePI)
+@
+
+Note that some pre-defined vectors to compute linear forms on sequences are
+available in the \texttt{EXP} data.
+
+As a matter of convenience, you may encapsulate the computation of your favorite score 
+within a function this way :
+
+<<encapsulate,fig=F,eval=T>>=
+GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
+GC3m(ecribo)
+GC3m(ecribo, 1:10)
+@
+
+\section{How do I get a sequence from its name?}
+
+This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
+I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
+if I know its name, how can I get the sequence?
+
+<<uniprot,fig=F,eval=T>>=
+choosebank("swissprot") 
+query("myprot","AC=P08758")
+getSequence(myprot$req[[1]])       
+@
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}
