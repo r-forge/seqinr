@@ -48,7 +48,8 @@ positions for complete ribosomal CDS from \textit{Escherichia coli}:
 \begin{Sinput}
  choosebank("emblTP")
  query("ecribo", "sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
- sapply(sapply(ecribo$req, getSequence), GC3)
+ myseqs <- sapply(ecribo$req, getSequence)
+ (gc3 <- sapply(myseqs, GC3))
 \end{Sinput}
 \begin{Soutput}
  [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
@@ -69,8 +70,7 @@ the proteins this way:
 
 \begin{Schunk}
 \begin{Sinput}
- sapply(sapply(sapply(ecribo$req, getSequence), getTrans), 
-     computePI)
+ sapply(sapply(myseqs, getTrans), computePI)
 \end{Sinput}
 \begin{Soutput}
  [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
@@ -79,9 +79,9 @@ the proteins this way:
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
 [36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
-[43]  5.858421 11.777511 11.777511 10.619175 11.365744  9.460987 10.864793
-[50] 13.002373  9.845859 10.584862 11.421257 10.248325 11.031943 10.402075
-[57]  4.863862  6.612505  9.681066 11.150304 11.182499 11.043602  6.624309
+[43]  5.858421 11.777511 11.777516 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421252 10.248325 11.031938 10.402075
+[57]  4.863862  6.612505  9.681066 11.150310 11.182499 11.043607  6.624309
 [64]  6.612505  6.624309  4.310747
 \end{Soutput}
 \end{Schunk}
@@ -118,6 +118,33 @@ within a function this way:
  [8] 0.4974359 0.5031250 0.4324324
 \end{Soutput}
 \end{Schunk}
+
+\section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
+
+This question was raised (and solved) by Oliver Clay in an e-mail (23-AUG-2006).
+The program \texttt{codonW} was written in C as part of Jonh Peden's PhD thesis 
+on Codon Usage \cite{codonW} and is available at \url{http://codonw.sourceforge.net/}.
+The reason for the small differences in G+C content between the two programs is
+that the default behavior in \texttt{codonW} is to remove the stop codon before
+computations. Here is one way of removing the stop codon under \Rlogo{}:
+
+\begin{Schunk}
+\begin{Sinput}
+ gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 
+     3)]))
+\end{Sinput}
+\end{Schunk}
+
+As compared with the previous result, the difference is small but visible:
+
+\begin{Schunk}
+\begin{Sinput}
+ plot(x = gc3, y = gc3nos, las = 1, main = "Stop codon removal effect on G+C content\nin third codon positions", 
+     xlab = "With stop codon", ylab = "Stop codons removed")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-stopcodonremovaleffect}
 
 \section{How do I get a sequence from its name?}
 

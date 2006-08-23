@@ -17,14 +17,15 @@ positions for complete ribosomal CDS from \textit{Escherichia coli}:
 <<gc3, fig=F,eval=T>>=
 choosebank("emblTP")
 query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
-sapply(sapply(ecribo$req, getSequence), GC3)
+myseqs <- sapply(ecribo$req, getSequence)
+(gc3 <- sapply(myseqs, GC3))
 @
 
 At the amino-acid level, we may get an estimate of the isoelectric point of
 the proteins this way:
 
 <<computePI,fig=F,eval=T>>=
-sapply( sapply(sapply(ecribo$req, getSequence), getTrans), computePI)
+sapply( sapply(myseqs, getTrans), computePI)
 @
 
 Note that some pre-defined vectors to compute linear forms on sequences are
@@ -37,6 +38,27 @@ within a function this way:
 GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
 GC3m(ecribo)
 GC3m(ecribo, 1:10)
+@
+
+\section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
+
+This question was raised (and solved) by Oliver Clay in an e-mail (23-AUG-2006).
+The program \texttt{codonW} was written in C as part of Jonh Peden's PhD thesis 
+on Codon Usage \cite{codonW} and is available at \url{http://codonw.sourceforge.net/}.
+The reason for the small differences in G+C content between the two programs is
+that the default behavior in \texttt{codonW} is to remove the stop codon before
+computations. Here is one way of removing the stop codon under \Rlogo{}:
+
+<<gc3nos, fig=F,eval=T>>=
+gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 3)]))
+@
+
+As compared with the previous result, the difference is small but visible:
+
+<<stopcodonremovaleffect,fig=T,eval=T>>=
+plot(x = gc3, y = gc3nos, las =1, main="Stop codon removal effect on G+C content
+in third codon positions", xlab = "With stop codon", ylab ="Stop codons removed")
+abline(c(0,1))
 @
 
 \section{How do I get a sequence from its name?}
