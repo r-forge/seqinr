@@ -152,7 +152,16 @@ now possible.
 
 \end{itemize}
 
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+<<sessionInfo, results=tex, echo = F>>=
+toLatex(sessionInfo())
+@
+
 % END - DO NOT REMOVE THIS LINE
+
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
 \clearpage
@@ -160,3 +169,6 @@ now possible.
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}
+
+
+

@@ -31,7 +31,7 @@ Note that some pre-defined vectors to compute linear forms on sequences are
 available in the \texttt{EXP} data.
 
 As a matter of convenience, you may encapsulate the computation of your favorite score 
-within a function this way :
+within a function this way:
 
 <<encapsulate,fig=F,eval=T>>=
 GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
@@ -43,12 +43,23 @@ GC3m(ecribo, 1:10)
 
 This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
 I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
-if I know its name, how can I get the sequence?
+if I know its name\footnote{
+More exactly, this is the accession number. Sequence names are not stable over time,
+it's always better to use the accession numbers. 
+}, how can I get the sequence?
 
 <<uniprot,fig=F,eval=T>>=
 choosebank("swissprot") 
 query("myprot","AC=P08758")
 getSequence(myprot$req[[1]])       
+@
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+<<sessionInfo, results=tex, echo = F>>=
+toLatex(sessionInfo())
 @
 
 % END - DO NOT REMOVE THIS LINE
