@@ -1,9 +1,19 @@
 \documentclass[a4paper]{book}
 \input{../config/commontex}
+%
+% We use a dark blue for hyperlink color so that it prints well also in Black & White
+%
+\definecolor{MyDarkBlue}{rgb}{0.1,0,0.35} 
+\usepackage[colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
+citecolor = MyDarkBlue, filecolor = MyDarkBlue, menucolor = MyDarkBlue,
+pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = true]{hyperref}
+%
+% Note that the backref option doesn't seem to work
+%
 \setcounter{minitocdepth}{1}
 
 
-\title{\Seqinr{} \Sexpr{packageDescription("seqinr")$Version}: a contributed package to the R project 
+\title{\Seqinr{} \Sexpr{packageDescription("seqinr")$Version}: a contributed package to the \Rlogo{}~project 
 for statistical computing devoted to biological sequences retrieval and analysis}
 
 %
