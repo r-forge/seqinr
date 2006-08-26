@@ -1,15 +1,22 @@
 \documentclass[a4paper]{book}
 \input{../config/commontex}
 %
+% We want the package fncychap to use Conny's style for chapters
+%
+\usepackage[Conny]{fncychap}
+%
 % We use a dark blue for hyperlink color so that it prints well also in Black & White
+%
+% Note that the backref option doesn't seem to work
+%
+% This package *MUST* be the last one called
 %
 \definecolor{MyDarkBlue}{rgb}{0.1,0,0.35} 
 \usepackage[colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
 citecolor = MyDarkBlue, filecolor = MyDarkBlue, menucolor = MyDarkBlue,
 pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = true]{hyperref}
-%
-% Note that the backref option doesn't seem to work
-%
+
+
 \setcounter{minitocdepth}{1}
 
 
