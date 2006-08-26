@@ -13,6 +13,9 @@
 
 \begin{itemize}
 
+\item More typographical option for the output \LaTeX~table of \texttt{tablecode()}
+are now available.
+
 \item A new dataset \texttt{aaindex} extracted from the aaindex database
 \cite{aaindex1, aaindex2, aaindex3} is now available. It contains a list
 of 544 physicochemical and biological properties for the 20 amino-acids
