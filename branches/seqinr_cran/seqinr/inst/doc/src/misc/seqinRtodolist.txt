@@ -1,11 +1,26 @@
+o Probleme souleve par Oliver (23-AUG-2006):
+
+  Je voulais repondre a la requete du journal en incluant un exemple dans le
+  <<Supplementary Methods>>, puis j'ai constate' en introduisant des vrais
+  sequences d'ADN qu'il y avait toujours des legeres differences entre les
+  resultats de GC2(), GC3() dans seqInR par rapport a codonW (et par rapport
+  aux calculs du GC2 faits directement a partir des sequences proteiques).
+  J'ai vu par la suite que la raison etait assez simple: quand ACNUC/query
+  extrait un CDS, il inclut le codon stop, donc les operations de seqInR
+  s'etalent egalement sur ces derniers trois nucleotides, tandis que le
+  <<default>> de codonW c'est d'exclure le codon stop avant de faire ses
+  calculs.
+
+  Une solution (mise en FAQ pour 1.0-6) est:
+
+  GC(s[1:(length(s) - 3)])
+
+  mais ce n'est pas tres convivial. Ajouter une option "removeLastCodon" ?
+
+o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
+  pour getTrans.
+  
 o File -> file dans read.alignment()
-
-o Controsle de la taille des caracteres dans tablecode()
-
-o Mettre aaindex en data ?
-
-o Mieux documenter les nouvelles options de read.fasta dans la vignette.
-  Faire un exemple avec A. thaliana ?
 
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
@@ -42,8 +57,6 @@ o La fonction uco() pour calculer l'usage du code :
   comme pour getTrans().
   
 
-o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
-  pour getTrans.
 
 o Exemples de calculs d'indices d'usage du code dans la vignette du package
 
@@ -80,10 +93,15 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
+o Controsle de la taille des caracteres dans tablecode() et option boldtex
+  pour mettre certaines entrées en bold (faciliter la lecture des codes
+  variants) -- fait pour 1.0-6 JRL
+  
+o Mettre aaindex en data ? -- fait pour 1.0-6 JRL
+
 o Mettre dia=F par defaut dans tablecode -- fait pour 1.0-6 JRL
 
 o Le rose est trop fashy dans example(chargaff) -- fait pour 1.0-6 JRL
-
 
 o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
 
@@ -98,6 +116,9 @@ o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
   Mettre au moins la doc a jour (unimplemented)
   
   -- fait pour 1.0-5 JRL (voir crelistfromclientdata)
+
+o Mieux documenter les nouvelles options de read.fasta dans la vignette.
+  Faire un exemple avec A. thaliana ? -- Fait pour 1.0-5 JRL
 
 o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
   il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
