@@ -69,7 +69,9 @@ includepart <- function(filename, withminiTOC = TRUE){
     cat("\\faketableofcontents\n")
   }
   begin <- which(data == "% BEGIN - DO NOT REMOVE THIS LINE")
+  if(length(begin) == 0) stop(paste("begin problem with file", filename))
   end <- which(data == "% END - DO NOT REMOVE THIS LINE")
+  if(length(end) == 0) stop(paste("end problem with file", filename))
   cat(data[begin:end], sep = "\n")
 }
 @
