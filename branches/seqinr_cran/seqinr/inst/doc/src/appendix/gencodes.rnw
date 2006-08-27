@@ -25,10 +25,17 @@ label = "stdcode", size = "small")
 
 \section{Available genetic code numbers}
 
+The genetic code numbers are those from the NCBI\footnote{
+National Center for Biotechnology Information, Bethesda, Maryland, U.S.A.
+} (\url{http://130.14.29.110/Taxonomy/Utils/wprintgc.cgi?mode=c}).
+This compilation from Andrzej (Anjay) Elzanowski, Jim Ostell, Detlef Leipe, 
+and Vladimir Soussov is based primarily on two previous reviews
+\cite{OsawaS1992, JukesTH1993}.
+
 <<availcodes,fig=F,eval=T>>=
 codes <- SEQINR.UTIL$CODES.NCBI
-(availablecodes <- which(codes$CODES != "deleted"))
-codes[availablecodes,"ORGANISMES"]
+availablecodes <- which(codes$CODES != "deleted")
+codes[availablecodes,"ORGANISMES", drop = FALSE]
 @
 
 The tables of variant genetic codes outlining the differences were produced with the
