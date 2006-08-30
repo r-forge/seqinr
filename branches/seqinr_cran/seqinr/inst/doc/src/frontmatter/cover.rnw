@@ -6,12 +6,15 @@
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
+\maketitle
+\tableofcontents
+\newpage
+% BEGIN - DO NOT REMOVE THIS LINE
 
 \thispagestyle{empty}
 \atxy(0cm,0cm) {\includegraphics[width=\paperwidth,height=\paperheight]{../figs/cover}}
 \clearpage
-\maketitle
-% BEGIN - DO NOT REMOVE THIS LINE
+\newpage
 
 \section{The march of progress icon}
 
@@ -91,9 +94,14 @@ release on the CRAN\footnote{
 Comprehensive R Archive Network.
 } was in october 2004.
 
-\section{Technical Details}
+\section{Technical details}
 
-The cover was saved from Canvas into an EPS file and then converted into RGML
+The cover was saved from Canvas into an EPS\footnote{
+Encapsulated Postscrit.
+} file. This file was then manually 
+edited to remove non-ASCII characters. It was then converted into RGML\footnote{
+RDF (Resource Description Framework) Graph Modeling Language (\url{http://www.cs.rpi.edu/~puninj/RGML/}).
+} format
 with the following \Rlogo{}~code based on \texttt{grid} \cite{grid},
 \texttt{XML} \cite{XML} and \texttt{grImport} \cite{grImport}:
  
@@ -123,6 +131,10 @@ An inserted into the \LaTeX~file with:
 \begin{verbatim}
 \atxy(0cm,0cm) {\includegraphics[width=\paperwidth,height=\paperheight]{../figs/cover}}
 \end{verbatim}
+
+
+\SweaveInput{../config/sessionInfo.rnw}
+
 % END - DO NOT REMOVE THIS LINE
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
