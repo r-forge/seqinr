@@ -31,6 +31,42 @@ for statistical computing devoted to biological sequences retrieval and analysis
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
+
+%
+% Define a utility function to incorporate a file
+%
+
+<<includepart, echo=F, fig=F>>=
+includepart <- function(filename, withminiTOC = TRUE, withchapter = TRUE){
+  infile <- file(description = filename, open = "r")
+  data <- readLines(infile)
+  close(infile)
+  if(withchapter){
+    titleline <- data[which(substr(data,1,7) == "\\title{")]
+    cat(paste("\\chapter", substr(titleline, 7, nchar(titleline)), "\n", sep = ""))
+    authorline <- data[which(substr(data,1,8) == "\\author{")]
+    cat(paste(authorline, "\n"))
+  }
+  if(withminiTOC){
+    cat("\\minitoc\n")
+    cat("\\faketableofcontents\n")
+  }
+  begin <- which(data == "% BEGIN - DO NOT REMOVE THIS LINE")
+  if(length(begin) == 0) stop(paste("begin problem with file", filename))
+  end <- which(data == "% END - DO NOT REMOVE THIS LINE")
+  if(length(end) == 0) stop(paste("end problem with file", filename))
+  cat(data[begin:end], sep = "\n")
+}
+@
+
+%
+% Make the cover
+%
+<<cover, echo=F,results=tex, fig = F>>=
+includepart("../frontmatter/cover.tex", withminiTOC = F, withchapter=FALSE)
+@
+
+\newpage
 \maketitle
 \dominitoc
 \tableofcontents
@@ -68,35 +104,11 @@ writeLines(paste("\\author{", results, "}"), out)
 close(out)
 @
 
-%
-% Define a utility function to incorporate a file
-%
-
-<<includepart, echo=F, fig=F>>=
-includepart <- function(filename, withminiTOC = TRUE){
-  infile <- file(description = filename, open = "r")
-  data <- readLines(infile)
-  close(infile)
-  titleline <- data[which(substr(data,1,7) == "\\title{")]
-  cat(paste("\\chapter", substr(titleline, 7, nchar(titleline)), "\n", sep = ""))
-  authorline <- data[which(substr(data,1,8) == "\\author{")]
-  cat(paste(authorline, "\n"))
-  if(withminiTOC){
-    cat("\\minitoc\n")
-    cat("\\faketableofcontents\n")
-  }
-  begin <- which(data == "% BEGIN - DO NOT REMOVE THIS LINE")
-  if(length(begin) == 0) stop(paste("begin problem with file", filename))
-  end <- which(data == "% END - DO NOT REMOVE THIS LINE")
-  if(length(end) == 0) stop(paste("end problem with file", filename))
-  cat(data[begin:end], sep = "\n")
-}
-@
 
 \frontmatter
   
 <<frontmatter, echo=F,results=tex, fig = F>>=
-for(part in frontmatter) includepart(part, withminiTOC = F)
+for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includepart(part, withminiTOC = F)
 @
 
 \mainmatter
