@@ -16,7 +16,7 @@
 \clearpage
 \newpage
 
-\section{The march of progress icon}
+\section*{The march of progress icon}
 
 The cover, an artwork created\footnote{
 with Canvas from  ACD Systems.}
@@ -42,7 +42,7 @@ We know now that evolution doesn not equal progress, and this is illutrated
 here in the cover by the unusual \textbf{decreasing} size from the initial 
 character (on the left) to the last one (on the right).
 
-\section{The character on the left}
+\section*{The character on the left}
 
 The character on the left is called Casimir, the cult character of the french
 TV show \textit{l'{\^i}le aux enfants}\marginpar{
@@ -78,7 +78,7 @@ was entirely written in FORTRAN-77, and although you won't find any fossil
 code from it within \seqinr{}, we wanted to credit symbolically ANALSEQ as 
 a kind of spiritual ancestor of \seqinr{}~with the cover.
 
-\section{The character on the right}
+\section*{The character on the right}
 
 The character on the right is called Kirikou\marginpar{
 \includegraphics[width=\marginparwidth]{../figs/Kirikou}
@@ -94,7 +94,7 @@ release on the CRAN\footnote{
 Comprehensive R Archive Network.
 } was in october 2004.
 
-\section{Technical details}
+\section*{Technical details}
 
 The cover was saved from Canvas into an EPS\footnote{
 Encapsulated Postscrit.
@@ -112,7 +112,8 @@ library(grImport)
 PostScriptTrace("../figs/couverture.eps", "../figs/couverture.rgml") 
 @
 
-The picture was then edited to add the current \seqinr{}~release number:
+The picture was then edited to add automatically 
+the current \seqinr{}~release number:
 
 
 <<coverfig,fig=F,echo=T,results=hide,eval=T>>=
@@ -126,14 +127,23 @@ y = unit(0.72, "npc"))
 popViewport()
 dev.off()
 @
-An inserted into the \LaTeX~file with:
+
+And finally inserted at the begining of the \LaTeX~file with:
 
 \begin{verbatim}
-\atxy(0cm,0cm) {\includegraphics[width=\paperwidth,height=\paperheight]{../figs/cover}}
+\atxy(0cm,0cm){
+  \includegraphics[width=\paperwidth,height=\paperheight]{../figs/cover}
+}
 \end{verbatim}
 
 
-\SweaveInput{../config/sessionInfo.rnw}
+\section*{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+<<sessionInfo, results=tex, echo = F>>=
+toLatex(sessionInfo())
+@
 
 % END - DO NOT REMOVE THIS LINE
 
