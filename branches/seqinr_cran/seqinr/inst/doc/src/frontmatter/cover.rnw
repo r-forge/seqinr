@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Cover}
-\author{Humblot, L., Lobry, J.R.}
+\author{Humblot, L. \and Lobry, J.R.}
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
