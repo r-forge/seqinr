@@ -14,7 +14,7 @@
 In the example below we want to compute the G+C content in third codon
 positions for complete ribosomal CDS from \textit{Escherichia coli}:
 
-<<gc3, fig=F,eval=F>>=
+<<gc3, fig=F,eval=T>>=
 choosebank("emblTP")
 query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
 myseqs <- sapply(ecribo$req, getSequence)
@@ -24,7 +24,7 @@ myseqs <- sapply(ecribo$req, getSequence)
 At the amino-acid level, we may get an estimate of the isoelectric point of
 the proteins this way:
 
-<<computePI,fig=F,eval=F>>=
+<<computePI,fig=F,eval=T>>=
 sapply( sapply(myseqs, getTrans), computePI)
 @
 
@@ -34,7 +34,7 @@ available in the \texttt{EXP} data.
 As a matter of convenience, you may encapsulate the computation of your favorite score 
 within a function this way:
 
-<<encapsulate,fig=F,eval=F>>=
+<<encapsulate,fig=F,eval=T>>=
 GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
 GC3m(ecribo)
 GC3m(ecribo, 1:10)
@@ -49,13 +49,13 @@ The reason for the small differences in G+C content between the two programs is
 that the default behavior in \texttt{codonW} is to remove the stop codon before
 computations. Here is one way of removing the stop codon under \Rlogo{}:
 
-<<gc3nos, fig=F,eval=F>>=
+<<gc3nos, fig=F,eval=T>>=
 gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 3)]))
 @
 
 As compared with the previous result, the difference is small but visible:
 
-<<stopcodonremovaleffect,fig=T,eval=F>>=
+<<stopcodonremovaleffect,fig=T,eval=T>>=
 plot(x = gc3, y = gc3nos, las =1, main="Stop codon removal effect on G+C content
 in third codon positions", xlab = "With stop codon", ylab ="Stop codons removed")
 abline(c(0,1))
@@ -194,19 +194,13 @@ More exactly, this is the accession number. Sequence names are not stable over t
 it's always better to use the accession numbers. 
 }, how can I get the sequence?
 
-<<uniprot,fig=F,eval=F>>=
+<<uniprot,fig=F,eval=T>>=
 choosebank("swissprot") 
 query("myprot","AC=P08758")
 getSequence(myprot$req[[1]])       
 @
 
-\section{Session Informations}
-
-This part was compiled under the following \Rlogo{}~environment:
-
-<<sessionInfo, results=tex, echo = F>>=
-toLatex(sessionInfo())
-@
+\SweaveInput{../config/sessionInfo.rnw}
 
 % END - DO NOT REMOVE THIS LINE
 

@@ -51,6 +51,18 @@ positions for complete ribosomal CDS from \textit{Escherichia coli}:
  myseqs <- sapply(ecribo$req, getSequence)
  (gc3 <- sapply(myseqs, GC3))
 \end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324 0.5000000 0.5113636 0.5290520 0.6142857
+[15] 0.4904762 0.5714286 0.6191860 0.5906040 0.4880000 0.4880000 0.4946237
+[22] 0.6046512 0.5000000 0.3522727 0.5076923 0.4343434 0.6194030 0.5522388
+[29] 0.6104651 0.5661157 0.4946237 0.4946237 0.6079734 0.5000000 0.6343284
+[36] 0.4659091 0.5789474 0.4946237 0.5000000 0.4974359 0.5689655 0.4611111
+[43] 0.4611111 0.5303030 0.5303030 0.4482759 0.4201681 0.5915493 0.5000000
+[50] 0.3829787 0.4519231 0.4302326 0.5696203 0.4285714 0.5689655 0.5000000
+[57] 0.5224417 0.5661157 0.6057692 0.4444444 0.4659091 0.4130435 0.4946237
+[64] 0.5661157 0.4946237 0.5680272
+\end{Soutput}
 \end{Schunk}
 
 At the amino-acid level, we may get an estimate of the isoelectric point of
@@ -60,6 +72,18 @@ the proteins this way:
 \begin{Sinput}
  sapply(sapply(myseqs, getTrans), computePI)
 \end{Sinput}
+\begin{Soutput}
+ [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
+ [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
+[15]  9.435422  4.310747  6.145496  4.876054 11.006424 10.876041  6.624309
+[22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
+[29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
+[36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
+[43]  5.858421 11.777516 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421257 10.248325 11.031938 10.402075
+[57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043602  6.624309
+[64]  6.612505  6.624309  4.310747
+\end{Soutput}
 \end{Schunk}
 
 Note that some pre-defined vectors to compute linear forms on sequences are
@@ -73,8 +97,26 @@ within a function this way:
  GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], 
      getSequence), GC3)
  GC3m(ecribo)
+\end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324 0.5000000 0.5113636 0.5290520 0.6142857
+[15] 0.4904762 0.5714286 0.6191860 0.5906040 0.4880000 0.4880000 0.4946237
+[22] 0.6046512 0.5000000 0.3522727 0.5076923 0.4343434 0.6194030 0.5522388
+[29] 0.6104651 0.5661157 0.4946237 0.4946237 0.6079734 0.5000000 0.6343284
+[36] 0.4659091 0.5789474 0.4946237 0.5000000 0.4974359 0.5689655 0.4611111
+[43] 0.4611111 0.5303030 0.5303030 0.4482759 0.4201681 0.5915493 0.5000000
+[50] 0.3829787 0.4519231 0.4302326 0.5696203 0.4285714 0.5689655 0.5000000
+[57] 0.5224417 0.5661157 0.6057692 0.4444444 0.4659091 0.4130435 0.4946237
+[64] 0.5661157 0.4946237 0.5680272
+\end{Soutput}
+\begin{Sinput}
  GC3m(ecribo, 1:10)
 \end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324
+\end{Soutput}
 \end{Schunk}
 
 \section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
@@ -102,6 +144,7 @@ As compared with the previous result, the difference is small but visible:
  abline(c(0, 1))
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/FAQ-stopcodonremovaleffect}
 
 \texttt{CodonW} was released with a test file called \texttt{input.dat}, here are
 the first 10 lines of the file copied from \texttt{CodonWSourceCode\_1\_4\_4}:
@@ -339,7 +382,28 @@ it's always better to use the accession numbers.
  query("myprot", "AC=P08758")
  getSequence(myprot$req[[1]])
 \end{Sinput}
+\begin{Soutput}
+  [1] "A" "Q" "V" "L" "R" "G" "T" "V" "T" "D" "F" "P" "G" "F" "D" "E" "R" "A"
+ [19] "D" "A" "E" "T" "L" "R" "K" "A" "M" "K" "G" "L" "G" "T" "D" "E" "E" "S"
+ [37] "I" "L" "T" "L" "L" "T" "S" "R" "S" "N" "A" "Q" "R" "Q" "E" "I" "S" "A"
+ [55] "A" "F" "K" "T" "L" "F" "G" "R" "D" "L" "L" "D" "D" "L" "K" "S" "E" "L"
+ [73] "T" "G" "K" "F" "E" "K" "L" "I" "V" "A" "L" "M" "K" "P" "S" "R" "L" "Y"
+ [91] "D" "A" "Y" "E" "L" "K" "H" "A" "L" "K" "G" "A" "G" "T" "N" "E" "K" "V"
+[109] "L" "T" "E" "I" "I" "A" "S" "R" "T" "P" "E" "E" "L" "R" "A" "I" "K" "Q"
+[127] "V" "Y" "E" "E" "E" "Y" "G" "S" "S" "L" "E" "D" "D" "V" "V" "G" "D" "T"
+[145] "S" "G" "Y" "Y" "Q" "R" "M" "L" "V" "V" "L" "L" "Q" "A" "N" "R" "D" "P"
+[163] "D" "A" "G" "I" "D" "E" "A" "Q" "V" "E" "Q" "D" "A" "Q" "A" "L" "F" "Q"
+[181] "A" "G" "E" "L" "K" "W" "G" "T" "D" "E" "E" "K" "F" "I" "T" "I" "F" "G"
+[199] "T" "R" "S" "V" "S" "H" "L" "R" "K" "V" "F" "D" "K" "Y" "M" "T" "I" "S"
+[217] "G" "F" "Q" "I" "E" "E" "T" "I" "D" "R" "E" "T" "S" "G" "N" "L" "E" "Q"
+[235] "L" "L" "L" "A" "V" "V" "K" "S" "I" "R" "S" "I" "P" "A" "Y" "L" "A" "E"
+[253] "T" "L" "Y" "Y" "A" "M" "K" "G" "A" "G" "T" "D" "D" "H" "T" "L" "I" "R"
+[271] "V" "M" "V" "S" "R" "S" "E" "I" "D" "L" "F" "N" "I" "R" "K" "E" "F" "R"
+[289] "K" "N" "F" "A" "T" "S" "L" "Y" "S" "M" "I" "K" "G" "D" "T" "S" "G" "D"
+[307] "Y" "K" "K" "A" "L" "L" "L" "L" "C" "G" "E" "D" "D"
+\end{Soutput}
 \end{Schunk}
+
 
 \section{Session Informations}
 
@@ -353,6 +417,7 @@ This part was compiled under the following \Rlogo{}~environment:
     gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
     xtable~1.3-0
 \end{itemize}
+
 % END - DO NOT REMOVE THIS LINE
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%

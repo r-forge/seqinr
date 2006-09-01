@@ -11,10 +11,16 @@
 
 \section{release 1.0-6}
 
+Release 1.0-6 is a minor release to fix a problem found and solved by Kurt Hornik
+(namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
+in C code for \texttt{s2c()} in file \texttt{util.c}). The few changes are
+as follows.
+
 \begin{itemize}
 
 \item More typographical option for the output \LaTeX~table of \texttt{tablecode()}
-are now available.
+are now available to outline deviations from the standard genetic code (see example in the
+appendix "genetic codes" of the manual).
 
 \item A new dataset \texttt{aaindex} extracted from the aaindex database
 \cite{aaindex1, aaindex2, aaindex3} is now available. It contains a list
@@ -155,13 +161,8 @@ now possible.
 
 \end{itemize}
 
-\section{Session Informations}
 
-This part was compiled under the following \Rlogo{}~environment:
-
-<<sessionInfo, results=tex, echo = F>>=
-toLatex(sessionInfo())
-@
+\SweaveInput{../config/sessionInfo.rnw}
 
 % END - DO NOT REMOVE THIS LINE
 
