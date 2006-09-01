@@ -37,7 +37,7 @@
 
 
 \maketitle
-% BEGIN - DO NOT REMOVE THIS LINE
+% BEGIN - DO NOT \Rlogo{}~EMOVE THIS LINE
 
 \section{Sequence classes}
 
@@ -81,14 +81,14 @@ Available methods are:
 \section{Internal representation of sequences}
 
 The current mode of sequence storage is done with vectors of characters instead of strings.
-This is very convenient for the user because all R tools to manipulate vectors are immediatly available. 
+This is very convenient for the user because all \Rlogo{}~ tools to manipulate vectors are immediatly available. 
 The price to pay is that this storage mode is extremly expensive in terms of memory.
 They are two utilities called \texttt{s2c()} and \texttt{c2s()} that allows to convert strings into 
 vector of characters, and \textit{vice versa}, respectively.
 
 \subsection{Sequences as vectors of characters}
 
-In the vectorial representation mode, all the very convenient R tools for indexing vectors
+In the vectorial representation mode, all the very convenient \Rlogo{}~ tools for indexing vectors
 are at hand.
 \begin{enumerate}
 \item Vectors can be indexed by a vector of \emph{positive} integers saying which
@@ -97,6 +97,8 @@ are easily extracted thanks to the binary operator \texttt{from:to}, as in:
 
 \begin{Schunk}
 \begin{Sinput}
+ dnafile <- system.file("sequences/malM.fasta", package = "seqinr")
+ myseq <- read.fasta(file = dnafile)[[1]]
  1:50
 \end{Sinput}
 \begin{Soutput}
@@ -108,9 +110,9 @@ are easily extracted thanks to the binary operator \texttt{from:to}, as in:
  myseq[1:50]
 \end{Sinput}
 \begin{Soutput}
- [1] "a" "t" "g" "a" "a" "t" "c" "a" "a" "g" "g" "a" "g" "c" "c" "g" "t" "t"
-[19] "t" "t" "t" "a" "g" "g" "c" "a" "c" "c" "t" "g" "c" "t" "c" "c" "t" "g"
-[37] "g" "t" "g" "c" "t" "g" "c" "a" "g" "c" "t" "g" "g" "t"
+ [1] "a" "t" "g" "a" "a" "a" "a" "t" "g" "a" "a" "t" "a" "a" "a" "a" "g" "t"
+[19] "c" "t" "c" "a" "t" "c" "g" "t" "c" "c" "t" "c" "t" "g" "t" "t" "t" "a"
+[37] "t" "c" "a" "g" "c" "a" "g" "g" "g" "t" "t" "a" "c" "t"
 \end{Soutput}
 \end{Schunk}
 
@@ -131,7 +133,7 @@ selection is weak. Let's extract bases from third codon positions:
  myseqtcp[1:10]
 \end{Sinput}
 \begin{Soutput}
- [1] "g" "t" "a" "a" "c" "t" "t" "g" "c" "g"
+ [1] "g" "a" "g" "t" "a" "t" "c" "c" "c" "c"
 \end{Soutput}
 \end{Schunk}
  
@@ -151,7 +153,7 @@ the easiest way is to remove third codon positions:
  myseqfscp[1:10]
 \end{Sinput}
 \begin{Soutput}
- [1] "a" "t" "a" "a" "c" "a" "g" "g" "g" "c"
+ [1] "a" "t" "a" "a" "a" "t" "a" "a" "a" "a"
 \end{Soutput}
 \end{Schunk}
 
@@ -170,7 +172,7 @@ from our sequence. First, we define a vector of three logicals with only the las
 \end{Schunk}
 
 This vector seems too short for our purpose because our sequence is much more longer
-with its 1425 bases. But under R vectors are automatically \emph{recycled}
+with its 921 bases. But under \Rlogo{}~ vectors are automatically \emph{recycled}
 when they are not long enough:
 
 \begin{Schunk}
@@ -197,12 +199,12 @@ The result should be the same as previously:
 \end{Schunk}
 
 This recycling rule is extremely convenient in practice but may have surprising
-effects if you assume (incorrectly) that there is a stringent dimension control for R vectors
+effects if you assume (incorrectly) that there is a stringent dimension control for \Rlogo{}~ vectors
 as in linear algebra.
 
 \end{enumerate}
 
-Another advantage of working with vector of characters is that most R functions
+Another advantage of working with vector of characters is that most \Rlogo{}~ functions
 are vectorized so that many things can be done without explicit looping. Let's
 give some very simple examples:
 
@@ -212,13 +214,13 @@ give some very simple examples:
 \end{Sinput}
 \end{Schunk}
 
-The total number of \texttt{a} in our sequence is 350. Let's compare
+The total number of \texttt{a} in our sequence is 238. Let's compare
 graphically the different base counts in our sequence :
 
 \begin{Schunk}
 \begin{Sinput}
  basecount <- table(myseq)
- myseqname <- getName(completeCatsCDS$req[[1]])
+ myseqname <- getName(myseq)
  dotchart(basecount, xlim = c(0, max(basecount)), pch = 19, 
      main = paste("Base count in", myseqname))
 \end{Sinput}
@@ -247,7 +249,7 @@ graphically the different base counts in our sequence :
 
 If you are interested in (fuzzy) pattern matching, then it is advisable to work with
 sequence as strings to take advantage of \emph{regular expression} implemented
-in R. The function \texttt{words.pos()} returns the positions of all occurrences
+in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
 of a given regular expression. Let's suppose we want to know where are the trinucleotides
 "cgt" in a sequence, that is the fragment CpGpT in the direct strand:
 
@@ -257,7 +259,7 @@ of a given regular expression. Let's suppose we want to know where are the trinu
  words.pos("cgt", mystring)
 \end{Sinput}
 \begin{Soutput}
-[1]   15  854  909  919  987 1248
+ [1]  24  90 216 245 252 315 330 405 432 452 552 592 648 836 883
 \end{Soutput}
 \end{Schunk}
 
@@ -269,7 +271,7 @@ Y (IUPAC code for pyrimidine) stands C or T:
  words.pos("cgt[ct]", mystring)
 \end{Sinput}
 \begin{Soutput}
-[1]  15 909 919
+ [1]  24 216 252 315 432 452 552 592 836 883
 \end{Soutput}
 \end{Schunk}
 
@@ -279,8 +281,7 @@ To look for all CpC dinucleotides separated by 3 or 4 bases:
  words.pos("cc.{3,4}cc", mystring)
 \end{Sinput}
 \begin{Soutput}
- [1]   27  121  152  278  431  437  471  476  477  492  555  618  722  788
-[15]  809  885  886  939 1043 1046 1190 1220 1263
+ [1]  72 119 176 177 539 577 578 638 677 682 730 731 736 881 882
 \end{Soutput}
 \end{Schunk}
 
@@ -288,11 +289,25 @@ Virtually any pattern is easily encoded with a regular expression. This is
 especially useful at the protein level because many functions can be attributed 
 to short linear motifs.
 
-% END - DO NOT REMOVE THIS LINE
 
-%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
+    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
+    xtable~1.3-0
+\end{itemize}
+
+% END - DO NOT \Rlogo{}~EMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOG\Rlogo{}~APHY %%%%%%%%%%%%%%%%%
 \clearpage
-\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{section}{\Rlogo{}~eferences}
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}

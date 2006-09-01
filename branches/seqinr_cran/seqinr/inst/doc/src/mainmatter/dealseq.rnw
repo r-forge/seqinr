@@ -7,7 +7,7 @@
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
-% BEGIN - DO NOT REMOVE THIS LINE
+% BEGIN - DO NOT \Rlogo{}~EMOVE THIS LINE
 
 \section{Sequence classes}
 
@@ -51,14 +51,14 @@ Available methods are:
 \section{Internal representation of sequences}
 
 The current mode of sequence storage is done with vectors of characters instead of strings.
-This is very convenient for the user because all R tools to manipulate vectors are immediatly available. 
+This is very convenient for the user because all \Rlogo{}~ tools to manipulate vectors are immediatly available. 
 The price to pay is that this storage mode is extremly expensive in terms of memory.
 They are two utilities called \texttt{s2c()} and \texttt{c2s()} that allows to convert strings into 
 vector of characters, and \textit{vice versa}, respectively.
 
 \subsection{Sequences as vectors of characters}
 
-In the vectorial representation mode, all the very convenient R tools for indexing vectors
+In the vectorial representation mode, all the very convenient \Rlogo{}~ tools for indexing vectors
 are at hand.
 \begin{enumerate}
 \item Vectors can be indexed by a vector of \emph{positive} integers saying which
@@ -66,6 +66,8 @@ elements are to be selected. As we have already seen, the first 50 elements of a
 are easily extracted thanks to the binary operator \texttt{from:to}, as in:
 
 <<fromto,eval=T>>=
+dnafile <- system.file("sequences/malM.fasta", package = "seqinr")
+myseq <- read.fasta(file = dnafile)[[1]]
 1:50
 myseq[1:50]
 @
@@ -101,7 +103,7 @@ ind
 @
 
 This vector seems too short for our purpose because our sequence is much more longer
-with its \Sexpr{ifelse(exists("myseq"), length(myseq), "???")} bases. But under R vectors are automatically \emph{recycled}
+with its \Sexpr{ifelse(exists("myseq"), length(myseq), "???")} bases. But under \Rlogo{}~ vectors are automatically \emph{recycled}
 when they are not long enough:
 
 <<myseqtcp2, eval=T>>=
@@ -116,12 +118,12 @@ The result should be the same as previously:
 @
 
 This recycling rule is extremely convenient in practice but may have surprising
-effects if you assume (incorrectly) that there is a stringent dimension control for R vectors
+effects if you assume (incorrectly) that there is a stringent dimension control for \Rlogo{}~ vectors
 as in linear algebra.
 
 \end{enumerate}
 
-Another advantage of working with vector of characters is that most R functions
+Another advantage of working with vector of characters is that most \Rlogo{}~ functions
 are vectorized so that many things can be done without explicit looping. Let's
 give some very simple examples:
 
@@ -134,7 +136,7 @@ graphically the different base counts in our sequence :
 
 <<vecto2, height = 3, fig=TRUE, eval=T>>=
 basecount <- table(myseq)
-myseqname <- getName(completeCatsCDS$req[[1]])
+myseqname <- getName(myseq)
 dotchart(basecount, xlim = c(0, max(basecount)), pch = 19,
   main = paste("Base count in",  myseqname))
 @
@@ -145,7 +147,7 @@ dotchart(dinuclcount[order(dinuclcount)], xlim = c(0, max(dinuclcount)), pch = 1
   main = paste("Dinucleotide count in",  myseqname))
 @
 
-<<vecto4, height = 9, fig=TRUE, eval=T>>=
+<<vecto4, height = 10, fig=TRUE, eval=T>>=
 codonusage <- uco(myseq)
 dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 @
@@ -155,7 +157,7 @@ dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 
 If you are interested in (fuzzy) pattern matching, then it is advisable to work with
 sequence as strings to take advantage of \emph{regular expression} implemented
-in R. The function \texttt{words.pos()} returns the positions of all occurrences
+in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
 of a given regular expression. Let's suppose we want to know where are the trinucleotides
 "cgt" in a sequence, that is the fragment CpGpT in the direct strand:
 
@@ -180,11 +182,13 @@ Virtually any pattern is easily encoded with a regular expression. This is
 especially useful at the protein level because many functions can be attributed 
 to short linear motifs.
 
-% END - DO NOT REMOVE THIS LINE
+\SweaveInput{../config/sessionInfo.rnw}
 
-%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+% END - DO NOT \Rlogo{}~EMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOG\Rlogo{}~APHY %%%%%%%%%%%%%%%%%
 \clearpage
-\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{section}{\Rlogo{}~eferences}
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}
