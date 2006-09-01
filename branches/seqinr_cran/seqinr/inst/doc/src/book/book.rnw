@@ -1,6 +1,9 @@
 \documentclass[a4paper]{book}
 \input{../config/commontex}
 %
+\usepackage{minitoc} % Mini table of contents for each chapter
+\usepackage{atxy} % Front cover
+%
 % We want the package fncychap to use Conny's style for chapters
 %
 \usepackage[Conny]{fncychap}
@@ -88,7 +91,7 @@ appendix <- rnw2tex("../appendix")
 %
 <<authors,echo=F,results=hide,fig=F>>=
 results <- character(0)
-for(filename in mainmatter){
+for(filename in c(mainmatter, "../frontmatter/cover.tex")){
   infile <- file(description = filename, open = "r")
   data <- readLines(infile)
   close(infile)
@@ -132,7 +135,7 @@ for(part in appendix) includepart(part, withminiTOC = F)
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
 \clearpage
-\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}

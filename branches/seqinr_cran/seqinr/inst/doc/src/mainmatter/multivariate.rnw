@@ -642,6 +642,8 @@ use the two-dimensional kernel density estimation provided by the function
 % Akashi Gojobori
 %
 
+\textit{To be completed}
+
 <<xaacost, fig = FALSE, echo = FALSE,eval=T>>=
 data(aacost)
 print(xtable(aacost, digits = rep(0,8), caption = "Aerobic cost of amino-acids in \\textit{Escherichia coli} and G+C classes to be loaded with \\texttt{data(aacost).}", 
@@ -649,6 +651,8 @@ label = "aacost"),
 file = "../tables/aacost.tex")
 @
 \input{../tables/aacost.tex}
+
+\SweaveInput{../config/sessionInfo.rnw}
 
 % END - DO NOT REMOVE THIS LINE
 

@@ -511,6 +511,9 @@ strains. We can say that pyrimidine dinucleotides are not avoided, and
 that the hypothesis by Singer and Ames \cite{Singer} no longer stands
 \cite{UV}.
 
+\SweaveInput{../config/sessionInfo.rnw}
+
+
 % END - DO NOT REMOVE THIS LINE
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%

@@ -717,7 +717,7 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 \end{verbatim} 
 \normalsize
 
-Make sure that your text has been saved and then go back to R console to enter
+Make sure that your text has been saved and then go back to \Rlogo{}~console to enter
 the command :
 
 \scriptsize
@@ -726,11 +726,11 @@ source("essai.r")
 \end{verbatim}
 \normalsize
 
-This should reproduce the previous face-to-face phylogenetic trees in your R graphical device. 
+This should reproduce the previous face-to-face phylogenetic trees in your \Rlogo{}~graphical device. 
 Now, your boss is unhappy with working with the Jukes and Cantor's model \cite{JC}
 and wants you to use the Kimura's 2-parameters distance \cite{K80} instead.
 Go back to the text editor to change \texttt{model = "JC69"} by \texttt{model = "K80"},
-save the file, and in the R console \texttt{source("essai.r")} again, you should
+save the file, and in the \Rlogo{}~console \texttt{source("essai.r")} again, you should
 obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
@@ -760,9 +760,11 @@ system.file("sequences/louse.fasta", package = "seqinr")
 @
 
 Open the \texttt{louse.fasta} file
-in your text editor, fix the error, go back to the R console to
+in your text editor, fix the error, go back to the \Rlogo{}~console to
 \texttt{source("essai.r")} again. That's all, your graph is now consistent with
 the updated dataset.
+
+\SweaveInput{../config/sessionInfo.rnw}
 
 
 % END - DO NOT REMOVE THIS LINE

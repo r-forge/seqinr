@@ -330,8 +330,8 @@ As from \seqinr{} 1.0-4, it is possible to export the table of a genetic code in
 for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} were automatically generated with the following R code:
 
 <<latextablecode,fig=F,eval=T>>=
-tablecode(numcode = 3, urn.rna = s2c("TCAG"), latexfile = "../tables/code3.tex")
-tablecode(numcode = 4, urn.rna = s2c("TCAG"), latexfile = "../tables/code4.tex")
+tablecode(numcode = 3, latexfile = "../tables/code3.tex", size = "small")
+tablecode(numcode = 4, latexfile = "../tables/code4.tex", size = "small")
 @
 
 \input{../tables/code3.tex}
@@ -402,7 +402,9 @@ For \LaTeX~users, it's
 worth mentioning the fantastic tool contributed by Friedrich Leish \cite{Sweave}
 called \texttt{Sweave()} that allows for the automatic insertion
 of \Rlogo{}~outputs (including graphics) in a \LaTeX~document. In the same spirit, there
-is a package called \texttt{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
+is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
+
+\SweaveInput{../config/sessionInfo.rnw}
 
 % END - DO NOT REMOVE THIS LINE
 

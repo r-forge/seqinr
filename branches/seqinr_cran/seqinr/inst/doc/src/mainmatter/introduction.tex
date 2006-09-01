@@ -126,8 +126,8 @@ release with the same format as the ACNUC book:
  mybank$details
 \end{Sinput}
 \begin{Soutput}
-[1] "GenBank Rel. 154 (15 June 2006) Last Updated: Jul 24, 2006"                    
-[2] "64,559,130,046 bases; 60,239,022 sequences; 3,121,639 subseqs; 429,917 refers."
+[1] "GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006"                  
+[2] "66,009,892,298 bases; 61,704,148 sequences; 3,242,595 subseqs; 435,242 refers."
 [3] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"  
 \end{Soutput}
 \begin{Sinput}
@@ -135,7 +135,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "64,559,130,046"
+[1] "66,009,892,298"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -144,11 +144,11 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.12336
+[1] 6.260963
 \end{Soutput}
 \end{Schunk}
 
-It would be about 6.1
+It would be about 6.3
 kilometer long in ACNUC book format to print to print GenBank today (\today).
 
 \section{About R and CRAN}
@@ -163,7 +163,7 @@ further information.
 The Comprehensive R Archive Network, CRAN, is a network of servers 
 around the world that store identical, up-to-date, versions of code and documentation 
 for R. At compilation time of this document, there were
-62 
+63 
 mirrors available 
 from 26 countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
@@ -174,7 +174,7 @@ selected with the function \texttt{chooseCRANmirror()}.
 
 In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
 The examples given thereafter were run under \texttt{Version 2.3.1 (2006-06-01)}
-on Wed Jul 26 16:26:05 2006 with Sweave \cite{Sweave}.
+on Fri Sep  1 23:35:01 2006 with Sweave \cite{Sweave}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
 full path to the package is given by the following R code :
@@ -274,7 +274,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-769
+798
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -368,8 +368,10 @@ for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex}
 
 \begin{Schunk}
 \begin{Sinput}
- tablecode(numcode = 3, urn.rna = s2c("TCAG"), latexfile = "../tables/code3.tex")
- tablecode(numcode = 4, urn.rna = s2c("TCAG"), latexfile = "../tables/code4.tex")
+ tablecode(numcode = 3, latexfile = "../tables/code3.tex", 
+     size = "small")
+ tablecode(numcode = 4, latexfile = "../tables/code4.tex", 
+     size = "small")
 \end{Sinput}
 \end{Schunk}
 
@@ -443,7 +445,21 @@ For \LaTeX~users, it's
 worth mentioning the fantastic tool contributed by Friedrich Leish \cite{Sweave}
 called \texttt{Sweave()} that allows for the automatic insertion
 of \Rlogo{}~outputs (including graphics) in a \LaTeX~document. In the same spirit, there
-is a package called \texttt{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
+is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
+
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
+    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
+    xtable~1.3-0
+\end{itemize}
 
 % END - DO NOT REMOVE THIS LINE
 
