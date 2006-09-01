@@ -33,7 +33,7 @@ SEXP s2c(SEXP seq){
   for(i=0;i<lseq;i++){  
     mot[0]=string[i];
     mot[1]='\0';
-    SET_STRING_ELT((chaine,i,mkChar(mot));
+    SET_STRING_ELT((chaine,i,mkChar(mot)));
     }
   UNPROTECT(1);
   return(chaine);
