@@ -522,8 +522,8 @@ Interactivity scale obtained from the contact matrix (Bastolla et al., 2005)\cr
 Interactivity scale obtained by maximizing the mean of correlation coefficient over single-domain globular proteins (Bastolla et al., 2005)\cr
 Interactivity scale obtained by maximizing the mean of correlation coefficient over pairs of sequences sharing the TIM barrel fold (Bastolla et al., 2005)\cr
 Linker propensity index (Suyama-Ohara, 2003)\cr
-Knowledge-based membrane-propensity scale from 1D_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
-Knowledge-based membrane-propensity scale from 3D_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
+Knowledge-based membrane-propensity scale from 1D\_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
+Knowledge-based membrane-propensity scale from 3D\_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
 Linker propensity from all dataset (George-Heringa, 2003)\cr
 Linker propensity from 1-linker dataset (George-Heringa, 2003)\cr
 Linker propensity from 2-linker dataset (George-Heringa, 2003)\cr
