@@ -13,6 +13,8 @@
 
 \begin{itemize}
 
+\item New low level function \texttt{readsmj()} available.
+
 \item A new function \texttt{readfirstrec()} to get 
 the record count of the specified ACNUC index file is now available.
 
