@@ -13,6 +13,9 @@
 
 \begin{itemize}
 
+\item Function \texttt{getType()} called without arguments will now use
+the default ACNUC database to return available subsequence types.
+
 \item Function \texttt{read.alignment()} now also accepts \texttt{file} in
 addition to \texttt{File} as argument.
 

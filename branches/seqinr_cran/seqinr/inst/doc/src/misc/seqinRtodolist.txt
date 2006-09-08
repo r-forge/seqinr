@@ -1,3 +1,5 @@
+
+
 o Fichier CITATION a modifier quand ref disponible.
 
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
@@ -19,10 +21,6 @@ o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
   si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
   la modif de tdr222 tient la route un peu et laisser tomber sinon.
-
-o getType() appele sans argument ne se demerde pas tout seul comme un grand
-  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
-  le fait query() par exemple. 
 
 o Le site web pour la reproductibilite de l'article Bioinfo 
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
@@ -68,6 +66,10 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o getType() appele sans argument ne se demerde pas tout seul comme un grand
+  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
+  le fait query() par exemple. -- fait pour 1.0-7 JRL
 
 o File -> file dans read.alignment() -- fait pour 1.0-7 JRL
 

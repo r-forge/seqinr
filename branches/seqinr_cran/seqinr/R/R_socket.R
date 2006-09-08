@@ -670,18 +670,48 @@ getLocationSocket <- function( socket, name){
 #                                                                                                 #
 #                                         getType                                                 #
 #                                                                                                 #
+#                                                                                                 #
 ###################################################################################################
 
-getType <- function(socket){
-  writeLines("readfirstrec&type=SMJ", socket, sep = "\n") 
+getType <- function(socket = "auto"){
+
+  #
+  # Use default bank if no socket is given:
+  #
+  if (socket == "auto"){
+    socket <- banknameSocket$socket
+  }
+  #
+  # Build the request:
+  #
+  request <- paste("readfirstrec&type=", "SMJ", sep = "", collapse = "")
+  
+  #
+  # Send request:
+  #
+  writeLines(request, socket, sep = "\n") 
+  #
+  # Read answer from server:
+  #
   s <- readLines(socket, n = 1)
   rep <- parser.socket(s)
-  if(rep[1] != "0") stop("erreur")
-  rep <- as.numeric(rep)
-  writeLines(paste("readsmj&num=", 10, "&nl=", rep[2] - 10, sep = ""), socket, sep = "\n" ) 
-  ss <- readLines(socket, n = rep[2] - 9)
+  
+  #
+  # Check answer from server:
+  #
+  if(rep[1] != "0"){
+    stop("Server returns an error")
+  }
+  
+  #
+  # Make readsmj query:
+  #
+  count <- as.numeric(rep[2])
+  request <- paste("readsmj&num=", 10, "&nl=", count - 10, sep = "")
+  writeLines(request, socket, sep = "\n" ) 
+  ss <- readLines(socket, n = count - 9)
   occ <- grep("name=\"04", ss)
-  h = ss[occ]
+  h <- ss[occ]
   return(lapply(h,function(x){ c(substring(noquote(parser.socket(x))[2],4,nchar(noquote(parser.socket(x))[2])-1),substring(noquote(parser.socket(x))[4],2,nchar(noquote(parser.socket(x))[4])-1)) }))
 }
 
@@ -906,5 +936,23 @@ virtual = FALSE) {
     return(query(listname = listname, query = p[2], socket = socket, invisible = FALSE, 
     verbose = verbose, virtual = virtual))
   }
+}
+
+###################################################################################################
+#                                                                                                 #
+#                              readfirstrec                                                       #
+#                                                                                                 #
+#                Returns the record count of the specified ACNUC index file.                      #                                                                                                 #
+#                                                                                                 #
+# ==>   readfirstrec&type=[AUT|BIB|ACC|SMJ|SUB|LOC|KEY|SPEC|SHRT|LNG|EXT|TXT]                     #
+# <==  code=xx&count=xx                                                                           #
+# Returns the record count of the specified ACNUC index file.                                     #
+# Code != 0 indicates error.                                                                      #
+#                                                                                                 #
+###################################################################################################
+
+readfirstrec <- function(socket = "auto", type)
+{
+#under construction
 }
 
