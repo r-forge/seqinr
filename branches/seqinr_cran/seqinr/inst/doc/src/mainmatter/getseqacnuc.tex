@@ -68,7 +68,7 @@ This function initiates a remote access to an ACNUC database. Called without arg
 [17] "hoverclpr"    "homolensprot" "homolensnucl" "HAMAPnucl"   
 [21] "HAMAPprot"    "hoppsigen"    "nurebnucl"    "nurebprot"   
 [25] "taxobacgen"   "greview"      "hogendnucl"   "hogendprot"  
-[29] "refseq"      
+[29] "refseq"       "genomicro"   
 \end{Soutput}
 \end{Schunk}
 
@@ -89,7 +89,7 @@ at the compilation time (\today) of this document:
 2    embl     on
 3 emblwgs     on
                                                           info
-1 GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006
+1 GenBank Rel. 155 (15 August 2006) Last Updated: Sep  8, 2006
 2                          EMBL Library Release 87 (June 2006)
 3  EMBL Whole Genome Shotgun sequences Release 87  (June 2006)
 \end{Soutput}
@@ -151,56 +151,57 @@ in the workspace, called for instance \texttt{mybank} in the example thereafter:
 \end{Sinput}
 \begin{Soutput}
 List of 8
- $ socket  :Classes 'sockconn', 'connection'  int 8
+ $ socket  :Classes 'sockconn', 'connection'  int 20
  $ bankname: chr "genbank"
- $ totseqs : chr "64946744"
- $ totspecs: chr "393311"
- $ totkeys : chr "2109217"
- $ release : chr "GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006"
+ $ totseqs : chr "65382561"
+ $ totspecs: chr "394532"
+ $ totkeys : chr "2115650"
+ $ release : chr "GenBank Rel. 155 (15 August 2006) Last Updated: Sep  8, 2006"
  $ status  :Class 'AsIs'  chr "on"
- $ details : chr [1:3] "GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006" "66,009,892,298 bases; 61,704,148 sequences; 3,242,595 subseqs; 435,242 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"
+ $ details : chr [1:3] "GenBank Rel. 155 (15 August 2006) Last Updated: Sep  8, 2006" "66,183,516,982 bases; 62,118,958 sequences; 3,263,602 subseqs; 435,765 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"
 \end{Soutput}
 \end{Schunk}
 
 The list returned by \texttt{choosebank()} here means that in the database
 called \texttt{genbank} at the compilation time
 of this document there were 
-\texttt{64,946,744}
+\texttt{65,382,561}
 sequences from
-\texttt{393,311}
+\texttt{394,532}
 species and a total of
-\texttt{2,109,217}
+\texttt{2,115,650}
 keywords. The status of the bank was
 \texttt{on}, 
 and the release information was
-\texttt{GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006}.
+\texttt{GenBank Rel. 155 (15 August 2006) Last Updated: Sep  8, 2006}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("taxobacgen")$details
+ moreinfo <- choosebank("taxobacgen")$details
+ cat(moreinfo, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
- [1] "TaxoBacGen Rel. 7 (September 2005)"                                         
- [2] "1,151,149,763 bases; 254,335 sequences; 847,767 subseqs; 63,879 refers."    
- [3] "Data compiled from GenBank by Gregory Devulder"                             
- [4] "Laboratoire de Biometrie & Biologie Evolutive, Univ Lyon I"                 
- [5] "------------------------------"                                             
- [6] "This database is a taxonomic genomic database."                             
- [7] "It results from an expertise crossing the data nomenclature database DSMZ"  
- [8] "[http://www.dsmz.de/species/bacteria.htm Deutsche Sammlung von"             
- [9] "Mikroorganismen und Zellkulturen GmbH, Braunschweig, Germany]"              
-[10] "and GenBank."                                                               
-[11] "- Only contains sequences described under species present in"               
-[12] "Bacterial Nomenclature Up-to-date."                                         
-[13] "- Names of species and genus validly published according to the"            
-[14] "Bacteriological Code (names with standing in nomenclature) is"              
-[15] "added in field \"DEFINITION\"."                                             
-[16] "- A keyword \"type strain\" is added in field \"FEATURES/source/strain\" in"
-[17] "GenBank format definition to easyly identify Type Strain."                  
-[18] "Taxobacgen is a genomic database designed for studies based on a strict"    
-[19] "respect of up-to-date nomenclature and taxonomy."                           
+TaxoBacGen Rel. 7 (September 2005)
+1,151,149,763 bases; 254,335 sequences; 847,767 subseqs; 63,879 refers.
+Data compiled from GenBank by Gregory Devulder
+Laboratoire de Biometrie & Biologie Evolutive, Univ Lyon I
+------------------------------
+This database is a taxonomic genomic database.
+It results from an expertise crossing the data nomenclature database DSMZ
+[http://www.dsmz.de/species/bacteria.htm Deutsche Sammlung von
+Mikroorganismen und Zellkulturen GmbH, Braunschweig, Germany]
+and GenBank.
+- Only contains sequences described under species present in
+Bacterial Nomenclature Up-to-date.
+- Names of species and genus validly published according to the
+Bacteriological Code (names with standing in nomenclature) is
+added in field "DEFINITION".
+- A keyword "type strain" is added in field "FEATURES/source/strain" in
+GenBank format definition to easyly identify Type Strain.
+Taxobacgen is a genomic database designed for studies based on a strict
+respect of up-to-date nomenclature and taxonomy.
 \end{Soutput}
 \end{Schunk}
 
@@ -340,15 +341,15 @@ with many elements, for instance :
  allcds$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 3494449
+[1] 3513423
 \end{Soutput}
 \end{Schunk}
 
-There are therefore \texttt{3,494,449} coding
+There are therefore \texttt{3,513,423} coding
 sequences in this version of GenBank\footnote{
 which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
 and current value is today (\today): \texttt{banknameSocket\$release = 
-GenBank Rel. 155 (15 August 2006) Last Updated: Sep  1, 2006}.
+GenBank Rel. 155 (15 August 2006) Last Updated: Sep  8, 2006}.
 }. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
@@ -406,10 +407,10 @@ current GenBank release.
  man$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 10649443
+[1] 10653991
 \end{Soutput}
 \end{Schunk}
-There are \texttt{10,649,443} sequences from \textit{Homo sapiens}.
+There are \texttt{10,653,991} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 \begin{Schunk}
@@ -430,10 +431,10 @@ There are \texttt{1,080} such sequences.
  trna$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 179713
+[1] 180415
 \end{Soutput}
 \end{Schunk}
-There are \texttt{179,713} complete tRNA sequences.
+There are \texttt{180,415} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 \begin{Schunk}
@@ -449,12 +450,12 @@ There are \texttt{179,713} complete tRNA sequences.
  science$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1275773
+[1] 1275774
 \end{Soutput}
 \end{Schunk}
 There are \texttt{1,157,543} sequences published
 in \textit{Nature} and
-\texttt{1,275,773} sequences published in
+\texttt{1,275,774} sequences published in
 \textit{Science}, so that the winner is 
 \textit{Science}.
 
@@ -469,10 +470,10 @@ in \textit{Nature} and
  smith$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1393252
+[1] 1393254
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,393,252} such sequences.
+There are \texttt{1,393,254} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 \begin{Schunk}
@@ -481,10 +482,10 @@ There are \texttt{1,393,252} such sequences.
  yk2$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 50248132
+[1] 50626579
 \end{Soutput}
 \end{Schunk}
-There are \texttt{50,248,132} sequences published after year 2000.
+There are \texttt{50,626,579} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 \begin{Schunk}
@@ -493,19 +494,19 @@ There are \texttt{50,248,132} sequences published after year 2000.
  chloro$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 117315
+[1] 117557
 \end{Soutput}
 \begin{Sinput}
  query("mito", "o=mitochondrion", virtual = T)
  mito$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 390956
+[1] 391531
 \end{Soutput}
 \end{Schunk}
-There are \texttt{117,315} sequences from
+There are \texttt{117,557} sequences from
 chloroplast genomes and
-\texttt{390,956} sequences from mitochondrion
+\texttt{391,531} sequences from mitochondrion
 genomes, so that the winner is 
 mitochondrion.
 

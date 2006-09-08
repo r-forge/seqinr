@@ -95,7 +95,8 @@ For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 <<exdetails,fig=F, eval=T>>=
-choosebank("taxobacgen")$details
+choosebank("taxobacgen")$details -> moreinfo
+cat(moreinfo, sep = "\n")
 @
 
 The previous command has a side-effect that is worth mentioning. 
