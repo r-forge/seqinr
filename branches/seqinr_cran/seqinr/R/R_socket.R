@@ -953,6 +953,44 @@ virtual = FALSE) {
 
 readfirstrec <- function(socket = "auto", type)
 {
-#under construction
+  allowedtype <- c("AUT", "BIB", "ACC", "SMJ", "SUB", "LOC", "KEY", "SPEC", 
+                   "SHRT", "LNG", "EXT", "TXT")
+  if(missing(type)){
+    return(allowedtype)
+  }
+  
+  #
+  # Use default bank if no socket is given:
+  #
+  if (socket == "auto"){
+    socket <- banknameSocket$socket
+  }
+  
+  #
+  # Build the request:
+  #
+  request <- paste("readfirstrec&type=", type, sep = "", collapse = "")
+  
+  #
+  # Send request:
+  #
+  
+  writeLines(request, socket, sep = "\n") 
+  #
+  # Read answer from server:
+  #
+  
+  s <- readLines(socket, n = 1)
+  rep <- parser.socket(s)
+  
+  #
+  # Check answer from server:
+  #
+  if(rep[1] != "0"){
+    warning("Server returns an error")
+    return(NA)
+  } else {
+    return(as.numeric(rep[2]))
+  }
 }
 

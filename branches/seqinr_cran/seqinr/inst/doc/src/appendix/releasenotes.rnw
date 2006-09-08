@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Release notes}
-\author{Lobry, J.R., Palmeira, L.}
+\author{Lobry, J.R. and Palmeira, L.}
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
@@ -12,6 +12,9 @@
 \section{release 1.0-7}
 
 \begin{itemize}
+
+\item A new function \texttt{readfirstrec()} to get 
+the record count of the specified ACNUC index file is now available.
 
 \item Function \texttt{getType()} called without arguments will now use
 the default ACNUC database to return available subsequence types.
