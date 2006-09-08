@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Release notes}
-\author{Lobry, J.R., Palmeira, L.}
+\author{Lobry, J.R. and Palmeira, L.}
 
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
@@ -42,6 +42,14 @@
 \section{release 1.0-7}
 
 \begin{itemize}
+
+\item New low level function \texttt{readsmj()} available.
+
+\item A new function \texttt{readfirstrec()} to get 
+the record count of the specified ACNUC index file is now available.
+
+\item Function \texttt{getType()} called without arguments will now use
+the default ACNUC database to return available subsequence types.
 
 \item Function \texttt{read.alignment()} now also accepts \texttt{file} in
 addition to \texttt{File} as argument.
