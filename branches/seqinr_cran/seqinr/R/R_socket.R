@@ -666,55 +666,6 @@ getLocationSocket <- function( socket, name){
   return(l)
 } 
 
-###################################################################################################
-#                                                                                                 #
-#                                         getType                                                 #
-#                                                                                                 #
-#                                                                                                 #
-###################################################################################################
-
-getType <- function(socket = "auto"){
-
-  #
-  # Use default bank if no socket is given:
-  #
-  if (socket == "auto"){
-    socket <- banknameSocket$socket
-  }
-  #
-  # Build the request:
-  #
-  request <- paste("readfirstrec&type=", "SMJ", sep = "", collapse = "")
-  
-  #
-  # Send request:
-  #
-  writeLines(request, socket, sep = "\n") 
-  #
-  # Read answer from server:
-  #
-  s <- readLines(socket, n = 1)
-  rep <- parser.socket(s)
-  
-  #
-  # Check answer from server:
-  #
-  if(rep[1] != "0"){
-    stop("Server returns an error")
-  }
-  
-  #
-  # Make readsmj query:
-  #
-  count <- as.numeric(rep[2])
-  request <- paste("readsmj&num=", 10, "&nl=", count - 10, sep = "")
-  writeLines(request, socket, sep = "\n" ) 
-  ss <- readLines(socket, n = count - 9)
-  occ <- grep("name=\"04", ss)
-  h <- ss[occ]
-  return(lapply(h,function(x){ c(substring(noquote(parser.socket(x))[2],4,nchar(noquote(parser.socket(x))[2])-1),substring(noquote(parser.socket(x))[4],2,nchar(noquote(parser.socket(x))[4])-1)) }))
-}
-
 
 ###################################################################################################
 #                                                                                                 #
