@@ -28,8 +28,8 @@ getType <- function(socket = "auto"){
   #
   # Return available type:
   #
-  
-  if( sum(smj$nature == "type") == 0){
+  ntype <- sum(smj$nature == "type")
+  if( is.na(ntype) || ntype == 0 ){
     return(NA)
   } else {
     return( smj[smj$nature == "type", c("sname","libel")] ) 
