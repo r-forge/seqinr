@@ -21,6 +21,8 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
       year, type, organelle, division and dbstrucinfo.}
   \item{plong.add}{to extract the plong.}
   \item{libel.add}{to extract the label of the name.}
+  \item{sname.add}{to extract the short version of the name, that is without
+                   the first two characters.}
   \item{all.add}{to extract all (all flags set to TRUE).}
   }
 }
