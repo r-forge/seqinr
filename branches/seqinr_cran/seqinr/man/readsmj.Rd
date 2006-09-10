@@ -7,7 +7,7 @@
 }
 \usage{
 readsmj(socket = "auto", num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
-plong.add = FALSE, libel.add = FALSE, all.add = FALSE)
+plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 }
 \arguments{
 \itemize{

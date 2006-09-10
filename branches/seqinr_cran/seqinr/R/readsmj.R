@@ -1,6 +1,6 @@
 ###################################################################################################
 #                                                                                                 #
-#                              readsmj                                                            #
+#                                       readsmj                                                   #
 #                                                                                                 #
 #                                                                                                 #
 # ==>   readsmj&num=xx&nl=xx                                                                      #
@@ -14,7 +14,7 @@
 ###################################################################################################
 
 readsmj <- function(socket = "auto", num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
-plong.add = FALSE, libel.add = FALSE, all.add = FALSE)
+plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 { 
   #
   # Use default bank if no socket is given:
@@ -26,7 +26,7 @@ plong.add = FALSE, libel.add = FALSE, all.add = FALSE)
   #
   # Turn all flags to TRUE when requested:
   #
-  if(all.add) libel.add <- plong.add <- nature.add <- recnum.add <- TRUE
+  if(all.add) sname.add <- libel.add <- plong.add <- nature.add <- recnum.add <- TRUE
 
   
   #
@@ -64,9 +64,11 @@ plong.add = FALSE, libel.add = FALSE, all.add = FALSE)
   if(nature.add) nature <- factor(character(n), levels = c("00","01","02","03","04","05","06","07"))
   if(plong.add) plong <- numeric(n)
   if(libel.add) libel <- character(n)
+  if(sname.add) sname <- character(n)
   for(i in 1:n){
     tmp <- parser.socket(ans[[i]])
     name[i] <- substr(tmp[2], 2, nchar(tmp[2]) - 1)
+    if(sname.add) sname[i] <- substr(name[i], 3, nchar(name[i]))
     if(recnum.add) recnum[i] <- tmp[1]
     if(nature.add) nature[i] <- substr(name[i], 1, 2)
     if(plong.add) plong[i] <- tmp[3]
@@ -79,6 +81,7 @@ plong.add = FALSE, libel.add = FALSE, all.add = FALSE)
     }
   }
   df <- data.frame(list(name = I(name)))
+  if(sname.add)  df$sname <- sname
   if(recnum.add) df$recnum <- recnum
   if(nature.add){
     levels(nature) <- c("status", "molecule", "journal", "year", "type", "organelle", "division", "dbstrucinfo")
