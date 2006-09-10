@@ -6,16 +6,11 @@
  escaped, this is useful in conjunction with xtable.
 }
 \usage{
-stresc(string = "->\\<->{<->}<->$<->^<->_<->%<->#<->&<->~<-",
-     fromchar = s2c("\\{}$^_%#&~"),
-     tochar = c("$\\backslash$", "\\{", "\\}", "\\$", "\\^{}",
-                                "\\_", "\\%", "\\#", "\\&", "\\~{}"))
+stresc(string)
 }
 \arguments{
 \itemize{
   \item{string}{The string to deal with.}
-  \item{fromchar}{The characters to be escaped.}
-  \item{tochar}{The escaped values for the characters to be escaped.}
   }
 }
 \value{
@@ -27,7 +22,7 @@ stresc(string = "->\\<->{<->}<->$<->^<->_<->%<->#<->&<->~<-",
 \author{J.R. Lobry}
 \seealso{ \code{\link{s2c}} }
 \examples{
-  stopifnot( stresc() == "->$\\backslash$<->\\{<->\\}<->\\$<->\\^{}<->\\_<->\\%<->\\#<->\\&<->\\~{}<-")
+  stresc("MISC_RNA")
 }
 \keyword{utilities}
 
