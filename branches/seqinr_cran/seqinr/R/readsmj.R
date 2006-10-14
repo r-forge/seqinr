@@ -68,6 +68,10 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   for(i in 1:n){
     tmp <- parser.socket(ans[[i]])
     name[i] <- substr(tmp[2], 2, nchar(tmp[2]) - 1)
+    if(name[i] == "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"){
+      name[i] <- NA
+      next
+    }
     if(sname.add) sname[i] <- substr(name[i], 3, nchar(name[i]))
     if(recnum.add) recnum[i] <- tmp[1]
     if(nature.add) nature[i] <- substr(name[i], 1, 2)
