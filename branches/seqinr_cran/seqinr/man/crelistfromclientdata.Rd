@@ -1,5 +1,6 @@
 \name{crelistfromclientdata}
 \alias{crelistfromclientdata}
+\alias{clfcd}
 \title{To create on server a bitlist from data lines sent by client}
 \description{
 This function is usefull if you have a local file with sequence names
