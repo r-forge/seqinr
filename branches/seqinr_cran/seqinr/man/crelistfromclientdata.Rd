@@ -9,8 +9,10 @@ keywords. This allows you to create on the server a list with the
 corresponding items.
 }
 \usage{
-crelistfromclientdata(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
-virtual = FALSE)}
+crelistfromclientdata(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
+clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
+}
+
 \arguments{
   \item{listname}{The name of the list as a quoted string of chars}
   \item{file}{The local file name}
