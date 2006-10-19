@@ -45,13 +45,10 @@ exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, ver
  \dontrun{
  # Need internet connection
  choosebank("swissprot")
- query("MyListName", "k=globin", virtual=T)
+ query("MyListName", "k=globin")
  MyList.fasta <- exseq("MyListName")
  #
- # Should be:
- #
- # [1] 2
- #
+ 
  }
 }
 \keyword{utilities}
