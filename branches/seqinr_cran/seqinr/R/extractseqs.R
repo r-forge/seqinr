@@ -10,7 +10,7 @@
 #                                                                                                 #
 ###################################################################################################
 
-extractseqs.socket <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1){
+extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1){
 
 
 
@@ -85,4 +85,4 @@ extractseqs.socket <- function( lrankseqnum,socket = "auto", format="fasta",oper
   }
   return(lastres);
 }
-exseq <- extractseqs.socket
+exseq <- extractseqs
