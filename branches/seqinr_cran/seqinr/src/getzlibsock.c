@@ -2,11 +2,12 @@
 #include <Rdefines.h>
 
 
-SEXP getzlibsock(SEXP FILE , SEXP debug)
+SEXP getzlibsock(SEXP sock , SEXP debug)
 {
 
 
   int debugon;
+  FILE *fsocket;
 
 
 
@@ -19,6 +20,7 @@ SEXP getzlibsock(SEXP FILE , SEXP debug)
 
   debugon = INTEGER_VALUE(debug);
  /* totseqs = INTEGER_VALUE(nbseq);*/
+  prepare_sock_gz_r(fsocket);
    
   if(debugon) Rprintf("C> mode degug is on at C level\n");
 
