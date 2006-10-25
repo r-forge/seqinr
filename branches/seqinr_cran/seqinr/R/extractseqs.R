@@ -21,6 +21,8 @@ extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="
     socket <- banknameSocket$socket
     }
   
+#test pour zlib
+   stest  <- banknameSocket
   
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if( !is.character(lrankseqnum) ) stop(paste("argument lrankseqnum = ", lrankseqnum, "is not a character string."))
@@ -80,8 +82,13 @@ extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="
   
   } #  if (zlib == F)
   else {
-  	
-	 stop("Sorry, compression is not implemented yet")
+  	writeLines(request , socket, sep="\n")
+  
+# Read result from server: 
+
+  lastres <- .Call("getzlibsock",socket, debug, PACKAGE = "seqinr")
+
+  #stop("Sorry, compression is not implemented yet")
   }
   return(lastres);
 }
