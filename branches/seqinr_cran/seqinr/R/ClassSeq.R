@@ -13,8 +13,93 @@
 	#	     getTrans(seq) retourne un vecteur de char                              # 
 	#####################################################################################
 
+###################################################################################################
+#                                                                                                 #
+#                          Generic functions section                                              #
+#                                                                                                 #
+###################################################################################################
 
-getSequence.default = function(object, as.string){
+
+getFrag <-  function(object, begin, end) {
+  if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag")))
+  { 
+    getFrag.default(object, begin, end) 
+  } else {
+    UseMethod("getFrag")
+    }
+}
+
+getSequence <- function(object, as.string = FALSE){
+  if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+  {
+    getSequence.default(object, as.string = as.string)
+  } else {
+    UseMethod("getSequence")
+  }
+}
+
+getLength <-  function(object) {
+  if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+  {
+    getLength.default(object)
+  } else { 
+    UseMethod("getLength")
+  }
+}
+
+getName <-  function(object) {
+  if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+  {
+    getName.default(object)
+  } else { 
+    UseMethod("getName")
+  }
+}
+
+getAnnot <- function(object, nbl = 10000) {
+  if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+  {
+    getAnnot.default(object, nbl = nbl)
+  }
+  else UseMethod("getAnnot")
+}
+
+getLocation <- function(object) {
+  if(! inherits(object, c("SeqAcnucWeb"))) 
+  {
+    getLocation.default(object)
+  } else {
+    UseMethod("getLocation")
+  }
+}
+
+getKeyword <- function(object) {
+  if(! inherits(object,c("SeqAcnucWeb"))) 
+  {
+    getKeyword.default(object)
+  } else {
+    UseMethod("getKeyword")
+  }
+}
+
+getTrans <- function(object, frame = 0, sens = "F", numcode = 1){
+  if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+  {
+    getTrans.default(object, frame = frame, sens = sens, numcode = numcode)
+  } else {
+    UseMethod("getTrans")
+  }
+}
+
+
+###################################################################################################
+#                                                                                                 #
+#                          Default methods section                                                #
+#                                                                                                 #
+###################################################################################################
+
+
+getSequence.default <- function(object, as.string = FALSE){
   if( as.string ){
     if( length(object) == 1) {
       return(object)
@@ -70,53 +155,6 @@ getTrans.default = function(object,frame=0, sens= "F", numcode=1){
 		
 }
 
-##################################################################
-
-getFrag =  function(object,begin,end) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) { getFrag.default(object,begin,end) }
-	else UseMethod("getFrag")
-}
-
-getSequence <- function(object, as.string = FALSE){
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getSequence.default(object)}
-	else UseMethod("getSequence")
-}
-
-
-getLength =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getLength.default(object)}
-	else UseMethod("getLength")
-}
-
-getName =  function(object) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getName.default(object)}
-	else UseMethod("getName")
-}
-
-getAnnot <- function(object, nbl = 10000) {
-	if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
-	{
-	  getAnnot.default(object, nbl = nbl)
-	}
-	else UseMethod("getAnnot")
-}
-
-getLocation = function(object) {
-		if(! inherits(object,c("SeqAcnucWeb"))) {getLocation.default(object)}
-	else UseMethod("getLocation")
-}
-
-getKeyword = function(object) {
-		if(! inherits(object,c("SeqAcnucWeb"))) {getKeyword.default(object)}
-	else UseMethod("getKeyword")
-}
-
-
-getTrans = function(object,frame=0, sens= "F", numcode=1){
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(object,frame=0, sens= "F", numcode=1)}
-	else UseMethod("getTrans")
-}
-
 
 
 
@@ -141,9 +179,9 @@ is.SeqFastadna = function(object){
 	inherits(object,"SeqFastadna")
 }
 
-getSequence.SeqFastadna <- function(object, as.string){
+getSequence.SeqFastadna <- function(object, as.string = FALSE){
   if( ! as.string ){
-	return(object)
+    return(object)
   } else {
     return(c2s(object))
   }
@@ -197,9 +235,9 @@ is.SeqFastaAA = function(object){
 	inherits(object,"SeqFastaAA")
 }
 
-getSequence.SeqFastaAA <- function(object, as.string){
+getSequence.SeqFastaAA <- function(object, as.string = FALSE){
   if( ! as.string ){
-	return(object)
+    return(object)
   } else {
     return(c2s(object))
   }
@@ -261,8 +299,8 @@ is.SeqAcnucWeb = function( object ){
 #JRL ajout as.string
 
 getSequence.SeqAcnucWeb = function(object, as.string = FALSE){
-	b <- attr(object, "length")
-	getSequenceSocket(attr(object,"socket"),object,start=1,length=b, as.string = as.string)
+  b <- attr(object, "length")
+  getSequenceSocket(attr(object,"socket"),object,start=1,length=b, as.string = as.string)
 }
 
 
@@ -354,9 +392,9 @@ is.SeqFrag = function(object){
 }
 
 
-getSequence.SeqFrag <- function(object, as.string){
+getSequence.SeqFrag <- function(object, as.string = FALSE){
   if( ! as.string ){
-	return(object)
+    return(object)
   } else {
     return(c2s(object))
   }
