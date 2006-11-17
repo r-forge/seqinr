@@ -7,7 +7,8 @@
 
 oriloc <- function(
   seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
-  g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+  g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
+  glimmer.version = 3,
   oldoriloc = FALSE,
   gbk = NULL,
   clean.tmp.files = TRUE,
@@ -22,10 +23,24 @@ oriloc <- function(
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
   } 
- 
-  seq <- tolower(unlist(strsplit(readLines(seq.fasta)[-1], split="")))
+#  
+# Get first sequence from fasta file:
+#
+  seq <- read.fasta(file = seq.fasta, set.attributes = FALSE)[[1]]
   lseq <- length(seq)
+#
+# Read CDS coordinate file:
+#
   g2 <- readLines( g2.coord )
+#
+# Patch for glimmer3 version:
+#
+  if( glimmer.version > 2 ){
+    # remove first line:
+    g2 <- g2[-1]
+    # remove first three characters (i.e. orf)
+    g2 <- sapply(g2, function(x) substr(x,4,nchar(x)), USE.NAMES = F)
+  }
 #
 # Extract info from g2.coord file
 #

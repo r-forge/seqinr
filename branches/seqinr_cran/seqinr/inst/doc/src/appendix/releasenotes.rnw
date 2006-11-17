@@ -13,6 +13,12 @@
 
 \begin{itemize}
 
+\item As pointed by e-mail on 16 Nov 2006 by Guy Perri{\`e}re, the
+function \texttt{oriloc()} was no more compatible with glimmer 3.0
+outputs. The function has gained a new argument \texttt{glimmer.version}
+defaulting to 3, but the value 2 is still functional for backward compatibility
+with old glimmer outputs.
+
 \item As pointed by e-mail on 24 Oct 2006 by Lionel Guy 
 (\url{http://pbil.univ-lyon1.fr/seqinr/seqinrhtmlannuel/03/0089.html})
 there was no default value for the \texttt{as.string} argument in
