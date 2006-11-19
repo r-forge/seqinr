@@ -3,7 +3,7 @@ AAstat = function(seq, plot = TRUE){
 tutu <- list(Tiny = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Tiny),
 Small <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Small),
 Aliphatic <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic),
-Aromatic = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aromatic),
+Aromatic <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aromatic),
 Non.polar = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Non.polar),
 Polar = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Polar),
 Charged = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Charged),
