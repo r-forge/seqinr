@@ -1,6 +1,6 @@
 AAstat = function(seq, plot = TRUE){
 
-tutu=list(Tiny = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Tiny),
+tutu <- list(Tiny = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Tiny),
 Small = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Small),
 Aliphatic = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic),
 Aromatic = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aromatic),
