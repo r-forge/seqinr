@@ -5,7 +5,7 @@ Small <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Small),
 Aliphatic <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aliphatic),
 Aromatic <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Aromatic),
 Non.polar <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Non.polar),
-Polar = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Polar),
+Polar <- which(seq %in% SEQINR.UTIL$AA.PROPERTY$Polar),
 Charged = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Charged),
 Basic = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Basic),
 Acidic = which(seq %in% SEQINR.UTIL$AA.PROPERTY$Acidic))
