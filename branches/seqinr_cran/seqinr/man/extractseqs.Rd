@@ -18,9 +18,10 @@ exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, ver
    that the socket will be set to to the socket component of the banknameSocket variable. }
   \item{format}{the format of output.Can be \code{acnuc}, \code{fasta}, or \code{flat} }
   \item{operation}{the type of extraction. Can be  \code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}  }
-   \item{zlib}{if \code{TRUE}, compression mode is on}
+  \item{zlib}{if \code{TRUE}, compression mode is on}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
-   \item{npaquets}{number of paquets}
+  \item{npaquets}{number of paquets}
+  \item{nzlines}{number of line in zlib mode}
 }
 
 \details{
