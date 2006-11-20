@@ -11,7 +11,7 @@
 
 
 /* included functions */
-void *prepare_sock_gz_r(FILE *sockr);
+void *prepare_sock_gz_r(int nfd);
 int z_getc(void *v);
 char *z_gets(void *v, char *line, size_t len);
 char *z_read_sock(void *v);
@@ -34,7 +34,7 @@ typedef struct {
 
 
 
-void *prepare_sock_gz_r(FILE *sockr)
+void *prepare_sock_gz_r(int nfd)
 {
 int err;
 sock_gz_r *big;
@@ -50,9 +50,9 @@ big->stream.opaque = NULL;
 big->pos = big->text_buffer;
 big->endbuf = big->pos;
 #ifdef WIN32
-big->fd = (SOCKET)sockr;
+big->fd = nfd;
 #else
-big->fd = fileno(sockr);
+big->fd = nfd;
 #endif
 err = inflateInit(&big->stream);
 return err == Z_OK ? (void *)big : NULL;
