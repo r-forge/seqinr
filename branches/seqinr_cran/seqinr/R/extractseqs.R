@@ -10,9 +10,11 @@
 #                                                                                                 #
 ###################################################################################################
 
-extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1){
+extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000){
 
-
+debug<-0
+if (verbose)
+	debug <- 1
 
   if(verbose) cat("I'm checking the arguments...\n")
 
@@ -86,9 +88,8 @@ extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="
   
 # Read result from server: 
 
-  lastres <- .Call("getzlibsock",socket, debug, PACKAGE = "seqinr")
+  lastres <- .Call("getzlibsock",socket,nzlines,debug, PACKAGE = "seqinr")
 
-  #stop("Sorry, compression is not implemented yet")
   }
   return(lastres);
 }
