@@ -1,1 +1,2 @@
 PKG_CFLAGS = -ansi -DUSE_TYPE_CHECKING_STRICT
+PKG_CPPFLAGS = -I  /bge/penel/R-2.4.0/src/include/
