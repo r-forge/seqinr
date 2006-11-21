@@ -7,8 +7,8 @@ To extract the sequences information of a sequence or a list of sequence in diff
 }
 
 \usage{
-extractseqs(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1)
-exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1)
+extractseqs(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000)
+exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000)
 }
 
 \arguments{
@@ -47,7 +47,7 @@ exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, ver
  # Need internet connection
  choosebank("swissprot")
  query("MyListName", "k=globin")
- MyList.fasta <- exseq("MyListName")
+ MyList.fasta <- exseq("MyListName", verbose=T)
  #
  
  }
