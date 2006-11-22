@@ -7,8 +7,8 @@ To extract the sequences information of a sequence or a list of sequence in diff
 }
 
 \usage{
-extractseqs(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000)
-exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000)
+extractseqs(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib = FALSE, verbose = FALSE, npaquets = -1, nzlines=1000)
+exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib = FALSE, verbose = FALSE, npaquets = -1, nzlines=1000)
 }
 
 \arguments{
