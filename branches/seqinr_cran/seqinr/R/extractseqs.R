@@ -10,7 +10,7 @@
 #                                                                                                 #
 ###################################################################################################
 
-extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=F, verbose = FALSE, npaquets = -1, nzlines=1000){
+extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=FALSE, verbose = FALSE, npaquets = -1, nzlines=1000){
 
 debug<-0
 if (verbose)
@@ -47,7 +47,7 @@ if (verbose)
   if(verbose) cat("The rank of the list ",lrankseqnum, "is ",lrank,".\n")
   request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=",zlib, sep = "")
   
-  if (zlib == F) {
+  if (zlib == FALSE) {
   writeLines(request , socket, sep="\n")
   
 # Read result from server: 
@@ -82,7 +82,7 @@ if (verbose)
   }
   
   
-  } #  if (zlib == F)
+  } #  if (zlib == FALSE)
   else {
   	writeLines(request , socket, sep="\n")
   
