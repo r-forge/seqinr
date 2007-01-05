@@ -22,10 +22,7 @@ if (verbose)
     if(verbose) cat("No socket were specified, using default.\n")
     socket <- banknameSocket$socket
     }
-  
-#test pour zlib
-   stest  <- banknameSocket
-  
+    
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if( !is.character(lrankseqnum) ) stop(paste("argument lrankseqnum = ", lrankseqnum, "is not a character string."))
   if(verbose) cat("... and everything is OK up to now.\n")
@@ -33,7 +30,6 @@ if (verbose)
   
   
   
-#
 # Check arguments:
 # Check  if  lrankseqnum is a list or a sequence 
 # Check if  format is acnuc", "fasta", or "flat"
@@ -45,9 +41,21 @@ if (verbose)
 #  lrank <-getlistrank.socket(lrankseqnum)
    lrank <-glr(lrankseqnum)
   if(verbose) cat("The rank of the list ",lrankseqnum, "is ",lrank,".\n")
-  request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=",zlib, sep = "")
+  if (is.na(lrank)) {
+  stop(paste("Problem in rank list!\n"))
+  
+  }
   
   if (zlib == FALSE) {
+  
+  
+  
+  if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
+  if( !is.character(lrankseqnum) ) stop(paste("argument lrankseqnum = ", lrankseqnum, "is not a character string."))
+  if(verbose) cat("... and everything is OK up to now.\n")
+  request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=F", sep = "")
+  
+  
   writeLines(request , socket, sep="\n")
   
 # Read result from server: 
@@ -84,13 +92,19 @@ if (verbose)
   
   } #  if (zlib == FALSE)
   else {
-  	writeLines(request , socket, sep="\n")
+  
+   request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=T", sep = "")
+   writeLines(request , socket, sep="\n")
+   lastres <- zlibexseq(socket,1000,1)
   
 # Read result from server: 
 
-  lastres <- .Call("getzlibsock",socket,nzlines,debug, PACKAGE = "seqinr")
+#  lastres <- .Call("getzlibsock",socket,nzlines,debug, PACKAGE = "seqinr")
 
   }
   return(lastres);
 }
 exseq <- extractseqs
+
+
+zlibexseq <- function(soc,nlz,ver)  .Call("getzlibsock", soc, nlz, ver,PACKAGE = "seqinr")
