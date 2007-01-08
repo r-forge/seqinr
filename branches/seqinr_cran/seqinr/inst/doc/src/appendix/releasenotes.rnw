@@ -31,6 +31,9 @@ there was no default value for the \texttt{as.string} argument in
 the \texttt{getSequence.SeqFastadna()}. A default \texttt{FALSE}
 value is now present for backward compatibility with older code.
 
+\item New utility vectorized function \texttt{stresc()} to to escape \LaTeX~special 
+characters present in a string.
+
 \item New low level function \texttt{readsmj()} available.
 
 \item A new function \texttt{readfirstrec()} to get 
