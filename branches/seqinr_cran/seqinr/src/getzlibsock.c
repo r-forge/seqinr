@@ -67,7 +67,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
    	extract_opaque=prepare_sock_gz_r(numsoc);
    	res=(char *)malloc(500*sizeof(char)); 
    	res=z_read_sock(extract_opaque);
-#AJOUT PATCHE CRADO
+/*AJOUT PATCHE CRADO*/
 	while ( res == NULL){ 
 		res=z_read_sock(extract_opaque);
 		}
