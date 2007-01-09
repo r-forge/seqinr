@@ -24,7 +24,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     cat(paste("  bank = ", deparse(substitute(bank)), "\n"))
     cat(paste("  host = ", deparse(substitute(host)), "\n"))
     cat(paste("  port = ", deparse(substitute(port)), "\n"))
-    cat(paste("  timeout = ", deparse(substitute(port)), "seconds \n"))
+    cat(paste("  timeout = ", deparse(substitute(timeout)), "seconds \n"))
     cat(paste("  infobank = ", deparse(substitute(infobank)), "\n"))
     cat(paste("  tagbank = ", deparse(substitute(tagbank)), "\n"))
   }
@@ -348,6 +348,9 @@ removeTrailingSpaces <- function(string){
 
 parser.socket <- function(p)
 {
+  if(is.null(p)){
+    return(NULL)
+  }
   p1 <- s2c(p)
   b <- grep("=", p1)
   a <- c(grep("&", p1), length(p1) + 1)
