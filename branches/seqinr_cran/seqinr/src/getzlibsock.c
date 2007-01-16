@@ -5,7 +5,6 @@
 #include "Rconnections.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
 
@@ -53,14 +52,16 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 		if(!con->open(con)) 
 			Rprintf("Error!\n\ncannot open the connection");
 		}
-	else { /* for a non-blocking connection, more input may have become available, so re-position *//***
+	else { ***/
+	/* for a non-blocking connection, more input may have become available, so re-position */
+	/***
 		if (debugon)
 			Rprintf("I can open the connection...\n");
 		if(con->canseek && !con->blocking)
 	    		con->seek(con, con->seek(con, -1, 1, 1), 1, 1);
     		}
  	con->incomplete = FALSE;	
-	****/
+***/
 	numsoc = asInteger(sock)+1;
 	if (debugon)
    		printf("Socket number is %d....\n",numsoc);
