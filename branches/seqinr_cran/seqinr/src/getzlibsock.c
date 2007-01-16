@@ -4,8 +4,8 @@
 #include <zlib.h>		/* needs to be before Rconnections.h */
 #include "Rconnections.h"
 #include <stdlib.h>
-# include <stdio.h>
-# include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
 
