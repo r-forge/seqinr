@@ -14,6 +14,7 @@ int close_sock_gz_r(void *v);
 /*static void *extract_opaque = NULL;*/
 
 #define R_EOF	-1	
+#define MAXESSAIS 1000
 
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
@@ -28,6 +29,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   /*------- */
   SEXP ans = R_NilValue, ans2;
   int i,j, n, nn, nnn, ok, warn, nread, c;
+  int itest;
   Rconnection con = NULL;
   Rboolean wasopen;
   
@@ -62,15 +64,30 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
     		}
  	con->incomplete = FALSE;	
 ***/
-	numsoc = asInteger(sock)+1;
+	/*numsoc = asInteger(sock)+1;*/
+	numsoc = asInteger(sock);
 	if (debugon)
    		printf("Socket number is %d....\n",numsoc);
    	extract_opaque=prepare_sock_gz_r(numsoc);
    	res=(char *)malloc(500*sizeof(char)); 
    	res=z_read_sock(extract_opaque);
 /*AJOUT PATCHE CRADO*/
+	itest=0;
 	while ( res == NULL){ 
 		res=z_read_sock(extract_opaque);
+		itest++;
+		if (debugon)
+			printf("#");
+		if (itest> MAXESSAIS) {
+			printf("Socket error!\n");
+			printf("No answer from socket after %d trials!\n",itest);
+			ans2 = allocVector(STRSXP, 1);
+			SET_STRING_ELT(ans2, 0,mkChar("No answer from socket."));
+			PROTECT(ans = ans2);
+    			UNPROTECT(1);
+			testc=close_sock_gz_r(extract_opaque);
+			return ans ;
+			}	
 		}
 	if( res != NULL){ 
 		if (debugon)
