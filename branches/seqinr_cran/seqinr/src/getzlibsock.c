@@ -14,7 +14,7 @@ int close_sock_gz_r(void *v);
 /*static void *extract_opaque = NULL;*/
 
 #define R_EOF	-1	
-#define MAXESSAIS 1000
+#define MAXESSAIS 100000
 
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
@@ -29,7 +29,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   /*------- */
   SEXP ans = R_NilValue, ans2;
   int i,j, n, nn, nnn, ok, warn, nread, c;
-  int itest;
+  int itest,itestd;
   Rconnection con = NULL;
   Rboolean wasopen;
   
@@ -73,11 +73,20 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
    	res=z_read_sock(extract_opaque);
 /*AJOUT PATCHE CRADO*/
 	itest=0;
+	itestd=0;
 	while ( res == NULL){ 
 		res=z_read_sock(extract_opaque);
 		itest++;
-		if (debugon)
-			printf("#");
+		itestd++;
+		if (debugon){	
+			if (itestd>10) {
+				printf("*");
+				itestd=0;
+				}
+			}
+					
+					
+					
 		if (itest> MAXESSAIS) {
 			printf("Socket error!\n");
 			printf("No answer from socket after %d trials!\n",itest);
