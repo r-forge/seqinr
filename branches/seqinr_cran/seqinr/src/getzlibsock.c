@@ -14,7 +14,7 @@ int close_sock_gz_r(void *v);
 /*static void *extract_opaque = NULL;*/
 
 #define R_EOF	-1	
-#define MAXESSAIS 100000
+#define MAXESSAIS 1000000
 
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
