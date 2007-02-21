@@ -94,8 +94,9 @@ if (verbose)
   else {
   
    request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=T", sep = "")
+   if(verbose) cat("request : ",request,"\n")
    writeLines(request , socket, sep="\n")
-   lastres <- zlibexseq(socket,1000,debug)
+   lastres <- zlibexseq(socket,nzlines,debug)
   
 # Read result from server: 
 
