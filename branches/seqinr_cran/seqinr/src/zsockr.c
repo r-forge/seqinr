@@ -12,7 +12,7 @@
 
 /* included functions */
 void *prepare_sock_gz_r(int nfd);
-int z_getc(void *v);
+int z_getc_R(void *v);
 char *z_gets(void *v, char *line, size_t len);
 char *z_read_sock(void *v);
 int close_sock_gz_r(void *v);
@@ -39,8 +39,9 @@ void *prepare_sock_gz_r(int nfd)
 int err;
 sock_gz_r *big;
 
-/**** SIMON big = (sock_gz_r *)malloc(sizeof(sock_gz_r));*/
-big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r));
+/**** SIMON */
+big = (sock_gz_r *)malloc(sizeof(sock_gz_r));
+/****big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r));****/
 if(big == NULL) return NULL;
 big->stream.next_in = Z_NULL;
 big->stream.avail_in = 0;
@@ -60,11 +61,14 @@ return err == Z_OK ? (void *)big : NULL;
 }
 
 
-int z_getc(void *v)
+int z_getc_R(void *v)
 {
 int q;
+
+
 sock_gz_r *big = (sock_gz_r *)v;
 z_streamp zs;
+
 
 if(big->pos < big->endbuf) {
 	return *(big->pos++);
@@ -105,8 +109,10 @@ int c;
 char *p;
 
 p = line;
+/*while(len > 1) {*/
 while(len > 1) {
-	c = z_getc( v );
+/*	c = 'X';*/
+	c = z_getc_R( v );
 	if(c == EOF) {
 		if(p == line) return NULL;
 		break;
@@ -140,7 +146,8 @@ sock_gz_r *big = (sock_gz_r *)v;
 int val;
 
 val = inflateEnd(&(big->stream));
-/***** SIMON free(big);***/
+/***** SIMON */
+free(big);/***/
 return val;
 }
 
