@@ -39,7 +39,8 @@ void *prepare_sock_gz_r(int nfd)
 int err;
 sock_gz_r *big;
 
-big = (sock_gz_r *)malloc(sizeof(sock_gz_r));
+/**** SIMON big = (sock_gz_r *)malloc(sizeof(sock_gz_r));*/
+big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r));
 if(big == NULL) return NULL;
 big->stream.next_in = Z_NULL;
 big->stream.avail_in = 0;
@@ -139,7 +140,7 @@ sock_gz_r *big = (sock_gz_r *)v;
 int val;
 
 val = inflateEnd(&(big->stream));
-free(big);
+/***** SIMON free(big);***/
 return val;
 }
 
