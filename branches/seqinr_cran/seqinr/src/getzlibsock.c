@@ -14,8 +14,8 @@ int close_sock_gz_r(void *v);
 static void *extract_opaque = NULL;
 
 #define R_EOF	-1	
-#define MAXESSAIS 1000000
-
+/*#define MAXESSAIS 1000000*/
+#define MAXESSAIS 1
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
 
@@ -26,10 +26,12 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 /* Quelles variable faut il proteger : s'appliqe uniquement aux objets R, cad SEXP : ans et ans2*/  
   
   int nprotect = 0;
-  void *extract_opaque;
+/*  void *extract_opaque;*/
   int debugon;
   int testc;
   int numsoc;
+  Rconnection con;
+  Rsockconn scon;
   
 
   int i,j, n, nn, nnn, ok, warn, nread, c;
@@ -45,6 +47,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   /*a modifier?*/
   debugon = INTEGER_VALUE(debug);
   n=INTEGER_VALUE(nmax);
+  Rprintf("->getzlibsock 1\n");
 		  
   if(!inherits(sock, "connection")) {
   	Rprintf("Error!\n\n'con' is not a connection");
@@ -60,6 +63,10 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   if (debugon)
 	Rprintf("'con' is a connection...\n");
   numsoc = asInteger(sock);	
+  con=getConnection(numsoc);
+  scon= (Rsockconn)con->private;
+  numsoc = scon->fd;
+  
   if (debugon)
    	Rprintf("Socket number is %d....\n",numsoc);
   extract_opaque=prepare_sock_gz_r(numsoc);
@@ -78,9 +85,10 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
    if (debugon)
    	Rprintf("Trying to get answer from socket...\n");
  /*  res=(char *)malloc(500*sizeof(char)); */
-   res = (char *) R_alloc(500, sizeof(char)); 
-   
+ /*  res = (char *) R_alloc(500, sizeof(char)); */
+
    res=z_read_sock(extract_opaque);
+   
    /*AJOUT PATCHE CRADO*/
    itest=0;
    itestd=0;
@@ -106,13 +114,15 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
     		UNPROTECT(nprotect);
 		nprotect=0;
 		testc=close_sock_gz_r(extract_opaque);
+		if (debugon)
+			Rprintf("Closing socket close_sock_gz_r  status = %d\n",testc);
 		return ans ;
 		}
 	}
 
   if (debugon)
   	printf("\n-->[%s]\n",res);
-  if (strcmp(res,"code=0") != 0) {
+  if (strncmp(res,"code=0",6) != 0) {
   	Rprintf("extractseqs error!\n");
 	Rprintf("[%s]\n",res);
 	ans2 = PROTECT(allocVector(STRSXP, 1));
@@ -136,7 +146,10 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   nread=0;
   if (debugon)
    	Rprintf("n=%d, nn=%d,nnn=%d\n",n,nn, nnn);
-  while ((res != NULL) ) { /* debug: && (nread < nnn) : je supprime ainsi le changement de taille*/
+  while ((res != NULL) ) {
+  	/*printf(">->[%s]\n",res);*/
+  
+  	 /* debug: && (nread < nnn) : je supprime ainsi le changement de taille*/
   	if (nread >=nnn) {
 		Rprintf("Increasing memory...\n");
 	    	PROTECT(ans2 = (allocVector(STRSXP, 2*nn)));
@@ -149,46 +162,44 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	    	PROTECT(ans = ans2);
 		nprotect=1;
 		};
-	if  (strcmp(res,"extractseqs END.") == 0){
+	if  (strncmp(res,"extractseqs END.",16) == 0){
 		Rprintf("-->[%s]\n",res);
 		Rprintf("extractseqs successfully ended ...\n");
 		flagend=1;
 		break;
 		}
-	if  ((strcmp(res,"code=0") == 0) && (nread >0)) {
+	if  ((strncmp(res,"code=0",6) == 0) && (nread >0)) {
 		Rprintf("-->[%s]\n",res);
 		Rprintf("WARNING!\nextractseqs unsuccessfully ended ...\n");
 		flagend=1;
 		break;
 		}				
-	 if  (strcmp(res,"\033count=1") == 0){
+	 if  (strncmp(res,"\033count=", 7) == 0){
 	 	nbseq++;
 	 	} else {
 		SET_STRING_ELT(ans, nread, mkChar(res));
 		nread++;
 		}
+		
 	res=z_read_sock(extract_opaque);
-	/*if (debugon)
-		printf("-->[%s]\n",res);*/
     	}
 
   Rprintf("Number of lines of data : %d\n",nread-2);
     Rprintf("Number of sequences : %d\n",nbseq);
   if (flagend) {
   	Rprintf("extractseqs OK, program carry on...\n");
-	ans2 = PROTECT(allocVector(STRSXP, nread-2));
+/***	ans2 = PROTECT(allocVector(STRSXP, nread-2));
 	nprotect++;
 	j=0; /* Je remplis en evitanat la premiere et la derniere ligne*/
+/***	
     	for(i = 1; i < nread-1; i++){
 		SET_STRING_ELT(ans2, j, STRING_ELT(ans, i));
 		j++;
 		}
-	 /*****UNPROTECT(nprotect); /* old ans */
-	 /****nprotect=0;***/
+
 	 PROTECT(ans = ans2);
-	 nprotect++;
-    	 /***UNPROTECT(nprotect);
-	 nprotect=0;***/
+	 nprotect++; ***/
+
 	 if (debugon)
 	 	Rprintf("Ok, everything is fine!\n");
 	 } 

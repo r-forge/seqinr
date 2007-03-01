@@ -20,6 +20,7 @@ int close_sock_gz_r(void *v);
 
 
 #define ZBSIZE 100000
+/*#define ZBSIZE 1000000*/
 typedef struct {
 	z_stream stream;
 	char z_buffer[ZBSIZE]; /* compressed input buffer */
@@ -38,10 +39,13 @@ void *prepare_sock_gz_r(int nfd)
 {
 int err;
 sock_gz_r *big;
+static  sock_gz_r s_big;
 
 /**** SIMON */
-big = (sock_gz_r *)malloc(sizeof(sock_gz_r));
-/****big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r));****/
+/*big = (sock_gz_r *)malloc(sizeof(sock_gz_r));*/
+/*
+big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r)); */
+big = &s_big;
 if(big == NULL) return NULL;
 big->stream.next_in = Z_NULL;
 big->stream.avail_in = 0;
@@ -83,7 +87,9 @@ do	{
 #ifdef WIN32
 		lu = recv( big->fd , big->z_buffer, ZBSIZE, 0 );
 #else
+	do
 		lu = read( big->fd , big->z_buffer, ZBSIZE );
+	while(lu == -1);
 #endif
 		if(lu == -1) return EOF;
 		zs->next_in = (Bytef *)big->z_buffer;
@@ -146,7 +152,7 @@ sock_gz_r *big = (sock_gz_r *)v;
 int val;
 
 val = inflateEnd(&(big->stream));
-/***** SIMON */
+/***** SIMON 
 free(big);/***/
 return val;
 }
