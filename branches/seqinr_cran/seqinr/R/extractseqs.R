@@ -60,7 +60,7 @@ if (verbose)
   	if(verbose) cat("... and everything is OK up to now.\n")
 
 	# Get results   
-	ii=0
+	ii=1
 	nseq=0
 	lastres=c()
 	while (length(res) > 0) {
@@ -77,7 +77,7 @@ if (verbose)
 		}
 	}
   
-  	cat("Number of lines : ",ii,"\n")
+  	cat("Number of lines : ",ii-1,"\n")
 	cat("Number of sequences : ",nseq,"\n")
   	} #  if (zlib == FALSE)
   else {
