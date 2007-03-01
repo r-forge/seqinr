@@ -51,7 +51,7 @@ if (verbose)
   	writeLines(request , socket, sep="\n") 
    
 	# Read result from server: 
-  	res <- readLines(socket , n = npaquets)
+  	res <- readLines(socket , 1)
   
 	# Check if server answer is correct 
   	if(verbose) cat("I'm trying to analyse answer from server...\n")
@@ -60,27 +60,25 @@ if (verbose)
   	if(verbose) cat("... and everything is OK up to now.\n")
 
 	# Get results   
-  	testend <-res[length(res)];
-  	while (testend != "extractseqs END.") {
-        	if(verbose) cat("extract new packet....\n")
-  		newres <-  readLines(socket , n = npaquets)
-  		res=c(res,newres)
-  		testend <-res[length(res)];
-  		}
+	ii=0
+	nseq=0
+	lastres=c()
+	while (length(res) > 0) {
+	res <- readLines(socket , 1)
+	if (res == "extractseqs END.") break
+	tagseq<-unlist(strsplit(res, "count"))[1]
+  	if (tagseq !="\033"){
+		lastres[ii]=res[1]
+		ii=ii+1
+		}
+		else
+		{
+		nseq=nseq+1
+		}
+	}
   
-  	ii=1;
-  	jj=0;
-  	lastres=c()
-  	while (ii < length(res)) {
-  		toto<-unlist(strsplit(res[ii], "count"))[1]
-  		if (toto !="\033"){
-			lastres[jj]=res[ii]
-  			jj = jj +1
-			}
-  		ii=ii+1
-  		}
-  
-  
+  	cat("Number of lines : ",ii,"\n")
+	cat("Number of sequences : ",nseq,"\n")
   	} #  if (zlib == FALSE)
   else {
   
