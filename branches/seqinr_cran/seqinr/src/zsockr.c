@@ -7,11 +7,13 @@
 #include <string.h>
 #ifdef WIN32
 #include <winsock.h>
+#else
+#include <sys/select.h>
 #endif
 
 
 /* included functions */
-void *prepare_sock_gz_r(int nfd);
+void *prepare_sock_gz_r(int sockr);
 int z_getc_R(void *v);
 char *z_gets(void *v, char *line, size_t len);
 char *z_read_sock(void *v);
@@ -20,7 +22,6 @@ int close_sock_gz_r(void *v);
 
 
 #define ZBSIZE 100000
-/*#define ZBSIZE 1000000*/
 typedef struct {
 	z_stream stream;
 	char z_buffer[ZBSIZE]; /* compressed input buffer */
@@ -35,16 +36,12 @@ typedef struct {
 
 
 
-void *prepare_sock_gz_r(int nfd)
+void *prepare_sock_gz_r(int sockr)
 {
 int err;
 sock_gz_r *big;
-static  sock_gz_r s_big;
+static sock_gz_r s_big;
 
-/**** SIMON */
-/*big = (sock_gz_r *)malloc(sizeof(sock_gz_r));*/
-/*
-big = (sock_gz_r *) R_alloc(1, sizeof(sock_gz_r)); */
 big = &s_big;
 if(big == NULL) return NULL;
 big->stream.next_in = Z_NULL;
@@ -56,9 +53,9 @@ big->stream.opaque = NULL;
 big->pos = big->text_buffer;
 big->endbuf = big->pos;
 #ifdef WIN32
-big->fd = nfd;
+big->fd = (SOCKET)sockr;
 #else
-big->fd = nfd;
+big->fd = sockr;
 #endif
 err = inflateInit(&big->stream);
 return err == Z_OK ? (void *)big : NULL;
@@ -67,12 +64,13 @@ return err == Z_OK ? (void *)big : NULL;
 
 int z_getc_R(void *v)
 {
-int q;
-
-
+int q, lu;
 sock_gz_r *big = (sock_gz_r *)v;
 z_streamp zs;
-
+#ifndef WIN32
+int err;
+fd_set readfds;
+#endif
 
 if(big->pos < big->endbuf) {
 	return *(big->pos++);
@@ -83,13 +81,16 @@ zs->avail_out = sizeof(big->text_buffer);
 big->pos = (char *)zs->next_out;
 do	{
 	if(zs->avail_in == 0) {
-		int lu;
 #ifdef WIN32
 		lu = recv( big->fd , big->z_buffer, ZBSIZE, 0 );
 #else
-	do
-		lu = read( big->fd , big->z_buffer, ZBSIZE );
-	while(lu == -1);
+		FD_ZERO(&readfds);
+		FD_SET(big->fd, &readfds);
+		err = select(big->fd + 1, &readfds, NULL, NULL, NULL);
+		if(err > 0 ) {
+			lu = read( big->fd , big->z_buffer, ZBSIZE );
+			}
+		else lu = -1;
 #endif
 		if(lu == -1) return EOF;
 		zs->next_in = (Bytef *)big->z_buffer;
@@ -115,9 +116,7 @@ int c;
 char *p;
 
 p = line;
-/*while(len > 1) {*/
 while(len > 1) {
-/*	c = 'X';*/
 	c = z_getc_R( v );
 	if(c == EOF) {
 		if(p == line) return NULL;
@@ -152,8 +151,6 @@ sock_gz_r *big = (sock_gz_r *)v;
 int val;
 
 val = inflateEnd(&(big->stream));
-/***** SIMON 
-free(big);/***/
 return val;
 }
 

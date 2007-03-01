@@ -14,19 +14,19 @@ int close_sock_gz_r(void *v);
 static void *extract_opaque = NULL;
 
 #define R_EOF	-1	
-/*#define MAXESSAIS 1000000*/
-#define MAXESSAIS 1
+#define MAXESSAIS 1	/*#define MAXESSAIS 1000000*/
+
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
 
 /* Variable de types SEXP :entree et sorties*/
+
   SEXP ans = R_NilValue;
   SEXP ans2 = R_NilValue;
 
 /* Quelles variable faut il proteger : s'appliqe uniquement aux objets R, cad SEXP : ans et ans2*/  
   
   int nprotect = 0;
-/*  void *extract_opaque;*/
   int debugon;
   int testc;
   int numsoc;
@@ -44,10 +44,10 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   int nbseq =0;
   
   
-  /*a modifier?*/
   debugon = INTEGER_VALUE(debug);
   n=INTEGER_VALUE(nmax);
-  Rprintf("->getzlibsock 1\n");
+  if (debugon)
+  	Rprintf("Running getzlibsock... \n");
 		  
   if(!inherits(sock, "connection")) {
   	Rprintf("Error!\n\n'con' is not a connection");
@@ -84,12 +84,10 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	
    if (debugon)
    	Rprintf("Trying to get answer from socket...\n");
- /*  res=(char *)malloc(500*sizeof(char)); */
- /*  res = (char *) R_alloc(500, sizeof(char)); */
-
+ 
    res=z_read_sock(extract_opaque);
    
-   /*AJOUT PATCHE CRADO*/
+   /*AJOUT PATCHE CRADO ( devrait etre inutile)*/
    itest=0;
    itestd=0;
    while ( res == NULL){ 
@@ -147,9 +145,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   if (debugon)
    	Rprintf("n=%d, nn=%d,nnn=%d\n",n,nn, nnn);
   while ((res != NULL) ) {
-  	/*printf(">->[%s]\n",res);*/
   
-  	 /* debug: && (nread < nnn) : je supprime ainsi le changement de taille*/
   	if (nread >=nnn) {
 		Rprintf("Increasing memory...\n");
 	    	PROTECT(ans2 = (allocVector(STRSXP, 2*nn)));
@@ -187,20 +183,9 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   Rprintf("Number of lines of data : %d\n",nread-2);
     Rprintf("Number of sequences : %d\n",nbseq);
   if (flagend) {
-  	Rprintf("extractseqs OK, program carry on...\n");
-/***	ans2 = PROTECT(allocVector(STRSXP, nread-2));
-	nprotect++;
-	j=0; /* Je remplis en evitanat la premiere et la derniere ligne*/
-/***	
-    	for(i = 1; i < nread-1; i++){
-		SET_STRING_ELT(ans2, j, STRING_ELT(ans, i));
-		j++;
-		}
-
-	 PROTECT(ans = ans2);
-	 nprotect++; ***/
-
-	 if (debugon)
+  	if (debugon)
+  		Rprintf("extractseqs OK, program carry on...\n");
+	if (debugon)
 	 	Rprintf("Ok, everything is fine!\n");
 	 } 
 	 else{
