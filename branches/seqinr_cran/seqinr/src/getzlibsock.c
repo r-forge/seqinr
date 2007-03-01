@@ -144,6 +144,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   nread=0;
   if (debugon)
    	Rprintf("n=%d, nn=%d,nnn=%d\n",n,nn, nnn);
+  res=z_read_sock(extract_opaque);	
   while ((res != NULL) ) {
   
   	if (nread >=nnn) {
@@ -180,7 +181,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	res=z_read_sock(extract_opaque);
     	}
 
-  Rprintf("Number of lines of data : %d\n",nread-2);
+    Rprintf("Number of lines     : %d\n",nread-1);
     Rprintf("Number of sequences : %d\n",nbseq);
   if (flagend) {
   	if (debugon)
