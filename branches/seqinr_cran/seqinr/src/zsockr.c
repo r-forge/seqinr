@@ -82,7 +82,9 @@ big->pos = (char *)zs->next_out;
 do	{
 	if(zs->avail_in == 0) {
 #ifdef WIN32
+		do
 		lu = recv( big->fd , big->z_buffer, ZBSIZE, 0 );
+		while (lu <=0);
 #else
 		FD_ZERO(&readfds);
 		FD_SET(big->fd, &readfds);
