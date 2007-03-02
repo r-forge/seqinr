@@ -10,11 +10,10 @@
 #                                                                                                 #
 ###################################################################################################
 
-extractseqs <- function( lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib=FALSE, verbose = FALSE, npaquets = -1, nzlines=1000){
+extractseqs <- function( listname,socket = "auto", format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx",verbose = FALSE, nzlines=1000){
 
-debug<-0
-if (verbose)
-	debug <- 1
+  debug<-0
+  if (verbose) debug <- 1
 
   if(verbose) cat("I'm checking the arguments...\n")
 
@@ -24,74 +23,67 @@ if (verbose)
     }
     
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
-  if( !is.character(lrankseqnum) ) stop(paste("argument lrankseqnum = ", lrankseqnum, "is not a character string."))
+  if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))
   if(verbose) cat("... and everything is OK up to now.\n")
   
     
 # Check arguments:
-# Check  if  lrankseqnum is a list or a sequence 
 # Check if  format is acnuc", "fasta", or "flat"
+
+ if(verbose) cat("Format is ",format,"\n")
+ if ((format != "fasta") &&  (format != "flat") && (format != "acnuc")) stop(paste("argument format = ", format, "is wrong. Format should be \"fasta\", \"flat\" or \"acnuc\"! "))
+ 
+
 # Check if operation "is simple", "translate", "fragment", "feature" or "region"
-#
+
+ if(verbose) cat("Operation is ",operation,"\n")
+ if ((operation != "simple") && (operation != "translate") && (operation != "fragment") && (operation != "feature") && (operation != "region") ) {
+ 	stop(paste("argument operation = ", operation, "is wrong. Operation should be \"simple\", \"translate\", \"fragment\", \"feature\" or \"region\"! "))
+	}
+ 
+
+# Check optionals
+
+if ((feature != "xx") && (verbose))cat("feature = ", feature, ".\n")
+if ((bounds != "xx") && (verbose))  cat("bounds = ", bounds, ".\n")
+if ((minbounds != "xx") && (verbose))  cat("minbounds = ", minbounds, ".\n")
+
+
+if ((operation == "feature") && (feature =="xx")) stop(paste("You should specify a feature!\n"))
+
+if ((operation == "fragment") && (bounds =="xx")) stop(paste("You should specify bounds!\n"))
+
+if ((operation == "region") && ((bounds =="xx") || (feature =="xx"))) stop(paste("You should specify bounds and region!\n"))
+
+
 # Build request:
 #
-# if  lrankseqnum is a list
+# listname is a list
 
-  lrank <-glr(lrankseqnum)
-  if(verbose) cat("The rank of the list ",lrankseqnum, "is ",lrank,".\n")
+  lrank <-glr(listname)
+  if(verbose) cat("The rank of the list ",listname, "is ",lrank,".\n")
   if (is.na(lrank)) {
   	stop(paste("Problem in rank list!\n"))
   	}
   
-  if (zlib == FALSE) {
-  	if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
-  	if( !is.character(lrankseqnum) ) stop(paste("argument lrankseqnum = ", lrankseqnum, "is not a character string."))
-  	if(verbose) cat("... and everything is OK up to now.\n")
-  	request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=F", sep = "")
-  	writeLines(request , socket, sep="\n") 
-   
-	# Read result from server: 
-  	res <- readLines(socket , 1)
+  request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation, sep = "")
+  if (feature != "xx") request <- paste(request,"&feature=", feature, sep = "")
+  if (bounds != "xx") request <- paste(request,"&bounds=",bounds, sep = "")
+  if (minbounds != "xx") request <- paste(request,"&minbounds=",minbounds, sep = "")
+  request <- paste(request,"&zlib=T", sep = "")
+  if(verbose) cat("request : ",request,"\n")
   
-	# Check if server answer is correct 
-  	if(verbose) cat("I'm trying to analyse answer from server...\n")
-  	p <- parser.socket(res[1])
-  	if (p != 0) stop(paste("Problem in server answer!\n"))
-  	if(verbose) cat("... and everything is OK up to now.\n")
-
-	# Get results   
-	ii=1
-	nseq=0
-	lastres=c()
-	while (length(res) > 0) {
-	res <- readLines(socket , 1)
-	if (res == "extractseqs END.") break
-	tagseq<-unlist(strsplit(res, "count"))[1]
-  	if (tagseq !="\033"){
-		lastres[ii]=res[1]
-		ii=ii+1
-		}
-		else
-		{
-		nseq=nseq+1
-		}
-	}
+  # Write request into the socket:
   
-  	cat("Number of lines : ",ii-1,"\n")
-	cat("Number of sequences : ",nseq,"\n")
-  	} #  if (zlib == FALSE)
-  else {
-  
-   	request <- paste("extractseqs&lrank=", lrank, "&format=", format, "&operation=", operation,"&zlib=T", sep = "")
-   	if(verbose) cat("request : ",request,"\n")
-   	writeLines(request , socket, sep="\n")
+  writeLines(request , socket, sep="\n")
 	
-	# Read result from server: 
-   	lastres <-  .Call("getzlibsock", socket, nzlines, debug,PACKAGE = "seqinr")
-  	}
+  # Read result from server:
+   
+  lastres <-  .Call("getzlibsock", socket, nzlines, debug,PACKAGE = "seqinr")
+  	
   return(lastres);
 }
+
 exseq <- extractseqs
 
 
-zlibexseq <- function(soc,nlz,ver)  .Call("getzlibsock", soc, nlz, ver,PACKAGE = "seqinr")

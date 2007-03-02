@@ -3,33 +3,63 @@
 \alias{exseq}
 \title{To extract the sequences information of a sequence or a list of sequence in different formats}
 \description{
-To extract the sequences information of a sequence or a list of sequence in different formats
+ The function allows to extract large amount of data as whole genome sequences,using different output formats and types of extraction.
 }
 
 \usage{
 
-extractseqs(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib = FALSE, verbose = FALSE, npaquets = -1, nzlines=1000)
-exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib = FALSE, verbose = FALSE, npaquets = -1, nzlines=1000)
+extractseqs(listname,socket = "auto", format="fasta",operation="simple",feature="xx", bounds="xx", minbounds="xx", verbose = FALSE, nzlines=1000)
+exseq(listname,socket = "auto", format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
 }
 
 \arguments{
-  \item{lrankseqnum}{the name of list on server, or the name of a sequence}
+  \item{listname}{the name of list on server (may be a virtual list) }
   \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
    Default value (auto) means
    that the socket will be set to to the socket component of the banknameSocket variable. }
-  \item{format}{the format of output.Can be \code{acnuc}, \code{fasta}, or \code{flat} }
+  \item{format}{the format of output.Can be \code{acnuc}, \code{fasta},\code{flat} or \code{coordinates} }
   \item{operation}{the type of extraction. Can be  \code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}  }
-  \item{zlib}{if \code{TRUE}, compression mode is on}
+  \item{feature}{-optional- the feature to be extracted (for operations "feature" or "region"): a feature table item (CDS, mRNA,...)}
+  \item{bounds}{-optional- the bounds for extraction (for operations "fragment" or "region") }
+  \item{minbounds}{-optional- the minimal bounds for extraction (for operations "fragment" or "region") }
   \item{verbose}{if \code{TRUE}, verbose mode is on}
-  \item{npaquets}{number of paquets}
   \item{nzlines}{number of line in zlib mode}
 }
 
 \details{
- Under development.
+ To extract a list of sequences (lrank argument) or a single sequence (seqnum argument)
+using different output formats and types of extraction.
+All formats except "coordinates" extract sequence data.
+Format "coordinates" extract coordinate data; start > end indicates the complementary strand.
+\describe{
+	\item{listname}{sequence list name.}
+	\item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
+		Default value (auto) means that the socket will be set to to the socket component of the banknameSocket variable. }
+	\item{format}{\code{acnuc}, \code{fasta}, \code{flat} or \code{coordinates}}
+	\item{operation}{\code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}}
+	\item{feature}{(for operations "feature" or "region") a feature table item (CDS, mRNA,...).
+		\describe{
+			\item{simple}{each sequence or subsequence is extracted.}
+			\item{translate}{meaningful only for protein-coding (sub)sequences that are extracted as protein sequences. Nothing is extracted for non-protein coding sequences.}
+			\item{fragment}{Allows to extract any part of the sequence(s) in list.
+			Such part is specified by the bounds and minbounds arguments according to the syntax suggested by these examples:
+			\tabular{lll}{
+			[,1] \tab 132,1600  \tab to extract from nucl. 132 to nucl 1600 of the sequence. If applied to a subsequence, coordinates are in the parent seq relatively to the subsequence start point.\cr
+			[,2] \tab -10,10    \tab to extract from 10 nucl. BEFORE the 5' end of the sequence to nucl. 10 of it. Useful only for subsequences, and produces a fragment extracted from its parent sequence.\cr
+			[,3] \tab e-20,e+10 \tab to extract from 20 nucl. BEFORE the 3' end of the sequence to 10 nucl. AFTER its 3' end. Useful only for subsequences, and  produces a fragment extracted from its parent sequence.\cr
+			[,4] \tab -20,e+5   \tab to extract from 20 nucl. BEFORE the 5' end of the sequence to 5 nucl. AFTER its 3' end.
+			}
+			}
+			}}
+	\item{bounds}{(for operations "fragment" or "region") see syntax above.}
+	\item{minbounds}{same syntax as bounds. When the sequence data is too short for this quantity
+		to be extracted, nothing is extracted. When the sequence data is between minbounds and bounds,
+		extracted sequence data is extended by N's to the desired length.}
+	
 }
 
 }
+
 \value{
   Sequence data.
 }
@@ -40,14 +70,13 @@ exseq(lrankseqnum,socket = "auto", format="fasta",operation="simple",zlib = FALS
 \seealso{
   \code{\link{choosebank}}, 
   \code{\link{query}}
-   \code{\link{getlistrank}}
-}
+  \code{\link{getlistrank}}
 }
 \examples{
  \dontrun{
  # Need internet connection
  choosebank("swissprot")
- query("MyListName", "k=globin")
+ query("MyListName", "k=globin", virtual = T)
  MyList.fasta <- exseq("MyListName", verbose=T)
  #
  
