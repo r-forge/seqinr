@@ -91,7 +91,7 @@ appendix <- rnw2tex("../appendix")
 %
 <<authors,echo=F,results=hide,fig=F>>=
 results <- character(0)
-for(filename in c(mainmatter, "../frontmatter/cover.tex")){
+for(filename in c(mainmatter, appendix, "../frontmatter/cover.tex")){
   infile <- file(description = filename, open = "r")
   data <- readLines(infile)
   close(infile)
