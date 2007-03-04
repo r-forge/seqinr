@@ -296,7 +296,7 @@ strand for 7 bacterial chromosomes.
 
 \setkeys{Gin}{width=0.5\textwidth}
 <<chargaff,fig=T, results=hide,eval=T>>=
-example(chargaff)
+example(chargaff, ask = FALSE)
 @
 \setkeys{Gin}{width=0.8\textwidth}
 
