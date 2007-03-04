@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Release notes}
-\author{Lobry, J.R. and Palmeira, L.}
+\author{Lobry, J.R. and Palmeira, L. and Penel, S.}
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
@@ -12,6 +12,12 @@
 \section{release 1.0-7}
 
 \begin{itemize}
+
+\item A new \emph{experimental} function \texttt{extractseqs()} to download
+sequences thru zlib compressed sockets from an ACNUC server is released. 
+Preliminary tests suggest that working with about 100,000 CDS is possible with 
+a home ADSL connection. See the manual for some \texttt{system.time()}
+examples.
 
 \item As pointed by e-mail on 16 Nov 2006 by Emmanuel Prestat the URL
 used in \texttt{dia.bactgensize()} was no more available, this has been fixed
