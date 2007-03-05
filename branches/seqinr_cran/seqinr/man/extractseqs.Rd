@@ -32,7 +32,7 @@ using different output formats and types of extraction.
 All formats except "coordinates" extract sequence data.
 Format "coordinates" extract coordinate data; start > end indicates the complementary strand.
 \describe{
-	\item{listname}{sequence list name.}
+	\item{\strong{listname}}{sequence list name.}
 	\item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
 		Default value (auto) means that the socket will be set to to the socket component of the banknameSocket variable. }
 	\item{format}{\code{acnuc}, \code{fasta}, \code{flat} or \code{coordinates}}
@@ -44,10 +44,10 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
 			\item{fragment}{Allows to extract any part of the sequence(s) in list.
 			Such part is specified by the bounds and minbounds arguments according to the syntax suggested by these examples:
 			\tabular{lll}{
-			[,1] \tab 132,1600  \tab to extract from nucl. 132 to nucl 1600 of the sequence. If applied to a subsequence, coordinates are in the parent seq relatively to the subsequence start point.\cr
-			[,2] \tab -10,10    \tab to extract from 10 nucl. BEFORE the 5' end of the sequence to nucl. 10 of it. Useful only for subsequences, and produces a fragment extracted from its parent sequence.\cr
-			[,3] \tab e-20,e+10 \tab to extract from 20 nucl. BEFORE the 3' end of the sequence to 10 nucl. AFTER its 3' end. Useful only for subsequences, and  produces a fragment extracted from its parent sequence.\cr
-			[,4] \tab -20,e+5   \tab to extract from 20 nucl. BEFORE the 5' end of the sequence to 5 nucl. AFTER its 3' end.
+			  \tab 132,1600  \tab to extract from nucl. 132 to nucl 1600 of the sequence. If applied to a subsequence, coordinates are in the parent seq relatively to the subsequence start point.\cr
+			  \tab -10,10    \tab to extract from 10 nucl. BEFORE the 5' end of the sequence to nucl. 10 of it. Useful only for subsequences, and produces a fragment extracted from its parent sequence.\cr
+			  \tab e-20,e+10 \tab to extract from 20 nucl. BEFORE the 3' end of the sequence to 10 nucl. AFTER its 3' end. Useful only for subsequences, and  produces a fragment extracted from its parent sequence.\cr
+			  \tab -20,e+5   \tab to extract from 20 nucl. BEFORE the 5' end of the sequence to 5 nucl. AFTER its 3' end.
 			}
 			}
 			}}
