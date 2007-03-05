@@ -33,15 +33,15 @@ All formats except "coordinates" extract sequence data.
 Format "coordinates" extract coordinate data; start > end indicates the complementary strand.
 \describe{
 	\item{\strong{listname}}{sequence list name.}
-	\item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
+	\item{\strong{socket}}{a socket of class connection and sockconn returned by \code{choosebank}. 
 		Default value (auto) means that the socket will be set to to the socket component of the banknameSocket variable. }
-	\item{format}{\code{acnuc}, \code{fasta}, \code{flat} or \code{coordinates}}
-	\item{operation}{\code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}}
-	\item{feature}{(for operations "feature" or "region") a feature table item (CDS, mRNA,...).
+	\item{\strong{format}}{\code{acnuc}, \code{fasta}, \code{flat} or \code{coordinates}}
+	\item{\strong{operation}}{\code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}}
+	\item{\strong{feature}}{(for operations "feature" or "region") a feature table item (CDS, mRNA,...).
 		\describe{
-			\item{simple}{each sequence or subsequence is extracted.}
-			\item{translate}{meaningful only for protein-coding (sub)sequences that are extracted as protein sequences. Nothing is extracted for non-protein coding sequences.}
-			\item{fragment}{Allows to extract any part of the sequence(s) in list.
+			\item{\emph{simple}}{each sequence or subsequence is extracted.}
+			\item{\emph{translate}}{meaningful only for protein-coding (sub)sequences that are extracted as protein sequences. Nothing is extracted for non-protein coding sequences.}
+			\item{\emph{fragment}}{Allows to extract any part of the sequence(s) in list.
 			Such part is specified by the bounds and minbounds arguments according to the syntax suggested by these examples:
 			\tabular{lll}{
 			  \tab 132,1600  \tab to extract from nucl. 132 to nucl 1600 of the sequence. If applied to a subsequence, coordinates are in the parent seq relatively to the subsequence start point.\cr
@@ -51,8 +51,8 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
 			}
 			}
 			}}
-	\item{bounds}{(for operations "fragment" or "region") see syntax above.}
-	\item{minbounds}{same syntax as bounds. When the sequence data is too short for this quantity
+	\item{\strong{bounds}}{(for operations "fragment" or "region") see syntax above.}
+	\item{\strong{minbounds}}{same syntax as bounds. When the sequence data is too short for this quantity
 		to be extracted, nothing is extracted. When the sequence data is between minbounds and bounds,
 		extracted sequence data is extended by N's to the desired length.}
 	
