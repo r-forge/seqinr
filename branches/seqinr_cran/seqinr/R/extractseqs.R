@@ -60,7 +60,7 @@ if ((operation == "region") && ((bounds =="xx") || (feature =="xx"))) stop(paste
 #
 # listname is a list
 
-  lrank <-glr(listname)
+  lrank <- glr(listname)
   if(verbose) cat("The rank of the list ",listname, "is ",lrank,".\n")
   if (is.na(lrank)) {
   	stop(paste("Problem in rank list!\n"))
@@ -80,8 +80,12 @@ if ((operation == "region") && ((bounds =="xx") || (feature =="xx"))) stop(paste
   # Read result from server:
    
   lastres <-  .Call("getzlibsock", socket, nzlines, debug,PACKAGE = "seqinr")
-  	
-  return(lastres);
+  
+  #
+  # Remove empty lines at the end of lastres:
+  #
+  
+  return( lastres[nchar(lastres) != 0] )
 }
 
 exseq <- extractseqs
