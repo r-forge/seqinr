@@ -1,0 +1,62 @@
+#############################################################################
+#                        Rearranged oriloc                                  #  
+#                                                                           #
+# Detection of replication-associated effects on base composition asymmetry #
+#                                                                           #
+#############################################################################
+
+rearranged.oriloc <- function(
+    seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
+    g2.coord = system.file("sequences/ct.coord",package = "seqinr"))
+  {
+    
+    seq.fasta <- read.fasta(seq.fasta)[[1]]
+    g2 <- read.table(g2.coord)
+    start <- g2[,2]
+    end <- g2[,3]
+    strand <- rep("forward",length(start))
+    strand[which(end<start)] <- "reverse"
+
+
+    meancoord <- (start+end)/2
+
+    ncds <- length(start)
+
+    gcskew <- numeric(ncds)
+    atskew <- numeric(ncds)
+    
+    for(i in 1:ncds){
+
+      cds=seq.fasta[start[i]:end[i]]
+      
+      g3=sum(cds[seq(from=3,to=length(cds),by=3)]%in%c("g","G"))
+      c3=sum(cds[seq(from=3,to=length(cds),by=3)]%in%c("c","C"))
+      t3=sum(cds[seq(from=3,to=length(cds),by=3)]%in%c("t","T"))
+      a3=sum(cds[seq(from=3,to=length(cds),by=3)]%in%c("a","A"))
+
+      gcskew[i]=(g3-c3)/(g3+c3)
+      atskew[i]=(a3-t3)/(a3+t3)
+      if(is.na(gcskew[i])){
+        gcskew[i]=0
+      }
+      if(is.na(atskew[i])){
+        atskew[i]=0
+      }
+      
+    }
+
+    neworder=c(which(strand=="forward"),which(strand=="reverse"))
+
+    meancoord.rear=1:ncds
+    gcskew.rear=gcskew[neworder]
+    atskew.rear=atskew[neworder]
+    strand.rear=strand[neworder]
+
+    data=data.frame(meancoord.rear,gcskew.rear,atskew.rear,strand.rear,neworder)
+
+    colnames(data)=c("meancoord.rearr","gcskew.rearr","atskew.rearr","strand.rearr","order")
+
+    return(data)
+    
+    
+  }
