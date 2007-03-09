@@ -148,7 +148,8 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   while ((res != NULL) ) {
   
   	if (nread >=nnn) {
-		Rprintf("Increasing memory...\n");
+	  	if (debugon)
+			Rprintf("Increasing memory...\n");
 	    	PROTECT(ans2 = (allocVector(STRSXP, 2*nn)));
 		nprotect++;
 	    	for(i = 0; i < nn; i++)
@@ -160,8 +161,8 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 		nprotect=1;
 		};
 	if  (strncmp(res,"extractseqs END.",16) == 0){
-		Rprintf("-->[%s]\n",res);
-		Rprintf("extractseqs successfully ended ...\n");
+		if (debugon)
+			Rprintf("extractseqs successfully ended ...\n");
 		flagend=1;
 		break;
 		}
@@ -180,8 +181,9 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 		
 	res=z_read_sock(extract_opaque);
     	}
-
+  if (debugon)
     Rprintf("Number of lines     : %d\n",nread-1);
+  if (debugon) 
     Rprintf("Number of sequences : %d\n",nbseq);
   if (flagend) {
   	if (debugon)
