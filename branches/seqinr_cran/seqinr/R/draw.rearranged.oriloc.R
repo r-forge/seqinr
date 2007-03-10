@@ -1,4 +1,57 @@
-draw.rearranged.oriloc <- function(rearr.ori){
+draw.rearranged.oriloc <- function(rearr.ori,breaks.gcfw=NA,breaks.gcrev=NA,breaks.atfw=NA,breaks.atrev=NA){
 
+  rearat=cumsum(rearr.ori$gcskew.rear)
+  reargc=cumsum(rearr.ori$atskew.rear)
+  strand.rear=rearr.ori$strand.rear
+  cds.rear=rep(1,length(strand.rear))
+  cds.rear[strand.rear=="reverse"]=-1
+  rearcds=cumsum(cds.rear)
+  meancoord.rear=rearr.ori$meancoord.rear
+
+  ymin <- min(rearat,reargc)
+  ymax <- max(rearat,reargc)
+  xmin <- min(meancoordrear)
+  xmax <- max(meancoordrear)
+  
+  ticksrear <- pretty(rearcds)
+  
+  ticks.yrear <- (ymax-ymin)/(max(rearcds)-min(rearcds))*(ticksrear - min(rearcds)) + ymin
+  cds.yrear   <- (ymax-ymin)/(max(rearcds)-min(rearcds))*(rearcds - min(rearcds)) + ymin
+
+ plot(meancoordrear,reargc, type="l", xlab="Map position (gene index)",
+      ylab = "Cumulated normalized skew",xlim=c(xmin,xmax),ylim=c(ymin,ymax),cex.lab=1.35,col="blue",main=paste(specclean," \n",chromosome[i,2]),lwd=2,cex.main=1.4)
+
+  abline(v=sum(strand.rear=="forward"),col="black",lwd=2)
+  
+  axis(side = 4, at = ticks.yrear, labels = ticksrear, col = "black", col.axis ="black")
+
+  tmp <- pretty(meancoordrear)
+  abline(v=tmp, col="grey", lty=3,lwd=1.5)
+  tmp <- tmp[-length(tmp)] + diff(tmp)/2
+  abline(v=tmp, col="grey", lty=3,lwd=1.5)
+  
+  lines(meancoordrear,rearat, col="red",lwd=2)
+  
+  lines(meancoordrear,cds.yrear, col="black",lwd=2)
+  
+  mtext("Cumul. A-T skew", col="red", adj=0,cex=1.1)
+  mtext("Cumul. G-C skew", col="blue",cex=1.1)
+  mtext("Cumul. CDS skew", col="black", adj=1,cex=1.1)
+
+  if(!is.na(breaks.gcfw)){
+    segments(x0=meancoordrear[breaks.gcfw],y0=reargc[breaks.gcfw]-(ymax-ymin)/30,x1=meancoordrear[breaks.gcfw],y1=reargc[breaks.gcfw]+(ymax-ymin)/30,col="blue",lwd=2,lty=1)
+  }
+  
+  if(!is.na(breaks.gcrev)){
+    segments(x0=meancoordrear[breaks.gcrev],y0=reargc[breaks.gcrev]-(ymax-ymin)/30,x1=meancoordrear[breaks.gcrev],y1=reargc[breaks.gcrev]+(ymax-ymin)/30,col="blue",lwd=2,lty=1)
+  }
+  
+  if(!is.na(breaks.atfw)){
+    segments(x0=meancoordrear[breaks.atfw],y0=rearat[breaks.atfw]-(ymax-ymin)/30,x1=meancoordrear[breaks.atfw],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
+  }
+
+  if(!is.na(breaks.atrev)){
+    segments(x0=meancoordrear[breaks.atrev],y0=rearat[breaks.atrev]-(ymax-ymin)/30,x1=meancoordrear[breaks.atrev],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
+  }
 
 }

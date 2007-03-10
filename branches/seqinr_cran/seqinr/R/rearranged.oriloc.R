@@ -51,10 +51,10 @@ rearranged.oriloc <- function(
     gcskew.rear=gcskew[neworder]
     atskew.rear=atskew[neworder]
     strand.rear=strand[neworder]
+    meancoord.real=meancoord[neworder]
+    data=data.frame(meancoord.rear,gcskew.rear,atskew.rear,strand.rear,neworder,meancoord.real)
 
-    data=data.frame(meancoord.rear,gcskew.rear,atskew.rear,strand.rear,neworder)
-
-    colnames(data)=c("meancoord.rearr","gcskew.rearr","atskew.rearr","strand.rearr","order")
+    colnames(data)=c("meancoord.rearr","gcskew.rearr","atskew.rearr","strand.rearr","order","meancoord.real")
 
     return(data)
     
