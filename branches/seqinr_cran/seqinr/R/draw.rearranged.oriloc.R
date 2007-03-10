@@ -38,19 +38,19 @@ draw.rearranged.oriloc <- function(rearr.ori,breaks.gcfw=NA,breaks.gcrev=NA,brea
   mtext("Cumul. G-C skew", col="blue",cex=1.1)
   mtext("Cumul. CDS skew", col="black", adj=1,cex=1.1)
 
-  if(!is.na(breaks.gcfw)){
+  if(sum(is.na(breaks.gcfw))==0){
     segments(x0=meancoord.rear[breaks.gcfw],y0=reargc[breaks.gcfw]-(ymax-ymin)/30,x1=meancoord.rear[breaks.gcfw],y1=reargc[breaks.gcfw]+(ymax-ymin)/30,col="blue",lwd=2,lty=1)
   }
   
-  if(!is.na(breaks.gcrev)){
+  if(sum(is.na(breaks.gcrev))==0){
     segments(x0=meancoord.rear[breaks.gcrev],y0=reargc[breaks.gcrev]-(ymax-ymin)/30,x1=meancoord.rear[breaks.gcrev],y1=reargc[breaks.gcrev]+(ymax-ymin)/30,col="blue",lwd=2,lty=1)
   }
   
-  if(!is.na(breaks.atfw)){
+  if(sum(is.na(breaks.atfw))==0){
     segments(x0=meancoord.rear[breaks.atfw],y0=rearat[breaks.atfw]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atfw],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
   }
 
-  if(!is.na(breaks.atrev)){
+  if(sum(is.na(breaks.atrev))==0){
     segments(x0=meancoord.rear[breaks.atrev],y0=rearat[breaks.atrev]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atrev],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
   }
 

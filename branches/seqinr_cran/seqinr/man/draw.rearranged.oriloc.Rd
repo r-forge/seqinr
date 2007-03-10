@@ -49,14 +49,14 @@
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 
-\dontrun{breaks=extract.breakpoints(r.ori,type=c("atfw","atrev","gcfw","gcrev"),nbreaks=c(2,2,2,2),gridsize=100,it.max=500)}
+\dontrun{breaks=extract.breakpoints(r.ori,type=c("gcfw","gcrev"),nbreaks=c(2,2),gridsize=50,it.max=100)}
 
-\dontrun{summary(breaks)}
+
 
 ### Draw the rearranged nucleotide skews and place the position of the
 breakpoints on the graphics ###
 
-\dontrun{draw.rearranged.oriloc(r.ori,breaks.gcfw=breaks$gcfw$breaks,breaks.gcrev=breaks$gcrev$breaks,breaks.atfw=breaks$atfw$breaks,breaks.atrev=breaks$atrev$breaks)}
+\dontrun{draw.rearranged.oriloc(r.ori,breaks.gcfw=breaks$gcfw$breaks,breaks.gcrev=breaks$gcrev$breaks)}
 }
 
 \keyword{utilities}
