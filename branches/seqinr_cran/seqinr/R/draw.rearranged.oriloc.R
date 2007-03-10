@@ -1,4 +1,4 @@
-draw.rearranged.oriloc <- function(rearr.ori,type=c("AT","){
+draw.rearranged.oriloc <- function(rearr.ori){
 
 
 }
