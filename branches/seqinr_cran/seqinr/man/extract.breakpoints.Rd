@@ -7,7 +7,7 @@
   rearranged nucleotide skews. 
   }
 
-\usage{extract.breakpoints(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),nbreaks,gridsize=100,it.max=500)}
+\usage{extract.breakpoints(rearr.ori,type = c("atfw", "atrev", "gcfw", "gcrev"), nbreaks, gridsize = 100, it.max = 500)}
 
 \arguments{
 \item{rearr.ori}{A data frame obtained with the \code{rearranged.oriloc}
@@ -68,19 +68,18 @@ values for the breakpoints.
 
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
-\dontrun{r.ori=rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
+\dontrun{r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
     g2.coord = system.file("sequences/ct.coord",package = "seqinr"))}
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 
 
-\dontrun{breaks=extract.breakpoints(r.ori,type=c("gcfw","gcrev"),nbreaks=c(2,2),gridsize=50,it.max=100)}
+\dontrun{breaks <- extract.breakpoints(r.ori,type = c("gcfw", "gcrev"), nbreaks = c(2, 2), gridsize = 50, it.max = 100)}
 
 
-### Draw the rearranged nucleotide skews and place the position of the
-breakpoints on the graphics ###
+### Draw the rearranged nucleotide skews and place the position of the breakpoints on the graphics ###
 
-\dontrun{draw.rearranged.oriloc(r.ori,breaks.gcfw=breaks$gcfw$breaks,breaks.gcrev=breaks$gcrev$breaks)}
+\dontrun{draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks, breaks.gcrev = breaks$gcrev$breaks)}
 }
 
 
