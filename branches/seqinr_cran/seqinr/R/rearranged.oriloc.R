@@ -11,9 +11,12 @@ rearranged.oriloc <- function(
   {
     
     seq.fasta <- read.fasta(seq.fasta)[[1]]
-    g2 <- read.table(g2.coord)
-    start <- g2[,2]
-    end <- g2[,3]
+    g2 <- readLines(g2.coord)
+    g2 <- lapply(g2, function(x) unlist(strsplit(x, split=" ")))
+    g2 <- lapply(g2, function(x) x[which(x!="")])
+        
+    start <-as.numeric(unlist(lapply(g2, function(x) x[2]))) 
+    end <- as.numeric(unlist(lapply(g2, function(x) x[3])))
     strand <- rep("forward",length(start))
     strand[which(end<start)] <- "reverse"
 

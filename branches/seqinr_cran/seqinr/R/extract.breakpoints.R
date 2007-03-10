@@ -15,19 +15,23 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
   
   for(t in type){
 
-    if(type=="gcfw"){
+    if(t=="gcfw"){
+      print("Extracting breakpoints for GC-skew, forward-encoded genes")
       x.breaks=rearr.ori$meancoord.rear[rearr.ori$strand.rear=="forward"]
       y.breaks=cumsum(rearr.ori$gcskew.rear[rearr.ori$strand.rear=="forward"])
      }
-     if(type=="gcrev"){
+     if(t=="gcrev"){
+        print("Extracting breakpoints for GC-skew, reverse-encoded genes")
       x.breaks=rearr.ori$meancoord.rear[rearr.ori$strand.rear=="reverse"]
       y.breaks=cumsum(rearr.ori$gcskew.rear[rearr.ori$strand.rear=="reverse"])
      }
-    if(type=="atfw"){
+    if(t=="atfw"){
+       print("Extracting breakpoints for AT-skew, forward-encoded genes")
       x.breaks=rearr.ori$meancoord.rear[rearr.ori$strand.rear=="forward"]
       y.breaks=cumsum(rearr.ori$atskew.rear[rearr.ori$strand.rear=="forward"])
      }
-     if(type=="atrev"){
+     if(t=="atrev"){
+       print("Extracting breakpoints for AT-skew, reverse-encoded genes")
       x.breaks=rearr.ori$meancoord.rear[rearr.ori$strand.rear=="reverse"]
       y.breaks=cumsum(rearr.ori$atskew.rear[rearr.ori$strand.rear=="reverse"])
      }
@@ -40,11 +44,12 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
 
     i=0
     while(i<gridsize){
+     
       initpsi=runif(nbreaks[which(type==t)],min=min(x.breaks),max=max(x.breaks))
       if(exists("seg")){
         rm(seg)
       }
-      try(seg <- segmented(lm(y~x),x,psi=initpsi,it.max=it.max),silent=T)
+      try(seg <- segmented(lm(y.breaks~x.breaks),x.breaks,psi=initpsi,it.max=it.max),silent=T)
       
       if(exists("seg")){
         starts[[length(starts)+1]]=initpsi
@@ -56,22 +61,24 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
     }
 
     wmin=which.min(rss)
+   
     
     starts=starts[[wmin]]
     
-    seg=seg <- segmented(lm(y~x),x,psi=starts,it.max=it.max)
+    seg=seg <- segmented(lm(y.breaks~x.breaks),x.breaks,psi=starts,it.max=it.max)
     
     breaks=round(seg$psi[,2])
     
     breaks=breaks[order(breaks)]
 
-    sl=c(x[1],breaks,x[length(x)])-x[1]+1
+    sl=c(x.breaks[1],breaks,x.breaks[length(x.breaks)])-x.breaks[1]+1
+
     
     slopes=numeric(length(sl)-1)
     
     for(i in 1:(length(sl)-1)){
-      u=(sl[i]:sl[i+1])+x[1]-1
-      slopes[i]=summary(lm(y[sl[i]:sl[i+1]]~u))$coefficients[2,1]
+      u=(sl[i]:sl[i+1])+x.breaks[1]-1
+      slopes[i]=summary(lm(y.breaks[sl[i]:sl[i+1]]~u))$coefficients[2,1]
     }
     
     slopes.left=slopes[-length(slopes)]
