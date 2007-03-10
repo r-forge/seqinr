@@ -58,3 +58,5 @@ breakpoints on the graphics ###
 
 draw.rearranged.oriloc(r.ori,breaks.gcfw=breaks$gcfw$breaks,breaks.gcrev=breaks$gcrev$breaks,breaks.atfw=breaks$atfw$breaks,breaks.atrev=breaks$atrev$breaks)
 }
+
+\keyword{utilities}
