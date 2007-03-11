@@ -253,6 +253,13 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
       if( accname == "NC_007352" ) def <- "plasmid"
       if( accname == "NC_003425" ) def <- "plasmid"
       if( accname == "NC_006833" ) def <- "chromosome"
+      if( accname == "NC_006810" ) def <- "chromosome"
+      if( accname == "NC_008529" ) def <- "chromosome"
+      if( accname == "NC_008531" ) def <- "chromosome"
+      if( accname == "NC_008346" ) def <- "chromosome"
+      if( accname == "NC_008800" ) def <- "chromosome"
+            
+            
 
       
       #
