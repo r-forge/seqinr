@@ -37,7 +37,7 @@ there was no default value for the \texttt{as.string} argument in
 the \texttt{getSequence.SeqFastadna()}. A default \texttt{FALSE}
 value is now present for backward compatibility with older code.
 
-\item New utility vectorized function \texttt{stresc()} to to escape \LaTeX~special 
+\item New utility vectorized function \texttt{stresc()}  to escape \LaTeX~special 
 characters present in a string.
 
 \item New low level function \texttt{readsmj()} available.
@@ -50,6 +50,13 @@ the default ACNUC database to return available subsequence types.
 
 \item Function \texttt{read.alignment()} now also accepts \texttt{file} in
 addition to \texttt{File} as argument.
+
+\item A new function \texttt{rearranged.oriloc} is available. This method, based on \texttt{oriloc}, can be used to detect the effect of the replication mechanism on DNA base composition asymmetry, in prokaryotic chromosomes. 
+
+\item New function \texttt{extract.breakpoints}, used to extract breakpoints in rearranged nucleotide skews. This function uses the \texttt{segmented} package to define the position of the breakpoints.
+
+\item New function \texttt{draw.rearranged.oriloc} available, to plot nucleotide skews on artificially rearranged prokaryotic chromosomes. 
+
 
 \end{itemize}
 
