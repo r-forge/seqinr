@@ -57,6 +57,8 @@ addition to \texttt{File} as argument.
 
 \item New function \texttt{draw.rearranged.oriloc} available, to plot nucleotide skews on artificially rearranged prokaryotic chromosomes. 
 
+\item New function \texttt{gbk2g2.euk} available. Similarly to  \texttt{gbk2g2}, this function extracts the coding sequence annotations from a GenBank format file. This function is specifically designed for eukaryotic sequences, i.e. with introns. The output file will contain the coordinates of the exons, along with the name of the CDS to which they belong.
+
 
 \end{itemize}
 
