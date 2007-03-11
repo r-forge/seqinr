@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Release notes}
-\author{Lobry, J.R. \and Palmeira, L. \and Penel, S.}
+\author{Lobry, J.R. \and Nec\c{s}ulea, A. \and Palmeira, L. \and Penel, S.}
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
@@ -51,13 +51,24 @@ the default ACNUC database to return available subsequence types.
 \item Function \texttt{read.alignment()} now also accepts \texttt{file} in
 addition to \texttt{File} as argument.
 
-\item A new function \texttt{rearranged.oriloc} is available. This method, based on \texttt{oriloc}, can be used to detect the effect of the replication mechanism on DNA base composition asymmetry, in prokaryotic chromosomes. 
+\item A new function \texttt{rearranged.oriloc()} is available. This
+method, based on \texttt{oriloc()}, can be used to detect the effect of
+the replication mechanism on DNA base composition asymmetry, in
+prokaryotic chromosomes.
 
-\item New function \texttt{extract.breakpoints}, used to extract breakpoints in rearranged nucleotide skews. This function uses the \texttt{segmented} package to define the position of the breakpoints.
+\item New function \texttt{extract.breakpoints()}, used to extract
+breakpoints in rearranged nucleotide skews. This function uses the
+\texttt{segmented} package to define the position of the breakpoints.
 
-\item New function \texttt{draw.rearranged.oriloc} available, to plot nucleotide skews on artificially rearranged prokaryotic chromosomes. 
+\item New function \texttt{draw.rearranged.oriloc()} available, to plot
+nucleotide skews on artificially rearranged prokaryotic chromosomes.
 
-\item New function \texttt{gbk2g2.euk} available. Similarly to  \texttt{gbk2g2}, this function extracts the coding sequence annotations from a GenBank format file. This function is specifically designed for eukaryotic sequences, i.e. with introns. The output file will contain the coordinates of the exons, along with the name of the CDS to which they belong.
+\item New function \texttt{gbk2g2.euk()} available. Similarly to 
+\texttt{gbk2g2()}, this function extracts the coding sequence annotations
+from a GenBank format file. This function is specifically designed for
+eukaryotic sequences, \textit{i.e.} with introns. The output file will contain
+the coordinates of the exons, along with the name of the CDS to which
+they belong.
 
 
 \end{itemize}
