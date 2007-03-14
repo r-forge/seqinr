@@ -21,7 +21,7 @@ GC2(seq)
 GC3(seq)
 }
 \arguments{
-  \item{seq}{any nucleic acid sequence}
+  \item{seq}{any nucleic acid sequence as a vector of single characters in lower case}
 }
 \value{
   \code{GC} returns the fraction of G+C as a numeric vector,
@@ -32,12 +32,21 @@ GC3(seq)
 \references{ 
   \code{citation("seqinr")}
 }
-\author{D. Charif and L. Palmeira}
+\seealso{You can use \code{\link{s2c}} to convert a string into a vetor of single
+character and \code{\link{tolower}} to convert upper-case characters into
+lower-case characters.
+}
+\author{D. Charif and L. Palmeira and J.R. Lobry}
 \examples{
-   s=s2c("agtctggggggccccttttaagtagatagatagctagtcgta")
-   GC(s)
-   GC1(s)
-   GC2(s)
-   GC3(s)
+   mysequence <- s2c("agtctggggggccccttttaagtagatagatagctagtcgta")
+   GC(mysequence)   # 0.4761905
+   GC1(mysequence) # 0.6428571
+   GC2(mysequence) # 0.3571429
+   GC3(mysequence) # 0.4285714
+#
+# With upper-case characters:
+#
+  myUCsequence <- s2c("GGGGGGGGGA")
+  GC(tolower(myUCsequence)) # 0.9
 }
 \keyword{manip}

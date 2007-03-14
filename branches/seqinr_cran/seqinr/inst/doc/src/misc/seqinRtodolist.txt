@@ -5,8 +5,7 @@ o D'un e-mail de Manolo du 05-MARS-2007 :
   UNQUOTE
   --> Mettre ˆ our la doc de query() et le manuel.
   
-o Doc pour GC() et consorts ˆ clarifier pour minuscules versus majuscules
-  en input.
+
 
 o Fichier CITATION a modifier quand ref disponible.
 
@@ -69,6 +68,9 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
+o Doc pour GC() et consorts ˆ clarifier pour minuscules versus majuscules
+  en input. -- Fait pour 1.0-7 JRL
+  
 o Etudier la faisabilite de recuperer les sequences en mode compresse.
   (idee de Christian depuis de Bresil)
   Implementer la possibilite de rapatrier directement les sequences au format
