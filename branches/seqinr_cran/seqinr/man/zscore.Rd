@@ -65,10 +65,14 @@ zscore(sequence, simulations = NULL, modele, ... )
   \code{citation("seqinr")}
   
   Karlin S. and Cardon LR. (1994) Computational DNA sequence analysis.
-  \emph{Annu Rev Microbiol}, \bold{48}, 619--54.
+  \emph{Annu Rev Microbiol}, \bold{48}:619-54.
 
-  Palmeira, L., Guéguen, L. and Lobry JR. (in prep) UV-targeted
-  dinucleotides are not depleted in light-exposed Prokaryotic genomes.
+  Palmeira, L., Guéguen, L. and Lobry JR. (2006) UV-targeted dinucleotides
+  are not depleted in light-exposed Prokaryotic genomes.
+  \emph{Molecular Biology and Evolution},
+  \bold{23}:2214-2219.\cr
+  \url{http://mbe.oxfordjournals.org/cgi/reprint/23/11/2214}\cr\cr
+
 }
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{permutation}} }
