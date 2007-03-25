@@ -65,7 +65,7 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   if(plong.add) plong <- numeric(n)
   if(libel.add) libel <- character(n)
   if(sname.add) sname <- character(n)
-  for(i in 1:n){
+  for(i in seq_len(n)){
     tmp <- parser.socket(ans[[i]])
     name[i] <- substr(tmp[2], 2, nchar(tmp[2]) - 1)
     if(name[i] == "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"){
