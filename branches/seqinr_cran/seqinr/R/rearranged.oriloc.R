@@ -28,7 +28,7 @@ rearranged.oriloc <- function(
     gcskew <- numeric(ncds)
     atskew <- numeric(ncds)
     
-    for(i in 1:ncds){
+    for(i in seq_len(ncds)){
 
       cds=seq.fasta[start[i]:end[i]]
       
@@ -50,7 +50,7 @@ rearranged.oriloc <- function(
 
     neworder=c(which(strand=="forward"),which(strand=="reverse"))
 
-    meancoord.rear=1:ncds
+    meancoord.rear <- seq_len(ncds)
     gcskew.rear=gcskew[neworder]
     atskew.rear=atskew[neworder]
     strand.rear=strand[neworder]

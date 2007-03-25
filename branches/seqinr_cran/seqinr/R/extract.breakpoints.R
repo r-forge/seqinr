@@ -76,7 +76,7 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
     
     slopes=numeric(length(sl)-1)
     
-    for(i in 1:(length(sl)-1)){
+    for(i in seq_len(length(sl)-1)){
       u=(sl[i]:sl[i+1])+x.breaks[1]-1
       slopes[i]=summary(lm(y.breaks[sl[i]:sl[i+1]]~u))$coefficients[2,1]
     }

@@ -180,7 +180,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     #
     # Remove backup files with % extension:
     #
-    for( i in 1:length(whatsin) )
+    for( i in seq_len(length(whatsin)) )
       if( substr(whatsin[i], nchar(whatsin[i]), nchar(whatsin)[i]) == "%" )
         is.na(whatsin[i]) <- TRUE
     whatsin <- whatsin[!is.na(whatsin)]

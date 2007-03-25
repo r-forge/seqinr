@@ -121,10 +121,10 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
                   status = I(rep("NAstatus", nbank)), 
                   info = I(rep("NAinfo", nbank))))
-  for(i in 1:nbank)
+  for(i in seq_len(nbank))
     resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
-  for(i in 1:nbank)
-    for(j in 1:3)
+  for(i in seq_len(nbank))
+    for(j in seq_len(3))
       resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
            
   ###############################################################################
@@ -185,7 +185,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("Number of lines=", nblhelp,".\n")
       if (as.numeric(nblhelp) > 2){
         bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
-        for(i in 1:length(bankhelp)) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+        for(i in seq_len(length(bankhelp))) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
         bankrel <- bankhelp[1]
       } else {
         bankhelp <- "there is no information available about the contents of this bank"
@@ -197,7 +197,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       # Try to get status info:
       #
       status <- "unknown"
-      for(i in 1:nbank){
+      for(i in seq_len(nbank)){
           if (resdf[i,1] == bank) status<-resdf[i,2]
       }
 
@@ -354,7 +354,7 @@ parser.socket <- function(p)
   p1 <- s2c(p)
   b <- grep("=", p1)
   a <- c(grep("&", p1), length(p1) + 1)
-  return(unlist(lapply(1:length(a), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
+  return(unlist(lapply(seq_len(length(a)), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
 }
   
 ###################################################################################################
@@ -743,7 +743,7 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     nb=numeric()
     posi = list()
     
-    for(i in 1:length(ptype)){
+    for(i in seq_len(length(ptype))){
       cou = cou+1
       q=paste("filles et t=",ptype[i],sep="")
       query(socket = socket, listname = "tmp", query = q, invisible = TRUE)
@@ -761,7 +761,7 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     }
     plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
     title("Legend",font.main=4)
-    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill=c(1:cou),bg="cornsilk",ncol = 4)
+    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill= seq_len(cou),bg="cornsilk",ncol = 4)
     par(mfrow=c(1,1))
     resu = lapply(posi,function(x){lapply(x,unlist)})
     names(resu) = ptype[rap]

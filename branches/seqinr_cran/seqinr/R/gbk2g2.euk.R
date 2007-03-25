@@ -19,7 +19,7 @@ gbk2g2.euk <- function(
   
   genes.cds <- character(length(cds))
   
-  for(i in 1:length(cds)){
+  for(i in seq_len(length(cds))){
     print(i)
     this.gene=genes[which(genes>cds[i])[1]]
     
@@ -125,7 +125,7 @@ gbk2g2.euk <- function(
   already=character(0)
    
   if(length(cds)>0){
-    for(i in 1:length(cds)){
+    for(i in seq_len(length(cds))){
       
       boundaries=get.boundaries(cds[i])
       exons.begin=boundaries[[1]]
@@ -133,7 +133,7 @@ gbk2g2.euk <- function(
       
       ids=rep(genes.cds[i],length(exons.begin))
       
-      for(j in 1:length(exons.begin)){
+      for(j in seq_len(length(exons.begin))){
         phrase=paste(genes.cds[i],exons.begin[j],exons.end[j])
         
         if(!phrase%in%already){

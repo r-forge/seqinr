@@ -47,7 +47,7 @@ oriloc <- function(
   tokens <- function( string )
   {
     tmp <- unlist(strsplit( string, split = " "))
-    tmp[nchar(tmp) > 0 ][1:3]
+    tmp[nchar(tmp) > 0 ][seq_len(3)]
   }
   tmp <- sapply( g2, tokens )
   gnum  <- as.numeric(tmp[1, ]) # gene number in g2.coord
@@ -74,7 +74,7 @@ oriloc <- function(
       } 
       else 
       {
-        c(x[(rot+1):n],x[1:rot])
+        c(x[(rot+1):n],x[seq_len(rot)])
       }
     } 
     seq <- rotate(x  = seq, rot = rot )
@@ -156,7 +156,7 @@ oriloc <- function(
     Regression <- function(x, y, Li)
     {
       a <- 0 ; b <- 0 ; c <- 0; l <- 0
-      for( m in 1:(Li-1) ) # I think this should go to Li included
+      for( m in seq_len(Li-1) ) # I think this should go to Li included
       {
         b <- b + y[m]^2
         a <- a + x[m]^2
@@ -174,7 +174,7 @@ oriloc <- function(
 
     slope <- Regression( x, y, ncds )
   
-    for ( i in 1:ncds)
+    for ( i in seq_len(ncds))
     {
       X.line <- ( y[i] + slope*x[i] )/(2*slope)
       Y.line <- slope*X.line        

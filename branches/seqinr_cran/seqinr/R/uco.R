@@ -57,7 +57,7 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
   gordered <- rank(gdata)
   xidx <- numeric(64)
 
-  for( i in 1:64 )
+  for( i in seq_len(64) )
   {
     xidx[i] <- -0.01*i + gordered[groups[i]]
   }
@@ -98,7 +98,7 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, cex = 0.7,
   result$ypg <- ypg
 
   ypi <- numeric( length(x) )
-  for( i in 1:length(x) )
+  for( i in seq_len(length(x)) )
   {
     ypi[i] <- ypg[groups[i]]
   }
