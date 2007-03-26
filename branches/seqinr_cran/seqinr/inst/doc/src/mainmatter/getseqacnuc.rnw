@@ -460,7 +460,8 @@ subset of EMBL database to allow for the reproducibility of results.
 (tcb <- system.time(choosebank("emblTP")))
 @
 
-It was then about \Sexpr{ifelse(exists("tcb"), round(tcb[3]), "???")} seconds to select
+It was then about \Sexpr{ifelse(exists("tcb"), round(tcb[3]), "???")} 
+seconds to select
 the relevant database. We suppose that the sequences we are interested in 
 are all the complete coding sequences from \textit{Homo sapiens} that
 are encoded in the nucleus (we don't want sequences from human mitochondrion). 
@@ -488,8 +489,7 @@ cat(head(mycds), sep = "\n")
 cat(tail(mycds), sep = "\n")
 @
 
-Note that there are many empty lines at the end, this may or may not change
-in the future. We save now the sequences in a local FASTA file for future use:
+We save now the sequences in a local FASTA file for future use:
 
 <<writefastat,fig=F,eval=T>>=
 (twl <- system.time(writeLines(mycds, "mycds.fasta")))
@@ -535,8 +535,7 @@ cat(head(myprot), sep = "\n")
 cat(tail(myprot), sep = "\n")
 @
 
-Again, there are many empty lines at the end, this may or may not change
-in the future. We save the protein sequences in a local FASTA file for future use:
+We save the protein sequences in a local FASTA file for future use:
 
 <<writefastat2,fig=F,eval=T>>=
 (twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
@@ -568,7 +567,23 @@ protein sequences from XDR format?
 It was then about \Sexpr{ifelse(exists("tlrd2"), round(tlrd2[3]), "???")} seconds
 to load the protein sequences from an XDR formated file.
 
-%Summary in a table
+%Summary in a table -- bof bof
+
+As a quick sanity check, we plot the distribution of protein size:
+
+\setkeys{Gin}{width=\textwidth}
+
+<<protsizeinhuman,fig=T,width=10,height=4>>=
+x <- log10(nchar(myprots) - 1)
+dstx <- density(x)
+plot(dstx, main = paste("Protein size distribution in the human genome\nn = ", 
+length(myprots), "proteins"),
+xlab = "Number of amino-acids in log 10 scale", las = 1)
+rug(x, col = "blue")
+polycurve <- function(x, y, base.y = min(y), ...) 
+  polygon(x = c(min(x), x, max(x)), y = c(base.y, y, base.y), ...)
+polycurve(dstx$x, dstx$y, col = "yellow")
+@ 
 
 \section{The query language}
 
