@@ -14,7 +14,7 @@ oriloc <- function(
   clean.tmp.files = TRUE,
   rot = 0)
 {
-  if( !missing(gbk) ) # Work directly with genbank file
+  if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
   {
     tmpgbk <- tempfile(pattern = "oriloc_gbk")
     seq.fasta <- tempfile(pattern = "oriloc_fasta")
