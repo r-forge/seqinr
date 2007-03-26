@@ -71,7 +71,7 @@ the coordinates of the exons, along with the name of the CDS to which
 they belong.
 
 \item After an e-mail by Marcelo bertalan on 26 Mar 2007, a bug in
-\textit{oriloc()} when the \texttt{gbk} argument was \texttt{NULL}
+\texttt{oriloc()} when the \texttt{gbk} argument was \texttt{NULL}
 was found and fixed by Anamaria Nec\c{s}ulea.
 
 
