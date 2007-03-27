@@ -53,7 +53,7 @@
 
 "GC" <- function(seq)
 {
-        sum(seq=='c'|seq=='g')/length(seq)
+        sum(seq%in%c("c","g","C","G"))/sum(seq%in%c("c","g","C","G","a","t","A","T"))
 }
 
 
