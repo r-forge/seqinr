@@ -16,10 +16,16 @@ oriloc <- function(
 {
   if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
   {
-    tmpgbk <- tempfile(pattern = "oriloc_gbk")
+    if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)="file://"){
+      tmpgbk <- tempfile(pattern = "oriloc_gbk")
+      download.file( gbk, destfile = tmpgbk )
+    }
+    else{
+      tmpgbk <- gbk
+    }
     seq.fasta <- tempfile(pattern = "oriloc_fasta")
     g2.coord <- tempfile(pattern = "oriloc_g2")
-    download.file( gbk, destfile = tmpgbk )
+   
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
   } 
