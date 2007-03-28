@@ -16,7 +16,7 @@ oriloc <- function(
 {
   if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
   {
-    if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)="file://"){
+    if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)=="file://"){
       tmpgbk <- tempfile(pattern = "oriloc_gbk")
       download.file( gbk, destfile = tmpgbk )
     }
