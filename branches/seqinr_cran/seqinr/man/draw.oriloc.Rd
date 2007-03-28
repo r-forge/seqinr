@@ -6,7 +6,7 @@
   Graphical representation for nucleotide skews in
   prokaryotic chromosomes.}
 
-\usage{draw.rearranged.oriloc(ori)}
+\usage{draw.oriloc(ori)}
 
 \arguments{
 
@@ -25,7 +25,7 @@
  
 }
 \author{Jean R. Lobry }
-\seealso{ \code{\link{rearranged.oriloc}},
+\seealso{ \code{\link{oriloc}}, \code{\link{rearranged.oriloc}},
   \code{\link{extract.breakpoints}}  }
 
 \examples{
@@ -39,7 +39,7 @@
 
 \dontrun{draw.oriloc(ori) }
 
-
+}
 
 
 
