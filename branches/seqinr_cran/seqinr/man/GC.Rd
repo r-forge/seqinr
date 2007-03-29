@@ -15,16 +15,16 @@
   \code{GC3} can be computed.
 }
 \usage{
-GC(seq, checkCase = TRUE, exact = FALSE)
+GC(seq, forceToLower = TRUE, exact = FALSE)
 GC1(seq, ...)
 GC2(seq, ...)
 GC3(seq, ...)
 }
 \arguments{
   \item{seq}{a nucleic acid sequence as a vector of single characters in lower case}
-  \item{checkCase}{logical defaulting to \code{TRUE}: check that there are no
-  	upper-case letters in the sequence. Turn this to \code{FALSE} to save time
-  	if your sequence is in lower-case}
+  \item{forceToLower}{logical defaulting to \code{TRUE}: force sequence
+  	characters in lower-case. Turn this to \code{FALSE} to save time
+  	if your sequence is already in lower-case}
   \item{exact}{logical defaulting to \code{FALSE}: should ambiguous bases taken
   	into account when computing the G+C content (see details)}
   \item{...}{arguments passed to the function \code{GC}}
@@ -76,36 +76,36 @@ lower-case characters.
 # With upper-case characters:
 #
   myUCsequence <- s2c("GGGGGGGGGA")
-  \dontrun{#an error is produced with upper-case characters
-  	GC(myUCsequence)
-  }
-  GC(tolower(myUCsequence)) # 0.9
+  GC(myUCsequence) # 0.9
 #
 # With ambiguous bases:
 #
-GC(s2c("acgt")) # 0.5
-GC(s2c("acgtwsws")) # 0.25
-GC(s2c("acgtwsws"), exact = TRUE) # 0.5
+  GC(s2c("acgt")) # 0.5
+  GC(s2c("acgtwsws")) # 0.25
+  GC(s2c("acgtwsws"), exact = TRUE) # 0.5
 #
 # How to reproduce the results obtained with the C program codonW
 # version 1.4.4 writen by John Peden. We use here the "input.dat"
 # test file from codonW (there are no ambiguous base in these
 # sequences).
 #
-inputdatfile <- system.file("sequences/input.dat", package = "seqinr")
-input <- read.fasta(file = inputdatfile) # read the FASTA file
-inputoutfile <- system.file("sequences/input.out", package = "seqinr")
-input.res <- read.table(inputoutfile, header = TRUE) # read codonW result file
+  inputdatfile <- system.file("sequences/input.dat", package = "seqinr")
+  input <- read.fasta(file = inputdatfile) # read the FASTA file
+  inputoutfile <- system.file("sequences/input.out", package = "seqinr")
+  input.res <- read.table(inputoutfile, header = TRUE) # read codonW result file
 
 # remove stop codon before computing G+C content (as in codonW)
 
-input.gc <- sapply(input, function(s) GC(s[seq_len(length(s)-3)]))
-max(abs(input.gc - input.res$GC)) # 0.0004946237
+  GC.codonW <- function(dnaseq, ...){
+  	 GC(dnaseq[seq_len(length(dnaseq) - 3)], ...)
+  }
+  input.gc <- sapply(input, GC.codonW, forceToLower = FALSE)
+  max(abs(input.gc - input.res$GC)) # 0.0004946237
 
-plot(x = input.gc, y = input.res$GC, las = 1,
-xlab = "Results with GC()", ylab = "Results from codonW",
-main = "Comparison of G+C content results")
-abline(c(0,1), col = "red")
-legend("topleft", inset = 0.01, legend = "y = x", lty = 1, col = "red")
+  plot(x = input.gc, y = input.res$GC, las = 1,
+  xlab = "Results with GC()", ylab = "Results from codonW",
+  main = "Comparison of G+C content results")
+  abline(c(0, 1), col = "red")
+  legend("topleft", inset = 0.01, legend = "y = x", lty = 1, col = "red")
 }
 \keyword{manip}

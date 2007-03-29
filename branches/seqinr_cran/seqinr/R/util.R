@@ -2,7 +2,7 @@
 # char to string
 ########################
 
-"c2s" <- function( chars = c("m","e","r","g","e","d") )
+c2s <- function( chars = c("m","e","r","g","e","d") )
 {
   return( paste( chars, collapse = "" ) )
 }
@@ -11,7 +11,7 @@
 # string to char
 ############################
 
-"s2c" <- function (string) 
+s2c <- function (string) 
 {
   if(is.character(string) & is.vector(string)){
   return(.Call("s2c", string, PACKAGE = "seqinr"))
@@ -26,7 +26,7 @@
 # a vector of chars
 ############################
 
-"n2s" <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
+n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
     levels[nseq + 1]
@@ -39,7 +39,7 @@
 # is independent of locale.
 ###############################
 
-"s2n" <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
+s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
     unclass(factor(seq, levels = levels ) ) - 1
@@ -48,21 +48,19 @@
 }
 
 ################################
-# GC.percent
+# G+C content
 #################################
 
-GC <- function(seq, checkCase = TRUE, exact = FALSE)
+GC <- function(seq, forceToLower = TRUE, exact = FALSE)
 {
 	#
 	# Check that sequence is a vector of chars:
 	#
 	if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
 	#
-	# Check that sequence is not in upper-case letters:
+	# Force to lower-case letters if requested:
 	#
-	if(checkCase){
-		if(any(seq %in% LETTERS)) stop("upper-case character found in seq")
-	}
+	if(forceToLower) seq <- tolower(seq)
 	
 	if(! exact){
 		result <- sum(seq == 'c' | seq == 'g')/length(seq)
