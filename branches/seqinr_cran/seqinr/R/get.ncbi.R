@@ -172,6 +172,20 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
       cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
       whatsin <- readLines(pipe(cmd))
     }
+    else if( sysinfo=="Linux"){
+      # Build command file for ftp connection:
+      tmpname <- tempfile(pattern="getncbi")
+      tmpcmdfile <- file(tmpname, open="w")
+      writeLines("user anonymous seqteam@biomserv.univ-lyon1.fr", tmpcmdfile)
+      writeLines(sprintf("cd genomes/Bacteria/%s", folder), tmpcmdfile)
+      writeLines("dir", tmpcmdfile)
+      writeLines("bye", tmpcmdfile)
+      close(tmpcmdfile)
+      #
+      hostname <- unlist(strsplit(repository,split="/"))[3]
+      cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
+      whatsin <- readLines(pipe(cmd))
+    }
     else
     {
       stop("unimplemented platform")
