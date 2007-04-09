@@ -43,7 +43,7 @@ s2n(seq)
 urnrna <- c("a","c","g","t")
 seq <- sample( urnrna, 100, replace = TRUE ) ; seq
 s2n(seq)
-#what's happen with unknown characters
+#what happens with unknown characters
 urnmess <- c(urndna,"n")
 seq <- sample( urnmess, 100, replace = TRUE ) ; seq
 s2n(seq)

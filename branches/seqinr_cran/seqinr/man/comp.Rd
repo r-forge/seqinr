@@ -34,7 +34,7 @@ c2s(comp(s2c("aaaattttggggcccc")))
 ##
 c2s(rev(comp(s2c("aaaattttggggcccc"))))
 ##
-## Show what's happen with non allowed values:
+## Show what happens with non allowed values:
 ##
 c2s(rev(comp(s2c("aaaaXttttYggggZcccc"))))
 }

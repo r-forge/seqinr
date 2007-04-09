@@ -3,7 +3,7 @@
 \alias{GC1}
 \alias{GC2}
 \alias{GC3}
-\title{Calculates the fractional G+C content of nucleic acid sequences}
+\title{Calculates the fractional G+C content of nucleic acid sequences.}
 \description{
   Calculates the fraction of G+C bases of the input nucleic acid
   sequence(s). It reads in nucleic acid sequences, sums the number of

@@ -1,6 +1,6 @@
 \name{oriloc}
 \alias{oriloc}
-\title{ Prediction of origin and terminus of replication in bacteria }
+\title{ Prediction of origin and terminus of replication in bacteria.}
 \description{
 This program finds the putative origin and terminus of 
 replication in procaryotic genomes. The program discriminates
