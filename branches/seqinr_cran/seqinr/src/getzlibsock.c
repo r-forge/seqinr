@@ -63,9 +63,9 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   if (debugon)
 	Rprintf("'con' is a connection...\n");
   numsoc = asInteger(sock);	
-  con=getConnection(numsoc);
+/*  con=getConnection(numsoc);
   scon= (Rsockconn)con->private;
-  numsoc = scon->fd;
+  numsoc = scon->fd;*/
   
   if (debugon)
    	Rprintf("Socket number is %d....\n",numsoc);
