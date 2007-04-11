@@ -1,5 +1,11 @@
 /* functions to handle zlib-compressed data read from socket
 */
+#ifndef WIN32
+#ifdef _WIN32
+#define WIN32 1
+#endif
+#endif
+#ifndef WIN32
 #include <zlib.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -155,4 +161,9 @@ int val;
 val = inflateEnd(&(big->stream));
 return val;
 }
+#else
+void *prepare_sock_gz_r(int sockr) {
+return 0;
+}
+#endif
 

@@ -1,6 +1,12 @@
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
+#ifndef WIN32
+#ifdef _WIN32
+#define WIN32 1
+#endif
+#endif
+#ifndef WIN32
 #include <zlib.h>		/* needs to be before Rconnections.h */
 #include "Rconnections.h"
 #include <stdlib.h>
@@ -206,3 +212,32 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   UNPROTECT(nprotect);
   return ans ;
 }
+#else
+SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
+{
+
+/* Variable de types SEXP :entree et sorties*/
+
+  SEXP ans = R_NilValue;
+  SEXP ans2 = R_NilValue;
+
+/* Quelles variable faut il proteger : s'appliqe uniquement aux objets R, cad SEXP : ans et ans2*/  
+  
+  int nprotect = 0;
+  int debugon;
+  
+  
+  debugon = INTEGER_VALUE(debug);
+  if (debugon)
+  	Rprintf("Running getzlibsock... \n");	
+  Rprintf("Warning!\n\nCompressed sockets are not yet available on Windows.\n");
+  ans2 = PROTECT(allocVector(STRSXP, 1));
+  nprotect ++;
+  SET_STRING_ELT(ans2, 0,mkChar("Compressed sockets are not yet available on Windows."));  
+  PROTECT(ans = ans2);
+  nprotect ++;
+  UNPROTECT(nprotect);
+  nprotect=0;
+  return ans ;
+	}
+#endif
