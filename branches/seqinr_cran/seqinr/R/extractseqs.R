@@ -11,7 +11,9 @@
 ###################################################################################################
 
 extractseqs <- function( listname,socket = "auto", format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx",verbose = FALSE, nzlines=1000){
-
+  if (.Platform$OS.type == "windows") {
+  	stop(paste("This function is not implemented for windows.\n"))
+	}
   debug<-0
   if (verbose) debug <- 1
 
