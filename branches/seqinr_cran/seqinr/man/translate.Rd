@@ -9,13 +9,14 @@
    genetic code and also with non-standard codes. 
 }
 \usage{
-translate(seq, frame = 0, sens = "F", numcode = 1)
+translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X")
 }
 \arguments{
   \item{seq}{ an object of class \code{seq}. }
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for reverse sense. }
   \item{numcode}{ The ncbi genetic code number for translation. By default the standard genetic code is used. }
+  \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
 }
 \details{
  The following genetic codes are described here. The number preceding each code 

@@ -72,7 +72,7 @@ getLength(object)
 getLocation(object)
 getName(object)
 getSequence(object, as.string = FALSE)
-getTrans(object, frame = 0, sens = "F", numcode = 1)
+getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X")
 }
 \arguments{
   \item{object}{ an object of the class \code{SeqAcnucWeb}
@@ -87,6 +87,7 @@ getTrans(object, frame = 0, sens = "F", numcode = 1)
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for revers sense. }
   \item{numcode}{ The number of the code to use. By default the standard genetic code is used. }
+  \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
 }
 \value{
   \code{getAnnot} returns a vector of string of characters containing the
