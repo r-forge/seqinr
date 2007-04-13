@@ -45,7 +45,7 @@ oriloc <- function(
     # remove first line:
     g2 <- g2[-1]
     # remove first three characters (i.e. orf)
-    g2 <- sapply(g2, function(x) substr(x,4,nchar(x)), USE.NAMES = F)
+    g2 <- sapply(g2, function(x) substr(x,4,nchar(x)), USE.NAMES = FALSE)
   }
 #
 # Extract info from g2.coord file
