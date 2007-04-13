@@ -4,6 +4,7 @@
 \title{To extract the sequences information of a sequence or a list of sequence in different formats}
 \description{
  The function allows to extract large amount of data as whole genome sequences,using different output formats and types of extraction.
+ This function is not yet available for windows.
 }
 
 \usage{
