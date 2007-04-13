@@ -108,8 +108,11 @@ In the case of only one peak, the sequence starts at the origin or terminus
 site. }
 \examples{
 \dontrun{
-# A little bit too long for routine checks:
-library(ade4)
+#
+# A little bit too long for routine checks because oriloc() is already
+# called in draw.oriloc.Rd documentation file. Try example(draw.oriloc)
+# instead, or copy/paste the following code:
+#
 out <- oriloc()
 plot(out$st, out$sk, type = "l", xlab = "Map position in Kb",
     ylab = "Cumulated composite skew", 
