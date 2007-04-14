@@ -82,10 +82,10 @@ getKeyword <- function(object) {
   }
 }
 
-getTrans <- function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X"){
+getTrans <- function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE){
   if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
   {
-    getTrans.default(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring)
+    getTrans.default(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring, ambiguous = ambiguous)
   } else {
     UseMethod("getTrans")
   }
@@ -149,8 +149,8 @@ getKeyword.default = function(object){
  	stop("no keyword for this sequence")
 }
 
-getTrans.default <- function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X"){
-	translate(object, frame, sens, numcode, NAstring = NAstring)
+getTrans.default <- function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE){
+	translate(object, frame, sens, numcode, NAstring = NAstring, ambiguous = ambiguous)
 }
 
 
@@ -210,8 +210,8 @@ summary.SeqFastadna = function(object,...){
 	return(list(length=length ,composition=compo, GC=GC(object)))
 }
 
-getTrans.SeqFastadna <-  function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X"){
-	translate(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring)
+getTrans.SeqFastadna <-  function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE){
+	translate(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring, ambiguous = ambiguous)
 }
 	
 
@@ -353,7 +353,7 @@ getLocation.SeqAcnucWeb = function(object){
 # Translation of CDS into proteins from sequences from an ACNUC server. By
 # default, the genetic code and the frame are automatically propagated.
 #
-getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "auto", NAstring = "X"){
+getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "auto", NAstring = "X", ambiguous = FALSE){
   dnaseq <- getSequence(object)
   if(numcode == "auto") {
     numcode <- attr(object, "ncbigc")
@@ -363,7 +363,7 @@ getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "
     frame <- attr(object, "frame")
   }
   frame <- as.numeric(frame)
-  translate(seq = dnaseq, frame = frame, numcode = numcode, NAstring = NAstring) 
+  translate(seq = dnaseq, frame = frame, numcode = numcode, NAstring = NAstring, ambiguous = ambiguous) 
 }
 
 
@@ -416,8 +416,8 @@ getName.SeqFrag = function(object){
 	return(attr(object,"seqMother"))
 }
 
-getTrans.SeqFrag <- function(object, frame=0, sens= "F", numcode=1, NAstring = "X"){
-	translate(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring)
+getTrans.SeqFrag <- function(object, frame=0, sens= "F", numcode=1, NAstring = "X", ambiguous = FALSE){
+	translate(object, frame = frame, sens = sens, numcode = numcode, NAstring = NAstring, ambiguous = ambiguous)
 }
 
 
