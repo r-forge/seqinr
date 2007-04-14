@@ -18,7 +18,8 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for reverse sense. }
   \item{numcode}{ The ncbi genetic code number for translation. By default the standard genetic code is used. }
   \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
-  \item{ambiguous}{ If TRUE, ambiguous bases are taken into account. }
+  \item{ambiguous}{ If TRUE, ambiguous bases are taken into account so that for instance
+  GGN is translated to Gly in the standard genetic code. }
 }
 \details{
  The following genetic codes are described here. The number preceding each code 
