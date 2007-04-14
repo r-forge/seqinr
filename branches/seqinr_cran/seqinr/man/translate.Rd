@@ -77,8 +77,8 @@ translate(seq = toycds) # should be c("S", "E", "Q", "I", "N", "R")
 ##
 toycds2 <- s2c("tcngarcarathaaycgn")
 translate(toycds2) # should be c("X", "X", "X", "X", "X", "X")
-translate(s2c("tcngarcarathaaycgn"), ambiguous = TRUE) # should be c("S", "E", "Q", "I", "N", "R")
-translate(s2c("tcngarcarathaaycgn"), ambiguous = TRUE, numcode = 2) # should be c("S", "E", "Q", "X", "N", "R")
+translate(toycds2, ambiguous = TRUE) # should be c("S", "E", "Q", "I", "N", "R")
+translate(toycds2, ambiguous = TRUE, numcode = 2) # should be c("S", "E", "Q", "X", "N", "R")
 ##
 ## Real CDS example:
 ##
