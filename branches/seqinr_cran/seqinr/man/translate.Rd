@@ -1,15 +1,16 @@
 \name{translate}
 \alias{translate}
-\title{ Translate nucleic acid sequences }
+\title{ Translate nucleic acid sequences into proteins }
 \description{
    This function translates nucleic acid sequences into the corresponding 
    peptide sequence. It can translate in any of the 3 forward or three 
    reverse sense frames. In the case of reverse sense, the reverse-complement 
    of the sequence is taken. It can translate using the standard (universal) 
-   genetic code and also with non-standard codes. 
+   genetic code and also with non-standard codes. Ambiguous bases can also
+   be handled.
 }
 \usage{
-translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X")
+translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
 }
 \arguments{
   \item{seq}{ the sequence to translate as a vector of single characters in lower case letters. }
@@ -17,6 +18,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X")
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for reverse sense. }
   \item{numcode}{ The ncbi genetic code number for translation. By default the standard genetic code is used. }
   \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
+  \item{ambiguous}{ If TRUE, ambiguous bases are taken into account. }
 }
 \details{
  The following genetic codes are described here. The number preceding each code 
@@ -62,13 +64,21 @@ For coding sequences obtained from an ACNUC server with \code{\link{query}} it's
 better to use the function \code{\link{getTrans}} so that the relevant genetic
 code and the relevant frame are automatically used.
 The genetic codes are given in the object \code{\link{SEQINR.UTIL}}, a more
-human readable form is given by the function \code{\link{tablecode}}. }
+human readable form is given by the function \code{\link{tablecode}}. 
+Use \code{\link{aaa}} to get the three-letter code for amino-acids.}
 \examples{
 ##
 ## Toy CDS example invented by Leonor Palmeira:
 ##
 toycds <- s2c("tctgagcaaataaatcgg")
 translate(seq = toycds) # should be c("S", "E", "Q", "I", "N", "R")
+##
+## Toy CDS example with ambiguous bases:
+##
+toycds2 <- s2c("tcngarcarathaaycgn")
+translate(toycds2) # should be c("X", "X", "X", "X", "X", "X")
+translate(s2c("tcngarcarathaaycgn"), ambiguous = TRUE) # should be c("S", "E", "Q", "I", "N", "R")
+translate(s2c("tcngarcarathaaycgn"), ambiguous = TRUE, numcode = 2) # should be c("S", "E", "Q", "X", "N", "R")
 ##
 ## Real CDS example:
 ##
