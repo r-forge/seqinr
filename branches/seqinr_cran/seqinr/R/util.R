@@ -227,12 +227,3 @@ a <- function( aa )
 }
 
 
-##########################################
-#complement a sequences
-###########################################
-
-"comp" <- function(seq){
-	return(as.vector(n2s((3-s2n(seq)))))
-}	
-
-
