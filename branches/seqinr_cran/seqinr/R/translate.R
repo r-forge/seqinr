@@ -5,7 +5,7 @@ ambiguous = FALSE)
   # Take the reverse complementary strand when required:
   #
 
-  if(sens == "R") seq <- comp(rev(seq))
+  if(sens == "R") seq <- comp(rev(seq), ambiguous = ambiguous)
 
   #
   # Transform the sequence in its numerical encoding equivalent
