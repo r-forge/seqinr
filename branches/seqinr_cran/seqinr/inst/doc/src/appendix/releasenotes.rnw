@@ -70,7 +70,7 @@ eukaryotic sequences, \textit{i.e.} with introns. The output file will contain
 the coordinates of the exons, along with the name of the CDS to which
 they belong.
 
-\item After an e-mail by Marcelo bertalan on 26 Mar 2007, a bug in
+\item After an e-mail by Marcelo Bertalan on 26 Mar 2007, a bug in
 \texttt{oriloc()} when the \texttt{gbk} argument was \texttt{NULL}
 was found and fixed by Anamaria Nec\c{s}ulea.
 
@@ -81,6 +81,15 @@ acids, defaulting to character "X".
 \item There was a typo for the total number of printed bases in
 the ACNUC books \cite{GautierC1982a, GautierC1982b} : 474,439 should be 526,506.
 
+\item Function \texttt{invers()} has been deleted.
+
+\item Functions \texttt{translate()}, \texttt{getTrans()} and \texttt{comp()} have gained a 
+new argument \texttt{ambiguous} defaulting to FALSE allowing to handle 
+ambiguous bases. If TRUE, ambiguous bases are taken into account so that 
+for instance GGN is translated to Gly in the standard genetic code.
+
+\item New function \texttt{amb()} to return the list of nucleotide matching 
+a given IUPAC nucleotide symbol.
 
 \end{itemize}
 
