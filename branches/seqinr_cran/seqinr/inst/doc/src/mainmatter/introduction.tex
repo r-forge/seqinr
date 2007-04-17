@@ -110,7 +110,7 @@ were included in the ACNUC books \cite{GautierC1982a, GautierC1982b}}
 \end{table}
 
 
-The total number of base pair was 474,439 in the two books. They were about 4.5 cm
+The total number of base pair was 526,506 in the two books. They were about 4.5 cm
 width. We can then compute of much place would it take to print the last GenBank
 release with the same format as the ACNUC book: 
 \marginpar{
@@ -121,13 +121,13 @@ release with the same format as the ACNUC book:
 \begin{Schunk}
 \begin{Sinput}
  acnucbooksize <- 4.5
- acnucbp <- 474439
+ acnucbp <- 526506
  mybank <- choosebank("genbank")
  mybank$details
 \end{Sinput}
 \begin{Soutput}
-[1] "GenBank Rel. 158 (15 February 2007) Last Updated: Mar  2, 2007"                
-[2] "71,832,523,193 bases; 67,564,553 sequences; 3,798,216 subseqs; 454,417 refers."
+[1] "GenBank Rel. 158 (15 February 2007) Last Updated: Apr 13, 2007"                
+[2] "75,756,334,808 bases; 71,808,730 sequences; 3,939,297 subseqs; 462,456 refers."
 [3] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"  
 \end{Soutput}
 \begin{Sinput}
@@ -135,7 +135,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "71,832,523,193"
+[1] "75,756,334,808"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -144,11 +144,11 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.813233
+[1] 6.474827
 \end{Soutput}
 \end{Schunk}
 
-It would be about 6.8
+It would be about 6.5
 kilometer long in ACNUC book format to print to print GenBank today (\today).
 
 \section{About R and CRAN}
@@ -174,7 +174,7 @@ selected with the function \texttt{chooseCRANmirror()}.
 
 In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
 The examples given thereafter were run under \texttt{R version 2.4.1 (2006-12-18)}
-on Sun Mar  4 15:24:10 2007 with Sweave \cite{Sweave}.
+on Fri Apr 13 11:29:57 2007 with Sweave \cite{Sweave}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
 full path to the package is given by the following R code :
@@ -274,7 +274,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-928
+960
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -389,7 +389,7 @@ The tables were then inserted in the \LaTeX~file with:
 In research area, data are not always stable. 
 Consider figure 1 from \cite{lobrylncs} which is reproduced here in figure \ref{fig1lncs2004}.
 Data have been updated since then, but we can re-use  the same \Rlogo{}~code\footnote{
-This code was copy/pasted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.
+This code was adapted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.
 }
 to update the figure:
 
@@ -404,7 +404,7 @@ to update the figure:
  Month <- data$Month
  plot.default(date, log10(Nucleotides), main = "Update of Fig. 1 from Lobry (2004) LNCS, 3039:679:\nThe exponential growth of genome sequence data", 
      xlab = "Year", ylab = "Log10 number of nucleotides", pch = 19, 
-     cex = scale/2, cex.axis = scale, cex.lab = scale)
+     las = 1, cex = scale, cex.axis = scale, cex.lab = scale)
  abline(lm(log10(Nucleotides) ~ date), lwd = 2)
  lm1 <- lm(log(Nucleotides) ~ date)
  mu <- lm1$coef[2]
