@@ -41,6 +41,9 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 
 s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
+  if(any(seq%in%LETTERS)){
+    seq <- tolower(seq)
+  }
   if( base4 )
     unclass(factor(seq, levels = levels ) ) - 1
   else

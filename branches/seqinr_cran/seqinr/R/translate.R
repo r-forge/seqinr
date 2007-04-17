@@ -1,6 +1,10 @@
 translate <- function(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X",
 ambiguous = FALSE)
 {
+
+  if(any(seq%in%LETTERS)){
+    seq <- tolower(seq)
+  }
   #
   # Take the reverse complementary strand when required:
   #

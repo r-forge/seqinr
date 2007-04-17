@@ -2,6 +2,10 @@ uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"),
 as.data.frame = FALSE, NA.rscu = NA) 
 {
     choice <- match.arg(index)
+    
+    if(any(seq%in%LETTERS)){
+      seq <- tolower(seq)
+    }
     sequence <- splitseq(seq = seq, frame = frame, word = 3)
 
     if( as.data.frame == FALSE ) {
