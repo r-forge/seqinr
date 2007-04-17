@@ -14,7 +14,7 @@ count(seq, word, frame = 0, freq = FALSE, alphabet = s2c("acgt"))
   \item{frame}{ an integer (0, 1, 2,...) giving the frame (starting
     position) }
   \item{freq}{ if TRUE, word frequencies are computed instead of counts}
-  \item{alphabet} {a vector of single characters}
+  \item{alphabet}{a vector of single characters}
 }
 \details{
  \code{count} counts the occurence of all words by moving a window of
