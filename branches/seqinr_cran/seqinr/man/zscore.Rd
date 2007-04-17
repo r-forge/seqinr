@@ -9,8 +9,8 @@
   the rho statistic, and the z-score, each computed for all 16 dinucleotides.
 }
 \usage{
-rho(sequence)
-zscore(sequence, simulations = NULL, modele, ... )
+rho(sequence, alphabet = s2c("acgt"))
+zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
 }
 \arguments{
   \item{sequence}{ A nucleic acids sequence }
@@ -19,6 +19,7 @@ zscore(sequence, simulations = NULL, modele, ... )
     should be the number of permutations for the z-score computation }
   \item{modele}{ A string of characters describing the model chosen for
     the random generation }
+  \item{alphabet}{ A vector of single characters. }
   \item{...}{ Optional parameters for specific model permutations are
     passed on to \code{\link{permutation}} function. }
 }

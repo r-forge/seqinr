@@ -204,10 +204,10 @@ getAnnot.SeqFastadna = function(object,nbl){
 	return(attr(object,"Annot"))
 }
 
-summary.SeqFastadna = function(object,...){
-	length = getLength(object)
-	compo = count(object,1)
-	return(list(length=length ,composition=compo, GC=GC(object)))
+summary.SeqFastadna <- function(object, alphabet = s2c("acgt"), ...){
+	length <- getLength(object)
+	compo <- count(object, 1, alphabet = alphabet)
+	return(list(length = length , composition = compo, GC = GC(object)))
 }
 
 getTrans.SeqFastadna <-  function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE){
