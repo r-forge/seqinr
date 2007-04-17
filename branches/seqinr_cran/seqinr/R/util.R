@@ -34,21 +34,6 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
     levels[nseq]
 }
 
-###############################
-# simple numerical encoding of a DNA sequence that by default
-# is independent of locale.
-###############################
-
-s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
-{
-  if(any(seq%in%LETTERS)){
-    seq <- tolower(seq)
-  }
-  if( base4 )
-    unclass(factor(seq, levels = levels ) ) - 1
-  else
-    unclass(factor(seq, levels = levels ) )
-}
 
 ################################
 # G+C content
