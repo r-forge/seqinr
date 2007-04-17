@@ -1,4 +1,12 @@
 "count" <- function(seq,word,frame=0,freq=FALSE){
+
+  
+  if(any(seq%in%LETTERS)){ 
+    seq <- tolower(seq)
+  }
+
+  
+  
   l <- (length(seq)-(word+frame))+1
   s <- seq[(frame+1):(frame+l)]
   seq <- seq[(frame+1):length(seq)]
