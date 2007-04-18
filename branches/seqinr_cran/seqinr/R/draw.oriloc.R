@@ -19,14 +19,17 @@ draw.oriloc <- function(ori, main = "Title",
 #
 # This is to deal with CDS that wrapp around the genome:
 #
-  wrapped <- which(abs(ori$start.kb - ori$end.kb) >= 50) 
-  if(wrapped == length(cdsskew)){
-    start.kb[wrapped] <- max(start.kb[wrapped], end.kb[wrapped])
-    end.kb[wrapped] <- max(start.kb[wrapped], end.kb[wrapped])
-  }
+  wrapped <- which(abs(ori$start.kb - ori$end.kb) >= 50)
+
+  if(length(wrapped)!=0){
+    if(wrapped == length(cdsskew)){
+      start.kb[wrapped] <- max(start.kb[wrapped], end.kb[wrapped])
+      end.kb[wrapped] <- max(start.kb[wrapped], end.kb[wrapped])
+    }
   if(wrapped == 1){
     end.kb[wrapped] <- min(start.kb[wrapped], end.kb[wrapped])
     start.kb[wrapped] <- min(start.kb[wrapped], end.kb[wrapped])
+  }
   }
 #
 # Use CDS midpoints as x-coordinates:
