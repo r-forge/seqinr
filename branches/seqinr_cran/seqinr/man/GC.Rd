@@ -15,7 +15,7 @@
   \code{GC3} can be computed.
 }
 \usage{
-GC(seq, forceToLower = TRUE, exact = FALSE)
+GC(seq, forceToLower = TRUE, exact = TRUE)
 GC1(seq, ...)
 GC2(seq, ...)
 GC3(seq, ...)
