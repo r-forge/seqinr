@@ -39,7 +39,7 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 # G+C content
 #################################
 
-GC <- function(seq, forceToLower = TRUE, exact = FALSE)
+GC <- function(seq, forceToLower = TRUE, exact = TRUE)
 {
 	#
 	# Check that sequence is a vector of chars:
@@ -66,6 +66,8 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE)
 		#
 		ngc <- ng + nc
 		nat <- na + nt
+
+                 
 		#
 		# weak and strong bases are 100% informative with respect
 		# to the GC content, we just add them:
@@ -75,6 +77,8 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE)
 		#
 		ngc <- ngc + sum( seq == "s" )
 		nat <- nat + sum( seq == "w" )
+
+                
 		
 		##########################
 		# Ambiguous base section #
@@ -86,24 +90,31 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE)
 		nm <- sum( seq == "m")
 		ngc <- ngc + nm*nc/(na + nc)
 		nat <- nat + nm*na/(na + nc)
+
+               
 		#
 		# k : Keto (g or t)
 		#
 		nk <- sum( seq == "k" )
 		ngc <- ngc + nk*ng/(ng + nt)
 		nat <- nat + nk*nt/(ng + nt)
+
 		#
 		# r : Purine (a or g)
 		#
 		nr <- sum( seq == "r" )
 		ngc <- ngc + nr*ng/(ng + na)
 		nat <- nat + nr*na/(ng + na)
+                
+               
 		#
 		# y : Pyrimidine (c or t)
 		#
 		ny <- sum( seq == "y" )
 		ngc <- ngc + ny*nc/(nc + nt)
 		nat <- nat + ny*nt/(nc + nt)
+
+                
 		#
 		# v : not t (a, c or g)
 		#
@@ -132,6 +143,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE)
 		# n : any (a, c, g or t) is not informative, so
 		# we compute the G+C content as:
 		#
+                
 		result <- ngc/(ngc + nat)
 	}
 	return(result)
