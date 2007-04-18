@@ -91,6 +91,12 @@ for instance GGN is translated to Gly in the standard genetic code.
 \item New function \texttt{amb()} to return the list of nucleotide matching 
 a given IUPAC nucleotide symbol.
 
+\item Function \texttt{count()} has gained a new argument \texttt{alphabet}
+so that oligopeptides counts are now possible. Thanks to Gabriel Valiente
+for this suggestion. The functions \texttt{zscore()}, \texttt{rho()} and
+\texttt{summary.SeqFastadna()} have also an argument \texttt{alphabet} which
+is forwarded to \texttt{count()}.
+
 \end{itemize}
 
 \section{release 1.0-6}
@@ -235,7 +241,7 @@ now possible.
 
 \item \Seqinr{}~sends now its name and version number to the server.
 
-% Pas arrvié à le repoduire
+% Pas arrviÃˆ â€¡ le repoduire
 %
 %\item A bug as been reported for intensive \texttt{kaks()} calls.
 
@@ -260,3 +266,4 @@ now possible.
 
 
 
+    
