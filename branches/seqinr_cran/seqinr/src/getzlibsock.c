@@ -7,7 +7,7 @@
 #endif
 #endif
 #ifndef WIN32
-#include "zlib.h"		/* needs to be before Rconnections.h */
+#include "zlib.h"		/* needs to be before  Rconnections.h */
 #include "Rconnections.h"
 #include <stdlib.h>
 #include <stdio.h>
