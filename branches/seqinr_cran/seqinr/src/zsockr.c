@@ -6,7 +6,7 @@
 #endif
 #endif
 #ifndef WIN32
-#include <zlib.h>
+#include "zlib.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
