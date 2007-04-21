@@ -33,7 +33,7 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
   (respectively under-) represented.
 
   The \code{zscore} statistic, as presented in Palmeira, L., Guéguen, L.
-  and Lobry JR. (in prep.). The statistic is the normalization of the
+  and Lobry JR. (2006). The statistic is the normalization of the
   \code{rho} statistic by its expectation and variance according to a
   given random sequence generation model, and follows the
   standard normal distribution. This statistic can be computed
