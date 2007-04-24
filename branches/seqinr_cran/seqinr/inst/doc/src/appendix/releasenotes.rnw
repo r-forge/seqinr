@@ -9,6 +9,21 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section{release 1.0-8}
+
+\begin{itemize}
+
+\item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
+\texttt{GC2()} and \texttt{GC3()} have gained a new argument \texttt{oldGC}
+allowing to compute the G+C content as in releases up to 1.0-6 included.
+The code has been also modified to avoid divisions by zero with very
+small sequences.
+
+\item New function \texttt{rot13()} that returns the ROT-13 encoding of
+a string of characters.
+
+\end{itemize}
+
 \section{release 1.0-7}
 
 \begin{itemize}
