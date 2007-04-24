@@ -59,10 +59,15 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 	nt <- sum( seq == "t" )
 
 	if(! exact){
-		result <- (nc + ng)/(na + nc + ng + nt)
+          if((na+nc+ng+nt)==0){
+            result <- 0
+          }
+          else{
+            result <- (nc + ng)/(na + nc + ng + nt)
+          }
 	} else {
 		#
-		# We have our firt estimate of GC vs. AT base counts:
+		# We have our first estimate of GC vs. AT base counts:
 		#
 		ngc <- ng + nc
 		nat <- na + nt
@@ -106,7 +111,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 			nr <- sum( seq == "r" )
 			ngc <- ngc + nr*ng/(ng + na)
 			nat <- nat + nr*na/(ng + na)
-       }      
+                      }      
                
 		#
 		# y : Pyrimidine (c or t)
