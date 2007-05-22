@@ -70,7 +70,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	Rprintf("'con' is a connection...\n");
   numsoc = asInteger(sock);
 /* Pour  UNIX ( pbil):*/
-  numsoc = asInteger(sock) + 1;	
+/*  numsoc = asInteger(sock) + 1;	
 /*  con=getConnection(numsoc);
   scon= (Rsockconn)con->private;
   numsoc = scon->fd;*/
