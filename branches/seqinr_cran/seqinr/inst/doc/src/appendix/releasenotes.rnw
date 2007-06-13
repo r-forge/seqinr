@@ -11,6 +11,24 @@
 
 \section{release 1.0-8}
 
+This is a minor release to remove non ASCII characters in documentation
+(*.Rd) files and to declare the encoding as latin1 when necessary in
+documentation files (*.Rd). The updated documentation files are: \texttt{
+dinucl.Rd,
+gb2fasta.Rd,
+get.ncbi.Rd,
+lseqinr.Rd,
+n2s.Rd,
+prochlo.Rd,
+s2c.Rd,
+SeqAcnucWeb.Rd,
+SeqFrag.Rd,
+toyaa.Rd,
+words.pos.Rd,
+words.Rd,
+zscore.Rd}.
+The very few user-visible changes are as follows:
+
 \begin{itemize}
 
 \item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
@@ -278,7 +296,3 @@ now possible.
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}
-
-
-
-    
