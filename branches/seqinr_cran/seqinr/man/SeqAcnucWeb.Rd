@@ -22,7 +22,7 @@ is.SeqAcnucWeb(object)
 \value{
   \code{as.SeqAcnucWeb} returns an object sequence of class \code{SeqAcnucWeb}
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ D. Charif }
