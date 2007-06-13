@@ -3,6 +3,7 @@
 \alias{zscore}
 \title{Statistical over- and under- representation of dinucleotides in a
   sequence}
+\encoding{latin1}
 \description{
   These two functions compute two different types of statistics for the
   measure of statistical dinculeotide over- and under-representation :
