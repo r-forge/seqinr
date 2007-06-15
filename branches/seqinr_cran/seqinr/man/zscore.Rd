@@ -58,7 +58,6 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
 
   The \code{syncodon} model allows for random sequence generation
   by shuffling (with/without replacement) of synonymous codons.
-  }
 }
 \value{
   a table containing the computed statistic for each dinucleotide

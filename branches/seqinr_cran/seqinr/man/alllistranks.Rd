@@ -36,7 +36,7 @@ alr(socket = "auto", verbose = FALSE)
   \code{\link{choosebank}}, 
   \code{\link{query}}
 }
-}
+
 \examples{
  \dontrun{
  # Need internet connection
