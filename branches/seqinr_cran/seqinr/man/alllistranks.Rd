@@ -23,7 +23,6 @@ alr(socket = "auto", verbose = FALSE)
   This low level function is usually not used directly by the user.
 }
 
-}
 \value{
   A list with two components:
   \item{count}{count of existing lists}	
