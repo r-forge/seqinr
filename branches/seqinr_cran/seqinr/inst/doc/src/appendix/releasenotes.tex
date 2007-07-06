@@ -4,7 +4,7 @@
 \title{Release notes}
 \author{Lobry, J.R. \and Nec\c{s}ulea, A. \and Palmeira, L. \and Penel, S.}
 
-\usepackage{/Library/Frameworks/R.framework/Versions/2.5/Resources/share/texmf/Sweave}
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -39,9 +39,9 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section{release 1.0-8}
+\section{release 1.1.1}
 
-This is a minor release to remove non ASCII characters in documentation
+This is a release to remove non ASCII characters in documentation
 (*.Rd) files and to declare the encoding as latin1 when necessary in
 documentation files (*.Rd). The updated documentation files are: \texttt{
 dinucl.Rd,
@@ -57,9 +57,11 @@ toyaa.Rd,
 words.pos.Rd,
 words.Rd,
 zscore.Rd}.
-The very few user-visible changes are as follows:
+
+The few user-visible changes are as follows:
 
 \begin{itemize}
+\item The CITATION file has been updated so that now \texttt{citation("seqinr")} returns the full complete reference for the package seqinR.
 
 \item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
 \texttt{GC2()} and \texttt{GC3()} have gained a new argument \texttt{oldGC}
@@ -289,8 +291,12 @@ reference for now, you may use \texttt{citation("seqinr")} to check if it is com
 \begin{Soutput}
 To cite seqinR in publications use:
 
-  in the body of the text (J.R. Lobry, personal communication), or
-  wait for the exact complete reference.
+  Lobry, J.R. and Charif, D. (2007) SeqinR 1.0-2: a contributed
+  package to the R project for statistical computing devoted to
+  biological sequences retrieval and analysis. pp. 207-232 in
+  Structural approaches to sequence evolution: Molecules, networks,
+  populations (U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo
+  Eds.), Springer Verlag, New York
 
 A BibTeX entry for LaTeX users is
 
@@ -298,16 +304,13 @@ A BibTeX entry for LaTeX users is
     author = {D. Charif and J.R. Lobry},
     title = {SeqinR 1.0-2: a contributed package to the R project for statistical computing devoted to biological sequences retrieval and analysis.},
     booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
-    year = {2006},
+    year = {2007},
     editor = {U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo},
-    volume = {NA},
     series = {Biological and Medical Physics, Biomedical Engineering},
-    pages = {NA},
+    pages = {207-232},
     address = {New York},
-    month = {NA},
-    organization = {NA},
     publisher = {Springer Verlag},
-    note = {in press},
+    note = {{ISBN :} 978-3-540-35305-8},
   }
 
 Note that the orginal article and updates are available in the
@@ -350,12 +353,12 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.0 (2007-04-23), \verb|i386-apple-darwin8.9.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-33, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-4, nlme~3.1-80, seqinr~1.0-8,
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.0-8,
     xtable~1.4-3
 \end{itemize}
 
