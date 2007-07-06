@@ -9,9 +9,9 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section{release 1.0-8}
+\section{release 1.1.1}
 
-This is a minor release to remove non ASCII characters in documentation
+This is a release to remove non ASCII characters in documentation
 (*.Rd) files and to declare the encoding as latin1 when necessary in
 documentation files (*.Rd). The updated documentation files are: \texttt{
 dinucl.Rd,
@@ -27,9 +27,11 @@ toyaa.Rd,
 words.pos.Rd,
 words.Rd,
 zscore.Rd}.
-The very few user-visible changes are as follows:
+
+The few user-visible changes are as follows:
 
 \begin{itemize}
+\item The CITATION file has been updated so that now \texttt{citation("seqinr")} returns the full complete reference for the package seqinR.
 
 \item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
 \texttt{GC2()} and \texttt{GC3()} have gained a new argument \texttt{oldGC}
