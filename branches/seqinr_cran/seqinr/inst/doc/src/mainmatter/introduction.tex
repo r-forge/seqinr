@@ -126,8 +126,8 @@ release with the same format as the ACNUC book:
  mybank$details
 \end{Sinput}
 \begin{Soutput}
-[1] "GenBank Rel. 159 (15 April 2007) Last Updated: Jun 12, 2007"                   
-[2] "77,176,385,240 bases; 73,044,684 sequences; 4,154,842 subseqs; 467,882 refers."
+[1] "GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007"                    
+[2] "77,927,415,059 bases; 73,849,130 sequences; 4,241,874 subseqs; 470,139 refers."
 [3] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"  
 \end{Soutput}
 \begin{Sinput}
@@ -135,7 +135,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "77,176,385,240"
+[1] "77,927,415,059"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -144,11 +144,11 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.596197
+[1] 6.660387
 \end{Soutput}
 \end{Schunk}
 
-It would be about 6.6
+It would be about 6.7
 kilometer long in ACNUC book format to print to print GenBank today (\today).
 
 \section{About R and CRAN}
@@ -163,9 +163,9 @@ further information.
 The Comprehensive R Archive Network, CRAN, is a network of servers 
 around the world that store identical, up-to-date, versions of code and documentation 
 for R. At compilation time of this document, there were
-72 
+46 
 mirrors available 
-from 29 countries.
+from 24 countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
 selected with the function \texttt{chooseCRANmirror()}.
@@ -173,8 +173,8 @@ selected with the function \texttt{chooseCRANmirror()}.
 \section{About this document}
 
 In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
-The examples given thereafter were run under \texttt{R version 2.5.0 (2007-04-23)}
-on Wed Jun 13 18:10:28 2007 with Sweave \cite{Sweave}.
+The examples given thereafter were run under \texttt{R version 2.5.1 (2007-06-27)}
+on Sat Jul  7 10:41:36 2007 with Sweave \cite{Sweave}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
 full path to the package is given by the following R code :
@@ -274,7 +274,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-1036
+1050
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -453,12 +453,12 @@ is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.0 (2007-04-23), \verb|i386-apple-darwin8.9.1|
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-33, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-4, nlme~3.1-80, seqinr~1.0-8,
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
     xtable~1.4-3
 \end{itemize}
 
