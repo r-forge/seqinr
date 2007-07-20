@@ -615,7 +615,7 @@ getKeywordsocket <- function( socket, name){
   tmpl<-unlist(strsplit(res3,"&"))
   #transforme en liste
   tmpl<-unlist(strsplit(tmpl[3],","))
-  kwl<-unlist(tmpl)[c(T,F)]
+  kwl<-unlist(tmpl)[c(TRUE, FALSE)]
 
         lapply(kwl,function(x){
     writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
