@@ -9,7 +9,7 @@
   \code{is.SeqAcnucWeb} returns TRUE if the object is of class \code{SeqAcnucWeb}. 
 }
 \usage{
-as.SeqAcnucWeb(object,length, frame, ncbigc,socket=F)
+as.SeqAcnucWeb(object,length, frame, ncbigc,socket=FALSE)
 is.SeqAcnucWeb(object)
 }
 \arguments{
