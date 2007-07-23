@@ -708,8 +708,8 @@ readfirstrec <- function(socket = "auto", type)
   #
   # Use default bank if no socket is given:
   #
-  if (socket == "auto"){
-    socket <- banknameSocket$socket
+  if(socket == "auto"){
+    socket <- get("banknameSocket", .GlobalEnv)$socket
   }
   
   #
