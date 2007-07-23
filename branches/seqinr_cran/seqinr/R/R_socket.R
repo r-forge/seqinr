@@ -274,7 +274,7 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   #
   if( is.na(bank) ){
     if(verbose) cat("No bank argument was provided, I'm trying to close default bank.\n")
-    bank <- banknameSocket
+    bank <- get("banknameSocket", .GlobalEnv)
   }
   
   #
