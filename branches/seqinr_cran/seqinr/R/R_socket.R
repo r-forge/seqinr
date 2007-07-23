@@ -456,7 +456,7 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
 
   if (socket == "auto"){
     if(verbose) cat("No socket were specified, using default.\n")
-    socket <- banknameSocket$socket
+    socket <- get("banknameSocket", .GlobalEnv)$socket
   }
   
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
