@@ -11,6 +11,19 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-2}
+
+
+\begin{itemize}
+\item Function \texttt{zscore()} has now a new argument
+  \texttt{exact} (which is only effective for the option
+  \texttt{model = base}). This argument, when set to 
+  \texttt{TRUE} allows for the exact analytical computation 
+  of the zscore under this model, instead of the approximation for
+  large sequences. It is set to \texttt{FALSE} by
+  default for backward compatibility.
+\end{itemize}
+
 \subsection*{release 1.1-1}
 
 
