@@ -28,6 +28,10 @@ oriloc <- function(
    
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
+    #
+    # gbk2g2 yields glimmer version 2.0 files, so force to version 2.0 in this case:
+    #
+    glimmer.version <- 2
   } 
 #  
 # Get first sequence from fasta file:
@@ -70,7 +74,7 @@ oriloc <- function(
     #
     # Circular permutation of a vector
     #
-    rotate <- function(x, rot=0) 
+    rotate <- function(x, rot = 0) 
     {
       n <- length(x)
       rot <- rot %% n
