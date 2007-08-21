@@ -33,7 +33,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
   if( ftp.proxy.bck != "" ) # there is a proxy
   {
     warning("I'am trying to neutralize proxies")
-    Sys.putenv("no_proxy" = "") 
+    Sys.setenv("no_proxy" = "") 
   }
 #
 # END Proxy problem
@@ -69,7 +69,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
     brut <- readLines(pipe(cmd))
   }
-  else if( sysinfo=="Linux" ){
+  else if( sysinfo == "Linux" ){
     #
     # Build command file for ftp connection
     #
