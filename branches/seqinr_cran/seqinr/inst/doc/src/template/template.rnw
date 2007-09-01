@@ -300,7 +300,61 @@ a book.
 
 \subsection{Extras in the \texttt{commonrnw.rnw} file}
 
-To be documented.
+The \LaTeX{} environments \texttt{Sinput} and \texttt{Soutput}
+are re-defined in the \texttt{commonrnw.rnw} file so that the
+\Rlogo{} inputs are in red and the \Rlogo{} outputs in blue:
+
+<<inputoutputcolors,fig=F>>=
+getwd()
+@ 
+
+The \Rlogo{} console options \texttt{prompt} and \texttt{continue}
+are re-defined so that an \Rlogo{} input could be copy/pasted
+directly from the final PDF into an \Rlogo{} console without
+syntax error:
+
+<<optionspc,fig=F>>=
+getOption("prompt")
+getOption("continue")
+@
+
+The \Rlogo{} console option \texttt{width} is set to 77 characters:
+
+<<optionwidth>>=
+getOption("width")
+@
+
+This is to fit \Rlogo{} code in the \LaTeX page. This works well
+in most cases. This may fail if you have long strings in the code.
+Manual editing is possible with \texttt{keep.source=T} in the header
+of code chunks.
+
+\vspace{0.2cm}
+Some pre-defined invisible \Rlogo{} constant are available:
+
+\begin{tabular}{ll}
+\hline \hline
+Name & Current value\\
+\hline
+\texttt{.CurFileName} & \texttt{\Sexpr{.CurFileName}}\\
+\texttt{.PrefixName} & \texttt{\Sexpr{.PrefixName}}\\
+\texttt{.RversionName} & \texttt{\Sexpr{.RversionName}}\\
+\hline \hline
+\end{tabular}
+\vspace{0.2cm}
+
+The CRAN repository is forced so that you can Sweave a file that
+need a CRAN connection without setting this manually. Default
+is:
+
+<<showdefaultCRAN,fig=F>>=
+getOption("repos")
+@ 
+
+\vspace{0.2cm}
+The \texttt{prefix.string} option for \texttt{Sweave()} is set
+so that all figures are generated in the \texttt{figs} folder with
+the name of the current file as a prefix.
 
 \section{Compiling this document}
 

@@ -413,7 +413,87 @@ a book.
 
 \subsection{Extras in the \texttt{commonrnw.rnw} file}
 
-To be documented.
+The \LaTeX{} environments \texttt{Sinput} and \texttt{Soutput}
+are re-defined in the \texttt{commonrnw.rnw} file so that the
+\Rlogo{} inputs are in red and the \Rlogo{} outputs in blue:
+
+\begin{Schunk}
+\begin{Sinput}
+ getwd()
+\end{Sinput}
+\begin{Soutput}
+[1] "/Users/lobry/seqinr/inst/doc/src/template"
+\end{Soutput}
+\end{Schunk}
+
+The \Rlogo{} console options \texttt{prompt} and \texttt{continue}
+are re-defined so that an \Rlogo{} input could be copy/pasted
+directly from the final PDF into an \Rlogo{} console without
+syntax error:
+
+\begin{Schunk}
+\begin{Sinput}
+ getOption("prompt")
+\end{Sinput}
+\begin{Soutput}
+[1] " "
+\end{Soutput}
+\begin{Sinput}
+ getOption("continue")
+\end{Sinput}
+\begin{Soutput}
+[1] " "
+\end{Soutput}
+\end{Schunk}
+
+The \Rlogo{} console option \texttt{width} is set to 77 characters:
+
+\begin{Schunk}
+\begin{Sinput}
+ getOption("width")
+\end{Sinput}
+\begin{Soutput}
+[1] 77
+\end{Soutput}
+\end{Schunk}
+
+This is to fit \Rlogo{} code in the \LaTeX page. This works well
+in most cases. This may fail if you have long strings in the code.
+Manual editing is possible with \texttt{keep.source=T} in the header
+of code chunks.
+
+\vspace{0.2cm}
+Some pre-defined invisible \Rlogo{} constant are available:
+
+\begin{tabular}{ll}
+\hline \hline
+Name & Current value\\
+\hline
+\texttt{.CurFileName} & \texttt{template.rnw}\\
+\texttt{.PrefixName} & \texttt{template}\\
+\texttt{.RversionName} & \texttt{R version 2.5.1 (2007-06-27)}\\
+\hline \hline
+\end{tabular}
+\vspace{0.2cm}
+
+The CRAN repository is forced so that you can Sweave a file that
+need a CRAN connection without setting this manually. Default
+is:
+
+\begin{Schunk}
+\begin{Sinput}
+ getOption("repos")
+\end{Sinput}
+\begin{Soutput}
+                       CRAN 
+"http://cran.univ-lyon1.fr" 
+\end{Soutput}
+\end{Schunk}
+
+\vspace{0.2cm}
+The \texttt{prefix.string} option for \texttt{Sweave()} is set
+so that all figures are generated in the \texttt{figs} folder with
+the name of the current file as a prefix.
 
 \section{Compiling this document}
 
