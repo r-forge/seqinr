@@ -16,6 +16,9 @@
 
 \begin{itemize}
 
+\item The way this manual is produced is now documented in the
+  \texttt{doc/src/template/} folder.
+
 \item A bug in function \texttt{oriloc()} was reported on 23 Jul 2007
   by Michael Kube: using directly genBank files was no more possible.
   The culprit was \texttt{gbk2g2()} that turns genBank files into
