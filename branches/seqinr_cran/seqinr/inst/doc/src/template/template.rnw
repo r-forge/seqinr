@@ -294,7 +294,11 @@ There is a comment line at the begining of the \texttt{*.rnw} file stating:
 % BEGIN - DO NOT REMOVE THIS LINE
 \end{verbatim}
 
-As suggested, do not removed it as it is used by the \texttt{book/book.rnw}
+\begin{verbatim}
+% END - DO NOT REMOVE THIS LINE
+\end{verbatim}
+
+As suggested, do not removed them as they are used by the \texttt{book/book.rnw}
 script to merge the relevant parts of the individual articles into
 a book.
 
@@ -431,6 +435,8 @@ You should obtain the PDF of the present document (\texttt{template.pdf}).
 
 
 \SweaveInput{../config/sessionInfo.rnw}
+
+% END - DO NOT REMOVE THIS LINE
 
 %%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
 \clearpage
