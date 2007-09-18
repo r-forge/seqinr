@@ -4,7 +4,7 @@
 \title{Introduction}
 \author{Lobry, J.R.}
 
-\usepackage{/Users/penel/R_dir/srcs/install/R_2_5_1/R.framework/Resources/share/texmf/Sweave}
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -126,8 +126,8 @@ release with the same format as the ACNUC book:
  mybank$details
 \end{Sinput}
 \begin{Soutput}
-[1] "GenBank Rel. 161 (15 August 2007) Last Updated: Sep 12, 2007"                  
-[2] "80,247,612,436 bases; 76,893,281 sequences; 4,400,329 subseqs; 477,075 refers."
+[1] "GenBank Rel. 161 (15 August 2007) Last Updated: Sep 18, 2007"                  
+[2] "80,504,164,078 bases; 77,005,502 sequences; 4,420,131 subseqs; 477,596 refers."
 [3] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"  
 \end{Soutput}
 \begin{Sinput}
@@ -135,7 +135,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "80,247,612,436"
+[1] "80,504,164,078"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -144,7 +144,7 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.858692
+[1] 6.88062
 \end{Soutput}
 \end{Schunk}
 
@@ -174,7 +174,7 @@ selected with the function \texttt{chooseCRANmirror()}.
 
 In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
 The examples given thereafter were run under \texttt{R version 2.5.1 (2007-06-27)}
-on Wed Sep 12 14:49:50 2007 with Sweave \cite{Sweave}.
+on Tue Sep 18 13:12:18 2007 with Sweave \cite{Sweave}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
 full path to the package is given by the following R code :
@@ -275,7 +275,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-1121
+1125
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -406,3 +406,74 @@ to update the figure:
  plot.default(date, log10(Nucleotides), main = "Update of Fig. 1 from Lobry (2004) LNCS, 3039:679:\nThe exponential growth of genome sequence data", 
      xlab = "Year", ylab = "Log10 number of nucleotides", pch = 19, 
      las = 1, cex = scale, cex.axis = scale, cex.lab = scale)
+ abline(lm(log10(Nucleotides) ~ date), lwd = 2)
+ lm1 <- lm(log(Nucleotides) ~ date)
+ mu <- lm1$coef[2]
+ dbt <- log(2)/mu
+ dbt <- 12 * dbt
+ x <- mean(date)
+ y <- mean(log10(Nucleotides))
+ a <- log10(2)/1.5
+ b <- y - a * x
+ lm10 <- lm(log10(Nucleotides) ~ date)
+ for (i in seq(-10, 10, by = 1)) if (i != 0) abline(coef = c(b + 
+     i, a), col = "black", lty = ltymoore)
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/introduction-dbg}
+\setkeys{Gin}{width=0.8\textwidth}
+
+
+The doubling time is now 16.6 months.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{../figs/fig1lncs2004}
+\end{center}
+\caption{Screenshot of figure 1 from \cite{lobrylncs}.
+The exponential growth of genomic sequence data mimics Moore's law.
+The source of data is the december 2003 release note (realnote.txt) from the EMBL database
+available at \protect\url{http://www.ebi.ac.uk/}. External lines correspond to what would be expected with
+a doubling time of 18 months. The central line through points is the best least square fit,
+corresponding to a doubling time of 16.9 months.}
+\label{fig1lncs2004}
+\end{figure}
+
+\subsection{\texttt{Sweave()} and \texttt{xtable()}}
+
+For \LaTeX~users, it's
+worth mentioning the fantastic tool contributed by Friedrich Leish \cite{Sweave}
+called \texttt{Sweave()} that allows for the automatic insertion
+of \Rlogo{}~outputs (including graphics) in a \LaTeX~document. In the same spirit, there
+is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
+
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item Locale: \verb|C|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-2,
+    xtable~1.4-3
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Tue Sep 18 13:12:22 2007
+  \item \LaTeX{} compilation time was: \today
+\end{itemize}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}
