@@ -18,7 +18,7 @@ get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Relea
     x <- x[nchar(x) > 0 ]
   }
   tmp <- sapply( tmp, not.empty )
-  tmp <- data.frame( t(tmp) )
+  tmp <- data.frame( matrix(unlist(tmp), ncol = 4, byrow = TRUE) )
   names(tmp) <- c("Release", "Month", "Entries", "Nucleotides")
 
   tmp[,1] <- as.double( as.character(tmp[,1]))
