@@ -516,10 +516,8 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
   if(verbose) cat(paste("... and the elements in the list are of type", typelist, ".\n"))
   if(typelist == "SQ"){
     if(p[5] == "T"){
-      onlyparents <- TRUE
       if(verbose) cat("... and there are only parent sequences in the list.\n")
     } else {
-      onlyparents <- FALSE
       if(verbose) cat("... and there are *not* only parent sequences in the list.\n")
     }
   }
