@@ -591,37 +591,35 @@ print.qaw <- function(x, ...)
 #                                                                                                 #
 ###################################################################################################
 
-getKeywordsocket <- function( socket, name){
-#modif simon
-         writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
-         res = readLines( socket , n=1 )
-         number = parser.socket(res)[1] 
+getKeywordsocket <- function(socket, name){
+  #modif simon
+  writeLines(paste("isenum&name=", name, sep = ""), socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  number <- parser.socket(res)[1] 
 
-         writeLines(paste("readsub&num=",number,sep=""),socket,sep="\n")
-         res2 = readLines( socket , n=1 ) 
-         rr = parser.socket(res2)
-         
-         writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
-         res3 = readLines( socket , n=1 ) 
-         
+  writeLines(paste("readsub&num=", number, sep = ""), socket, sep = "\n")
+  res2 <- readLines(socket, n = 1) 
+  rr <- parser.socket(res2)
+
+  writeLines(paste("readshrt&num=", rr[7], sep = ""), socket, sep = "\n")
+  res3 <- readLines(socket, n = 1)
   #modif simon   
 
-  # recupere le nb de kw (inutile?)
-  nbkws<-parser.socket(res3)[2]
+  # Get the nb of kw (not used here)
+  # nbkws <- parser.socket(res3)[2]
 
-  #recupere la liste de paires val,next 
-  tmpl<-unlist(strsplit(res3,"&"))
+  #recupere la liste de paires val, next 
+  tmpl <- unlist(strsplit(res3, "&"))
   #transforme en liste
-  tmpl<-unlist(strsplit(tmpl[3],","))
-  kwl<-unlist(tmpl)[c(TRUE, FALSE)]
+  tmpl <- unlist(strsplit(tmpl[3],","))
+  kwl <- unlist(tmpl)[c(TRUE, FALSE)]
 
-        lapply(kwl,function(x){
-    writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
-              res4 = readLines( socket , n=1 ) 
-              res<-parser.socket(res4)[2]
-        substring(res[1],2,nchar(res[1])-1)
-        }
-  )
+  lapply(kwl, function(x){
+    writeLines(paste("readkey&num=", x, sep = ""), socket, sep = "\n")  
+    res4 <- readLines(socket, n = 1)
+    res <-parser.socket(res4)[2]
+    substring(res[1], 2, nchar(res[1]) - 1)
+  })
 
 } 
 
