@@ -342,7 +342,7 @@ removeTrailingSpaces <- function(string){
 #                                                                                                 #
 #                                         parser.socket                                           #
 #                                                                                                 #
-# Utility function to parse answers from ACNUC server.
+#                      Utility function to parse answers from ACNUC server.                       #
 #                                                                                                 #
 ###################################################################################################
 
@@ -449,6 +449,15 @@ getNumber.socket <- function( socket, name){
 
 query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
+  #
+  # Definition of the utility function simon() used only in query():
+  #
+  simon <-function(res, socket) {
+    x <- parser.socket(res)
+    y <- (x[c(2,3,6,7)])
+    acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1), y[2], y[3], y[4], socket = socket)
+    acnucy
+  }
   #
   # Check arguments:
   #
@@ -664,20 +673,6 @@ getLocationSocket <- function( socket, name){
       }
   return(l)
 } 
-
-
-
-######################################################################################
-# simon
-######################################################################################
-
-simon <-function(res, socket) {
-  x <- parser.socket(res)
-  y <- (x[c(2,3,6,7)])
-  acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1),y[2], y[3], y[4], socket = socket)
-  acnucy
-}
-
 
 
 ###################################################################################################
