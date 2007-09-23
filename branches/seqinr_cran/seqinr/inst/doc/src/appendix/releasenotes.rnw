@@ -16,6 +16,9 @@
 
 \begin{itemize}
 
+\item A sanity check test was added in the documentation file
+  for the function \texttt{syncodons()}.
+
 \item The way this manual is produced is now documented in the
   \texttt{doc/src/template/} folder.
 
