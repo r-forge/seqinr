@@ -16,6 +16,9 @@
 
 \begin{itemize}
 
+\item Function \texttt{splitseq()} is no more based on \texttt{substring()},
+  it is now more efficient for long sequences.
+
 \item A sanity check test was added in the documentation file
   for the function \texttt{syncodons()}.
 
