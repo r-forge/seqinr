@@ -125,7 +125,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
   for(i in seq_len(nbank))
     for(j in seq_len(3))
-      resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
+      resdf[i, j] <- trimSpace(resdf[i, j])   
            
   ###############################################################################
   #
@@ -185,7 +185,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("Number of lines=", nblhelp,".\n")
       if (as.numeric(nblhelp) > 2){
         bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
-        for(i in seq_len(length(bankhelp))) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+        for(i in seq_len(length(bankhelp))) bankhelp[i] <- trimSpace(bankhelp[i])
         bankrel <- bankhelp[1]
       } else {
         bankhelp <- "there is no information available about the contents of this bank"
@@ -318,24 +318,6 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   } else {
     if(verbose) cat("... and everything is OK up to now.\n")
   }
-}
-
-###################################################################################################
-#                                                                                                 #
-#                                         removeTrailingSpaces                                    #
-#                                                                                                 #
-# Utility function to remove white spaces " " from the start and the end of a character string    #
-#                                                                                                 #
-###################################################################################################
-
-removeTrailingSpaces <- function(string){
-  while(substr(string, 1, 1) == "\t")
-    string <- substr(string, 2, nchar(string))    
-  while(substr(string, 1, 1) == " ")
-    string <- substr(string, 2, nchar(string))
-  while(substr(string, nchar(string), nchar(string)) == " ")
-    string <- substr(string, 1, nchar(string) - 1)    
-  return( string )
 }
 
 ###################################################################################################
