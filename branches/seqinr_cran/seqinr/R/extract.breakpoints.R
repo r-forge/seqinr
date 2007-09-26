@@ -50,7 +50,7 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
         rm(seg)
       }
 
-      try(seg <- segmented::segmented(lm(y.breaks~x.breaks),x.breaks,psi=initpsi,it.max=it.max),silent=T)
+      try(seg <- segmented::segmented(lm(y.breaks~x.breaks),x.breaks,psi=initpsi,it.max=it.max), silent = TRUE)
 
       
       if(exists("seg")){
