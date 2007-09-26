@@ -1,7 +1,7 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Installation of a local ACNUC socket server on your machine}
+\title{Installation of a local ACNUC socket server on your machine (under development)}
 \author{Penel, S.}
 
 \begin{document}
@@ -13,7 +13,7 @@
 \section{Introduction.}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-Blah blah blah....
+This chapter is under development and not complete.
 
 \section{System requirement.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
