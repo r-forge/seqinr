@@ -345,16 +345,32 @@ parser.socket <- function(p)
 #                                                                                                 #
 ###################################################################################################
 
-getSequenceSocket <- function( socket, name, start, length, as.string = FALSE){
+getSequenceSocket <- function(socket, name, start, length, as.string = FALSE){
   request <- paste("gfrag&name=", name, "&start=", start, "&length=", formatC(length, format = "d"), sep = "")
-  writeLines(request, socket, sep="\n")
-  s <- readLines(socket, n = 1)
+  writeLines(request, socket, sep = "\n")
+  answerFromServer <- readLines(socket, n = 1)
 
-  if(length(s) == 0){
-    warning(paste("invalid sequence name:", name))
+  #
+  # Check that there is an answer from server:
+  #
+  if(length(answerFromServer) == 0){
+    warning(paste("Empty answer from server with sequence name:", name))
     return(NA)
-  } else {   
-    sequence <- unlist(strsplit(s, split = "&"))[2]
+  } else {
+    #
+    # Check that no error code is returned by server:
+    #
+    if(substr(x = answerFromServer, start = 1, stop = 5) == "code="){
+      warning(paste("Server returned error code:", answerFromServer, "with sequence name:", name))
+      return(NA)
+    }
+    #
+    # Extract sequence from server answer:
+    #
+    sequence <- unlist(strsplit(answerFromServer, split = "&"))[2]
+    #
+    # Returns the sequence either as a string or as a vector of single chars:
+    #
     if( as.string ){
       return(sequence)
     } else {
