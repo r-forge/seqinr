@@ -13,10 +13,12 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 
 s2c <- function (string) 
 {
-  if(is.character(string) & is.vector(string)){
-  return(.Call("s2c", string, PACKAGE = "seqinr"))
-}
-  else stop("non-character argument in s2c()")
+  if(is.character(string) && length(string) == 1){
+    return(.Call("s2c", string, PACKAGE = "seqinr"))
+  } else {
+    warning("Wrong argument type in s2c(), NA returned")
+    return(NA)
+  }
 }
 
 
