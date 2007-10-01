@@ -43,17 +43,21 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 
 GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 {
-	#
-	# Check that sequence is a vector of chars:
-	#
-	if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
-	#
-	# Force to lower-case letters if requested:
-	#
-	if(forceToLower) seq <- tolower(seq)
-    #
-    # Compute the count of each base:
-    #
+  #
+  # NA propagation:
+  #
+  if(is.na(seq)) return(NA)
+  #
+  # Check that sequence is a vector of chars:
+  #
+  if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
+  #
+  # Force to lower-case letters if requested:
+  #
+  if(forceToLower) seq <- tolower(seq)
+  #
+  # Compute the count of each base:
+  #
 	nc <- sum( seq == "c" )
 	ng <- sum( seq == "g" )			
 	if(oldGC) return( (nc + ng)/length(seq) )
