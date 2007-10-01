@@ -58,6 +58,7 @@ GC3(seq, ...)
   \code{GC1} returns the fraction of G+C at first codon position as a numeric vector,
   \code{GC2} returns the fraction of G+C at second codon position as a numeric vector,
   \code{GC3} returns the fraction of G+C at third codon position as a numeric vector.
+  \code{NA} is returned when \code{seq} is \code{NA}.
 }
 \references{
   \code{citation("seqinr")}.
