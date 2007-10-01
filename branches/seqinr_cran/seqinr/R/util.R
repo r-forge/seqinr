@@ -46,7 +46,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
   #
   # NA propagation:
   #
-  if(is.na(seq)) return(NA)
+  if(length(seq) == 1 && is.na(seq)) return(NA)
   #
   # Check that sequence is a vector of chars:
   #
