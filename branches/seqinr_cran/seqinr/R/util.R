@@ -191,7 +191,7 @@ GC2 <- function(seq, ...){
 ######################
 
 GC3 <- function(seq, ...){
-	GC(seq[seq(3, length(seq), by = 3)])
+	GC(seq[seq(3, length(seq), by = 3)], ...)
 }
 
 
