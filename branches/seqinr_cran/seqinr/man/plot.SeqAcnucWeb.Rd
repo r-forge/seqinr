@@ -26,9 +26,8 @@
 \dontrun{ 
   ### Need internet connection
   choosebank("hovernucl")
-  query("list","sp=homo sapiens et k=globin@")	
-  plot.SeqAcnucWeb(list$req[[22]])
-  plot.SeqAcnucWeb(list$req[[22]],type=c("CDS","5'NCR"))
+  query("list","AC=AB000425")	
+  plot.SeqAcnucWeb(list$req[[1]])
   }
 }
 \keyword{ hplot }
