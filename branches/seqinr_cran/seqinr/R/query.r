@@ -6,15 +6,7 @@
 
 query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
-  #
-  # Definition of the utility function simon() used only in query():
-  #
-  simon <-function(res, socket) {
-    x <- parser.socket(res)
-    y <- (x[c(2,3,6,7)])
-    acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1), y[2], y[3], y[4], socket = socket)
-    acnucy
-  }
+
   #
   # Check arguments:
   #
@@ -102,23 +94,29 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
     } else {
       if(verbose) cat(paste("... and I have received", nelem, "lines as expected.\n"))
     }
-  
-    liste <- lapply(res, simon, socket=socket) 
-
+    #
+    # Extracting info
+    #
+    req <- vector(mode = "list", length = nelem)
+    for(i in seq_len(nelem)){
+      x <- parser.socket(res[i])
+      req[[i]] <- as.SeqAcnucWeb(substring(x[2], 2, nchar(x[2]) - 1), x[3], x[6], x[7], socket = socket)
+    }
   #
   # Virtual list case:
   #
   } else {
     if(verbose) cat("I'am *not* trying the infos about the elements of the list since virtual is TRUE.\n")
-    liste <- NA
+    req <- NA
   }
   #
   # Return results:
   #
   result <- list(call = match.call(), name = listname, nelem = nelem, typelist = typelist, 
-    req = as.list(liste), socket = socket)
+    req = req, socket = socket)
   class(result) <- c("qaw")
   assign(listname, result, env = .GlobalEnv)
+  
   if(invisible == TRUE){
     invisible(result)
   } else {
