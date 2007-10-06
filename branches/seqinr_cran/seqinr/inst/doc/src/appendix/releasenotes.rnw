@@ -11,6 +11,16 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-3}
+
+\begin{itemize}
+
+\item Internal function \texttt{parser.socket()} has been optimized and
+  is about four times faster now. This decreases the time needed by the
+  \texttt{query()} function.
+
+\end{itemize}
+
 \subsection*{release 1.1-2}
 
 
