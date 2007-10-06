@@ -1,0 +1,128 @@
+###################################################################################################
+#                                                                                                 #
+#                                         query                                                   #
+#                                                                                                 #
+###################################################################################################
+
+query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE) 
+{
+  #
+  # Definition of the utility function simon() used only in query():
+  #
+  simon <-function(res, socket) {
+    x <- parser.socket(res)
+    y <- (x[c(2,3,6,7)])
+    acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1), y[2], y[3], y[4], socket = socket)
+    acnucy
+  }
+  #
+  # Check arguments:
+  #
+  if(verbose) cat("I'm checking the arguments...\n")
+
+  if (socket == "auto"){
+    if(verbose) cat("No socket were specified, using default.\n")
+    socket <- get("banknameSocket", .GlobalEnv)$socket
+  }
+  
+  if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
+  if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))
+  if( !is.character(query) ) stop(paste("argument query = ", query, "is not a character string."))
+  if( !is.logical(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
+  if( is.na(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
+  if(verbose) cat("... and everything is OK up to now.\n")
+  
+  #
+  # Check the status of the socket connection:
+  #
+  if(verbose) cat("I'm checking the status of the socket connection...\n")
+  #
+  # Ca marche pas: summary.connection leve une exception et on ne va pas plus loin
+  #
+  if(!isOpen(socket)) stop(paste("socket:", socket, "is not opened."))
+  if(!isOpen(socket, rw = "read")) stop(paste("socket:", socket, "can not read."))
+  if(!isOpen(socket, rw = "write")) stop(paste("socket:", socket, "can not write."))
+  if(verbose) cat("... and everything is OK up to now.\n")
+
+  #
+  # Send request to server:
+  #
+  if(verbose) cat("I'm sending query to server...\n")
+  request <- paste("proc_requete&query=\"", query, "\"&name=\"", listname, "\"", sep = "")
+  writeLines(request, socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  #
+  # C'est ici qu'il y a un probleme de timeout. Suit un patch pas beau
+  #
+  
+  if(verbose) cat(paste("... answer from server is:", res, "\n"))
+  if(length(res) == 0){
+    if(verbose) cat("... answer from server is empty!\n")
+    while(length(res) == 0){
+      if(verbose) cat("... reading again.\n")
+      res <- readLines(socket, n = 1)
+    }
+  }
+  #
+  # Analysing answer from server:
+  #
+  if(verbose) cat("I'm trying to analyse answer from server...\n")
+  p <- parser.socket(res)
+  if(p[1] != "0"){
+    if(verbose) cat("... and I was able to detect an error.\n") 
+    stop(paste("invalid request:", p[2], sep = ""))
+  }
+  
+  if(verbose) cat("... and everything is OK up to now.\n")
+  lrank <- p[2]
+  if(verbose) cat(paste("... and the rank of the resulting list is:", lrank, ".\n"))
+  nelem <- as.integer(p[3])
+  if(verbose) cat(paste("... and there are", nelem, "elements in the list.\n"))
+  typelist <- p[4]
+  if(verbose) cat(paste("... and the elements in the list are of type", typelist, ".\n"))
+  if(typelist == "SQ"){
+    if(p[5] == "T"){
+      if(verbose) cat("... and there are only parent sequences in the list.\n")
+    } else {
+      if(verbose) cat("... and there are *not* only parent sequences in the list.\n")
+    }
+  }
+  
+  #
+  # Get full list informations: 
+  #
+  if( !virtual ){
+    if(verbose) cat("I'm trying to get the infos about the elements of the list...\n")
+    writeLines(paste("nexteltinlist&lrank=", lrank, "&first=1&count=", nelem, sep = ""), socket, sep = "\n")
+    res <- readLines(socket, n = nelem, ok = FALSE)
+    if( length(res) != nelem )
+    {
+      if(verbose) cat("... and I was able to detect an error...\n")
+      stop(paste("only", length(res), "list elements were send by server out of", nelem, "expected.\n")) 
+    } else {
+      if(verbose) cat(paste("... and I have received", nelem, "lines as expected.\n"))
+    }
+  
+    liste <- lapply(res, simon, socket=socket) 
+
+  #
+  # Virtual list case:
+  #
+  } else {
+    if(verbose) cat("I'am *not* trying the infos about the elements of the list since virtual is TRUE.\n")
+    liste <- NA
+  }
+  #
+  # Return results:
+  #
+  result <- list(call = match.call(), name = listname, nelem = nelem, typelist = typelist, 
+    req = as.list(liste), socket = socket)
+  class(result) <- c("qaw")
+  assign(listname, result, env = .GlobalEnv)
+  if(invisible == TRUE){
+    invisible(result)
+  } else {
+    return(result)
+  }
+}
+
