@@ -100,7 +100,7 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
     req <- vector(mode = "list", length = nelem)
     for(i in seq_len(nelem)){
       x <- parser.socket(res[i])
-      req[[i]] <- as.SeqAcnucWeb(substring(x[2], 2, nchar(x[2]) - 1), x[3], x[6], x[7], socket = socket)
+      req[[i]] <- as.SeqAcnucWeb(substr(x[2], 2, nchar(x[2]) - 1), x[3], x[6], x[7], socket = socket)
     }
   #
   # Virtual list case:
