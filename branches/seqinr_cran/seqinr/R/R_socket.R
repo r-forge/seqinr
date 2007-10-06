@@ -328,17 +328,19 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
 #                                                                                                 #
 ###################################################################################################
 
-parser.socket <- function(p)
+parser.socket <- function(onelinefromserver)
 {
-  if(is.null(p)){
+  if(is.null(onelinefromserver)){
     return(NULL)
   }
-  p1 <- s2c(p)
-  b <- grep("=", p1)
-  a <- c(grep("&", p1), length(p1) + 1)
-  return(unlist(lapply(seq_len(length(a)), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
+  #
+  # Answers from server looks like : "code=0&lrank=2&count=150513&type=SQ&locus=F"
+  # 
+  loc <- gregexpr("=[^=&]*", onelinefromserver)[[1]]
+  substring(onelinefromserver, loc + 1, loc + attr(loc, "match.length") - 1)
 }
-  
+
+
 ################################################################################
 #                                                                               
 #                                         getSequenceSocket                     #
