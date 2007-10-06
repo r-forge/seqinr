@@ -15,6 +15,19 @@
 
 \begin{itemize}
 
+\item The details of the socket connection are no more stored in
+  the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
+  this slot is now deleted. As a consequence, the argument
+  \texttt{socket} in function \texttt{as.seqAcnucWeb()} has been
+  removed and there is now a new
+  argument \texttt{socket = "auto"} in functions \texttt{getAnnot()},
+  \texttt{getFrag()}, \texttt{geyKeyword()}, \texttt{getLocation()},
+  and \texttt{getSequence()}. The default value \texttt{"auto"} means
+  that the details of the socket connection are taken automatically
+  when necessary from the last opened bank. The size of local lists
+  of sequences is reduced by about a third now as compared to the
+  previous version.
+
 \item New function \texttt{print.seqAcnucWeb()} to print objects from
   class \texttt{seqAcnucWeb}.
 
