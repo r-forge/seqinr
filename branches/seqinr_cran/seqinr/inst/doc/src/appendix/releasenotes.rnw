@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New function \texttt{print.seqAcnucWeb()} to print objects from
+  class \texttt{seqAcnucWeb}.
+
 \item Internal function \texttt{parser.socket()} has been optimized and
   is about four times faster now. This decreases the time needed by the
   \texttt{query()} function.
