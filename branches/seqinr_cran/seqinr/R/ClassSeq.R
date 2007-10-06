@@ -223,13 +223,13 @@ getTrans.SeqFastadna <-  function(object, frame = 0, sens = "F", numcode = 1, NA
 	#		Classe de sequences SeqFastaAA et ses méthodes:               #
 	###############################################################################
 
-as.SeqFastaAA = function(object, name = NULL, Annot = NULL){
-	attributes(object)=list(name = name, Annot= Annot)
-	class(object)="SeqFastaAA"	
+as.SeqFastaAA <- function(object, name = NULL, Annot = NULL){
+	attributes(object) <- list(name = name, Annot= Annot)
+	class(object) <- "SeqFastaAA"	
         return(object)
         }
 
-is.SeqFastaAA = function(object){
+is.SeqFastaAA <- function(object){
 	inherits(object,"SeqFastaAA")
 }
 
@@ -242,7 +242,7 @@ getSequence.SeqFastaAA <- function(object, as.string = FALSE){
 }
 
 
-getFrag.SeqFastaAA = function(object, begin, end){
+getFrag.SeqFastaAA <- function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
 	newSeq = as.SeqFrag(newSeq, begin, end, compl = TRUE, name = getName(object))
@@ -250,20 +250,20 @@ getFrag.SeqFastaAA = function(object, begin, end){
 	}
 
 
-getLength.SeqFastaAA = function(object){
+getLength.SeqFastaAA <- function(object){
 	return(length(object))
 	}
 
 
-getName.SeqFastaAA = function(object){
+getName.SeqFastaAA <- function(object){
 	return(attr(object,"name"))
 }
 
-getAnnot.SeqFastaAA = function(object,nbl){
+getAnnot.SeqFastaAA <- function(object,nbl){
 	return(attr(object,"Annot"))
 }
 
-summary.SeqFastaAA = function(object,...){
+summary.SeqFastaAA <- function(object,...){
 	length = getLength(object)
 	compo = table(factor(object, levels = levels(SEQINR.UTIL$CODON.AA$L)))
 	return(list(length = length, composition=compo/length, AA.Property=AAstat(object,plot=FALSE)[[2]]))
@@ -272,87 +272,68 @@ summary.SeqFastaAA = function(object,...){
 
 ####################################################################################################
 #												   #
-#	Classe de Sequences SeqAcnucWeb                                                            #
-#												   #			
+#	 SeqAcnucWeb sequences classes                                                             #
+#												   #  
 ####################################################################################################
 
-
-
-
-
-as.SeqAcnucWeb <- function( object, length, frame, ncbigc, socket = FALSE){
+as.SeqAcnucWeb <- function(object, length, frame, ncbigc, socket = FALSE){
   class(object) <- "SeqAcnucWeb"
   attributes(object) <- list(class = "SeqAcnucWeb", socket = socket,
                              length = length, frame = frame, ncbigc = ncbigc)
   return(object)
 }
 
-
-is.SeqAcnucWeb <- function( object ){	
-  inherits(object ,"SeqAcnucWeb")
+is.SeqAcnucWeb <- function(object){	
+  inherits(object, "SeqAcnucWeb")
 }
 
-
-
-#JRL ajout as.string
-
-getSequence.SeqAcnucWeb = function(object, as.string = FALSE){
+getSequence.SeqAcnucWeb <- function(object, as.string = FALSE){
   b <- attr(object, "length")
-  getSequenceSocket(attr(object,"socket"),object,start=1,length=b, as.string = as.string)
+  getSequenceSocket(attr(object, "socket"), object, start = 1, length = b, as.string = as.string)
 }
 
-
-
-getFrag.SeqAcnucWeb = function(object ,begin, end ){
-
-	b = getLength(object)
+getFrag.SeqAcnucWeb <- function(object, begin, end){
+	b <- getLength(object)
 	if((end > b) || (begin > b)) stop("born out of limits")  
-	bb=end-begin+1
-	newSeq = getSequenceSocket(attr(object,"socket"),object,start=begin,length=bb)
-	newSeq = as.SeqFrag(newSeq,begin=begin,end=end,compl=TRUE,name=getName(object))
+	bb <- end - begin + 1
+	newSeq <- getSequenceSocket(attr(object,"socket"), object, start = begin, length = bb)
+	newSeq <- as.SeqFrag(newSeq, begin = begin, end = end, compl = TRUE, name = getName(object))
 	return(newSeq)
 }
 
-
-
-getName.SeqAcnucWeb = function(object ){	
-
-	return( as.character(object) )
-
-}
-
-#simon:
-getLength.SeqAcnucWeb = function( object ){
-
-	return( attr(object,"length"))
-
+getName.SeqAcnucWeb <- function(object){	
+	return(as.character(object))
 }
 
 
-
-getAnnot.SeqAcnucWeb <- function(object, nbl = 10000){
-		
-	return( readAnnots.socket( socket= attr(object,"socket"),name = object, nl = nbl) ) 
-
+getLength.SeqAcnucWeb <- function(object){
+	return( attr(object, "length"))
 }
 
-
-getKeyword.SeqAcnucWeb = function(object){
-	
-	return( unlist(getKeywordsocket( socket= attr(object,"socket"), name=object)))
+getAnnot.SeqAcnucWeb <- function(object, nbl = 10000){		
+	return( readAnnots.socket( socket = attr(object, "socket"), name = object, nl = nbl) ) 
 }
 
-getLocation.SeqAcnucWeb = function(object){ 
-	
-	return( getLocationSocket( socket= attr(object,"socket"), name=object))
+getKeyword.SeqAcnucWeb <- function(object){	
+	return( unlist(getKeywordsocket( socket = attr(object, "socket"), name = object)))
 }
 
+getLocation.SeqAcnucWeb <- function(object){ 
+	return( getLocationSocket( socket = attr(object, "socket"), name = object))
+}
 
+print.SeqAcnucWeb <- function(x, ...)
+{
+  res <- c(x, attr(x, "length"), attr(x, "frame"), attr(x, "ncbigc"))
+  names(res) <- c("name", "length", "frame", "ncbicg")
+  print(res, ...)
+}
 
 #
 # Translation of CDS into proteins from sequences from an ACNUC server. By
 # default, the genetic code and the frame are automatically propagated.
 #
+
 getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "auto", NAstring = "X", ambiguous = FALSE){
   dnaseq <- getSequence(object)
   if(numcode == "auto") {
@@ -376,7 +357,7 @@ getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "
 
 
 
-as.SeqFrag = function(object,begin,end,compl=FALSE,name="frag"){
+as.SeqFrag <- function(object,begin,end,compl=FALSE,name="frag"){
 	if(compl){ attr(object,"seqMother") = name }
 	else attr(object,"seqMother") = getName(seq)
         attr(object,"begin") = begin
@@ -385,7 +366,7 @@ as.SeqFrag = function(object,begin,end,compl=FALSE,name="frag"){
         return(object)
         }
 
-is.SeqFrag = function(object){
+is.SeqFrag <- function(object){
 	inherits(object,"SeqFrag")
 }
 
@@ -399,7 +380,7 @@ getSequence.SeqFrag <- function(object, as.string = FALSE){
 }
 
 
-getFrag.SeqFrag = function(object,begin,end){
+getFrag.SeqFrag <- function(object,begin,end){
         if((end<begin) || (end>getLength(object)))  stop("invalid end")
         newBegin = attr(object,"begin")+begin-1
         newEnd = attr(object,"begin")+end-1
@@ -408,11 +389,11 @@ getFrag.SeqFrag = function(object,begin,end){
 	return(newSeq)
         }
 
-getLength.SeqFrag = function(object){
+getLength.SeqFrag <- function(object){
 	return(attr(object,"end")-(attr(object,"begin")+1))
 }
 
-getName.SeqFrag = function(object){
+getName.SeqFrag <- function(object){
 	return(attr(object,"seqMother"))
 }
 
