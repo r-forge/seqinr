@@ -278,8 +278,7 @@ summary.SeqFastaAA <- function(object,...){
 
 as.SeqAcnucWeb <- function(object, length, frame, ncbigc, socket = FALSE){
   class(object) <- "SeqAcnucWeb"
-  attributes(object) <- list(class = "SeqAcnucWeb", socket = socket,
-                             length = length, frame = frame, ncbigc = ncbigc)
+  attributes(object) <- list(socket = socket, length = length, frame = frame, ncbigc = ncbigc)
   return(object)
 }
 
