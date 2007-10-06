@@ -276,9 +276,9 @@ summary.SeqFastaAA <- function(object,...){
 #												   #  
 ####################################################################################################
 
-as.SeqAcnucWeb <- function(object, length, frame, ncbigc, socket = FALSE){
+as.SeqAcnucWeb <- function(object, length, frame, ncbigc){
+  attributes(object) <- list(length = length, frame = frame, ncbigc = ncbigc)
   class(object) <- "SeqAcnucWeb"
-  attributes(object) <- list(socket = socket, length = length, frame = frame, ncbigc = ncbigc)
   return(object)
 }
 
@@ -286,9 +286,10 @@ is.SeqAcnucWeb <- function(object){
   inherits(object, "SeqAcnucWeb")
 }
 
-getSequence.SeqAcnucWeb <- function(object, as.string = FALSE){
-  b <- attr(object, "length")
-  getSequenceSocket(attr(object, "socket"), object, start = 1, length = b, as.string = as.string)
+getSequence.SeqAcnucWeb <- function(object, as.string = FALSE, socket = "auto"){
+  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+  browser()
+  getSequenceSocket(socket, object, start = 1, length = attr(object, "length"), as.string = as.string)
 }
 
 getFrag.SeqAcnucWeb <- function(object, begin, end){
