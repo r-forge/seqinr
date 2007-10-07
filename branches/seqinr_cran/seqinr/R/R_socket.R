@@ -34,7 +34,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   #
   if( !is.na(tagbank) ){
     if(verbose) cat("I'm checking the tagbank parameter value...\n")
-    if( !(tagbank %in% c("TEST", "TP")) ){
+    if( !(tagbank %in% c("TEST", "TP", "DEV")) ){
       if(verbose) cat("... and I was able to detect an error.\n")
       stop("non allowed value for tagbank parameter.\n")
     } else {
@@ -343,7 +343,7 @@ parser.socket <- function(onelinefromserver)
 
 ################################################################################
 #                                                                               
-#                                         getSequenceSocket                     #
+#                                         getSequenceSocket                    #
 #                                                                               
 ################################################################################
 
