@@ -23,7 +23,9 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
                    with all database informations will be returned}
   \item{tagbank}{ String. If \code{bank} is \code{NA} and \code{tagbank} is documented, the names
                   of special purposes databases are returned. Current allowed values are TP
-                  for frozen databases and TEST for test databases. }
+                  for frozen databases (TP is an acronym for "travaux pratiques" which means practicals
+                  in french, these databases are useful mainly for teaching so as to have stable results),
+                  TEST for test databases, and DEV for databases under development (unstable).}
 }
 \details{
   When called without arguments, \code{choosebank()} returns a list of all the databases names known 
