@@ -40,12 +40,25 @@ for(b in banknames){
   if(is.null(nrow(types))){
     cat("There are no subsequence type in this database", sep = "\n")
   }else{
-    cat("\\noindent\\begin{tabular}{ll}", sep = "\n")
+    cat("\\noindent\\begin{tabular}{llr}", sep = "\n")
     cat("\\hline \\hline", sep = "\n")
-    cat("name \& description\\\\", sep = "\n")
+    cat("name & description & count \\\\", sep = "\n")
     cat("\\hline", sep = "\n")
-    for(i in 1:nrow(types))
-      cat(paste(stresc(types[i,"sname"]), "\&", stresc(types[i,"libel"]), "\\\\"), sep = "\n")
+    sumnelem <- 0
+    for(i in 1:nrow(types)){
+      querytry <- try(query("mylist", paste("T=", types[i, "sname"]), virtual = TRUE))
+      if(inherits(querytry, "try-error")){
+        nelem <- 0
+      } else {
+        nelem <- mylist$nelem
+      }
+      sumnelem <- sumnelem + nelem
+      cat(paste(stresc(types[i,"sname"]), " & ", 
+        stresc(types[i,"libel"]), " & ", 
+        formatC(nelem, big.mark = ",", format = "d"), "\\\\"), sep = "\n")
+    }
+    cat("\\hline", sep = "\n")
+    cat(paste(" & Total: &", formatC(sumnelem, big.mark = ",", format = "d"), "\\\\"), sep = "\n")
     cat("\\hline \\hline", sep = "\n")
     cat("\\end{tabular}", sep = "\n")
     cat("\n")
