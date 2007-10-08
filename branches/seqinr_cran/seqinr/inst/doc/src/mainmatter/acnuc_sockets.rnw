@@ -29,6 +29,16 @@ Developer Tools  for MacOSX ). You need as well library zlib and sockets
 sources, you should be able to build a ACNUC socket server. 
 
 
+\section{Technical description of the racnucd daemon.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Technical information about the acnuc socket server is available at this url:
+
+<a href="http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html">http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html</a>
+
+\section{ACNUC remote access protocol.}
+Description of the socket communication protocol with acnuc is availble at this url:
+<a href="http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html">http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html</a>
+
 \section{ACNUC sockets server binaries distributions. ( zap)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
