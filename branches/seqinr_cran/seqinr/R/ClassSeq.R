@@ -273,11 +273,12 @@ summary.SeqFastaAA <- function(object,...){
 ####################################################################################################
 #												   #
 #	 SeqAcnucWeb sequences classes                                                             #
-#												   #  
+#												   # 
 ####################################################################################################
 
 as.SeqAcnucWeb <- function(object, length, frame, ncbigc){
-  attributes(object) <- list(length = length, frame = frame, ncbigc = ncbigc)
+  attributes(object) <- list(length = as.numeric(length),
+    frame = as.numeric(frame), ncbigc = as.numeric(ncbigc))
   class(object) <- "SeqAcnucWeb"
   return(object)
 }
