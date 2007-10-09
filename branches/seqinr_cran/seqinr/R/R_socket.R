@@ -348,7 +348,8 @@ parser.socket <- function(onelinefromserver)
 ################################################################################
 
 getSequenceSocket <- function(socket, name, start, length, as.string = FALSE){
-  request <- paste("gfrag&name=", name, "&start=", start, "&length=", formatC(length, format = "d"), sep = "")
+  request <- paste("gfrag&name=", name, "&start=", formatC(start, format = "d"),
+                   "&length=", formatC(length, format = "d"), sep = "")
   writeLines(request, socket, sep = "\n")
   answerFromServer <- readLines(socket, n = 1)
 
