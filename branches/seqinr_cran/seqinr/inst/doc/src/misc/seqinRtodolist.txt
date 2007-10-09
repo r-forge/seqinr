@@ -1,3 +1,6 @@
+o Interfacer gfrag pour pouvoir extraire un fragment de sequence par
+   position.
+
 o Citer article Biochimie 2007 Delmotte & Gouy quand ref complete dispo
 
 o D'un e-mail de Manolo du 05-MARS-2007 :
