@@ -10,11 +10,15 @@
 \tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction.}
 %%%%%%%%%%%%%%%%%%%%%%%
 
 This chapter is under development and not complete.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System requirement.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,9 +32,9 @@ Developer Tools  for MacOSX ). You need as well library zlib and sockets
 (standards on linux and unix). Basically if you are installing R from the
 sources, you should be able to build a ACNUC socket server. 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Technical description of the racnucd daemon.}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Technical information about the acnuc socket server is available at this url:
 
 <a href="http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html">http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html</a>
@@ -39,6 +43,7 @@ Technical information about the acnuc socket server is available at this url:
 Description of the socket communication protocol with acnuc is availble at this url:
 <a href="http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html">http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html</a>
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ACNUC sockets server binaries distributions. ( zap)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,7 +62,7 @@ Then you can install the socket server :
 
 Bla.. blah blah
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Build the ACNUC sockets server from the sources.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -66,10 +71,28 @@ You can as well install the server from the sources
 \subsection{Download the sources.}
 \subsection{Build and install the ACNUC sockets server.}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Setting an ACNUC database to be queried by the server.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+An ACNUC database is composed of 2 sets of files:
+
+\begin{itemize}
+	\item  the acnuc <i>index</i> files 
+	\item  the database files (i.e. flat files in EMBL/GenBank or SwissProt format)
+\end{itemize}
+
+
+These 2 sets will be located  in the   <i>acnuc</i> and <i>gcgacnuc /i>
+ directories  respectively.
+
 An example of an ACNUC database is distributed with the SeqinR package.
 Then you may install the database as it follows:
+
+Let ACNUC_HOME be the base directory for ACNUC intallation
+
+
+
+
 
 BlaBlahBla.
 
