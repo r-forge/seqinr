@@ -88,7 +88,10 @@ These 2 sets will be located  in the   <i>acnuc</i> and <i>gcgacnuc /i>
 An example of an ACNUC database is distributed with the SeqinR package.
 Then you may install the database as it follows:
 
-Let ACNUC_HOME be the base directory for ACNUC intallation
+Let ACNUC_HOME be the base directory for ACNUC intallation.
+Dowload the ACNUC database at this url:<br>
+
+<a href="ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z">ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z</a>
 
 
 
