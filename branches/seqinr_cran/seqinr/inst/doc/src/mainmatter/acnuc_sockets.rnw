@@ -103,8 +103,24 @@ $ACNUC_HOME/acnucdatabase/index
 $ACNUC_HOME/acnucdatabase/flat_files
 \end{verbatim}
 whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+
 \subsection{Query a local  ACNUC database.}
-Several powerful tools dedicated to query ACNUC databases are available.
+
+Several powerful tools dedicated to query ACNUC databases are available. 
+
+The programs query and query\_win allow to query an ACNUC database according to the same
+criteria than described  in seqinR. It allows as well several functionality to extact biological data.
+
+
+query\_win is a graphical version of query.
+
+\textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
+
+Both \textbf{query} and  \textbf{query\_win} are available as a
+\textit{client} or a \textit{local} application. More information on these progralms can be found at:
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/software/query_win.html
+\end{verbatim}. 
 
 
 BlaBlahBla.
@@ -143,8 +159,13 @@ SwissProt.
 %%%%%%%%%%%%%
 
 Other tools for acnuc
+\section{Citation} 
+%%%%%%%%%%%%%
 
-
+If you use query\_win or query in a published work, please cite the following reference:
+Gouy M, Gautier C, Attimonelli M, Lanave C, di Paola G. (1985)
+ ACNUC--a portable retrieval system for nucleic acid sequence databases: 
+ logical and physical designs and usage.. CABIOS, 1, 167-172. 
 
 
 \SweaveInput{../config/sessionInfo.rnw}
