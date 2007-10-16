@@ -36,13 +36,15 @@ sources, you should be able to build a ACNUC socket server.
 \section{Technical description of the racnucd daemon.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Technical information about the acnuc socket server is available at this url:
-
-<a href="http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html">http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html</a>
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
+\end{verbatim}
 
 \section{ACNUC remote access protocol.}
 Description of the socket communication protocol with acnuc is availble at this url:
-<a href="http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html">http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html</a>
-
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html
+\end{verbatim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ACNUC sockets server binaries distributions. ( zap)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,27 +76,35 @@ You can as well install the server from the sources
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Setting an ACNUC database to be queried by the server.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Install a local  ACNUC database.}
 An ACNUC database is composed of 2 sets of files:
 
 \begin{itemize}
-	\item  the acnuc <i>index</i> files 
+	\item  the acnuc index files 
 	\item  the database files (i.e. flat files in EMBL/GenBank or SwissProt format)
 \end{itemize}
 
-
-These 2 sets will be located  in the   <i>acnuc</i> and <i>gcgacnuc /i>
- directories  respectively.
-
-An example of an ACNUC database is distributed with the SeqinR package.
-Then you may install the database as it follows:
-
-Let ACNUC_HOME be the base directory for ACNUC intallation.
-Dowload the ACNUC database at this url:<br>
-
-<a href="ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z">ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z</a>
-
-
-
+These 2 sets will be located  in the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+An example of an ACNUC database is available on the PBIL ftp server  at this url:
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z
+\end{verbatim}. 
+You may install the database as it follows:
+Let ACNUC\_HOME be the base directory for ACNUC intallation.
+\begin{itemize}
+\item Dowload the ACNUC database.
+\item Copy the  acnucdatabase.tar.Z file  into \$ACNUC\_HOME.
+\item Uncompress and untar the  acnucdatabase.tar.Z file 
+\end{itemize}
+Now you sould get the following directories:
+\begin{verbatim}
+$ACNUC_HOME/acnucdatabase/index
+$ACNUC_HOME/acnucdatabase/flat_files
+\end{verbatim}
+whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+\subsection{Query a local  ACNUC database.}
+Several powerful tools dedicated to query ACNUC databases are available.
 
 
 BlaBlahBla.
