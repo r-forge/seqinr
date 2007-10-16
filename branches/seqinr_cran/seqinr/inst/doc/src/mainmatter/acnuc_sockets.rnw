@@ -51,7 +51,7 @@ http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html
 \section{Setting a local ACNUC database to be queried by the server.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-First of all yo need a ACNUC database, built by yourself or  downloaded from the PBIL ftp server.
+First of all yo need an ACNUC database, built by yourself or  downloaded from the PBIL ftp server.
 An ACNUC database is composed of 2 sets of files:
 \begin{itemize}
 	\item  the acnuc index files 
@@ -76,7 +76,7 @@ Now you sould get the following directories:
 ACNUC_HOME/acnucdatabase/index
 ACNUC_HOME/acnucdatabase/flat_files
 \end{verbatim}
-whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+which are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
 
 This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
 \textit{Saccharomyces cerevesiae}.
@@ -92,14 +92,14 @@ The code source of the racnucd server is available on the PBIL server  at this u
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
 \end{verbatim}
-Alternatively you can download directly  the source from the ftp at 
+Alternatively you can download directly  the source from the ftp at:
 \begin{verbatim}
 ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar
 \end{verbatim}
 
 \subsection{Build the ACNUC sockets server.}
 You may install the racnucd server as it follows:
-Let RACNUCD\_HOME be the base directory for the socket
+let RACNUCD\_HOME be the base directory for the socket
 \begin{itemize}
 \item Dowload the  racnucd.tar file
 \item Copy the  racnucd.tar file   into RACNUCD\_HOME.
@@ -135,17 +135,16 @@ The \textbf{knowndbs} contains:
 \begin{verbatim}
 embl | on |    | EMBL sequence data library | 
 swissprot   | on |  | UniProt |
-\begin{verbatim}
-Each line defines a databasen,  the four fields indicating respectively the name of the database, its status 
-(\textit{on} or \textit{off}), a tag and a short description.
+\end{verbatim}
+Each line defines a database,  the four fields indicating respectively the name
+ of the database, its status  (\textit{on} or \textit{off}), a tag and a short description.
 
  The \textbf{dbplaces} contains:
 \begin{verbatim}
 setenv  swissprot       '/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mgouy/Documents/acnuc/petite/swissprot'
 setenv  embl    '/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
-\begin{verbatim}
+\end{verbatim}
 Each line set the acnuc and gcgacnuc variables for each   database.
-
 
 Then you should set the files \textbf{knowndbs} and \textbf{dbplaces} according to your installation.
 Let's call the database you installed previously \textit{demoacnuc}.
@@ -191,7 +190,6 @@ choosebank(host="semle.univ-lyon1.fr",info=T)
 \end{Sinput}
 
 \begin{Soutput}
-\begin{verbatim}
        bank status
 1 demoacnuc     on
                                                                  info
