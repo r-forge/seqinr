@@ -45,6 +45,81 @@ Description of the socket communication protocol with acnuc is availble at this 
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html
 \end{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Setting a local ACNUC database to be queried by the server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+First of all yo need a ACNUC database, built by yourself or  downloaded from the PBIL ftp server.
+An ACNUC database is composed of 2 sets of files:
+\begin{itemize}
+	\item  the acnuc index files 
+	\item  the database files (i.e. flat files in EMBL/GenBank or SwissProt format)
+\end{itemize}
+
+These 2 sets will be located  in the \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+(Directories \textit{acnuc} and  \textit{gcgacnuc} may be identical however it is prefered to use two distict directories.)
+An example of an ACNUC database is available on the PBIL ftp server  at this url:
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z
+\end{verbatim}. 
+You may install the database as it follows:
+Let ACNUC\_HOME be the base directory for ACNUC intallation.
+\begin{itemize}
+\item Dowload the ACNUC database.
+\item Copy the  acnucdatabase.tar.Z file  into \$ACNUC\_HOME.
+\item Uncompress and untar the  acnucdatabase.tar.Z file 
+\end{itemize}
+Now you sould get the following directories:
+\begin{verbatim}
+$ACNUC_HOME/acnucdatabase/index
+$ACNUC_HOME/acnucdatabase/flat_files
+\end{verbatim}
+whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Build the ACNUC sockets server from the sources.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Once you have a local  ACNUC database available on your server you need to install the sockets server.
+
+\subsection{Download the sources.}
+The code source of the racnucd server is available on the PBIL server  at this url:
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
+\end{verbatim}
+Alternatively you can download directly  the source from the ftp at 
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar
+\end{verbatim}
+
+\subsection{Build the ACNUC sockets server.}
+You may install the racnucd server as it follows:
+Let RACNUCD\_HOME be the base directory for the socket
+\begin{itemize}
+\item Dowload the  racnucd.tar file
+\item Copy the  racnucd.tar file   into \$RACNUCD\_HOME.
+\item Untar the  racnucd.tar  file 
+\end{itemize}
+Now you sould get the following directorie:
+\begin{verbatim}
+\$RACNUCD\_HOME/racnucd
+\end{verbatim}
+Go into \$RACNUCD\_HOME/racnucd/ and type;
+\begin{verbatim}
+make
+\end{verbatim}
+This should create the \textit{racnucd} executable.
+
+\subsection{Setting the ACNUC sockets server.}
+The server is configured by several parameters described in a \textbf{configuration file} "racnuc.ini".
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ACNUC sockets server binaries distributions. ( zap)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,66 +139,7 @@ Then you can install the socket server :
 
 Bla.. blah blah
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Build the ACNUC sockets server from the sources.}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-You can as well install the server from the sources
-
-\subsection{Download the sources.}
-\subsection{Build and install the ACNUC sockets server.}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Setting an ACNUC database to be queried by the server.}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Install a local  ACNUC database.}
-An ACNUC database is composed of 2 sets of files:
-
-\begin{itemize}
-	\item  the acnuc index files 
-	\item  the database files (i.e. flat files in EMBL/GenBank or SwissProt format)
-\end{itemize}
-
-These 2 sets will be located  in the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
-An example of an ACNUC database is available on the PBIL ftp server  at this url:
-\begin{verbatim}
-ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z
-\end{verbatim}. 
-You may install the database as it follows:
-Let ACNUC\_HOME be the base directory for ACNUC intallation.
-\begin{itemize}
-\item Dowload the ACNUC database.
-\item Copy the  acnucdatabase.tar.Z file  into \$ACNUC\_HOME.
-\item Uncompress and untar the  acnucdatabase.tar.Z file 
-\end{itemize}
-Now you sould get the following directories:
-\begin{verbatim}
-$ACNUC_HOME/acnucdatabase/index
-$ACNUC_HOME/acnucdatabase/flat_files
-\end{verbatim}
-whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
-
-\subsection{Query a local  ACNUC database.}
-
-Several powerful tools dedicated to query ACNUC databases are available. 
-
-The programs query and query\_win allow to query an ACNUC database according to the same
-criteria than described  in seqinR. It allows as well several functionality to extact biological data.
-
-
-query\_win is a graphical version of query.
-
-\textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
-
-Both \textbf{query} and  \textbf{query\_win} are available as a
-\textit{client} or a \textit{local} application. More information on these progralms can be found at:
-\begin{verbatim}
-http://pbil.univ-lyon1.fr/software/query_win.html
-\end{verbatim}. 
-
-
-BlaBlahBla.
 
 \section{Setting the ACNUC sockets server for ACNUC databases.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -159,6 +175,25 @@ SwissProt.
 %%%%%%%%%%%%%
 
 Other tools for acnuc
+
+Several powerful tools dedicated to query ACNUC databases are available. 
+
+The programs query and query\_win allow to query an ACNUC database according to the same
+criteria than described  in seqinR. It allows as well several functionality to extact biological data.
+
+
+query\_win is a graphical version of query.
+
+\textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
+
+Both \textbf{query} and  \textbf{query\_win} are available as a
+\textit{client} or a \textit{local} application. More information on these progralms can be found at:
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/software/query_win.html
+\end{verbatim}. 
+
+
+BlaBlahBla.
 \section{Citation} 
 %%%%%%%%%%%%%
 
