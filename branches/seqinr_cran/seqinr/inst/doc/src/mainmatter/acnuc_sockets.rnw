@@ -68,17 +68,18 @@ You may install the database as it follows:
 Let ACNUC\_HOME be the base directory for ACNUC intallation.
 \begin{itemize}
 \item Dowload the ACNUC database.
-\item Copy the  acnucdatabase.tar.Z file  into \$ACNUC\_HOME.
+\item Copy the  acnucdatabase.tar.Z file  into ACNUC\_HOME.
 \item Uncompress and untar the  acnucdatabase.tar.Z file 
 \end{itemize}
 Now you sould get the following directories:
 \begin{verbatim}
-$ACNUC_HOME/acnucdatabase/index
-$ACNUC_HOME/acnucdatabase/flat_files
+ACNUC_HOME/acnucdatabase/index
+ACNUC_HOME/acnucdatabase/flat_files
 \end{verbatim}
 whicher are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
 
-
+This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
+\textit{Saccharomyces cerevesiae}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Build the ACNUC sockets server from the sources.}
@@ -101,22 +102,22 @@ You may install the racnucd server as it follows:
 Let RACNUCD\_HOME be the base directory for the socket
 \begin{itemize}
 \item Dowload the  racnucd.tar file
-\item Copy the  racnucd.tar file   into \$RACNUCD\_HOME.
+\item Copy the  racnucd.tar file   into RACNUCD\_HOME.
 \item Untar the  racnucd.tar  file 
 \end{itemize}
 Now you sould get the following directory:
 \begin{verbatim}
-\$RACNUCD\_HOME/racnucd
+RACNUCD_HOME/racnucd
 \end{verbatim}
-Go into \$RACNUCD\_HOME/racnucd/ and type;
+Go into RACNUCD\_HOME/racnucd/ and type;
 \begin{verbatim}
 make
 \end{verbatim}
-This should create the \textit{racnucd} executable.
+This should create the \textbf{racnucd} executable.
 
 \subsection{Setting the ACNUC sockets server.}
 The server is configured by several parameters described in a configuration file \textbf{racnuc.ini}.
-This file is structued as follows:
+The \textbf{racnuc.ini} file is structued as follows:
 
 \begin{verbatim}
 port=5558
@@ -126,14 +127,82 @@ db_env_names=dbplaces
 \end{verbatim}
 
 \begin{itemize}
-\item knowndbs is a file containing the list of available databases
-\item dbplaces is a file containing the path of the available databases
+\item \textbf{knowndbs} is a file containing the list of available databases
+\item \textbf{dbplaces} is a file containing the path of the available databases
 \end{itemize}
 
+The \textbf{knowndbs} contains:
+\begin{verbatim}
+embl | on |    | EMBL sequence data library | 
+swissprot   | on |  | UniProt |
+\begin{verbatim}
+Each line defines a databasen,  the four fields indicating respectively the name of the database, its status 
+(\textit{on} or \textit{off}), a tag and a short description.
 
+ The \textbf{dbplaces} contains:
+\begin{verbatim}
+setenv  swissprot       '/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mgouy/Documents/acnuc/petite/swissprot'
+setenv  embl    '/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
+\begin{verbatim}
+Each line set the acnuc and gcgacnuc variables for each   database.
+
+
+Then you should set the files \textbf{knowndbs} and \textbf{dbplaces} according to your installation.
+Let's call the database you installed previously \textit{demoacnuc}.
+Modify  the \textbf{knowndbs} as follows:
+\begin{verbatim}
+demoacnuc | on |    | Demo Database | 
+\end{verbatim}
+
+and modify  the \textbf{dbplaces} as follows:
+
+\begin{verbatim}
+setenv  demoacnuc       'ACNUC_HOME/acnucdatabase/index ACNUC_HOME/acnucdatabase/flat_files'
+\end{verbatim}
+
+Finaly, still in the RACNUCD\_HOME/racnucd/ directory, type
+\begin{verbatim}
+./racnucd racnucd.ini
+\end{verbatim}
+
+The server should launch and say:
+\begin{verbatim}
+
+*******************************************************
+Start of remote acnuc server : Tue Oct 16 15:46:16 2007
+
+\end{verbatim}
+
+The server is now ready.
+
+\subsection{Using seqinR to query your local socket server.}
+Launch R, load the \textit{seqinr} library  and type
+
+\begin{Schunk}
+\begin{Sinput}
+choosebank(host="my_machine.domaine",info=T)
+\end{Sinput}
+\end{Schunk}
+for example:
+
+\begin{Schunk}
+\begin{Sinput}
+choosebank(host="semle.univ-lyon1.fr",info=T)
+\end{Sinput}
+
+\begin{Soutput}
+\begin{verbatim}
+       bank status
+1 demoacnuc     on
+                                                                 info
+1 ACNUC database example. (September 2007) Last Updated: Oct 15, 2007
+\end{Soutput}
+\end{Schunk}
+
+You can now query the database.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ACNUC sockets server binaries distributions. ( zap)}
+\section{ACNUC sockets server binaries distributions. (under development)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Binaries are available for several machines: 
@@ -153,16 +222,10 @@ Bla.. blah blah
 
 
 
-\section{Setting the ACNUC sockets server for ACNUC databases.}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Once the socket server is installed as well as an ACNUC database, the server
-should be set :
-
-\subsection{Using seqinR to query your local socket server.}
-
-\section{Building your own  ACNUC database.}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Building your own  ACNUC database. (under development)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 One of the interest of a local server is to be able use your own ACNUC
 database.
 
@@ -190,22 +253,19 @@ Other tools for acnuc
 
 Several powerful tools dedicated to query ACNUC databases are available. 
 
-The programs query and query\_win allow to query an ACNUC database according to the same
+The programs \textbf{query} and \textbf{query\_win} allow to query an ACNUC database according to the same
 criteria than described  in seqinR. It allows as well several functionality to extact biological data.
-
-
-query\_win is a graphical version of query.
-
+\textbf{query\_win} is a graphical version of query.
 \textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
-
 Both \textbf{query} and  \textbf{query\_win} are available as a
-\textit{client} or a \textit{local} application. More information on these progralms can be found at:
+\textit{client} or a \textit{local} application. More information on these programs can be found at:
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/software/query_win.html
 \end{verbatim}. 
 
 
-BlaBlahBla.
+
+
 \section{Citation} 
 %%%%%%%%%%%%%
 
