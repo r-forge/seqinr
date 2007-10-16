@@ -104,7 +104,7 @@ Let RACNUCD\_HOME be the base directory for the socket
 \item Copy the  racnucd.tar file   into \$RACNUCD\_HOME.
 \item Untar the  racnucd.tar  file 
 \end{itemize}
-Now you sould get the following directorie:
+Now you sould get the following directory:
 \begin{verbatim}
 \$RACNUCD\_HOME/racnucd
 \end{verbatim}
@@ -115,8 +115,20 @@ make
 This should create the \textit{racnucd} executable.
 
 \subsection{Setting the ACNUC sockets server.}
-The server is configured by several parameters described in a \textbf{configuration file} "racnuc.ini".
+The server is configured by several parameters described in a configuration file \textbf{racnuc.ini}.
+This file is structued as follows:
 
+\begin{verbatim}
+port=5558
+maxtime=8000
+known_db_file=knowndbs
+db_env_names=dbplaces
+\end{verbatim}
+
+\begin{itemize}
+\item knowndbs is a file containing the list of available databases
+\item dbplaces is a file containing the path of the available databases
+\end{itemize}
 
 
 
