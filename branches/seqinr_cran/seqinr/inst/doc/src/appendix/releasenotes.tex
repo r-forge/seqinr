@@ -41,6 +41,65 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-3}
+
+\begin{itemize}
+
+\item The details of the socket connection are no more stored in
+  the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
+  this slot is now deleted. As a consequence, the argument
+  \texttt{socket} in function \texttt{as.SeqAcnucWeb()} has been
+  removed and there is now a new
+  argument \texttt{socket = "auto"} in functions \texttt{getAnnot()},
+  \texttt{getFrag()}, \texttt{geyKeyword()}, \texttt{getLocation()},
+  and \texttt{getSequence()}. The default value \texttt{"auto"} means
+  that the details of the socket connection are taken automatically
+  when necessary from the last opened bank. The size of local lists
+  of sequences is reduced by about a third now as compared to the
+  previous version.
+
+\item New function \texttt{print.seqAcnucWeb()} to print objects from
+  class \texttt{seqAcnucWeb}.
+
+\item Internal function \texttt{parser.socket()} has been optimized and
+  is about four times faster now. This decreases the time needed by the
+  \texttt{query()} function.
+
+\end{itemize}
+
+\subsection*{release 1.1-2}
+
+
+\begin{itemize}
+
+\item New function \texttt{trimSpace()} to remove leading and trailing
+  spaces in string vectors.
+
+\item Function \texttt{splitseq()} is no more based on \texttt{substring()},
+  it is now more efficient for long sequences.
+
+\item A sanity check test was added in the documentation file
+  for the function \texttt{syncodons()}.
+
+\item The way this manual is produced is now documented in the
+  \texttt{doc/src/template/} folder.
+
+\item A bug in function \texttt{oriloc()} was reported on 23 Jul 2007
+  by Michael Kube: using directly genBank files was no more possible.
+  The culprit was \texttt{gbk2g2()} that turns genBank files into
+  glimmer files version 2 when \texttt{oriloc()} default is to use
+  version 3 files. The \texttt{glimmer.version} argument is now forced
+  to 2 when working with genBank files to fix this problem.
+ 
+\item Function \texttt{zscore()} has now a new argument
+  \texttt{exact} (which is only effective for the option
+  \texttt{model = base}). This argument, when set to 
+  \texttt{TRUE} allows for the exact analytical computation 
+  of the zscore under this model, instead of the approximation for
+  large sequences. It is set to \texttt{FALSE} by
+  default for backward compatibility.
+\end{itemize}
+
 \subsection*{release 1.1-1}
 
 
@@ -379,13 +438,21 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
-    xtable~1.4-3
+  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+    xtable~1.5-1
+  \item Loaded via a namespace (and not attached): grid~2.6.0,
+    rcompgen~0.1-15, tools~2.6.0
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Sat Oct  6 16:01:58 2007
+  \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
 % END - DO NOT REMOVE THIS LINE

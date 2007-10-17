@@ -18,7 +18,7 @@
 \item The details of the socket connection are no more stored in
   the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
   this slot is now deleted. As a consequence, the argument
-  \texttt{socket} in function \texttt{as.seqAcnucWeb()} has been
+  \texttt{socket} in function \texttt{as.SeqAcnucWeb()} has been
   removed and there is now a new
   argument \texttt{socket = "auto"} in functions \texttt{getAnnot()},
   \texttt{getFrag()}, \texttt{geyKeyword()}, \texttt{getLocation()},
