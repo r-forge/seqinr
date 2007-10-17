@@ -58,7 +58,7 @@ common Linux distributions and for Mac OS X  (XXX to be done XXX ). If you wish
 to install the server from sources, or if you want to build an ACNUC database,
 you will need several tools: programs are written in C thus you will need a
 means of compiling C (as gcc compilation tools For Linux or Unix , Apple
-Developer Tools  for MacOSX ). You need as well library zlib and sockets
+Developer Tools  for MacOSX). You need as well library zlib and sockets
 (standards on linux and unix). Basically if you are installing \Rlogo{} from the
 sources, you should be able to build a ACNUC socket server.
 
@@ -66,34 +66,30 @@ sources, you should be able to build a ACNUC socket server.
 \section{Technical description of the racnucd daemon}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Technical information about the acnuc socket server is available at this url:
-\begin{verbatim}
-http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
-\end{verbatim}
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html}.
 
-\section{ACNUC remote access protocol.}
+
+\section{ACNUC remote access protocol}
 Description of the socket communication protocol with acnuc is availble at this url:
-\begin{verbatim}
-http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html
-\end{verbatim}
-
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Setting a local ACNUC database to be queried by the server}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 First of all yo need an ACNUC database, built by yourself or  downloaded from the PBIL ftp server.
-An ACNUC database is composed of 2 sets of files:
-\begin{itemize}
-	\item  the acnuc index files 
-	\item  the database files (i.e. flat files in EMBL/GenBank or SwissProt format)
-\end{itemize}
+An ACNUC database is composed of two sets of files:
+\begin{enumerate}
+	\item  the acnuc index files.
+	\item  the database files (\textit{i.e.} flat files in EMBL/GenBank or SwissProt format).
+\end{enumerate}
 
-These 2 sets will be located  in the \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+These two sets will be located  in the \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
 (Directories \textit{acnuc} and  \textit{gcgacnuc} may be identical however it is prefered to use two distict directories.)
+
 An example of an ACNUC database is available on the PBIL ftp server  at this url:
-\begin{verbatim}
-ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z
-\end{verbatim}. 
+\url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
+ 
 You may install the database as it follows:
 Let ACNUC\_HOME be the base directory for ACNUC intallation.
 
@@ -236,24 +232,10 @@ This should create the \textbf{racnucd} executable.
 \begin{Sinput}
  setwd("../RACNUCD_HOME/racnucd")
  system("make")
- dir()
+ dir(pattern = "racnucd")
 \end{Sinput}
 \begin{Soutput}
- [1] "bit.c"                "bit.o"                "dbplaces"            
- [4] "dir_acnuc.h"          "dir_io.c"             "dir_io.h"            
- [7] "dir_io.o"             "execute.c"            "execute.h"           
-[10] "execute.o"            "extract.c"            "extract.o"           
-[13] "knowndbs"             "lngbit.c"             "lngbit.o"            
-[16] "makefile"             "md5.c"                "md5.o"               
-[19] "misc_acnuc.c"         "misc_acnuc.o"         "ordre.h"             
-[22] "parser.c"             "parser.o"             "prep_acnuc_requete.c"
-[25] "prep_acnuc_requete.o" "pretty_seq.c"         "pretty_seq.o"        
-[28] "proc_requete.c"       "proc_requete.o"       "q.log"               
-[31] "racnucd"              "racnucd.ini"          "requete_acnuc.h"     
-[34] "serveur.c"            "serveur.h"            "serveur.o"           
-[37] "simext.h"             "use_acnuc.c"          "use_acnuc.o"         
-[40] "utilquery.c"          "utilquery.o"          "zsockw.c"            
-[43] "zsockw.o"            
+[1] "racnucd"     "racnucd.ini" "racnucd.log"
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -386,28 +368,22 @@ Start of remote acnuc server : Tue Oct 16 15:46:16 2007
 \begin{Schunk}
 \begin{Sinput}
  setwd("../RACNUCD_HOME/racnucd")
- system("./racnucd racnucd.ini&", intern = TRUE)
+ system("./racnucd racnucd.ini > racnucd.log &")
+ Sys.sleep(1)
+ system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] ""                                                       
-[2] ""                                                       
-[3] ""                                                       
-[4] "*******************************************************"
-[5] "Start of remote acnuc server : Wed Oct 17 09:33:20 2007"
-[6] ""                                                       
+[1] "10482  p1  S+     0:00.01 ./racnucd racnucd.ini"  
+[2] "10486  p1  S+     0:00.03 ./racnucd racnucd.ini"  
+[3] "10501  p1  S+     0:00.01 sh -c ps | grep racnucd"
+[4] "10503  p1  R+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
- system("ps", intern = TRUE)
+ cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-[1] "  PID  TT  STAT      TIME COMMAND"                                              
-[2] "29493  p1  S+     0:00.37 -bash"                                                
-[3] "29596  p1  S      0:09.14 pdflatex tdr63.tex"                                   
-[4] " 3406  p2  S      0:00.13 -bash"                                                
-[5] " 9621  p2  S+     0:12.89 /Library/Frameworks/R.framework/Resources/bin/exec/i3"
-[6] " 9980  p2  S+     0:00.01 ./racnucd racnucd.ini"                                
-[7] "10039  p2  S+     0:00.03 ./racnucd racnucd.ini"                                
-[8] " 9647  p3  S+     0:00.04 -bash"                                                
+*******************************************************
+Start of remote acnuc server : Wed Oct 17 20:39:34 2007
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -582,7 +558,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Oct 17 09:33:20 2007
+  \item \Rlogo{} compilation time was: Wed Oct 17 20:39:35 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
