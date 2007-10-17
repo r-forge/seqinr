@@ -275,7 +275,7 @@ Start of remote acnuc server : Tue Oct 16 15:46:16 2007
 
 <<startserver,fig=F,eval=T>>=
 setwd("../RACNUCD_HOME/racnucd")
-system("./racnucd racnucd.ini&", intern = TRUE)
+system("./racnucd racnucd.ini&", intern = FALSE)
 system("ps", intern = TRUE)
 setwd(pwd)
 @ 
@@ -296,6 +296,7 @@ for example:
 \begin{Sinput}
 choosebank(host="semle.univ-lyon1.fr",info=T)
 \end{Sinput}
+\end{Schunk}
 
 <<trylocalserver,fig=F,eval=T>>=
 library(seqinr)
@@ -305,7 +306,7 @@ choosebank(host = hostname, info = TRUE)
 @ 
 
 You should obtain something like:
-
+\begin{Schunk}
 \begin{Soutput}
        bank status
 1 demoacnuc     on
