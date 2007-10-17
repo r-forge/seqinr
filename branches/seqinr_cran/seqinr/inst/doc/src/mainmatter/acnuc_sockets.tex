@@ -4,8 +4,38 @@
 \title{Installation of a local ACNUC socket server on your machine (under development)}
 \author{Penel, S.}
 
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
-\SweaveInput{../config/commonrnw.rnw}
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% Rlogo
+%
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
+%
+% Shortcut for seqinR:
+%
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+\fvset{fontsize= \scriptsize}
+%
+% R output options and libraries to be loaded.
+%
+%
+%  Sweave Options
+%
+% Put all figures in the fig folder and start the name with current file name.
+% Do not produce EPS files
+%
+
+
 \maketitle
 \tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
@@ -67,35 +97,43 @@ ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z
 You may install the database as it follows:
 Let ACNUC\_HOME be the base directory for ACNUC intallation.
 
-<<makeACNUCHOME,fig=F,eval=T>>=
-dir.create("../ACNUC_HOME", showWarning = FALSE)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("../ACNUC_HOME", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
 
 \begin{itemize}
 \item Dowload the ACNUC database.
 
 % Mettre eval=F apres premier download
-<<dowloadacnucdemo,fig=F,eval=T>>=
-download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z",
-destfile = "acnucdatabase.tar.Z")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z", 
+     destfile = "acnucdatabase.tar.Z")
+\end{Sinput}
+\end{Schunk}
 
 \item Copy the  acnucdatabase.tar.Z file  into ACNUC\_HOME.
 
-<<moveacnuc,fig=F,eval=T>>=
-system("cp acnucdatabase.tar.Z ../ACNUC_HOME")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ system("cp acnucdatabase.tar.Z ../ACNUC_HOME")
+\end{Sinput}
+\end{Schunk}
 
 \item Uncompress and untar the \texttt{acnucdatabase.tar.Z} file 
 
-<<decompressacnuc,fig=F,eval=T>>=
-pwd <- getwd()
-setwd("../ACNUC_HOME")
-system("gunzip -f acnucdatabase.tar.Z")
-system("tar -xvf acnucdatabase.tar")
-system("rm -f acnucdatabase.tar")
-setwd(pwd)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ pwd <- getwd()
+ setwd("../ACNUC_HOME")
+ system("gunzip -f acnucdatabase.tar.Z")
+ system("tar -xvf acnucdatabase.tar")
+ system("rm -f acnucdatabase.tar")
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
 
 \end{itemize}
 Now you sould get the following directories:
@@ -104,9 +142,14 @@ ACNUC_HOME/acnucdatabase/index
 ACNUC_HOME/acnucdatabase/flat_files
 \end{verbatim}
 
-<<showacnuchomecontent,fig=F,eval=T>>=
-dir("../ACNUC_HOME")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ dir("../ACNUC_HOME")
+\end{Sinput}
+\begin{Soutput}
+[1] "flat_files" "index"     
+\end{Soutput}
+\end{Schunk}
 which are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
 
 This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
@@ -132,33 +175,41 @@ ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar
 You may install the racnucd server as it follows:
 let RACNUCD\_HOME be the base directory for the socket.
 
-<<makeRACNUCCDHOME,fig=F,eval=T>>=
-dir.create("../RACNUCD_HOME", showWarning = FALSE)
-@
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("../RACNUCD_HOME", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
 
 \begin{itemize}
 \item Dowload the \texttt{racnucd.tar} file.
 
 % Mettre eval=F apres premier download
-<<dowloadracnucd,fig=F,eval=T>>=
-download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar",
-destfile = "racnucd.tar")
-@
+\begin{Schunk}
+\begin{Sinput}
+ download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar", 
+     destfile = "racnucd.tar")
+\end{Sinput}
+\end{Schunk}
 
 \item Copy the \texttt{racnucd.tar} file into RACNUCD\_HOME.
 
-<<moveracnucd,fig=F,eval=T>>=
-system("cp racnucd.tar ../RACNUCD_HOME")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ system("cp racnucd.tar ../RACNUCD_HOME")
+\end{Sinput}
+\end{Schunk}
 
 \item Untar the \texttt{racnucd.tar} file 
 
-<<decompressacnuc,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME")
-system("tar -xvf racnucd.tar")
-system("rm -f racnucd.tar")
-setwd(pwd)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ setwd("../RACNUCD_HOME")
+ system("tar -xvf racnucd.tar")
+ system("rm -f racnucd.tar")
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
 
 \end{itemize}
 Now you sould get the following directory:
@@ -166,9 +217,14 @@ Now you sould get the following directory:
 RACNUCD_HOME/racnucd
 \end{verbatim}
 
-<<checkracnucd,fig=F,eval=T>>=
-dir("../RACNUCD_HOME")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ dir("../RACNUCD_HOME")
+\end{Sinput}
+\begin{Soutput}
+[1] "racnucd"
+\end{Soutput}
+\end{Schunk}
 
 Go into RACNUCD\_HOME/racnucd/ and type;
 \begin{verbatim}
@@ -176,12 +232,33 @@ make
 \end{verbatim}
 This should create the \textbf{racnucd} executable.
 
-<<makeracuc,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME/racnucd")
-system("make")
-dir()
-setwd(pwd)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ setwd("../RACNUCD_HOME/racnucd")
+ system("make")
+ dir()
+\end{Sinput}
+\begin{Soutput}
+ [1] "bit.c"                "bit.o"                "dbplaces"            
+ [4] "dir_acnuc.h"          "dir_io.c"             "dir_io.h"            
+ [7] "dir_io.o"             "execute.c"            "execute.h"           
+[10] "execute.o"            "extract.c"            "extract.o"           
+[13] "knowndbs"             "lngbit.c"             "lngbit.o"            
+[16] "makefile"             "md5.c"                "md5.o"               
+[19] "misc_acnuc.c"         "misc_acnuc.o"         "ordre.h"             
+[22] "parser.c"             "parser.o"             "prep_acnuc_requete.c"
+[25] "prep_acnuc_requete.o" "pretty_seq.c"         "pretty_seq.o"        
+[28] "proc_requete.c"       "proc_requete.o"       "q.log"               
+[31] "racnucd"              "racnucd.ini"          "requete_acnuc.h"     
+[34] "serveur.c"            "serveur.h"            "serveur.o"           
+[37] "simext.h"             "use_acnuc.c"          "use_acnuc.o"         
+[40] "utilquery.c"          "utilquery.o"          "zsockw.c"            
+[43] "zsockw.o"            
+\end{Soutput}
+\begin{Sinput}
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
 
 \subsection{Setting the ACNUC sockets server.}
 The server is configured by several parameters described in a configuration file \textbf{racnuc.ini}.
@@ -194,10 +271,18 @@ known_db_file=knowndbs
 db_env_names=dbplaces
 \end{verbatim}
 
-<<showmeracnunini,fig=F,eval=T>>=
-ini <- readLines("../RACNUCD_HOME/racnucd/racnucd.ini")
-cat(ini, sep = "\n")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ ini <- readLines("../RACNUCD_HOME/racnucd/racnucd.ini")
+ cat(ini, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+port=5558
+maxtime=8000
+known_db_file=knowndbs
+db_env_names=dbplaces
+\end{Soutput}
+\end{Schunk}
 
 \begin{itemize}
 \item \textbf{knowndbs} is a file containing the list of available databases
@@ -210,10 +295,16 @@ embl | on |    | EMBL sequence data library |
 swissprot   | on |  | UniProt |
 \end{verbatim}
 
-<<showmeknowdbs,fig=F,eval=T>>=
-knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
-cat(knowndbs, sep = "\n")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
+ cat(knowndbs, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+embl | on |    | EMBL sequence data library | 
+swissprot   | on |  | UniProt |
+\end{Soutput}
+\end{Schunk}
 
 Each line defines a database,  the four fields indicating respectively the name
  of the database, its status  (\textit{on} or \textit{off}), a tag and a short description.
@@ -224,10 +315,18 @@ setenv  swissprot       '/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mg
 setenv  embl    '/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
 \end{verbatim}
 
-<<showmedbplaces,fig=F,eval=T>>=
-dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
-cat(dbplaces, sep = "\n")
-@
+\begin{Schunk}
+\begin{Sinput}
+ dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
+ cat(dbplaces, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+#defines location of acnuc databases index files and flat files
+
+setenv 	swissprot 	'/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mgouy/Documents/acnuc/petite/swissprot'
+setenv 	embl 	'/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
+\end{Soutput}
+\end{Schunk}
 
 Each line set the acnuc and gcgacnuc variables for each   database.
 
@@ -238,11 +337,16 @@ Modify  the \textbf{knowndbs} as follows:
 demoacnuc | on |    | Demo Database | 
 \end{verbatim}
 
-<<modifyknowndbs,fig=F,eval=T>>=
-writeLines("demoacnuc | on |    | Demo Database | ", "../RACNUCD_HOME/racnucd/knowndbs")
-knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
-cat(knowndbs, sep = "\n")
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ writeLines("demoacnuc | on |    | Demo Database | ", "../RACNUCD_HOME/racnucd/knowndbs")
+ knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
+ cat(knowndbs, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+demoacnuc | on |    | Demo Database | 
+\end{Soutput}
+\end{Schunk}
 
 and modify  the \textbf{dbplaces} as follows:
 
@@ -250,14 +354,20 @@ and modify  the \textbf{dbplaces} as follows:
 setenv  demoacnuc       'ACNUC_HOME/acnucdatabase/index ACNUC_HOME/acnucdatabase/flat_files'
 \end{verbatim}
 
-<<modifydbplaces,fig=F,eval=T>>=
-indexpath <- normalizePath("../ACNUC_HOME/index")
-ffpath <- normalizePath("../ACNUC_HOME/flat_files")
-newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, "'", sep = "", collapse = "")
-writeLines(newdb, "../RACNUCD_HOME/racnucd/dbplaces")
-dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
-cat(dbplaces, sep = "\n")
-@
+\begin{Schunk}
+\begin{Sinput}
+ indexpath <- normalizePath("../ACNUC_HOME/index")
+ ffpath <- normalizePath("../ACNUC_HOME/flat_files")
+ newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, 
+     "'", sep = "", collapse = "")
+ writeLines(newdb, "../RACNUCD_HOME/racnucd/dbplaces")
+ dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
+ cat(dbplaces, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+setenv demoacnuc '/Users/lobry/seqinr/inst/doc/src/ACNUC_HOME/index /Users/lobry/seqinr/inst/doc/src/ACNUC_HOME/flat_files'
+\end{Soutput}
+\end{Schunk}
 
 Finaly, in the RACNUCD\_HOME/racnucd/ directory, type
 \begin{verbatim}
@@ -273,12 +383,36 @@ Start of remote acnuc server : Tue Oct 16 15:46:16 2007
 \end{verbatim}
 
 
-<<startserver,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME/racnucd")
-system("./racnucd racnucd.ini&", intern = TRUE)
-system("ps", intern = TRUE)
-setwd(pwd)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ setwd("../RACNUCD_HOME/racnucd")
+ system("./racnucd racnucd.ini&", intern = TRUE)
+\end{Sinput}
+\begin{Soutput}
+[1] ""                                                       
+[2] ""                                                       
+[3] ""                                                       
+[4] "*******************************************************"
+[5] "Start of remote acnuc server : Wed Oct 17 09:33:20 2007"
+[6] ""                                                       
+\end{Soutput}
+\begin{Sinput}
+ system("ps", intern = TRUE)
+\end{Sinput}
+\begin{Soutput}
+[1] "  PID  TT  STAT      TIME COMMAND"                                              
+[2] "29493  p1  S+     0:00.37 -bash"                                                
+[3] "29596  p1  S      0:09.14 pdflatex tdr63.tex"                                   
+[4] " 3406  p2  S      0:00.13 -bash"                                                
+[5] " 9621  p2  S+     0:12.89 /Library/Frameworks/R.framework/Resources/bin/exec/i3"
+[6] " 9980  p2  S+     0:00.01 ./racnucd racnucd.ini"                                
+[7] "10039  p2  S+     0:00.03 ./racnucd racnucd.ini"                                
+[8] " 9647  p3  S+     0:00.04 -bash"                                                
+\end{Soutput}
+\begin{Sinput}
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
 
 The server is now ready.
 
@@ -297,12 +431,25 @@ for example:
 choosebank(host="semle.univ-lyon1.fr",info=T)
 \end{Sinput}
 
-<<trylocalserver,fig=F,eval=T>>=
-library(seqinr)
-system("hostname", intern = TRUE) -> hostname
-hostname
-choosebank(host = hostname, info = TRUE)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ library(seqinr)
+ hostname <- system("hostname", intern = TRUE)
+ hostname
+\end{Sinput}
+\begin{Soutput}
+[1] "sueoka.local"
+\end{Soutput}
+\begin{Sinput}
+ choosebank(host = hostname, info = TRUE)
+\end{Sinput}
+\begin{Soutput}
+       bank status
+1 demoacnuc     on
+                                                                 info
+1 ACNUC database example. (September 2007) Last Updated: Oct 15, 2007
+\end{Soutput}
+\end{Schunk}
 
 You should obtain something like:
 
@@ -316,12 +463,31 @@ You should obtain something like:
 
 You can now query the database. For example:
 
-<<tryquery,fig=F,eval=T>>=
-choosebank(bank = "demoacnuc", host = hostname)
-query("mylist", "k=rib@ prot@")
-mylist$nelem
-sapply(mylist$req, getName)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+ choosebank(bank = "demoacnuc", host = hostname)
+ query("mylist", "k=rib@ prot@")
+ mylist$nelem
+\end{Sinput}
+\begin{Soutput}
+[1] 39
+\end{Soutput}
+\begin{Sinput}
+ sapply(mylist$req, getName)
+\end{Sinput}
+\begin{Soutput}
+ [1] "AP009048.PE25"   "AP009048.PE405"  "AP009048.PE830"  "AP009048.PE3223"
+ [5] "AP009048.PE3465" "AP009048.PE3466" "AP009048.PE3516" "U00091.PE38"    
+ [9] "U00093.PE119"    "U00093.PE123"    "U00094.PE65"     "U00094.PE87"    
+[13] "U00094.PE262"    "U00094.PE393"    "U00094.PE400"    "X59720.PE36"    
+[17] "Y13134.PE91"     "Y13134.PE272"    "Y13135.PE271"    "Y13137.PE286"   
+[21] "Y13138.PE70"     "Y13138.PE198"    "Y13138.PE280"    "Y13139.PE53"    
+[25] "Y13139.PE110"    "Y13139.PE316"    "Y13140.PE89"     "Z47047.PE177"   
+[29] "Z47047.PE180"    "Z71256.PE178"    "Z71256.PE289"    "Z71256.PE313"   
+[33] "Z71256.PE317"    "Z71256.PE534"    "Z71256.PE637"    "Z71256.PE694"   
+[37] "Z71257.PE43"     "Z71257.PE75"     "Z71257.PE263"   
+\end{Soutput}
+\end{Schunk}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ACNUC sockets server binaries distributions. (under development)}
@@ -397,7 +563,28 @@ Gouy M, Gautier C, Attimonelli M, Lanave C, di Paola G. (1985)
  logical and physical designs and usage.. CABIOS, 1, 167-172. 
 
 
-\SweaveInput{../config/sessionInfo.rnw}
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item Locale: \verb|C|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+    xtable~1.5-1
+  \item Loaded via a namespace (and not attached): grid~2.6.0,
+    rcompgen~0.1-15
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Wed Oct 17 09:33:20 2007
+  \item \LaTeX{} compilation time was: \today
+\end{itemize}
 
 % END - DO NOT REMOVE THIS LINE
 
