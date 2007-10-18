@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New function \texttt{prettyseq()} to get a text representation 
+  of a sequence from an ACNUC server.
+
 \item New function \texttt{gfrag()} to extract sequence identified by 
   name or by number from an ACNUC server.
 
