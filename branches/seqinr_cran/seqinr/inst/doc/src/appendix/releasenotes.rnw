@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New function \texttt{gfrag()} to extract sequence identified by 
+  name or by number from an ACNUC server.
+
 \item The details of the socket connection are no more stored in
   the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
   this slot is now deleted. As a consequence, the argument
