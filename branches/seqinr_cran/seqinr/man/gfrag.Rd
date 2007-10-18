@@ -34,4 +34,4 @@ case of problem (non existent sequence for instance).
   gfrag("LMFLCHR36", 1, 3529852) -> myseq	
   }
 }
-\keyword{ hplot }
+\keyword{ utilities }
