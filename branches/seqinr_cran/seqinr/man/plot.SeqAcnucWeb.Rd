@@ -29,7 +29,7 @@
   ### Need internet connection
   choosebank("hovernucl")
   query("list", "AC=AB000425")	
-  plot.SeqAcnucWeb(list$req[[1]])
+  plot(list$req[[1]])
   }
 }
 \keyword{ hplot }
