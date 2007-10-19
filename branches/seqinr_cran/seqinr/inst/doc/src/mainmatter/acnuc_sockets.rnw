@@ -271,7 +271,6 @@ Start of remote acnuc server : Tue Oct 16 15:46:16 2007
 
 <<startserver,fig=F,eval=T>>=
 setwd("../RACNUCD_HOME/racnucd")
-<<<<<<< acnuc_sockets.rnw
 system("./racnucd racnucd.ini > racnucd.log &")
 Sys.sleep(1)
 system("ps | grep racnucd", intern = TRUE)
