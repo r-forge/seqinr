@@ -323,27 +323,6 @@ mylist$nelem
 sapply(mylist$req, getName)
 @ 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ACNUC sockets server binaries distributions. (under development)}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Binaries are available for several machines: 
-
-\begin{itemize}
-	\item  Unix sunOS
-	\item  Linux RedHat
-	\item Darwin Mac OS
-\end{itemize}
-
-You can download the different distribution at this address: 
-(XXX to be done XXX ).
-
-Then you can install the socket server :
-
-Bla.. blah blah
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building your own  ACNUC database. (under development)}
@@ -351,7 +330,7 @@ Bla.. blah blah
 One of the interest of a local server is to be able use your own ACNUC
 database.
 
- \subsection{System requirements.}
+\subsection{System requirements.}
  
 ACNUC runs on UNIX systems, Windows NT/95/98/00/XP, MacOS 9/X. Tested UNIX
 systems include SUN, Linux on PC, IBM RS/6000, Silicon Graphics, DEC Alpha,
