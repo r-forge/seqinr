@@ -15,6 +15,10 @@
 
 \begin{itemize}
 
+\item New function \texttt{isenum()} and its shortcut \texttt{isn()}
+  to get the ACNUC number of a sequence from its name or accession
+  number.
+
 \item New function \texttt{prettyseq()} to get a text representation 
   of a sequence from an ACNUC server.
 
