@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New low level utility function \texttt{autosocket()} to get the
+  socket connection to the last opened ACNUC database.
+
 \item New function \texttt{countsubseqs()} to get the number of 
   subsequences in an ACNUC list.
 
