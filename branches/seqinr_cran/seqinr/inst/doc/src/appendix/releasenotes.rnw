@@ -15,6 +15,10 @@
 
 \begin{itemize}
 
+\item New function \texttt{modifylist()} to modify a previously existing 
+  ACNUC list by selecting sequences either by length, either by date, 
+  either for the presence of a given string in annotations.
+
 \item New low level function \texttt{getlistate()} to Ask for 
   information about an ACNUC list.
 
