@@ -91,55 +91,19 @@ choosebank <- function(bank = NA,
   } else {
     stop("I don't know what this error code means for clientid, please contact package maintener.\n")
   }
-  ###############################################################################
-  #
-  # Try to get the list of available banks from server:
-  #
-  ###############################################################################
-
-  if(verbose) cat("I'm sending a knowndbs request to server...\n")
-  if( !is.na(tagbank) ){
-    askforbank <- paste("knowndbs&tag=", tagbank, sep = "")
-    if(verbose) cat("... and the tagbank value wasn't empty.\n")
-  } else {
-    askforbank <- "knowndbs"
-    if(verbose) cat("... and the tagbank value was empty.\n")
-  }
-  writeLines(askforbank, socket, sep = "\n")
-  rep <- readLines(socket, n = 1)
-  nbank <- as.numeric(parser.socket(rep))
-  if(verbose) cat(paste("... there are", nbank, "banks available from server.\n"))
-  
-  #
-  # Read bank infos from server:
-  #
-  res <- readLines(socket, n = nbank)
-  if(verbose) cat(paste(res, "\n"))
-  
-  resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
-                  status = I(rep("NAstatus", nbank)), 
-                  info = I(rep("NAinfo", nbank))))
-  for(i in seq_len(nbank))
-    resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
-  for(i in seq_len(nbank))
-    for(j in seq_len(3))
-      resdf[i, j] <- trimSpace(resdf[i, j])   
            
   ###############################################################################
   #
   # If no bank name is given, return the list of available banks from server:
   #
   ###############################################################################
+  resdf <- kdb(tag = tagbank, socket = socket)
+  nbank <- nrow(resdf)
   if( is.na(bank) ){  
-  
-    if(verbose) cat("No  bank was given...\n")
-   
-    #
-    # Return just bank names or all info depending on infobank parameter value:
-    #
+    if(verbose) cat("No bank argument was given...\n")
     if( !infobank ){
       if(verbose) cat("infobank parameter is FALSE, I'm just returning bank names\n")
-      return(as.vector(resdf$bank))
+      return(resdf$bank)
     } else {
       if(verbose) cat("infobank parameter is TRUE, I'm returning all bank infos\n")
       return(resdf) 
@@ -174,29 +138,15 @@ choosebank <- function(bank = NA,
       # Try to get informations from HELP file: 
       #
       if(verbose) cat("I'm trying to get information on the bank...\n")
-      request <- "ghelp&file=HELP&item=CONT"
-      writeLines( request, socket, sep = "\n")
-      rep2 <- readLines(socket, n = 1)
-      if(verbose) cat(paste("... and answer from server is: ", rep2, ".\n"))   
-      res2 <- parser.socket(rep2)
-      nblhelp <- res2[1]
-      if(verbose) cat("Number of lines=", nblhelp,".\n")
-      if (as.numeric(nblhelp) > 2){
-        bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
-        for(i in seq_len(length(bankhelp))) bankhelp[i] <- trimSpace(bankhelp[i])
-        bankrel <- bankhelp[1]
-      } else {
-        bankhelp <- "there is no information available about the contents of this bank"
-        bankrel <-  "there is no information available about the contents of this bank"
-        #cat("Note: there is no information available about the contents of this bank.\n")
-      }
+      bankhelp <- ghelp(item = "CONT", file = "HELP")
+      bankrel <- bankhelp[1]
       
       #
       # Try to get status info:
       #
       status <- "unknown"
       for(i in seq_len(nbank)){
-          if (resdf[i,1] == bank) status<-resdf[i,2]
+          if (resdf[i,1] == bank) status <- resdf[i,2]
       }
 
       #
