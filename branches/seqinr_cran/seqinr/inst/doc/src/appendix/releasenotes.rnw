@@ -15,6 +15,10 @@
 
 \begin{itemize}
 
+\item New function \texttt{residuecount()} to count the total number 
+  of residues (nucleotides or aminoacids) in all sequences of an ACNUC
+  list of specified rank.
+
 \item New function \texttt{isenum()} and its shortcut \texttt{isn()}
   to get the ACNUC number of a sequence from its name or accession
   number.
