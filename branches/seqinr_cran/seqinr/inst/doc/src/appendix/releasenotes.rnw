@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New low level function \texttt{setlistname()} to set the name of 
+  a list from an ACNUC server.
+
 \item New function \texttt{residuecount()} to count the total number 
   of residues (nucleotides or aminoacids) in all sequences of an ACNUC
   list of specified rank.
