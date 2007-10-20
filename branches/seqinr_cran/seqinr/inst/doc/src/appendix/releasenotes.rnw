@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New function \texttt{savelist()} to save sequence names or 
+  accession numbers from an ACNUC list into a local file.
+
 \item New function \texttt{ghelp()} to get help from an ACNUC server.
 
 \item New function \texttt{modifylist()} to modify a previously existing 
