@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New function \texttt{countsubseqs()} to get the number of 
+  subsequences in an ACNUC list.
+
 \item New function \texttt{savelist()} to save sequence names or 
   accession numbers from an ACNUC list into a local file.
 
