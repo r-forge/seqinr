@@ -110,17 +110,11 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
     req <- NA
   }
   #
-  # Return results:
+  # Assign results in user workspace:
   #
   result <- list(call = match.call(), name = listname, nelem = nelem, typelist = typelist, 
     req = req, socket = socket)
   class(result) <- c("qaw")
   assign(listname, result, env = .GlobalEnv)
-  
-  if(invisible == TRUE){
-    invisible(result)
-  } else {
-    return(result)
-  }
 }
 
