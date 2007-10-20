@@ -15,6 +15,8 @@
 
 \begin{itemize}
 
+\item New function \texttt{ghelp()} to get help from an ACNUC server.
+
 \item New function \texttt{modifylist()} to modify a previously existing 
   ACNUC list by selecting sequences either by length, either by date, 
   either for the presence of a given string in annotations.
