@@ -1,7 +1,7 @@
 \name{crelistfromclientdata}
 \alias{crelistfromclientdata}
 \alias{clfcd}
-\title{To create on server a bitlist from data lines sent by client}
+\title{To create on server an ACNUC list from data lines sent by client}
 \description{
 This function is usefull if you have a local file with sequence names
 (sequence ID), or sequence accession numbers, or species names, or
@@ -26,19 +26,21 @@ clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
     \code{NA}.}
 }
 \details{
-
+\code{clfcd} is a shortcut for \code{crelistfromclientdata}.
 }
 
 \value{
-  A list with the following components:
-  \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
-  \item{call}{original call}
-  \item{name}{list name}
-  \item{nelem}{number of elements in the list on the server}
-  \item{typelist}{the type of the elemnts of the list. Could be SQ for a list of
+The result is directly assigned to the object \code{listname} in the user workspace.
+This is an objet of class \code{qaw}, a list with the following 6 components:
+
+  \item{call}{the original call}
+  \item{name}{the ACNUC list name}
+  \item{nelem}{the number of elements (for instance sequences) in the ACNUC list}
+  \item{typelist}{the type of the elements of the list. Could be SQ for a list of
     sequence names, KW for a list of keywords, SP for a list of species names.}
   \item{req}{a list of sequence names that fit the required criteria or \code{NA} when
     called with parameter \code{virtual} is \code{TRUE}}
+  \item{socket}{the socket connection that was used}
 }
 \references{ 
 
@@ -47,7 +49,8 @@ clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
 \author{J.R. Lobry}
 \seealso{
   \code{\link{choosebank}}, 
-  \code{\link{query}}
+  \code{\link{query}}, \code{\link{savelist}} for the reverse operation with
+an ACNUC list of sequences.
 }
 
 \examples{
