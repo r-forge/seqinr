@@ -15,6 +15,9 @@
 
 \begin{itemize}
 
+\item New low level function \texttt{getlistate()} to Ask for 
+  information about an ACNUC list.
+
 \item New low level function \texttt{setlistname()} to set the name of 
   a list from an ACNUC server.
 
