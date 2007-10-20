@@ -10,7 +10,6 @@ readsmj(socket = "auto", num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE
 plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 }
 \arguments{
-\itemize{
   \item{socket}{An object of class \code{connection} returned by 
   \code{choosebank}. The default bank is used by when socket == "auto".}
   \item{num}{rank number of first record.}
@@ -24,7 +23,6 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   \item{sname.add}{to extract the short version of the name, that is without
                    the first two characters.}
   \item{all.add}{to extract all (all flags set to TRUE).}
-  }
 }
 
 \value{
