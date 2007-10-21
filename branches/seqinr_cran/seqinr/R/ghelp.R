@@ -5,7 +5,8 @@
 # Reply :	nl is 0 if any problem, or announces the number of help lines returned.
 
 ghelp <- function(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), 
-                  file = c("HELP", "HELP_WIN"), socket = autosocket()){
+                  file = c("HELP", "HELP_WIN"), socket = autosocket(),
+                  catresult = TRUE){
   #
   # Default is "HELP" file and "GENERAL":
   #
@@ -29,7 +30,7 @@ ghelp <- function(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"),
   # cat result:
   #
   answerFromServer[1] <- unlist(strsplit(answerFromServer[1], split = "&"))[2]
-  cat(answerFromServer, sep = "\n")
+  if(catresult) cat(answerFromServer, sep = "\n")
   invisible(answerFromServer)
 }
 

@@ -8,7 +8,7 @@ confusing. However, the query language is common to all clients so that
 the most recent documentation is most likely here.
 }
 \usage{
-ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = autosocket())
+ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = autosocket(), catresult = TRUE)
 
 }
 \arguments{
@@ -16,10 +16,12 @@ ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HEL
   \item{file}{the name of the help file on server side.}
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
                         database (default is a socket to the last opened database).}
+  \item{catresult}{logical. If TRUE output is redirected to the console.}
 }
 
 \value{
-A vector of string which is returned invisibly and "cated" to the console.
+A vector of string which is returned invisibly and "cated" to the console
+by default.
 }
 \references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
 
