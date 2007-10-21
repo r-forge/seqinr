@@ -30,21 +30,17 @@ glr(listname, socket = autosocket(), verbose = FALSE)
 }
 \author{J.R. Lobry}
 \seealso{
-  \code{\link{choosebank}}, 
-  \code{\link{query}}
+  \code{\link{choosebank}}, \code{\link{query}}
 }
 
 \examples{
  \dontrun{
  # Need internet connection
- choosebank("genbank")
- query("MyListName", "sp=Borrelia burgdorferi", virtual=T)
- glr("MyListName")
- #
- # Should be:
- #
- # [1] 2
- #
+ choosebank("emblTP")
+ query("MyListName", "sp=Borrelia burgdorferi", virtual = TRUE)
+ (result <- getlistrank("MyListName"))
+ stopifnot(result == 2)
+ closebank()
  }
 }
 \keyword{utilities}

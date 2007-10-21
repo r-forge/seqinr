@@ -73,13 +73,13 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
   \code{\link{getlistrank}}
 }
 \examples{
- \dontrun{
- # Need internet connection
- choosebank("swissprot")
- query("MyListName", "k=globin", virtual = T)
- MyList.fasta <- exseq("MyListName", verbose=T)
- #
- 
+ \dontrun{# Need internet connection
+ choosebank("swissprotTP")
+ query("mylist", "k=globin", virtual = TRUE)
+ mylist.fasta <- exseq("mylist", verbose = TRUE)
+ # 103 lines of FASTA 
+ stopifnot(length(mylist.fasta) == 103)
+ closebank()
  }
 }
 \keyword{utilities}
