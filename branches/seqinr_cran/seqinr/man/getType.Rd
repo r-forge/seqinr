@@ -25,6 +25,6 @@ getType(socket = autosocket())
 \dontrun{
 # Need internet connection
   choosebank("emblTP")
-  geType()}
+  getType()}
 }
 \keyword{utilities}
