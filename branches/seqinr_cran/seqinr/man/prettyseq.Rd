@@ -7,14 +7,14 @@ with \code{bpl} bases per line (default = 60), and with optional translation of
 protein-coding subsequences 
 }
 \usage{
-prettyseq(num, bpl = 60, translate = TRUE, socket = "auto")
+prettyseq(num, bpl = 60, translate = TRUE, socket = autosocket())
 }
 \arguments{
   \item{num}{rank of the sequence in the ACNUC database}
   \item{bpl}{number of base per line}
   \item{translate}{should coding sequences be translated?}
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 \value{
 An invisible vector of string. The output is redirected to the console.

@@ -4,19 +4,13 @@
 #
 ################################################################################
 
-plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = "auto", ...){
+plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = autosocket(), ...){
   verbose <- FALSE # a passer en argument si besoin est
   #
   # Check arguments:
   #
   if(!inherits(x, "SeqAcnucWeb")) stop("Sequence of class SeqAcnucWeb is needed")
 
-  #
-  # Use default bank if no socket is given:
-  #
-  if(socket == "auto"){
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-  }
   #
   # Save graphical parameters:
   #

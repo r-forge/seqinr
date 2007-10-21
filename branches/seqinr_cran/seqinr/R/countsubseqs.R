@@ -3,15 +3,11 @@
 # Returns the number of subsequences in list of rank lrank.
 # Code != 0 indicates error.
 
-countsubseqs <- function(lrank, socket = "auto"){
+countsubseqs <- function(lrank, socket = autosocket()){
   #
   # Check argument:
   #
   if(!is.finite(lrank)) stop("wrong lrank argument")
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
   #
   # Build request:
   #

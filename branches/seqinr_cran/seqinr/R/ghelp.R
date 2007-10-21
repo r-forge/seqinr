@@ -4,17 +4,14 @@
 # File can be HELP or HELP_WIN, item is the name of the desired help item
 # Reply :	nl is 0 if any problem, or announces the number of help lines returned.
 
-ghelp <- function(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = "auto"){
+ghelp <- function(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), 
+                  file = c("HELP", "HELP_WIN"), socket = autosocket()){
   #
   # Default is "HELP" file and "GENERAL":
   #
   item <- item[1]
   file <- file[1]
   if(!(file %in% c("HELP", "HELP_WIN"))) stop("Wrong file agument")
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
   #
   # Build request:
   #

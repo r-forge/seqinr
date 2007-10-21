@@ -10,7 +10,7 @@
 
 savelist <- function(lrank, type = c("N", "A"),
                      filename = paste(gln(lrank), ifelse(type == "N", "mne", "acc"), sep = "."),
-                     socket = "auto", warnme = TRUE){
+                     socket = autosocket(), warnme = TRUE){
   #
   # Check argument:
   #
@@ -21,10 +21,6 @@ savelist <- function(lrank, type = c("N", "A"),
   #
   type <- type[1]
   if( !(type %in% c("N", "A"))) stop("wrong type argument")
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
   #
   # Build request:
   #

@@ -6,13 +6,13 @@
 Returns the number of subsequences in the ACNUC list of rank \code{lrank}. 
 }
 \usage{
-countsubseqs(lrank, socket = "auto")
-css(lrank, socket = "auto")
+countsubseqs(lrank, socket = autosocket())
+css(lrank, socket = autosocket())
 }
 \arguments{
   \item{lrank}{the rank of the ACNUC list to consider.}
-  \item{socket}{an object of class \code{connection} returned by 
-      \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 
 \value{

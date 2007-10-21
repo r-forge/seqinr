@@ -5,11 +5,7 @@
 # Code != 0 indicates error.
 
 
-residuecount <- function(lrank, socket = "auto"){
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+residuecount <- function(lrank, socket = autosocket()){
   #
   # Build request:
   #

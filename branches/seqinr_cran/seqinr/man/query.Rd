@@ -6,13 +6,13 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
+query(listname, query, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request with the syntax given in the details section}
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{invisible}{if \code{FALSE}, the result is returned visibly.}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about

@@ -5,16 +5,12 @@
 # Reply gives the length read (may be shorter than asked for) and then the characters; 
 # length can be 0 if any error.
 
-gfrag <- function(what, start, length, idby = c("name", "number"), socket = "auto"){
+gfrag <- function(what, start, length, idby = c("name", "number"), socket = autosocket()){
   #
   # Default is by name:
   #
   idby <- idby[1]
   if(!(idby %in% c("name", "number"))) stop("Wrong idby agument")
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
   #
   # Build request:
   #

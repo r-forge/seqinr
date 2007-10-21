@@ -7,11 +7,11 @@ index file}
  returned.
 }
 \usage{
-readfirstrec(socket = "auto", type)
+readfirstrec(socket = autosocket(), type)
 }
 \arguments{
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used by when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{type}{the ACNUC index file}
 }
 \details{

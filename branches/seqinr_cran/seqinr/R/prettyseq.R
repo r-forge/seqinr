@@ -8,11 +8,7 @@
 #with bpl bases per line (default = 60), and with optional translation of 
 #protein-coding subsequences.
 
-prettyseq <- function(num, bpl = 60, translate = TRUE, socket = "auto"){
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+prettyseq <- function(num, bpl = 60, translate = TRUE, socket = autosocket()){
   #
   # Build request:
   #

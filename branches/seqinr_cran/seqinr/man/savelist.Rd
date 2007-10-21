@@ -8,15 +8,15 @@ an ACNUC list and saves them into a file.
 \usage{
 savelist(lrank, type = c("N", "A"),
                      filename = paste(gln(lrank), ifelse(type == "N", "mne", "acc"), sep = "."),
-                     socket = "auto", warnme = TRUE)
+                     socket = autosocket(), warnme = TRUE)
 }
 \arguments{
   \item{lrank}{the rank of the ACNUC list to consider.}
   \item{type}{use "N" for sequence names (mnemonics) and "A" for accession numbers.
      Default is "N".}
   \item{filename}{a string of character giving the name of the file to save results.}
-  \item{socket}{an object of class \code{connection} returned by 
-      \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{warnme}{if TRUE a message is issued on the console when complete.}
 }
 

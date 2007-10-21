@@ -14,7 +14,7 @@ kdb(tag = c(NA, "TP", "TEST", "DEV"), socket = autosocket())
 \arguments{
   \item{tag}{default to NA, see details}
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
-     database (default is a socket to the last opened database).}
+                        database (default is a socket to the last opened database).}
 }
 
 \details{

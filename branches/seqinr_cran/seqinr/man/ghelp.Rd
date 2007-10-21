@@ -8,14 +8,14 @@ confusing. However, the query language is common to all clients so that
 the most recent documentation is most likely here.
 }
 \usage{
-ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = "auto")
+ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = autosocket())
 
 }
 \arguments{
   \item{item}{the name of the desired help item}
   \item{file}{the name of the help file on server side.}
-  \item{socket}{an object of class \code{connection} returned by 
-    \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 
 \value{
@@ -33,6 +33,8 @@ A vector of string which is returned invisibly and "cated" to the console.
   choosebank("emblTP")
   ghelp()
   ghelp("SELECT")
+  # To get info about current database:
+  ghelp("CONT")
   }
 }
 \keyword{ utilities }

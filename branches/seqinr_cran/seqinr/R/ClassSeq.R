@@ -20,7 +20,7 @@
 ###################################################################################################
 
 
-getFrag <-  function(object, begin, end, socket = "auto") {
+getFrag <-  function(object, begin, end, socket = autosocket()) {
   if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag")))
   { 
     getFrag.default(object, begin, end) 
@@ -29,7 +29,7 @@ getFrag <-  function(object, begin, end, socket = "auto") {
     }
 }
 
-getSequence <- function(object, as.string = FALSE, socket = "auto"){
+getSequence <- function(object, as.string = FALSE, socket = autosocket()){
   if(! inherits(object, c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
   {
     getSequence.default(object, as.string = as.string)
@@ -56,7 +56,7 @@ getName <-  function(object) {
   }
 }
 
-getAnnot <- function(object, nbl = 10000, socket = "auto") {
+getAnnot <- function(object, nbl = 10000, socket = autosocket()) {
   if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
   {
     getAnnot.default(object, nbl = nbl)
@@ -64,7 +64,7 @@ getAnnot <- function(object, nbl = 10000, socket = "auto") {
   else UseMethod("getAnnot")
 }
 
-getLocation <- function(object, socket = "auto") {
+getLocation <- function(object, socket = autosocket()) {
   if(! inherits(object, c("SeqAcnucWeb"))) 
   {
     getLocation.default(object)
@@ -73,7 +73,7 @@ getLocation <- function(object, socket = "auto") {
   }
 }
 
-getKeyword <- function(object, socket = "auto") {
+getKeyword <- function(object, socket = autosocket()) {
   if(! inherits(object,c("SeqAcnucWeb"))) 
   {
     getKeyword.default(object)
@@ -99,7 +99,7 @@ getTrans <- function(object, frame = 0, sens = "F", numcode = 1, NAstring = "X",
 ###################################################################################################
 
 
-getSequence.default <- function(object, as.string = FALSE, socket = "auto"){
+getSequence.default <- function(object, as.string = FALSE, socket = autosocket()){
   if( as.string ){
     if( length(object) == 1) {
       return(object)
@@ -116,7 +116,7 @@ getSequence.default <- function(object, as.string = FALSE, socket = "auto"){
 }
 
 
-getFrag.default <- function(object, begin, end, socket = "auto"){ 
+getFrag.default <- function(object, begin, end, socket = autosocket()){ 
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
 # 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
@@ -137,15 +137,15 @@ getName.default <- function(object){
  	stop("no name")
 }
 
-getAnnot.default <- function(object, nbl, socket = "auto"){ 
+getAnnot.default <- function(object, nbl, socket = autosocket()){ 
  	stop("no annotation for this sequence")
 }
 
-getLocation.default <- function(object, socket = "auto"){
+getLocation.default <- function(object, socket = autosocket()){
  	stop("no information about the position")
 }
 
-getKeyword.default <- function(object, socket = "auto"){
+getKeyword.default <- function(object, socket = autosocket()){
  	stop("no keyword for this sequence")
 }
 
@@ -177,7 +177,7 @@ is.SeqFastadna <- function(object){
 	inherits(object,"SeqFastadna")
 }
 
-getSequence.SeqFastadna <- function(object, as.string = FALSE, socket = "auto"){
+getSequence.SeqFastadna <- function(object, as.string = FALSE, socket = autosocket()){
   if( ! as.string ){
     return(object)
   } else {
@@ -185,7 +185,7 @@ getSequence.SeqFastadna <- function(object, as.string = FALSE, socket = "auto"){
   }
 }
 
-getFrag.SeqFastadna <- function(object, begin, end, socket = "auto"){
+getFrag.SeqFastadna <- function(object, begin, end, socket = autosocket()){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
 	newSeq = as.SeqFrag(newSeq, begin, end, compl = TRUE, name = getName(object))
@@ -200,7 +200,7 @@ getName.SeqFastadna <- function(object){
 	return(attr(object,"name"))
 }
 
-getAnnot.SeqFastadna <- function(object, nbl, socket = "auto"){
+getAnnot.SeqFastadna <- function(object, nbl, socket = autosocket()){
 	return(attr(object,"Annot"))
 }
 
@@ -233,7 +233,7 @@ is.SeqFastaAA <- function(object){
 	inherits(object,"SeqFastaAA")
 }
 
-getSequence.SeqFastaAA <- function(object, as.string = FALSE, socket = "auto"){
+getSequence.SeqFastaAA <- function(object, as.string = FALSE, socket = autosocket()){
   if( ! as.string ){
     return(object)
   } else {
@@ -242,7 +242,7 @@ getSequence.SeqFastaAA <- function(object, as.string = FALSE, socket = "auto"){
 }
 
 
-getFrag.SeqFastaAA <- function(object, begin, end, socket = "auto"){
+getFrag.SeqFastaAA <- function(object, begin, end, socket = autosocket()){
 	if(end > getLength(object)) stop("invalid end")	
 	newSeq = object[begin:end]
 	newSeq = as.SeqFrag(newSeq, begin, end, compl = TRUE, name = getName(object))
@@ -259,7 +259,7 @@ getName.SeqFastaAA <- function(object){
 	return(attr(object,"name"))
 }
 
-getAnnot.SeqFastaAA <- function(object, nbl, socket = "auto"){
+getAnnot.SeqFastaAA <- function(object, nbl, socket = autosocket()){
 	return(attr(object,"Annot"))
 }
 
@@ -287,13 +287,11 @@ is.SeqAcnucWeb <- function(object){
   inherits(object, "SeqAcnucWeb")
 }
 
-getSequence.SeqAcnucWeb <- function(object, as.string = FALSE, socket = "auto"){
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getSequence.SeqAcnucWeb <- function(object, as.string = FALSE, socket = autosocket()){
   getSequenceSocket(socket, object, start = 1, length = attr(object, "length"), as.string = as.string)
 }
 
-getFrag.SeqAcnucWeb <- function(object, begin, end, socket = "auto"){
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getFrag.SeqAcnucWeb <- function(object, begin, end, socket = autosocket()){
   b <- getLength(object)
   if((end > b) || (begin > b)) stop("born out of limits")  
   bb <- end - begin + 1
@@ -310,18 +308,15 @@ getLength.SeqAcnucWeb <- function(object){
   return(attr(object, "length"))
 }
 
-getAnnot.SeqAcnucWeb <- function(object, nbl = 10000, socket = "auto"){		
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getAnnot.SeqAcnucWeb <- function(object, nbl = 10000, socket = autosocket()){		
   return(readAnnots.socket(socket, name = object, nl = nbl)) 
 }
 
-getKeyword.SeqAcnucWeb <- function(object, socket = "auto"){	
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getKeyword.SeqAcnucWeb <- function(object, socket = autosocket()){	
   return(unlist(getKeywordsocket(socket, name = object)))
 }
 
-getLocation.SeqAcnucWeb <- function(object, socket = "auto"){
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getLocation.SeqAcnucWeb <- function(object, socket = autosocket()){
   return(unlist(getLocationSocket(socket, name = object)))
 }
 
@@ -373,7 +368,7 @@ is.SeqFrag <- function(object){
 	inherits(object,"SeqFrag")
 }
 
-getSequence.SeqFrag <- function(object, as.string = FALSE, socket = "auto"){
+getSequence.SeqFrag <- function(object, as.string = FALSE, socket = autosocket()){
   if( ! as.string ){
     return(object)
   } else {
@@ -381,7 +376,7 @@ getSequence.SeqFrag <- function(object, as.string = FALSE, socket = "auto"){
   }
 }
 
-getFrag.SeqFrag <- function(object, begin, end, socket = "auto"){
+getFrag.SeqFrag <- function(object, begin, end, socket = autosocket()){
         if((end<begin) || (end>getLength(object)))  stop("invalid end")
         newBegin = attr(object,"begin")+begin-1
         newEnd = attr(object,"begin")+end-1

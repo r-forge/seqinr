@@ -6,15 +6,15 @@ Get \code{length} characters from sequence identified by name or by number
 starting from position \code{start} (counted from 1). 
 }
 \usage{
-gfrag(what, start, length, idby = c("name", "number"), socket = "auto")
+gfrag(what, start, length, idby = c("name", "number"), socket = autosocket())
 }
 \arguments{
   \item{what}{A sequence name or number}
   \item{start}{Start position from 1}
   \item{length}{Number of requested characters (answer may be shorter)}
   \item{idby}{Is the sequence identified by name or number? Default to name}
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 \value{
 A string of characters with at most \code{length} characters (may be 

@@ -65,13 +65,13 @@
   \code{SeqFrag}.
 }
 \usage{
-getAnnot(object, nbl = 10000, socket = "auto")
-getFrag(object, begin, end, socket = "auto")
-getKeyword(object, socket = "auto")
+getAnnot(object, nbl = 10000, socket = autosocket())
+getFrag(object, begin, end, socket =  autosocket())
+getKeyword(object, socket =  autosocket())
 getLength(object)
-getLocation(object, socket = "auto")
+getLocation(object, socket =  autosocket())
 getName(object)
-getSequence(object, as.string = FALSE, socket = "auto")
+getSequence(object, as.string = FALSE, socket =  autosocket())
 getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
 }
 \arguments{
@@ -83,9 +83,8 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
      line of the sequence (SQ or ORIGIN line). }
   \item{begin}{ First base }
   \item{end}{ Last base }
-  \item{socket}{a socket of class connection and sockconn returned by 
-    \code{choosebank}. Default value (auto) means that the socket will be set
-      to the socket component of the banknameSocket variable.}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{as.string}{if TRUE sequences are returned as a string instead of a vector of chars.}
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for revers sense. }

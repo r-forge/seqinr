@@ -8,14 +8,13 @@ ranks in an opened database.
 }
 
 \usage{
-alllistranks(socket = "auto", verbose = FALSE)
-alr(socket = "auto", verbose = FALSE)
+alllistranks(socket = autosocket(), verbose = FALSE)
+alr(socket = autosocket(), verbose = FALSE)
 }
 
 \arguments{
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
-   Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
 }
 

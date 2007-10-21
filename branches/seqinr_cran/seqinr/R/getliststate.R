@@ -5,11 +5,7 @@
 # and, for sequence lists, says whether the list contains only parent seqs (locus=T).
 # Reply gives code != 0 if error.
 
-getliststate <- function(lrank, socket = "auto"){
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+getliststate <- function(lrank, socket = autosocket()){
   #
   # Build request:
   #

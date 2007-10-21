@@ -9,16 +9,16 @@ keywords. This allows you to create on the server a list with the
 corresponding items.
 }
 \usage{
-crelistfromclientdata(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
-clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
+crelistfromclientdata(listname, file, type, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
+clfcd(listname, file, type, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 
 \arguments{
   \item{listname}{The name of the list as a quoted string of chars}
   \item{file}{The local file name}
   \item{type}{Could be one of "SQ", "AC", "SP", "KW", see examples}
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{invisible}{if \code{FALSE}, the result is returned visibly.}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about

@@ -9,16 +9,12 @@
 # and that only the acnuc number of the first attached sequence is given in the number= argument.
 
 
-isenum <- function(what, idby = c("name", "access"), socket = "auto"){
+isenum <- function(what, idby = c("name", "access"), socket = autosocket()){
   #
   # Default is by name:
   #
   idby <- idby[1]
   if(!(idby %in% c("name", "access"))) stop("Wrong idby agument")
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
   #
   # Make default return value:
   #

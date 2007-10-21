@@ -17,21 +17,16 @@
 
 modifylist <- function(listname, modlistname = paste(listname, "mod", sep = "."),
                        operation, type = c("length", "date", "scan"),
-                       socket = "auto", virtual = FALSE){
+                       socket = autosocket(), virtual = FALSE){
   #
   # Default is by length:
   #
   type <- type[1]
   if(!(type %in% c("length", "date", "scan"))) stop("Wrong type agument")
   #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
-  lrank <- glr(listname)
-  #
   # Build request:
   #
-  request <- paste("modifylist&lrank=", lrank, "&type=", type, "&operation=\"", operation, "\"", sep = "")
+  request <- paste("modifylist&lrank=", glr(listname), "&type=", type, "&operation=\"", operation, "\"", sep = "")
   writeLines(request, socket, sep = "\n")
   answerFromServer <- readLines(socket, n = 1)
   #

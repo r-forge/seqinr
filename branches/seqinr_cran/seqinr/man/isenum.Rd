@@ -7,14 +7,14 @@ Gives the ACNUC number of a sequence in the \code{number} element of the returne
 More informations are returned for subsequences corresponding to coding sequences.
 }
 \usage{
-isenum(what, idby = c("name", "access"), socket = "auto")
+isenum(what, idby = c("name", "access"), socket = autosocket())
 isn(what, ...)
 }
 \arguments{
   \item{what}{a sequence name or a sequence accession number}
   \item{idby}{is the sequence identified by name or by accession number? Default to name}
-  \item{socket}{an object of class \code{connection} returned by 
-          \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{...}{arguments passed to \code{isenum}.}
 }
 \value{

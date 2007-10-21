@@ -8,14 +8,14 @@ Reply gives the type of list, its name, the number of elements it contains,
 and, for sequence lists, says whether the list contains only parent seqs (locus=T).
 }
 \usage{
-getliststate(lrank, socket = "auto")
-gls(lrank, socket = "auto")
+getliststate(lrank, socket = autosocket())
+gls(lrank, socket = autosocket())
 gln(lrank, ...)
 }
 \arguments{
   \item{lrank}{the name of the ACNUC list to modify}
-  \item{socket}{an object of class \code{connection} returned by 
-    \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{...}{arguments passed to getliststate}
 }
 

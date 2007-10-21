@@ -315,21 +315,13 @@ getLocationSocket <- function( socket, name){
 #                                                                                                 #
 ###################################################################################################
 
-readfirstrec <- function(socket = "auto", type)
+readfirstrec <- function(socket = autosocket(), type)
 {
   allowedtype <- c("AUT", "BIB", "ACC", "SMJ", "SUB", "LOC", "KEY", "SPEC", 
                    "SHRT", "LNG", "EXT", "TXT")
   if(missing(type)){
     return(allowedtype)
   }
-  
-  #
-  # Use default bank if no socket is given:
-  #
-  if(socket == "auto"){
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-  }
-  
   #
   # Build the request:
   #

@@ -6,13 +6,13 @@ This is a low level function to set the name of a list from an ACNUC server.
 It should not be used directly by end users.
 }
 \usage{
-setlistname(lrank, name = "list1", socket = "auto")
+setlistname(lrank, name = "list1", socket = autosocket())
 }
 \arguments{
   \item{lrank}{the list rank on the ACNUC server}
   \item{name}{the name to use for this list}
-  \item{socket}{an object of class \code{connection} returned by 
-          \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 \value{
 A single numeric value corresponding to:

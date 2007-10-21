@@ -4,18 +4,13 @@
 #                                                                                                 #
 ###################################################################################################
 
-query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE) 
+query <- function(listname, query, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
 
   #
   # Check arguments:
   #
   if(verbose) cat("I'm checking the arguments...\n")
-
-  if (socket == "auto"){
-    if(verbose) cat("No socket were specified, using default.\n")
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-  }
   
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))

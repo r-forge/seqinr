@@ -5,11 +5,7 @@
 #                 3 if another list with that name already existed and was deleted
 #                 4 no list of rank exists
 
-setlistname <- function(lrank, name = "list1", socket = "auto"){
-  #
-  # Use default bank:
-  #
-  if (socket == "auto") socket <- get("banknameSocket", .GlobalEnv)$socket
+setlistname <- function(lrank, name = "list1", socket = autosocket()){
   #
   # Build request:
   #

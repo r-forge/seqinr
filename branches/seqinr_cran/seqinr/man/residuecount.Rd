@@ -6,12 +6,12 @@ Computes the total number of residues (nucleotides or aminoacids) in
 all sequences of the list of specified rank.
 }
 \usage{
-residuecount(lrank, socket = "auto")
+residuecount(lrank, socket = autosocket())
 }
 \arguments{
   \item{lrank}{the list rank on the ACNUC server}
-  \item{socket}{an object of class \code{connection} returned by 
-          \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 \value{
 A single numeric value corresponding to  the total number of residues or

@@ -5,14 +5,14 @@
   This function plots all the type of subsequences on a parent sequence. Subsequences are represented by colored rectangle on the parent sequence.  For example, types could be CDS, TRNA, RRNA .... In order to get all the types that are available for the selected database, use \code{getType}. 
 }
 \usage{
-\method{plot}{SeqAcnucWeb}(x, types = getType()$sname, socket = "auto", ...)
+\method{plot}{SeqAcnucWeb}(x, types = getType()$sname, socket = autosocket(), ...)
 }
 \arguments{
   \item{x}{A sequence of class \code{SeqAcnucWeb}}
   \item{types}{ The type of subsequences to plot. Default value is to consider
     all possible subsequence types.}
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{\dots}{not currently used}	
 }
 \value{
