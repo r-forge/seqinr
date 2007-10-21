@@ -3,7 +3,7 @@
 \alias{as.SeqAcnucWeb}
 \alias{is.SeqAcnucWeb}
 \alias{parser.socket}
-\title{Sequence coming from an ACNUC data bases located on the web}
+\title{Sequence coming from a remote ACNUC data base}
 \description{
     \code{as.SeqAcnucWeb} is called by many functions, for instance by \code{query}, 
   and should not be directly called by the user. It creates an object of class \code{SeqAcnucWeb}. 
@@ -28,10 +28,11 @@ is.SeqAcnucWeb(object)
 }
 \author{ D. Charif, J.R. Lobry }
 \examples{
-  \dontrun{### Need internet connection
+  \dontrun{# Need internet connection
   choosebank("emblTP")
   query("mylist", "sp=felis catus et t=cds et o=mitochondrion")
-  is.SeqAcnucWeb(mylist$req[[1]]) # TRUE
+  stopifnot(is.SeqAcnucWeb(mylist$req[[1]]))
+  closebank()
 }
 }
 \keyword{utilities}
