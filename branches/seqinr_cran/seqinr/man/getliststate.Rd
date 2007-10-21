@@ -43,8 +43,9 @@ a list with the following 4 components:
   ### Need internet connection
   choosebank("emblTP")
   query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
-  gls(glr("mylist")) # SQ, MYLIST, 603, FALSE
+  getliststate(glr("mylist")) # SQ, MYLIST, 603, FALSE
   gln(glr("mylist")) # MYLIST (upper case letters on server)
+  closebank()
   }
 }
 \keyword{ utilities }

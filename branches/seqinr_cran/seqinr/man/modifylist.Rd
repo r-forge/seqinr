@@ -66,7 +66,7 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
   modifylist("mylist.mod", "MyFinalList", op = "felis", type = "scan", virt =T)
   MyFinalList$nelem # now, only 33 sequences
   # Summary of current ACNUC lists:
-  sapply(alr()$rank, gls)
+  sapply(alr()$rank, getliststate)
   }
 }
 \keyword{ utilities }
