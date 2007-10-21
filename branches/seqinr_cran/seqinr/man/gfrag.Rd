@@ -28,10 +28,11 @@ case of problem (non existent sequence for instance).
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}} }
 \examples{
-\dontrun{ 
-  ### Need internet connection
+\dontrun{# Need internet connection
   choosebank("emblTP")
-  gfrag("LMFLCHR36", 1, 3529852) -> myseq	
+  gfrag("LMFLCHR36", start = 1, length = 3529852) -> myseq
+  stopifnot(nchar(myseq) == 3529852)
+  closebank()	
   }
 }
 \keyword{ utilities }
