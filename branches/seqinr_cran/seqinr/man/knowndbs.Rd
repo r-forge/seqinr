@@ -45,7 +45,8 @@ The full list of untagged and tagged databases is here :
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  kbd()
+  kdb()
+  closebank()
   }
 }
 \keyword{ utilities }
