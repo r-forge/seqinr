@@ -15,7 +15,7 @@ savelist <- function(lrank, type = c("N", "A"),
   # Check argument:
   #
   if(!is.finite(lrank)) stop("wrong lrank argument")
-  if(gls(lrank)$type != "SQ") stop("wrong ACNUC list type, should be SQ for sequences")
+  if(getliststate(lrank)$type != "SQ") stop("wrong ACNUC list type, should be SQ for sequences")
   #
   # Default is "N":
   #
