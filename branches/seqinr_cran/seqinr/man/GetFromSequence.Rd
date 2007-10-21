@@ -134,12 +134,12 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
 #
 # SeqAcnucWeb class example:
 #
-  \dontrun{
-  # Need internet connection for getSequence.SeqAcnucWeb()
+  \dontrun{# Need internet connection
   choosebank("emblTP")
   query("fc", "sp=felis catus et t=cds")
   getSequence(fc$req[[1]])
   getSequence(fc$req[[1]], as.string = TRUE)
+  closebank()
   }
 #
 # SeqFastaAA class example:
@@ -174,12 +174,12 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
 #
 # SeqAcnucWeb class example:
 #
-  \dontrun{
-  # Need internet connection for getAnnot.SeqAcnucWeb()
+  \dontrun{# Need internet connection
   choosebank("emblTP")
   query("fc", "sp=felis catus et t=cds")
   annots <- getAnnot(fc$req[[1]])
   cat(annots, sep = "\n")
+  closebank()
   }
 #
 # SeqFastaAA class example:
@@ -192,10 +192,9 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
 #
 # Default getAnnot method example:
 #
-  \dontrun{
-  # An error is produced because there are no annotations by default
-  getAnnot(letters)
-  }
+# An error is produced because there are no annotations by default
+  result <- try(getAnnot(letters))
+  stopifnot(!inherits("result", "try-error"))
 
 ###
 ### List all available methods for getKeyword generic function:
@@ -210,14 +209,14 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
   query("fc", "sp=felis catus et t=cds")
   getKeyword(fc$req[[1]])
   # Should be: [1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"       "CDS"
-  }
+  closebank()  
+}
 #
 # Default getKeyword method example:
 #
-  \dontrun{
-  # An error is produced because there are no keywords by default
-  getKeyword(letters)
-  }
+# An error is produced because there are no keywords by default
+  result <- try(getKeyword(letters))
+  stopifnot(!inherits("result", "try-error"))
 
 ###
 ### List all available methods for getFrag generic function:
@@ -246,6 +245,7 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
   choosebank("emblTP")
   query("fc", "sp=felis catus et t=cds")
   sapply(fc$req, getName)
+  closebank()
   }
 ###
 ### List all available methods for getTrans generic function:
