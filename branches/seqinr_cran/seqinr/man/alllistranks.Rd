@@ -37,22 +37,19 @@ alr(socket = autosocket(), verbose = FALSE)
 }
 
 \examples{
- \dontrun{
- # Need internet connection
- choosebank("genbank")
- query("tmp1", "sp=Borrelia burgdorferi", virtual=T)
- query("tmp2", "sp=Borrelia burgdorferi", virtual=T)
- query("tmp3", "sp=Borrelia burgdorferi", virtual=T)
- alr()
+ \dontrun{# Need internet connection
+ choosebank("emblTP")
+ query("tmp1", "sp=Borrelia burgdorferi", virtual = TRUE)
+ query("tmp2", "sp=Borrelia burgdorferi", virtual = TRUE)
+ query("tmp3", "sp=Borrelia burgdorferi", virtual = TRUE)
+ (result <- alllistranks())
+ stopifnot(result$count == 3)   # Three ACNUC lists
+ stopifnot(result$ranks == 2:4) # Starting at rank 2
  #
- # Should be:
+ # Summay of current lists defined on the ACNUC server:
  #
- # $count
- # [1] 3
- #
- # $ranks
- # [1] 2 3 4
- #
+ sapply(result$ranks, getliststate)
+ closebank()
  }
 }
 \keyword{utilities}
