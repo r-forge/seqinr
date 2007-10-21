@@ -26,12 +26,14 @@ Numeric.
 \seealso{\code{\link{choosebank}}, \code{\link{query}}, \code{\link{glr}} to
 get a list rank from its name.}
 \examples{
-\dontrun{ 
-  ### Need internet connection
+\dontrun{ # Need internet connection
   choosebank("emblTP")
-  query("mylist", "N=@", virtual=TRUE) # select all (seqs + subseqs)
+  query("mylist", "N=@", virtual = TRUE) # select all (seqs + subseqs)
   mylist$nelem   # 14138094 seqs + subseqs
+  stopifnot(mylist$nelem == 14138094)
   css(glr("mylist")) # 1604500 subsequences only
+  stopifnot(css(glr("mylist")) == 1604500)
+  closebank()
   }
 }
 \keyword{ utilities }

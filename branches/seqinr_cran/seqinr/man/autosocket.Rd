@@ -21,10 +21,10 @@ An object of class sockconn.
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{connections}}.}
 \examples{
-\dontrun{ 
-  ### Need internet connection
+\dontrun{ #Need internet connection
   choosebank("emblTP")
   autosocket()
+  closebank()
   }
 }
 \keyword{ utilities }

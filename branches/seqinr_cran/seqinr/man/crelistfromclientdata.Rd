@@ -54,9 +54,7 @@ an ACNUC list of sequences.
 }
 
 \examples{
- \dontrun{
- # Need internet connection
- # Need internet connection
+ \dontrun{ # Need internet connection
  choosebank("emblTP")
  #
  # Example with a file that contains sequence names:
@@ -81,7 +79,12 @@ an ACNUC list of sequences.
  #
  fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
  crelistfromclientdata("listKW", file = fileKW, type = "KW")
- sapply(listKW$req, getName) 
+ sapply(listKW$req, getName)
+ #
+ # Summary of ACNUC lists:
+ #
+ sapply(alr()$rank, getliststate)
+ closebank() 
  }
 }
 \keyword{utilities}
