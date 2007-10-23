@@ -80,7 +80,7 @@ The invisible list returned when a database is opened is stored in the variable
   # Show frozen databases:
   choosebank(tag = "TP")
   # Select a database:
-  choosebank("emblTP") 
+  choosebank("emblTP", tag = "TP") 
   # Do something with the database:
   myseq <- gfrag("LMFLCHR36", start = 1, length = 30)
   stopifnot(myseq == "cgcgtgctggcggcaatgaagcgttcgatg")
