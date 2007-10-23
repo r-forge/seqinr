@@ -33,22 +33,25 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
   with more information is returned.
 }
 \value{
-\item{When called with a regular bank name, an (invisible) list with five components}
-  \describe{
+When called with a regular bank name, an (invisible) list with 6 components:
+
   \item{socket}{ an object of class \code{socket} }
   \item{bankname}{ the name of the bank }
+  \item{banktype}{ the type of the bank (GENBANK, EMBL, SWISSPROT, NBRF)}
   \item{totseqs}{ the total number of sequences present in the opened database }
   \item{totspecs}{ the total number of species present in the opened database }
   \item{totkeys}{ the total number of keywords present in the opened database }	
-  }
-\item{When called with bank = NA}
-  \describe{\item{ }{ A vector of all available bank names.}}
-\item{When called with bank = NA and infobank = TRUE, a data.frame with three columns}
-  \describe{
+ 
+When called with bank = NA:
+  
+  \item{ }{ A vector of all available bank names.}
+
+When called with bank = NA and infobank = TRUE, a data.frame with three columns:
+
   \item{bank}{ The name of the bank. }
   \item{status}{ The bank status (on/of). }
   \item{info}{ Short description of bank with last release date. } 
-  }
+
 }
 \references{ 
 For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
@@ -64,11 +67,24 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 
 \code{citation("seqinr")}
 }
-\note{ The object of class \code{socket} will be the first argument of the \code{query} function.}
-\author{ D. Charif }
+\note{
+The invisible list returned when a database is opened is stored in the variable
+\code{banknameSocket} in the global environment. 
+}
+\author{ D. Charif, J.R. Lobry }
 \seealso{ \code{\link{query}}, \code{\link{connection}}, \code{\link{socketConnection}} }
 \examples{
-  \dontrun{ mybank <- choosebank() }
-  \dontrun{ choosebank(mybank[1]) }
+  \dontrun{# Need internet connection
+  # Show available databases:  
+  choosebank()
+  # Show frozen databases:
+  choosebank(tag = "TP")
+  # Select a database:
+  choosebank("emblTP") 
+  # Do something with the database:
+  myseq <- gfrag("LMFLCHR36", start = 1, length = 30)
+  stopifnot(myseq == "cgcgtgctggcggcaatgaagcgttcgatg")
+  # Close the database:
+  closebank()}
 }
 \keyword{ manip }
