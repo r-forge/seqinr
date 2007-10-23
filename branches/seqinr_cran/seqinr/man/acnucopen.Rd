@@ -1,6 +1,7 @@
 \name{acnucopen}
 \alias{acnucopen}
 \alias{acnucclose}
+\alias{clientid}
 \title{open and close a remote access to an ACNUC database}
 \description{
 These are a low level functions to start and stop a remote access to an ACNUC database.
@@ -10,7 +11,6 @@ These are a low level functions to start and stop a remote access to an ACNUC da
 acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
 clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket)
-
 }
 
 \arguments{
