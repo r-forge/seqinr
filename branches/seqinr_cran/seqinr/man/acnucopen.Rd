@@ -1,7 +1,7 @@
 \name{acnucopen}
 \alias{acnucopen}
 \alias{acnucclose}
-\title{Initiates remote access to an ACNUC database}
+\title{open and close a remote access to an ACNUC database}
 \description{
 These are a low level functions to start and stop a remote access to an ACNUC database.
 }
@@ -27,8 +27,8 @@ and \code{\link{closebank}} to close it.
 a list with the following
 components: type : the type of database that was opened.
 totseqs, totspec, totkey : total number of seqs, species, keywords in opened database.
-ACC_LENGTH, L_MNEMO, WIDTH_KW, WIDTH_SP, WIDTH_SMJ, WIDTH_AUT, 
-WIDTH_BIB, lrtxt, SUBINLNG: max lengths of record keys in database.
+ACC\_LENGTH, L\_MNEMO, WIDTH\_KW, WIDTH\_SP, WIDTH\_SMJ, WIDTH\_AUT, 
+WIDTH\_BIB, lrtxt, SUBINLNG: max lengths of record keys in database.
 
 }
 \references{ 
