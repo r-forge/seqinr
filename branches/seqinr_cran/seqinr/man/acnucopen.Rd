@@ -7,7 +7,7 @@ These are a low level functions to start and stop a remote access to an ACNUC da
 }
 
 \usage{
-acnucopen(db, socket, challenge = NA))
+acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
 }
 
