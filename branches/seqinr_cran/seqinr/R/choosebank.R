@@ -99,6 +99,7 @@ choosebank <- function(bank = NA,
   ###############################################################################
   resdf <- kdb(tag = tagbank, socket = socket)
   nbank <- nrow(resdf)
+  
   if( is.na(bank) ){  
     if(verbose) cat("No bank argument was given...\n")
     if( !infobank ){
@@ -120,83 +121,66 @@ choosebank <- function(bank = NA,
     # Try to open bank from server:
     #
     if(verbose) cat("I'm trying to open the bank from server...\n")
-    request <- paste("acnucopen&db=", bank, sep = "") 
-    writeLines( request, socket, sep = "\n")
-    rep2 <- readLines(socket, n = 1)
-    if(verbose) cat(paste("... answer from server is: ", rep2, "\n"))             
+    resacnucopen <- acnucopen(bank, socket)
+    if(verbose) cat("... and everything is OK up to now.\n")
 
     #
-    # Check answer from server:
+    # Try to get informations from HELP file: 
     #
-    if(verbose) cat("I'm trying to interpret the answer from server...\n")
-    res <- parser.socket(rep2)
+    if(verbose) cat("I'm trying to get information on the bank...\n")
+    bankhelp <- ghelp(item = "CONT", file = "HELP", socket = socket, catresult = FALSE)
+    bankrel <- bankhelp[1]
     
-    if( res[1] == "0") {
-      if(verbose) cat("... and everything is OK up to now.\n")
-      
-      #
-      # Try to get informations from HELP file: 
-      #
-      if(verbose) cat("I'm trying to get information on the bank...\n")
-      bankhelp <- ghelp(item = "CONT", file = "HELP", socket = socket, catresult = FALSE)
-      bankrel <- bankhelp[1]
-      
-      #
-      # Try to get status info:
-      #
-      status <- "unknown"
-      for(i in seq_len(nbank)){
-          if (resdf[i,1] == bank) status <- resdf[i,2]
-      }
-
-      #
-      # Set up the ACNUC server for following queries:
-      #
-      if(verbose) cat("I'm trying to set up the server for following queries...\n")
-      writeLines("prep_requete", socket, sep = "\n")
-      rep3 <- readLines(socket, n = 1)
-      
-      #
-      # Re-patch pas beau:
-      #
-      if(length(rep3) == 0){
-        if(verbose) cat("... answer from server is empty!\n")
-        while(length(rep3) == 0){
-          if(verbose) cat("... reading again.\n")
-          rep3 <- readLines(socket, n = 1)
-        }
-      }
-      if(verbose) cat("... answer from server is: ", rep3, "\n")
-      res3 <- parser.socket(rep3)
-      if( res3[1] == "0") {
-        if(verbose) {
-          cat("... and everything is OK up to now.\n")
-          cat(paste("... and there are", res3[2], "free lists available from server.\n"))
-        }
-      } else {
-        if(verbose) cat("I was able to detect an error while seting up remote bank.\n")
-        stop("There was an error while seting up remote bank.\n")
-      }
-      
-      #
-      # Build result and assign it in the global environment:
-      #
-      res<-list(socket = socket, bankname = bank, totseqs = res[3], totspecs = res[4], totkeys = res[5], release = bankrel, status = status,details = bankhelp)
-      assign("banknameSocket", res, .GlobalEnv)
-      invisible(res)
-    } else {
-      if(verbose) cat("I was able to detect an error while opening remote bank.\n")
-      rm(socket)
-      if( res[1] == "3" ){
-        stop(paste("Database with name -->", bank, "<-- is not known by server.\n", sep = ""))
-      }
-      if( res[1] == "4" ){
-        stop(paste("Database with name -->", bank, "<-- is currently off for maintenance, please try again later.\n", sep = ""))
-      }
-      if( res[1] == "5" ){
-        stop(paste("Database with name -->", bank, "<-- is currently opened and has not been closed.\n", sep = ""))
-      }
-      stop("I don't know what this error code means for acnucopen, please contact package maintener.\n")
+    #
+    # Try to get status info:
+    #
+    status <- "unknown"
+    for(i in seq_len(nbank)){
+     if (resdf[i,1] == bank) status <- resdf[i,2]
     }
+  
+    #
+    # Set up the ACNUC server for following queries:
+    #
+    if(verbose) cat("I'm trying to set up the server for following queries...\n")
+    writeLines("prep_requete", socket, sep = "\n")
+    rep3 <- readLines(socket, n = 1)
+    
+    #
+    # Re-patch pas beau:
+    #
+    if(length(rep3) == 0){
+   if(verbose) cat("... answer from server is empty!\n")
+   while(length(rep3) == 0){
+     if(verbose) cat("... reading again.\n")
+     rep3 <- readLines(socket, n = 1)
+   }
+    }
+    if(verbose) cat("... answer from server is: ", rep3, "\n")
+    res3 <- parser.socket(rep3)
+    if( res3[1] == "0") {
+   if(verbose) {
+     cat("... and everything is OK up to now.\n")
+     cat(paste("... and there are", res3[2], "free lists available from server.\n"))
+   }
+    } else {
+   if(verbose) cat("I was able to detect an error while seting up remote bank.\n")
+   stop("There was an error while seting up remote bank.\n")
+    }
+    
+    #
+    # Build result and assign it in the global environment:
+    #
+    res <- list(socket = socket,
+     bankname = bank,
+     banktype = resacnucopen$type,
+     totseqs = resacnucopen$totseqs,
+     totspecs = resacnucopen$totspecs,
+     totkeys = resacnucopen$totkeys,
+     release = bankrel,
+     status = status,
+     details = bankhelp)
+    assign("banknameSocket", res, .GlobalEnv)
+    invisible(res)
   }
 } 
