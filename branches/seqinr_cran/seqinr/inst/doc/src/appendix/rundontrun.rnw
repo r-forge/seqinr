@@ -31,7 +31,7 @@ dir()
 This is the list of function that don't run for now and need to be fixed.
 
 <<stoplist,fig=F>>=
-stoplist <- c("GetFromSequence", "reverse.align")
+stoplist <- c("reverse.align")
 @ 
 
 % GetFromSequence: see later
