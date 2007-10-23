@@ -2,6 +2,7 @@
 \alias{acnucopen}
 \alias{acnucclose}
 \alias{clientid}
+\alias{quitacnuc}
 \title{open and close a remote access to an ACNUC database}
 \description{
 These are low level functions to start and stop a remote access to an ACNUC database.
@@ -11,6 +12,7 @@ These are low level functions to start and stop a remote access to an ACNUC data
 acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
 clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket)
+quitacnuc(socket)
 }
 
 \arguments{
@@ -27,7 +29,7 @@ and \code{\link{closebank}} to close it.
 }
 
 \value{
-a list with the following
+For \code{openacnuc} a list with the following
 components: type : the type of database that was opened.
 totseqs, totspec, totkey : total number of seqs, species, keywords in opened database.
 ACC\_LENGTH, L\_MNEMO, WIDTH\_KW, WIDTH\_SP, WIDTH\_SMJ, WIDTH\_AUT, 
