@@ -9,12 +9,15 @@ These are a low level functions to start and stop a remote access to an ACNUC da
 \usage{
 acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
+clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket)
+
 }
 
 \arguments{
   \item{db}{the remote ACNUC database name}
   \item{socket}{an object of class \code{sockconn} connecting to an ACNUC server}
   \item{challenge}{unimplemented yet}
+  \item{id}{client ID definition defaulting to seqinr + package version number}
 }
 
 \details{
