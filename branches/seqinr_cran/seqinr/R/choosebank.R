@@ -118,42 +118,14 @@ choosebank <- function(bank = NA,
     if(verbose) cat("I'm trying to get information on the bank...\n")
     bankhelp <- ghelp(item = "CONT", file = "HELP", socket = socket, catresult = FALSE)
     bankrel <- bankhelp[2]
-    
+    if(verbose) cat("... and everything is OK up to now.\n")
+
     #
     # Try to get status info:
     #
     status <- "unknown"
     for(i in seq_len(nbank)){
      if (resdf[i,1] == bank) status <- resdf[i,2]
-    }
-  
-    #
-    # Set up the ACNUC server for following queries:
-    #
-    if(verbose) cat("I'm trying to set up the server for following queries...\n")
-    writeLines("prep_requete", socket, sep = "\n")
-    rep3 <- readLines(socket, n = 1)
-    
-    #
-    # Re-patch pas beau:
-    #
-    if(length(rep3) == 0){
-   if(verbose) cat("... answer from server is empty!\n")
-   while(length(rep3) == 0){
-     if(verbose) cat("... reading again.\n")
-     rep3 <- readLines(socket, n = 1)
-   }
-    }
-    if(verbose) cat("... answer from server is: ", rep3, "\n")
-    res3 <- parser.socket(rep3)
-    if( res3[1] == "0") {
-   if(verbose) {
-     cat("... and everything is OK up to now.\n")
-     cat(paste("... and there are", res3[2], "free lists available from server.\n"))
-   }
-    } else {
-   if(verbose) cat("I was able to detect an error while seting up remote bank.\n")
-   stop("There was an error while seting up remote bank.\n")
     }
     
     #
