@@ -4,7 +4,7 @@
 \alias{clientid}
 \title{open and close a remote access to an ACNUC database}
 \description{
-These are a low level functions to start and stop a remote access to an ACNUC database.
+These are low level functions to start and stop a remote access to an ACNUC database.
 }
 
 \usage{
