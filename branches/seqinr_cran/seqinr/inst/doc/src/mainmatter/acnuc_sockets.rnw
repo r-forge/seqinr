@@ -337,13 +337,89 @@ Fujitsu UXP/M. ACNUC should be easily installed on any other UNIX platforms.
 \subsection{Database requirements.}
 
 ACNUC database are build from flat files in several possible format : EMBL, Genbank or
-SwissProt.
+SwissProt.Inustructions tp install ACNUC databases are given at this url :
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/localinstall.html
+\end{verbatim}
+
 
 \subsection{Download the ACNUC dababase management tools.}
  
-\subsection{Install the ACNUC dababase management tools.}
+ 
+ 
+ 
+ The code source of the ACNUC tools server are available on the PBIL server  at this url:
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar
+\end{verbatim}
 
+\subsection{Install the ACNUC dababase management tools.}
+ANCUC management tools are described at this url :
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/acnuc_gestion.html
+\end{verbatim}
+let ACNUC\_SOFT be the base directory for the ACNUC softs.
+
+<<make ACNUC_SOFT,fig=F,eval=T>>=
+dir.create("../ACNUC_SOFT", showWarning = FALSE)
+@
+
+\begin{itemize}
+\item Dowload the \texttt{acnucsoft.tar} file.
+
+% Mettre eval=F apres premier download
+<<dowloadacnucsoft,fig=F,eval=T>>=
+download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar",
+destfile = "acnucsoft.tar")
+@
+
+\item Copy the \texttt{acnucsoft.tar} file into ACNUC\_SOFT.
+
+<<moveacnucsoft,fig=F,eval=T>>=
+system("cp acnucsoft.tar ../ACNUC_SOFT")
+@ 
+
+\item Untar the \texttt{acnucsoft.tar} file 
+
+<<decompressacnucsoft,fig=F,eval=T>>=
+setwd("../ACNUC_SOFT")
+system("tar -xvf acnucsoft.tar")
+system("rm -f acnucsoft.tar")
+setwd(pwd)
+@ 
+
+\end{itemize}
+Now you sould get the following directory:
+\begin{verbatim}
+ACNUC_SOFT
+\end{verbatim}
+
+<<checkracnucd,fig=F,eval=T>>=
+dir("../ACNUC_SOFT")
+@ 
+
+Go into ACNUC\_SOFT/ and type;
+\begin{verbatim}
+make
+\end{verbatim}
+This should create the ACNUC management tools and ACNUC querying tools.
+
+<<makeacucsoft,fig=F,eval=T>>=
+setwd("../ACNUC_SOFT/")
+system("make")
+dir()
+setwd(pwd)
+@ 
+
+ 
+ 
 \subsection{Database building}
+You can now build your own database.
+let ACNUC\_MYDB be the directory for your databases.
+
+<<make ACNUC_MYDB,fig=F,eval=T>>=
+dir.create("../ACNUC_MYDB", showWarning = FALSE)
+@
 
 \section{Misc} 
 %%%%%%%%%%%%%
