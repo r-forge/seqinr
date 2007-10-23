@@ -74,23 +74,11 @@ choosebank <- function(bank = NA,
   if(verbose) cat("I'm trying to read answer from server...\n")
   rep1 <- readLines(socket, n = 1)
   if(verbose) cat(paste("... answer from server is:", rep1, "\n"))
-  
+
   #
-  # Client ID definition : seqinr + package version number
-  #  (internal note: log file is: /mnt/users/ADE-User/racnuc/log)
+  # Send client ID to server:
   #
-  clientID <- paste("seqinr_", packageDescription("seqinr")$Version, sep = "")
-  if(verbose) cat(paste("I'm trying to identify myself as", clientID, "to the server...\n"))
-  request <- paste("clientid&id=", clientID, sep = "")
-  writeLines( request, socket, sep = "\n")
-  rep <- readLines(socket, n = 1)  
-  if(verbose) cat(paste("... answer from server is:", rep, "\n"))
-  res <- parser.socket(rep)  
-  if( res[1] == "0") {
-    if(verbose) cat("... and everything is OK up to now.\n")  
-  } else {
-    stop("I don't know what this error code means for clientid, please contact package maintener.\n")
-  }
+  clientid(socket = socket)
            
   ###############################################################################
   #
