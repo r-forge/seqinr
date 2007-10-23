@@ -129,7 +129,7 @@ choosebank <- function(bank = NA,
     #
     if(verbose) cat("I'm trying to get information on the bank...\n")
     bankhelp <- ghelp(item = "CONT", file = "HELP", socket = socket, catresult = FALSE)
-    bankrel <- bankhelp[1]
+    bankrel <- bankhelp[2]
     
     #
     # Try to get status info:
