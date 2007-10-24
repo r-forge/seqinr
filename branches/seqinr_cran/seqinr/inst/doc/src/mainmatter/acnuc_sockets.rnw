@@ -389,7 +389,7 @@ setwd(pwd)
 @ 
 
 \end{itemize}
-Now you sould get the following directory:
+Now you sould get the soft sources in following directory:
 \begin{verbatim}
 ACNUC_SOFT
 \end{verbatim}
@@ -415,11 +415,89 @@ setwd(pwd)
  
 \subsection{Database building}
 You can now build your own database.
-let ACNUC\_MYDB be the directory for your databases.
+All you need is a flat files
+in EMBL, GenBank or SwissProt format. You can download a file example at :
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z
+\end{verbatim}
+
+Let's use this SwissProt file to build your database
+\begin{itemize}
+
+\item Let ACNUC\_MYDB be the directory for your databases.
+
 
 <<make ACNUC_MYDB,fig=F,eval=T>>=
 dir.create("../ACNUC_MYDB", showWarning = FALSE)
 @
+This directory should contain the two \textit{acnuc} and \textit{gcgacnuc} directories: usually the directories are named.
+\textit{index} and \textit{flat\_files}.
+
+<<make ACNUC_MYDB_sousdir,fig=F,eval=T>>=
+dir.create("../ACNUC_MYDB/index", showWarning = FALSE)
+dir.create("../ACNUC_MYDB/flat_files", showWarning = FALSE)
+@
+
+\item Download the \texttt{escherichia\_uniprot.dat.Z} file.
+
+% Mettre eval=F apres premier download
+<<dowloadacnucflat,fig=F,eval=T>>=
+download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z",
+destfile = "escherichia_uniprot.dat.Z")
+@
+
+\item Copy the \texttt{escherichia\_uniprot.dat.Z} file into ACNUC\_MYDB/flat\_files.
+
+<<moveacnucflat,fig=F,eval=T>>=
+system("cp escherichia_uniprot.dat.Z ../ACNUC_MYDB/flat_files")
+@ 
+
+\item Uncompress the \texttt{escherichia\_uniprot.dat.Z} file 
+
+<<decompressacnucflat,fig=F,eval=T>>=
+setwd("../ACNUC_MYDB/flat_files")
+system("gunzip -f escherichia_uniprot.dat.Z")
+setwd(pwd)
+@ 
+
+\end{itemize}
+A simple building of the index can be done with the script  \texttt{buildindex.csh} available at:
+
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh
+\end{verbatim}
+
+
+% Mettre eval=F apres premier download
+<<dowloadacnucscript,fig=F,eval=T>>=
+download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh",
+destfile = "buildindex.csh")
+@
+
+You can copy this file in ../ACNUC\_MYDB/ and execute it:
+
+\begin{verbatim}
+./buildindex.csh escherichia_uniprot
+\end{verbatim}
+
+% Mettre eval=F apres premier download
+<<dowloadacnucscript,fig=F,eval=T>>=
+download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh",
+destfile = "buildindex.csh")
+system("cp buildindex.csh ../ACNUC_MYDB")
+setwd("../ACNUC_MYDB")
+system("chmod +x ./buildindex.csh")
+system("./buildindex.csh escherichia_uniprot >  ./build.log")
+cat(readLines("build.log",50), sep = "\n")
+cat(tail(readLines("build.log"),50), sep = "\n")
+setwd(pwd)
+@
+You can check the building in the \texttt{build.log} file.
+
+
+
+
+
 
 \section{Misc} 
 %%%%%%%%%%%%%
