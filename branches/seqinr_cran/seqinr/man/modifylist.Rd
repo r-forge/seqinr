@@ -70,7 +70,7 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
   mylist$nelem # now, only 33 sequences
   stopifnot(mylist$nelem == 33)
 
-  # modify by date
+  # modify by date:
   modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
   mylist$nelem # now, only 15 sequences
   stopifnot(mylist$nelem == 15)

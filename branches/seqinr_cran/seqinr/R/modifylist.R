@@ -15,7 +15,7 @@
 # processed: only for scan operation, number of list elements scanned until completion or interruption
 
 
-modifylist <- function(listname, modlistname = paste(listname, "mod", sep = "."),
+modifylist <- function(listname, modlistname = listname,
                        operation, type = c("length", "date", "scan"),
                        socket = autosocket(), virtual = FALSE){
   #
@@ -48,7 +48,9 @@ modifylist <- function(listname, modlistname = paste(listname, "mod", sep = ".")
   #
   # Set list name on server:
   #
-  setlistname(lrank = mlrank, name = modlistname, socket = socket)
+  suppressWarnings(ressetlistname <- setlistname(lrank = mlrank, name = modlistname, socket = socket))
+  if(is.na(ressetlistname)) stop("Empty answer from server in setlistname")
+  if(ressetlistname == "4") stop("No list of rank mlrank exists")
   #
   # Get full list informations:
   #
