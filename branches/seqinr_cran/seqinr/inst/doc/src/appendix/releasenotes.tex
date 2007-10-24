@@ -45,6 +45,41 @@
 
 \begin{itemize}
 
+\item New low level utility function \texttt{autosocket()} to get the
+  socket connection to the last opened ACNUC database.
+
+\item New function \texttt{countsubseqs()} to get the number of 
+  subsequences in an ACNUC list.
+
+\item New function \texttt{savelist()} to save sequence names or 
+  accession numbers from an ACNUC list into a local file.
+
+\item New function \texttt{ghelp()} to get help from an ACNUC server.
+
+\item New function \texttt{modifylist()} to modify a previously existing 
+  ACNUC list by selecting sequences either by length, either by date, 
+  either for the presence of a given string in annotations.
+
+\item New low level function \texttt{getlistate()} to Ask for 
+  information about an ACNUC list.
+
+\item New low level function \texttt{setlistname()} to set the name of 
+  a list from an ACNUC server.
+
+\item New function \texttt{residuecount()} to count the total number 
+  of residues (nucleotides or aminoacids) in all sequences of an ACNUC
+  list of specified rank.
+
+\item New function \texttt{isenum()} and its shortcut \texttt{isn()}
+  to get the ACNUC number of a sequence from its name or accession
+  number.
+
+\item New function \texttt{prettyseq()} to get a text representation 
+  of a sequence from an ACNUC server.
+
+\item New function \texttt{gfrag()} to extract sequence identified by 
+  name or by number from an ACNUC server.
+
 \item The details of the socket connection are no more stored in
   the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
   this slot is now deleted. As a consequence, the argument
@@ -446,12 +481,12 @@ This part was compiled under the following \Rlogo{}~environment:
     gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
     xtable~1.5-1
   \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15, tools~2.6.0
+    rcompgen~0.1-15
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Oct  6 16:01:58 2007
+  \item \Rlogo{} compilation time was: Sat Oct 20 23:19:20 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

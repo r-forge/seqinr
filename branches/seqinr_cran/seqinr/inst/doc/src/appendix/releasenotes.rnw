@@ -15,6 +15,10 @@
 
 \begin{itemize}
 
+\item New low level utility function \texttt{knowndbs()} and its
+  shortcut \texttt{kdb()} to get a description of databases 
+  known by an ACNUC server.
+
 \item New low level utility function \texttt{autosocket()} to get the
   socket connection to the last opened ACNUC database.
 
