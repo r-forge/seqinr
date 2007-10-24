@@ -6,12 +6,12 @@ This function modifies a previously existing ACNUC list by selecting sequences
 either by length, either by date, either for the presence of a given string in annotations. 
 }
 \usage{
-modifylist(listname, modlistname = paste(listname, "mod", sep = "."), operation, type = c("length", "date", "scan"), socket = autosocket(), virtual = FALSE)
+modifylist(listname, modlistname = listname, operation, type = c("length", "date", "scan"), socket = autosocket(), virtual = FALSE)
 }
 \arguments{
   \item{listname}{the name of the ACNUC list to modify}
   \item{modlistname}{the name of the modified ACNUC list. Default is to use the
-       same list name with ".mod" added at the end.}
+       same list name so that previous list is lost.}
   \item{operation}{a string of character describing the operation to be done, see details.}
   \item{type}{the type of operation, could be one of \code{ "length", "date", "scan"}.
         Default is \code{"length"}}
@@ -27,7 +27,7 @@ Example of possible values for the argument \code{operation}:
   \item{date}{as in   "> 1/jul/2001"   or   "< 30/AUG/98"}
   \item{scan}{specify the string to be searched for}
 
-Known bug: selection by data doesn't work in the current version (1.1-3).
+Character < is to be understood as <= and > likewise.
 }
 
 \value{
@@ -54,19 +54,30 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}} }
 \examples{
-\dontrun{ 
-  ### Need internet connection
+\dontrun{ # Need internet connection
   choosebank("emblTP")
   query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
   mylist$nelem # 603 sequences
-  # select sequences with at least 1000 bp
+  stopifnot(mylist$nelem == 603)
+
+  # select sequences with at least 1000 bp:
   modifylist("mylist", operation = ">1000", virtual = TRUE)
-  mylist.mod$nelem # now, only 132 sequences
+  mylist$nelem # now, only 132 sequences
+  stopifnot(mylist$nelem == 132)
+
   # scan for "felis" in annotations:
-  modifylist("mylist.mod", "MyFinalList", op = "felis", type = "scan", virt =T)
-  MyFinalList$nelem # now, only 33 sequences
-  # Summary of current ACNUC lists:
+  modifylist("mylist", op = "felis", type = "scan", virtual = TRUE)
+  mylist$nelem # now, only 33 sequences
+  stopifnot(mylist$nelem == 33)
+
+  # modify by date
+  modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
+  mylist$nelem # now, only 15 sequences
+  stopifnot(mylist$nelem == 15)
+
+  # Summary of current ACNUC lists, one list called MYLIST on sever:
   sapply(alr()$rank, getliststate)
+  closebank()
   }
 }
 \keyword{ utilities }
