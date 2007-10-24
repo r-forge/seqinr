@@ -606,6 +606,30 @@ locus TRUE   TRUE   TRUE
     closebank()
 \end{Sinput}
 \end{Schunk}
+\subsection{\texttt{countfreelists()}}
+\begin{Schunk}
+\begin{Sinput}
+  # Need internet connection
+   choosebank("emblTP")
+   (rescountfreelists <- countfreelists())
+\end{Sinput}
+\begin{Soutput}
+$free
+[1] 48
+
+$annotlines
+ [1] "ALL" "AC"  "PR"  "DT"  "KW"  "OS"  "OC"  "OG"  "RN"  "RC"  "RP"  "RX" 
+[13] "RG"  "RA"  "RT"  "RL"  "DR"  "CC"  "AH"  "AS"  "FH"  "FT"  "CO"  "SQ" 
+[25] "SEQ"
+\end{Soutput}
+\begin{Sinput}
+   stopifnot(all(rescountfreelists$annotlines == 
+    c("ALL", "AC",  "PR",  "DT",  "KW",  "OS",  "OC",
+    "OG",  "RN",  "RC",  "RP",  "RX", "RG",  "RA",  "RT",  "RL",  "DR", 
+    "CC",  "AH",  "AS",  "FH",  "FT",  "CO",  "SQ", "SEQ")))
+   closebank()
+\end{Sinput}
+\end{Schunk}
 \subsection{\texttt{countsubseqs()}}
 \begin{Schunk}
 \begin{Sinput}
@@ -1044,7 +1068,7 @@ $otheraccessmatches
 22    nurebprot     on
 23   taxobacgen     on
                                                                             info
-1                   GenBank Rel. 161 (15 August 2007) Last Updated: Oct 21, 2007
+1                   GenBank Rel. 161 (15 August 2007) Last Updated: Oct 24, 2007
 2            EMBL Library Release 92 (September 2007) Last Updated: Oct 18, 2007
 3               EMBL Whole Genome Shotgun sequences Release 92  (September 2007)
 4        UniProt Rel. 12 (SWISS-PROT 54 + TrEMBL 37): Last Updated: Oct  8, 2007
@@ -1075,7 +1099,6 @@ $otheraccessmatches
 \subsection{\texttt{modifylist()}}
 \begin{Schunk}
 \begin{Sinput}
-   ### Need internet connection
    choosebank("emblTP")
    query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
    mylist$nelem # 603 sequences
@@ -1084,32 +1107,47 @@ $otheraccessmatches
 [1] 603
 \end{Soutput}
 \begin{Sinput}
-   # select sequences with at least 1000 bp
+   stopifnot(mylist$nelem == 603)
+   # select sequences with at least 1000 bp:
    modifylist("mylist", operation = ">1000", virtual = TRUE)
-   mylist.mod$nelem # now, only 132 sequences
+   mylist$nelem # now, only 132 sequences
 \end{Sinput}
 \begin{Soutput}
 [1] 132
 \end{Soutput}
 \begin{Sinput}
+   stopifnot(mylist$nelem == 132)
    # scan for "felis" in annotations:
-   modifylist("mylist.mod", "MyFinalList", op = "felis", type = "scan", virt =T)
-   MyFinalList$nelem # now, only 33 sequences
+   modifylist("mylist", op = "felis", type = "scan", virtual = TRUE)
+   mylist$nelem # now, only 33 sequences
 \end{Sinput}
 \begin{Soutput}
 [1] 33
 \end{Soutput}
 \begin{Sinput}
-   # Summary of current ACNUC lists:
+   stopifnot(mylist$nelem == 33)
+   # modify by date:
+   modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
+   mylist$nelem # now, only 15 sequences
+\end{Sinput}
+\begin{Soutput}
+[1] 15
+\end{Soutput}
+\begin{Sinput}
+   stopifnot(mylist$nelem == 15)
+   # Summary of current ACNUC lists, one list called MYLIST on sever:
    sapply(alr()$rank, getliststate)
 \end{Sinput}
 \begin{Soutput}
-      [,1]     [,2]         [,3]         
-type  "SQ"     "SQ"         "SQ"         
-name  "MYLIST" "MYLIST.MOD" "MYFINALLIST"
-count 603      132          33           
-locus FALSE    FALSE        FALSE        
+      [,1]    
+type  "SQ"    
+name  "MYLIST"
+count 15      
+locus FALSE   
 \end{Soutput}
+\begin{Sinput}
+   closebank()
+\end{Sinput}
 \end{Schunk}
 \subsection{\texttt{oriloc()}}
 \begin{Schunk}
@@ -1202,9 +1240,9 @@ Genetic code used: NUG=AUN=M when initiation codon
 \end{Sinput}
 \begin{Soutput}
       AUT       BIB       ACC       SMJ       SUB       LOC       KEY 
-   164084    481229  77706747      4889  82184766  78700468   7277619 
+   164095    481293  77707894      4889  82186500  78702665   7278604 
      SPEC      SHRT       LNG       EXT       TXT 
-   495418 706070711  22581444   7242727    400402 
+   495632 706108927  22585971   7248460    400461 
 \end{Soutput}
 \end{Schunk}
 \subsection{\texttt{rearranged.oriloc()}}
@@ -1358,7 +1396,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Oct 24 00:40:29 2007
+  \item \Rlogo{} compilation time was: Wed Oct 24 10:15:38 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
