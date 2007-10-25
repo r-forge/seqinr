@@ -1,7 +1,7 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Installation of a local ACNUC socket server on your machine (under development)}
+\title{Installation of a local ACNUC socket server on your machine.}
 \author{Penel, S.}
 
 \begin{document}
@@ -16,7 +16,7 @@
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-This chapter is under development and not complete.
+This chapter is under development.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System requirement}
@@ -31,16 +31,6 @@ means of compiling C (as gcc compilation tools for linux or unix, Apple
 Developer Tools  for MacOSX). You need as well library zlib and sockets
 (standards on linux and unix).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Technical description of the racnucd daemon}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Technical information about the acnuc socket server is available at this url:
-\url{http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html}.
-
-
-\section{ACNUC remote access protocol}
-Description of the socket communication protocol with acnuc is availble at this url:
-\url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Setting a local ACNUC database to be queried by the server}
@@ -53,8 +43,7 @@ An ACNUC database is composed of two sets of files:
 	\item  the database files (\textit{i.e.} flat files in EMBL/GenBank or SwissProt format).
 \end{enumerate}
 
-These two sets will be located  in the \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
-(Directories \textit{acnuc} and  \textit{gcgacnuc} may be identical however it is prefered to use two distict directories.)
+These two sets will be located  in the \texttt{index} and  \texttt{flat\_files} directories  respectively.
 
 An example of an ACNUC database is available on the PBIL ftp server  at this url:
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
@@ -63,29 +52,34 @@ You may install the database as it follows:
 Let ACNUC\_HOME be the base directory for ACNUC intallation.
 
 <<makeACNUCHOME,fig=F,eval=T>>=
-dir.create("../ACNUC_HOME", showWarning = FALSE)
+dir.create("./ACNUC_HOME", showWarning = FALSE)
 @ 
+
+
+Let ACNUC\_HOME/ACNUC\_DB be the  directory where you want to install the databases and ACNUC\_HOME/ACNUC\_DB/demoacnuc 
+the directory where you want to install the demo database.
+
+<<makeACNUCHOMEdemo,fig=F,eval=T>>=
+dir.create("./ACNUC_HOME/ACNUC_DB", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_DB/demoacnuc", showWarning = FALSE)
+@ 
+
 
 \begin{itemize}
-\item Dowload the ACNUC database.
+\item Dowload the ACNUC database in the ./ACNUC\_HOME/ACNUC\_DB/demoacnuc/ directory.
 
 % Mettre eval=F apres premier download
-<<dowloadacnucdemo,fig=F,eval=F>>=
+<<dowloadacnucdemo,fig=F,eval=T>>=
 download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z",
-destfile = "acnucdatabase.tar.Z")
+destfile = "./ACNUC_HOME/ACNUC_DB/demoacnuc/acnucdatabase.tar.Z")
 @ 
 
-\item Copy the  acnucdatabase.tar.Z file  into ACNUC\_HOME.
-
-<<moveacnuc,fig=F,eval=T>>=
-system("cp acnucdatabase.tar.Z ../ACNUC_HOME")
-@ 
 
 \item Uncompress and untar the \texttt{acnucdatabase.tar.Z} file 
 
 <<decompressacnuc,fig=F,eval=T>>=
 pwd <- getwd()
-setwd("../ACNUC_HOME")
+setwd("./ACNUC_HOME/ACNUC_DB/demoacnuc/")
 system("gunzip -f acnucdatabase.tar.Z")
 system("tar -xvf acnucdatabase.tar")
 system("rm -f acnucdatabase.tar")
@@ -95,14 +89,22 @@ setwd(pwd)
 \end{itemize}
 Now you sould get the following directories:
 \begin{verbatim}
-ACNUC_HOME/acnucdatabase/index
-ACNUC_HOME/acnucdatabase/flat_files
+ACNUC_HOME/ACNUC_DB/demoacnuc/index
+ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files
 \end{verbatim}
 
+The directory ACNUC<\_HOME/ACNUC\_DB/demoacnuc contains: 
 <<showacnuchomecontent,fig=F,eval=T>>=
-dir("../ACNUC_HOME")
+dir("./ACNUC_HOME/ACNUC_DB/demoacnuc")
 @ 
-which are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+These directories  contains respectively:
+
+
+<<showacnuchomecontent2,fig=F,eval=T>>=
+dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
+dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
+@ 
+
 
 This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
 \textit{Saccharomyces cerevesiae}.
@@ -114,6 +116,8 @@ This database contains the complete genome of \textit{Escherichia coli K12 W3110
 Once you have a local  ACNUC database available on your server you need to install the sockets server.
 
 \subsection{Download the sources.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The code source of the racnucd server is available on the PBIL server  at this url:
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
@@ -124,32 +128,28 @@ ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar
 \end{verbatim}
 
 \subsection{Build the ACNUC sockets server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 You may install the racnucd server as it follows:
-let RACNUCD\_HOME be the base directory for the socket.
+let ACNUC\_HOME/ACNUC\_SOFT/ be the base directory for the ACNUC softs.
 
 <<makeRACNUCCDHOME,fig=F,eval=T>>=
-dir.create("../RACNUCD_HOME", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_SOFT", showWarning = FALSE)
 @
 
 \begin{itemize}
-\item Dowload the \texttt{racnucd.tar} file.
+\item Dowload the \texttt{racnucd.tar} file into ACNUC\_HOME/ACNUC\_SOFT.
 
 % Mettre eval=F apres premier download
 <<dowloadracnucd,fig=F,eval=T>>=
 download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar",
-destfile = "racnucd.tar")
+destfile = "./ACNUC_HOME/ACNUC_SOFT/racnucd.tar")
 @
-
-\item Copy the \texttt{racnucd.tar} file into RACNUCD\_HOME.
-
-<<moveracnucd,fig=F,eval=T>>=
-system("cp racnucd.tar ../RACNUCD_HOME")
-@ 
 
 \item Untar the \texttt{racnucd.tar} file 
 
 <<decompressacnuc,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME")
+setwd("./ACNUC_HOME/ACNUC_SOFT/")
 system("tar -xvf racnucd.tar")
 system("rm -f racnucd.tar")
 setwd(pwd)
@@ -157,76 +157,57 @@ setwd(pwd)
 
 \end{itemize}
 Now you sould get the following directory:
-\begin{verbatim}
-RACNUCD_HOME/racnucd
-\end{verbatim}
+
 
 <<checkracnucd,fig=F,eval=T>>=
-dir("../RACNUCD_HOME")
+dir("./ACNUC_HOME/ACNUC_SOFT/")
+dir("./ACNUC_HOME/ACNUC_SOFT/racnucd/")
 @ 
 
-Go into RACNUCD\_HOME/racnucd/ and type;
+Go into ACNUC\_HOME/ACNUC\_SOFT/racnucd/ and type;
 \begin{verbatim}
 make
 \end{verbatim}
 This should create the \textbf{racnucd} executable.
 
 <<makeracuc,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME/racnucd")
+setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
 system("make")
 dir(pattern = "racnucd")
 setwd(pwd)
 @ 
 
 \subsection{Setting the ACNUC sockets server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The server is configured by several parameters described in a configuration file \textbf{racnuc.ini}.
 The \textbf{racnucd.ini} file is structued as follows:
 
-\begin{verbatim}
-port=5558
-maxtime=8000
-known_db_file=knowndbs
-db_env_names=dbplaces
-\end{verbatim}
 
 <<showmeracnunini,fig=F,eval=T>>=
-ini <- readLines("../RACNUCD_HOME/racnucd/racnucd.ini")
-cat(ini, sep = "\n")
+cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), sep = "\n")
 @ 
 
 \begin{itemize}
+\item \textbf{port} is the port of the socket server 
+\item \textbf{maxtimle} is the time delay of the connection
 \item \textbf{knowndbs} is a file containing the list of available databases
 \item \textbf{dbplaces} is a file containing the path of the available databases
 \end{itemize}
 
+\subsubsection{Configuring the knowndbs file.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The \textbf{knowndbs} contains:
-\begin{verbatim}
-embl | on |    | EMBL sequence data library | 
-swissprot   | on |  | UniProt |
-\end{verbatim}
 
 <<showmeknowdbs,fig=F,eval=T>>=
-knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
-cat(knowndbs, sep = "\n")
+cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs"),sep = "\n")
 @ 
 
 Each line defines a database,  the four fields indicating respectively the name
  of the database, its status  (\textit{on} or \textit{off}), a tag and a short description.
-
-The \textbf{dbplaces} contains:
-\begin{verbatim}
-setenv  swissprot       '/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mgouy/Documents/acnuc/petite/swissprot'
-setenv  embl    '/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
-\end{verbatim}
-
-<<showmedbplaces,fig=F,eval=T>>=
-dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
-cat(dbplaces, sep = "\n")
-@
-
-Each line set the acnuc and gcgacnuc variables for each   database.
-
-Then you should set the files \textbf{knowndbs} and \textbf{dbplaces} according to your installation.
+ 
+You should set the files \textbf{knowndbs}  according to your installation.
 Let's call the database you installed previously \textit{demoacnuc}.
 Modify  the \textbf{knowndbs} as follows:
 \begin{verbatim}
@@ -234,42 +215,48 @@ demoacnuc | on |    | Demo Database |
 \end{verbatim}
 
 <<modifyknowndbs,fig=F,eval=T>>=
-writeLines("demoacnuc | on |    | Demo Database | ", "../RACNUCD_HOME/racnucd/knowndbs")
-knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
+writeLines("demoacnuc | on |    | Demo Database | ", "./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs")
+knowndbs <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs")
 cat(knowndbs, sep = "\n")
 @ 
 
-and modify  the \textbf{dbplaces} as follows:
+\subsubsection{Configuring the dbplaces file.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{verbatim}
-setenv  demoacnuc       'ACNUC_HOME/acnucdatabase/index ACNUC_HOME/acnucdatabase/flat_files'
-\end{verbatim}
 
-<<modifydbplaces,fig=F,eval=T>>=
-indexpath <- normalizePath("../ACNUC_HOME/index")
-ffpath <- normalizePath("../ACNUC_HOME/flat_files")
-newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, "'", sep = "", collapse = "")
-writeLines(newdb, "../RACNUCD_HOME/racnucd/dbplaces")
-dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
+The \textbf{dbplaces} contains:
+
+<<showmedbplaces,fig=F,eval=T>>=
+dbplaces <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
 cat(dbplaces, sep = "\n")
 @
 
-Finaly, in the RACNUCD\_HOME/racnucd/ directory, type
+Each line set the acnuc and gcgacnuc variables for each   database.
+
+
+You should set the files \textbf{dbplaces}  according to your installation:
+ modify  the \textbf{dbplaces} as follows:
 \begin{verbatim}
-./racnucd racnucd.ini
+setenv  demoacnuc       'ACNUC_HOME/ACNUC_DB/demoacnuc/index ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
 \end{verbatim}
 
-The server should launch and say:
-\begin{verbatim}
+<<modifydbplaces,fig=F,eval=T>>=
+indexpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
+ffpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
+newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, "'", sep = "", collapse = "")
+writeLines(newdb, "./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
+dbplaces <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
+cat(dbplaces, sep = "\n")
+@
 
-*******************************************************
-Start of remote acnuc server : Tue Oct 16 15:46:16 2007
+\subsubsection{Launch the server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\end{verbatim}
 
+Finaly, in the RACNUCD\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
 
 <<startserver,fig=F,eval=T>>=
-setwd("../RACNUCD_HOME/racnucd")
+setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
 system("./racnucd racnucd.ini > racnucd.log &")
 Sys.sleep(1)
 system("ps | grep racnucd", intern = TRUE)
@@ -280,20 +267,17 @@ setwd(pwd)
 The server is now ready.
 
 \subsection{Using seqinR to query your local socket server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Launch \Rlogo{}, load the \texttt{seqinr} package  and type
 
-\begin{Schunk}
-\begin{Sinput}
-choosebank(host="my_machine.domaine",info=T)
-\end{Sinput}
-\end{Schunk}
+
+\begin{verbatim}
+choosebank(host="my_machine",info=T)
+\end{verbatim}
+
 for example:
 
-\begin{Schunk}
-\begin{Sinput}
-choosebank(host="semle.univ-lyon1.fr",info=T)
-\end{Sinput}
-\end{Schunk}
 
 <<trylocalserver,fig=F,eval=T>>=
 library(seqinr)
@@ -302,17 +286,8 @@ hostname
 choosebank(host = hostname, info = TRUE)
 @ 
 
-You should obtain something like:
-\begin{Schunk}
-\begin{Soutput}
-       bank status
-1 demoacnuc     on
-                                                                 info
-1 ACNUC database example. (September 2007) Last Updated: Oct 15, 2007
-\end{Soutput}
-\end{Schunk}
 
-You can now query the database. For example:
+You can query the database. For example:
 
 <<tryquery,fig=F,eval=T>>=
 choosebank(bank = "demoacnuc", host = hostname)
@@ -323,21 +298,18 @@ sapply(mylist$req, getName)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Building your own  ACNUC database. (under development)}
+\section{Building your own  ACNUC database.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 One of the interest of a local server is to be able use your own ACNUC
 database.
 
-\subsection{System requirements.}
- 
-ACNUC runs on UNIX systems, Windows NT/95/98/00/XP, MacOS 9/X. Tested UNIX
-systems include SUN, Linux on PC, IBM RS/6000, Silicon Graphics, DEC Alpha,
-Fujitsu UXP/M. ACNUC should be easily installed on any other UNIX platforms. 
 
-\subsection{Database requirements.}
+\subsection{Database flatfiles formats.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ACNUC database are build from flat files in several possible format : EMBL, Genbank or
-SwissProt.Inustructions tp install ACNUC databases are given at this url :
+SwissProt. Instructions to install ACNUC databases are given at this url :
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/localinstall.html
 \end{verbatim}
@@ -358,62 +330,55 @@ ANCUC management tools are described at this url :
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/acnuc_gestion.html
 \end{verbatim}
-let ACNUC\_SOFT be the base directory for the ACNUC softs.
+
+Let ACNUC\_HOME/ACNUC\_SOFT/tools be the base directory for the ACNUC tools.
+
 
 <<make ACNUC_SOFT,fig=F,eval=T>>=
-dir.create("../ACNUC_SOFT", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_SOFT/tools", showWarning = FALSE)
 @
 
 \begin{itemize}
-\item Dowload the \texttt{acnucsoft.tar} file.
+\item Dowload the \texttt{acnucsoft.tar} file into ACNUC\_HOME/ACNUC\_SOFT/tools.
 
 % Mettre eval=F apres premier download
 <<dowloadacnucsoft,fig=F,eval=T>>=
 download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar",
-destfile = "acnucsoft.tar")
+destfile = "./ACNUC_HOME/ACNUC_SOFT/tools/acnucsoft.tar")
 @
 
-\item Copy the \texttt{acnucsoft.tar} file into ACNUC\_SOFT.
-
-<<moveacnucsoft,fig=F,eval=T>>=
-system("cp acnucsoft.tar ../ACNUC_SOFT")
-@ 
 
 \item Untar the \texttt{acnucsoft.tar} file 
 
 <<decompressacnucsoft,fig=F,eval=T>>=
-setwd("../ACNUC_SOFT")
+setwd("./ACNUC_HOME/ACNUC_SOFT/tools/")
 system("tar -xvf acnucsoft.tar")
 system("rm -f acnucsoft.tar")
 setwd(pwd)
 @ 
 
-\end{itemize}
-Now you sould get the soft sources in following directory:
-\begin{verbatim}
-ACNUC_SOFT
-\end{verbatim}
 
-<<checkracnucd,fig=F,eval=T>>=
-dir("../ACNUC_SOFT")
-@ 
 
-Go into ACNUC\_SOFT/ and type;
+
+\item Go into ACNUC\_SOFT/ and type;
 \begin{verbatim}
 make
 \end{verbatim}
 This should create the ACNUC management tools and ACNUC querying tools.
 
 <<makeacucsoft,fig=F,eval=T>>=
-setwd("../ACNUC_SOFT/")
+setwd("./ACNUC_HOME/ACNUC_SOFT/tools/")
 system("make")
 dir()
 setwd(pwd)
 @ 
 
+\end{itemize}
  
- 
-\subsection{Database building}
+\subsection{Database building : index generation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 You can now build your own database.
 All you need is a flat files
 in EMBL, GenBank or SwissProt format. You can download a file example at :
@@ -424,57 +389,45 @@ ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z
 Let's use this SwissProt file to build your database
 \begin{itemize}
 
-\item Let ACNUC\_MYDB be the directory for your databases.
+\item Let ACNUC\_HOME/ACNUC\_DB/mydb be the directory for your databases.
 
 
 <<make ACNUC_MYDB,fig=F,eval=T>>=
-dir.create("../ACNUC_MYDB", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_DB/mydb", showWarning = FALSE)
 @
-This directory should contain the two \textit{acnuc} and \textit{gcgacnuc} directories: usually the directories are named.
-\textit{index} and \textit{flat\_files}.
+This directory should contain the  \textit{index} and \textit{flat\_files} directories.
 
 <<make ACNUC_MYDB_sousdir,fig=F,eval=T>>=
-dir.create("../ACNUC_MYDB/index", showWarning = FALSE)
-dir.create("../ACNUC_MYDB/flat_files", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_DB/mydb/index", showWarning = FALSE)
+dir.create("./ACNUC_HOME/ACNUC_DB/mydb/flat_files", showWarning = FALSE)
 @
 
-\item Download the \texttt{escherichia\_uniprot.dat.Z} file.
+\item Download the \texttt{escherichia\_uniprot.dat.Z} file into ACNUC\_HOME/ACNUC\_DB/mydb/flat\_files.
 
 % Mettre eval=F apres premier download
 <<dowloadacnucflat,fig=F,eval=T>>=
 download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z",
-destfile = "escherichia_uniprot.dat.Z")
+destfile = "./ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat.Z")
 @
 
-\item Copy the \texttt{escherichia\_uniprot.dat.Z} file into ACNUC\_MYDB/flat\_files.
-
-<<moveacnucflat,fig=F,eval=T>>=
-system("cp escherichia_uniprot.dat.Z ../ACNUC_MYDB/flat_files")
-@ 
 
 \item Uncompress the \texttt{escherichia\_uniprot.dat.Z} file 
 
 <<decompressacnucflat,fig=F,eval=T>>=
-setwd("../ACNUC_MYDB/flat_files")
+setwd("./ACNUC_HOME/ACNUC_DB/mydb/flat_files/")
 system("gunzip -f escherichia_uniprot.dat.Z")
 setwd(pwd)
 @ 
 
-\end{itemize}
-A simple building of the index can be done with the script  \texttt{buildindex.csh} available at:
+
+\item A simple building of the index can be done with the script  \texttt{buildindex.csh} available at:
 
 \begin{verbatim}
 ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh
 \end{verbatim}
 
 
-% Mettre eval=F apres premier download
-<<dowloadacnucscript,fig=F,eval=T>>=
-download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh",
-destfile = "buildindex.csh")
-@
-
-You can copy this file in ../ACNUC\_MYDB/ and execute it:
+You can copy this file in ACNUC\_HOME/ACNUC\_DB/mydb and execute it by typing::
 
 \begin{verbatim}
 ./buildindex.csh escherichia_uniprot
@@ -483,9 +436,8 @@ You can copy this file in ../ACNUC\_MYDB/ and execute it:
 % Mettre eval=F apres premier download
 <<dowloadacnucscript,fig=F,eval=T>>=
 download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh",
-destfile = "buildindex.csh")
-system("cp buildindex.csh ../ACNUC_MYDB")
-setwd("../ACNUC_MYDB")
+destfile = "./ACNUC_HOME/ACNUC_DB/mydb/buildindex.csh")
+setwd("./ACNUC_HOME/ACNUC_DB/mydb/")
 system("chmod +x ./buildindex.csh")
 system("./buildindex.csh escherichia_uniprot >  ./build.log")
 cat(readLines("build.log",50), sep = "\n")
@@ -494,27 +446,56 @@ setwd(pwd)
 @
 You can check the building in the \texttt{build.log} file.
 
+\end{itemize}
 
 
 
 
-
+%%%%%%%%%%%%%%
 \section{Misc} 
 %%%%%%%%%%%%%
 
-Other tools for acnuc
+\subsection{Other tools for acnuc}
 
 Several powerful tools dedicated to query ACNUC databases are available. 
-
 The programs \textbf{query} and \textbf{query\_win} allow to query an ACNUC database according to the same
-criteria than described  in seqinR. It allows as well several functionality to extact biological data.
+criteria than described  in seqinR. It allows as well several functionality to extract biological data.
 \textbf{query\_win} is a graphical version of query.
-\textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
+\textbf{query} is an command-line version which allows to query and ACNUC database through scripts.
 Both \textbf{query} and  \textbf{query\_win} are available as a
 \textit{client} or a \textit{local} application. More information on these programs can be found at:
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/software/query_win.html
-\end{verbatim}. 
+\end{verbatim} 
+
+Note:
+The \textit{local} version of \textbf{query} is distributed with the ACNUC management  tools,
+ thus it is already available in your ./ACNUC\_HOME/ACNUC\_SOFT/tools/ directory.
+Before using it you need to set two environment  variables, \textit{acnuc} and \textit{gcganuc} :
+\begin{verbatim}
+setenv acnuc MYDATABASE/index
+setenv gcgacnuc MYDATABASE/flat_files 
+\end{verbatim}
+
+where MYDATABASE is the path to the database you want to query ( for example: ./ACNUC\_HOME/ACNUC\_DB/demoacnuc/
+ or ./ACNUC\_HOME/ACNUC\_DB/mydb/)
+  
+ 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Technical description of the racnucd daemon}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Technical information about the acnuc socket server is available at this url:
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ACNUC remote access protocol}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Description of the socket communication protocol with acnuc is availble at this url:
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}
 
 
 
