@@ -1,7 +1,7 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Installation of a local ACNUC socket server on your machine.}
+\title{Installation of a local ACNUC socket server and of a local ACNUC database on your machine.}
 \author{Penel, S.}
 
 \begin{document}
@@ -500,14 +500,41 @@ Description of the socket communication protocol with acnuc is availble at this 
 
 
 
-\section{Citation} 
+\section{Citation (à faire valider par Manolo)} 
 %%%%%%%%%%%%%
 
-If you use query\_win or query in a published work, please cite the following reference:
-Gouy M, Gautier C, Attimonelli M, Lanave C, di Paola G. (1985)
- ACNUC--a portable retrieval system for nucleic acid sequence databases: 
- logical and physical designs and usage.. CABIOS, 1, 167-172. 
+You can use a citation along these lines:
 
+\vspace{0.2cm}
+
+\noindent\fbox{\begin{minipage}{\textwidth}
+\noindent Sequences from [\textit{cite your source of data}] were structured under the 
+ACNUC model \cite{acnuc1984, acnuc1985, acnuc1985b}, hosted [at \textit{give your URL if
+public}] by an ACNUC server \cite{acnuc2007} and analyzed with 
+the \seqinr{} client \cite{seqinr} under the \Rlogo{} statistical environment \cite{RfromR}.
+\end{minipage}}
+
+\vspace{0.2cm}
+
+For \LaTeX{} users, these references are available in the \texttt{book.bib} file that ships
+with \seqinr{} in the \texttt{seqinr/doc/src/config/} folder. To locate this file on your
+computer try:
+
+<<showbookbib,fig=F>>=
+(seqinrloc <- normalizePath(.path.package("seqinr")))
+setwd(seqinrloc)
+dir()
+setwd("./doc/src/config")
+dir()
+cat(readLines("book.bib", n = 5), sep = "\n")
+@ 
+
+%
+% For Sweave users, go back home:
+%
+<<gobackhome,fig=F,echo=F,results=hide>>=
+setwd(pwd)
+@ 
 
 \SweaveInput{../config/sessionInfo.rnw}
 
