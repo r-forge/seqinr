@@ -459,14 +459,23 @@ You can check the building in the \texttt{build.log} file.
 
 Several powerful tools dedicated to query ACNUC databases are available. 
 The programs \textbf{query} and \textbf{query\_win} allow to query an ACNUC database according to the same
-criteria than described  in seqinR. It allows as well several functionality to extract biological data.
-\textbf{query\_win} is a graphical version of query.
+criteria than described  in \seqinr{}. It allows as well several functionality to extract biological data.
+\textbf{query\_win} is a graphical version of query (\textit{cf} figure \ref{queryw}).
 \textbf{query} is an command-line version which allows to query and ACNUC database through scripts.
 Both \textbf{query} and  \textbf{query\_win} are available as a
 \textit{client} or a \textit{local} application. More information on these programs can be found at:
-\begin{verbatim}
-http://pbil.univ-lyon1.fr/software/query_win.html
-\end{verbatim} 
+\url{http://pbil.univ-lyon1.fr/software/query_win.html}
+
+\begin{figure}
+\fbox{
+\begin{minipage}{\textwidth}
+\includegraphics[width=\textwidth]{../figs/query_win_screenshot}
+\caption{Screenshot of query\_win}
+\label{queryw}
+\end{minipage}
+}
+\end{figure}
+
 
 Note:
 The \textit{local} version of \textbf{query} is distributed with the ACNUC management  tools,

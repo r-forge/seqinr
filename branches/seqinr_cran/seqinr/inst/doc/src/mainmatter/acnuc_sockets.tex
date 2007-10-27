@@ -1,7 +1,7 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Installation of a local ACNUC socket server on your machine (under development)}
+\title{Installation of a local ACNUC socket server and of a local ACNUC database on your machine.}
 \author{Penel, S.}
 
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
@@ -46,32 +46,21 @@
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-This chapter is under development and not complete.
+This chapter is under development.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System requirement}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The socket server will build under a number of common Unix and Unix-alike
-platforms.  In addition, binary distributions are available for the most
-common Linux distributions and for Mac OS X  (XXX to be done XXX ). If you wish
-to install the server from sources, or if you want to build an ACNUC database,
-you will need several tools: programs are written in C thus you will need a
-means of compiling C (as gcc compilation tools For Linux or Unix , Apple
-Developer Tools  for MacOSX). You need as well library zlib and sockets
-(standards on linux and unix). Basically if you are installing \Rlogo{} from the
+Basically if you are installing \Rlogo{} from the
 sources, you should be able to build a ACNUC socket server.
+The socket server will build under a number of common Unix and Unix-alike
+platforms. You will need several tools: programs are written in C thus 
+you will need a
+means of compiling C (as gcc compilation tools for linux or unix, Apple
+Developer Tools  for MacOSX). You need as well library zlib and sockets
+(standards on linux and unix).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Technical description of the racnucd daemon}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Technical information about the acnuc socket server is available at this url:
-\url{http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html}.
-
-
-\section{ACNUC remote access protocol}
-Description of the socket communication protocol with acnuc is availble at this url:
-\url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Setting a local ACNUC database to be queried by the server}
@@ -84,8 +73,7 @@ An ACNUC database is composed of two sets of files:
 	\item  the database files (\textit{i.e.} flat files in EMBL/GenBank or SwissProt format).
 \end{enumerate}
 
-These two sets will be located  in the \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
-(Directories \textit{acnuc} and  \textit{gcgacnuc} may be identical however it is prefered to use two distict directories.)
+These two sets will be located  in the \texttt{index} and  \texttt{flat\_files} directories  respectively.
 
 An example of an ACNUC database is available on the PBIL ftp server  at this url:
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
@@ -95,35 +83,40 @@ Let ACNUC\_HOME be the base directory for ACNUC intallation.
 
 \begin{Schunk}
 \begin{Sinput}
- dir.create("../ACNUC_HOME", showWarning = FALSE)
+ dir.create("./ACNUC_HOME", showWarning = FALSE)
 \end{Sinput}
 \end{Schunk}
 
+
+Let ACNUC\_HOME/ACNUC\_DB be the  directory where you want to install the databases and ACNUC\_HOME/ACNUC\_DB/demoacnuc 
+the directory where you want to install the demo database.
+
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("./ACNUC_HOME/ACNUC_DB", showWarning = FALSE)
+ dir.create("./ACNUC_HOME/ACNUC_DB/demoacnuc", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
+
+
 \begin{itemize}
-\item Dowload the ACNUC database.
+\item Dowload the ACNUC database in the ./ACNUC\_HOME/ACNUC\_DB/demoacnuc/ directory.
 
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
  download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z", 
-     destfile = "acnucdatabase.tar.Z")
+     destfile = "./ACNUC_HOME/ACNUC_DB/demoacnuc/acnucdatabase.tar.Z")
 \end{Sinput}
 \end{Schunk}
 
-\item Copy the  acnucdatabase.tar.Z file  into ACNUC\_HOME.
-
-\begin{Schunk}
-\begin{Sinput}
- system("cp acnucdatabase.tar.Z ../ACNUC_HOME")
-\end{Sinput}
-\end{Schunk}
 
 \item Uncompress and untar the \texttt{acnucdatabase.tar.Z} file 
 
 \begin{Schunk}
 \begin{Sinput}
  pwd <- getwd()
- setwd("../ACNUC_HOME")
+ setwd("./ACNUC_HOME/ACNUC_DB/demoacnuc/")
  system("gunzip -f acnucdatabase.tar.Z")
  system("tar -xvf acnucdatabase.tar")
  system("rm -f acnucdatabase.tar")
@@ -134,19 +127,45 @@ Let ACNUC\_HOME be the base directory for ACNUC intallation.
 \end{itemize}
 Now you sould get the following directories:
 \begin{verbatim}
-ACNUC_HOME/acnucdatabase/index
-ACNUC_HOME/acnucdatabase/flat_files
+ACNUC_HOME/ACNUC_DB/demoacnuc/index
+ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files
 \end{verbatim}
 
+The directory ACNUC<\_HOME/ACNUC\_DB/demoacnuc contains: 
 \begin{Schunk}
 \begin{Sinput}
- dir("../ACNUC_HOME")
+ dir("./ACNUC_HOME/ACNUC_DB/demoacnuc")
 \end{Sinput}
 \begin{Soutput}
 [1] "flat_files" "index"     
 \end{Soutput}
 \end{Schunk}
-which are the   \textit{acnuc} and  \textit{gcgacnuc} directories  respectively.
+These directories  contains respectively:
+
+
+\begin{Schunk}
+\begin{Sinput}
+ dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
+\end{Sinput}
+\begin{Soutput}
+ [1] "ACCESS"                  "AUTHOR"                 
+ [3] "BIBLIO"                  "EXTRACT"                
+ [5] "HELP"                    "HELP_WIN"               
+ [7] "KEYWORDS"                "LOCUS"                  
+ [9] "LONGL"                   "MERES"                  
+[11] "SHORTL"                  "SMJYT"                  
+[13] "SPECIES"                 "SUBSEQ"                 
+[15] "TAXIDS"                  "TEXT"                   
+[17] "custom_qualifier_policy"
+\end{Soutput}
+\begin{Sinput}
+ dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
+\end{Sinput}
+\begin{Soutput}
+[1] "escherichia.dat" "id.log"          "yeast.dat"      
+\end{Soutput}
+\end{Schunk}
+
 
 This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
 \textit{Saccharomyces cerevesiae}.
@@ -158,6 +177,8 @@ This database contains the complete genome of \textit{Escherichia coli K12 W3110
 Once you have a local  ACNUC database available on your server you need to install the sockets server.
 
 \subsection{Download the sources.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The code source of the racnucd server is available on the PBIL server  at this url:
 \begin{verbatim}
 http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html
@@ -168,31 +189,25 @@ ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar
 \end{verbatim}
 
 \subsection{Build the ACNUC sockets server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 You may install the racnucd server as it follows:
-let RACNUCD\_HOME be the base directory for the socket.
+let ACNUC\_HOME/ACNUC\_SOFT/ be the base directory for the ACNUC softs.
 
 \begin{Schunk}
 \begin{Sinput}
- dir.create("../RACNUCD_HOME", showWarning = FALSE)
+ dir.create("./ACNUC_HOME/ACNUC_SOFT", showWarning = FALSE)
 \end{Sinput}
 \end{Schunk}
 
 \begin{itemize}
-\item Dowload the \texttt{racnucd.tar} file.
+\item Dowload the \texttt{racnucd.tar} file into ACNUC\_HOME/ACNUC\_SOFT.
 
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
  download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar", 
-     destfile = "racnucd.tar")
-\end{Sinput}
-\end{Schunk}
-
-\item Copy the \texttt{racnucd.tar} file into RACNUCD\_HOME.
-
-\begin{Schunk}
-\begin{Sinput}
- system("cp racnucd.tar ../RACNUCD_HOME")
+     destfile = "./ACNUC_HOME/ACNUC_SOFT/racnucd.tar")
 \end{Sinput}
 \end{Schunk}
 
@@ -200,7 +215,7 @@ let RACNUCD\_HOME be the base directory for the socket.
 
 \begin{Schunk}
 \begin{Sinput}
- setwd("../RACNUCD_HOME")
+ setwd("./ACNUC_HOME/ACNUC_SOFT/")
  system("tar -xvf racnucd.tar")
  system("rm -f racnucd.tar")
  setwd(pwd)
@@ -209,20 +224,38 @@ let RACNUCD\_HOME be the base directory for the socket.
 
 \end{itemize}
 Now you sould get the following directory:
-\begin{verbatim}
-RACNUCD_HOME/racnucd
-\end{verbatim}
+
 
 \begin{Schunk}
 \begin{Sinput}
- dir("../RACNUCD_HOME")
+ dir("./ACNUC_HOME/ACNUC_SOFT/")
 \end{Sinput}
 \begin{Soutput}
-[1] "racnucd"
+[1] "racnucd" "tools"  
+\end{Soutput}
+\begin{Sinput}
+ dir("./ACNUC_HOME/ACNUC_SOFT/racnucd/")
+\end{Sinput}
+\begin{Soutput}
+ [1] "bit.c"                "bit.o"                "dbplaces"            
+ [4] "dir_acnuc.h"          "dir_io.c"             "dir_io.h"            
+ [7] "dir_io.o"             "execute.c"            "execute.h"           
+[10] "execute.o"            "extract.c"            "extract.o"           
+[13] "knowndbs"             "lngbit.c"             "lngbit.o"            
+[16] "makefile"             "md5.c"                "md5.o"               
+[19] "misc_acnuc.c"         "misc_acnuc.o"         "ordre.h"             
+[22] "parser.c"             "parser.o"             "prep_acnuc_requete.c"
+[25] "prep_acnuc_requete.o" "pretty_seq.c"         "pretty_seq.o"        
+[28] "proc_requete.c"       "proc_requete.o"       "racnucd"             
+[31] "racnucd.ini"          "racnucd.log"          "requete_acnuc.h"     
+[34] "serveur.c"            "serveur.h"            "serveur.o"           
+[37] "simext.h"             "use_acnuc.c"          "use_acnuc.o"         
+[40] "utilquery.c"          "utilquery.o"          "zsockw.c"            
+[43] "zsockw.o"            
 \end{Soutput}
 \end{Schunk}
 
-Go into RACNUCD\_HOME/racnucd/ and type;
+Go into ACNUC\_HOME/ACNUC\_SOFT/racnucd/ and type;
 \begin{verbatim}
 make
 \end{verbatim}
@@ -230,7 +263,7 @@ This should create the \textbf{racnucd} executable.
 
 \begin{Schunk}
 \begin{Sinput}
- setwd("../RACNUCD_HOME/racnucd")
+ setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
  system("make")
  dir(pattern = "racnucd")
 \end{Sinput}
@@ -243,20 +276,16 @@ This should create the \textbf{racnucd} executable.
 \end{Schunk}
 
 \subsection{Setting the ACNUC sockets server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The server is configured by several parameters described in a configuration file \textbf{racnuc.ini}.
 The \textbf{racnucd.ini} file is structued as follows:
 
-\begin{verbatim}
-port=5558
-maxtime=8000
-known_db_file=knowndbs
-db_env_names=dbplaces
-\end{verbatim}
 
 \begin{Schunk}
 \begin{Sinput}
- ini <- readLines("../RACNUCD_HOME/racnucd/racnucd.ini")
- cat(ini, sep = "\n")
+ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), 
+     sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 port=5558
@@ -267,20 +296,21 @@ db_env_names=dbplaces
 \end{Schunk}
 
 \begin{itemize}
+\item \textbf{port} is the port of the socket server 
+\item \textbf{maxtimle} is the time delay of the connection
 \item \textbf{knowndbs} is a file containing the list of available databases
 \item \textbf{dbplaces} is a file containing the path of the available databases
 \end{itemize}
 
+\subsubsection{Configuring the knowndbs file.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The \textbf{knowndbs} contains:
-\begin{verbatim}
-embl | on |    | EMBL sequence data library | 
-swissprot   | on |  | UniProt |
-\end{verbatim}
 
 \begin{Schunk}
 \begin{Sinput}
- knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
- cat(knowndbs, sep = "\n")
+ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs"), 
+     sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 embl | on |    | EMBL sequence data library | 
@@ -290,16 +320,34 @@ swissprot   | on |  | UniProt |
 
 Each line defines a database,  the four fields indicating respectively the name
  of the database, its status  (\textit{on} or \textit{off}), a tag and a short description.
-
-The \textbf{dbplaces} contains:
+ 
+You should set the files \textbf{knowndbs}  according to your installation.
+Let's call the database you installed previously \textit{demoacnuc}.
+Modify  the \textbf{knowndbs} as follows:
 \begin{verbatim}
-setenv  swissprot       '/Users/mgouy/Documents/acnuc/petite/swissprot /Users/mgouy/Documents/acnuc/petite/swissprot'
-setenv  embl    '/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/acnuc/petite/embl'
+demoacnuc | on |    | Demo Database | 
 \end{verbatim}
 
 \begin{Schunk}
 \begin{Sinput}
- dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
+ writeLines("demoacnuc | on |    | Demo Database | ", "./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs")
+ knowndbs <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs")
+ cat(knowndbs, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+demoacnuc | on |    | Demo Database | 
+\end{Soutput}
+\end{Schunk}
+
+\subsubsection{Configuring the dbplaces file.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+The \textbf{dbplaces} contains:
+
+\begin{Schunk}
+\begin{Sinput}
+ dbplaces <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
  cat(dbplaces, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
@@ -312,78 +360,52 @@ setenv 	embl 	'/Users/mgouy/Documents/acnuc/petite/embl /Users/mgouy/Documents/a
 
 Each line set the acnuc and gcgacnuc variables for each   database.
 
-Then you should set the files \textbf{knowndbs} and \textbf{dbplaces} according to your installation.
-Let's call the database you installed previously \textit{demoacnuc}.
-Modify  the \textbf{knowndbs} as follows:
+
+You should set the files \textbf{dbplaces}  according to your installation:
+ modify  the \textbf{dbplaces} as follows:
 \begin{verbatim}
-demoacnuc | on |    | Demo Database | 
+setenv  demoacnuc       'ACNUC_HOME/ACNUC_DB/demoacnuc/index ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
 \end{verbatim}
 
 \begin{Schunk}
 \begin{Sinput}
- writeLines("demoacnuc | on |    | Demo Database | ", "../RACNUCD_HOME/racnucd/knowndbs")
- knowndbs <- readLines("../RACNUCD_HOME/racnucd/knowndbs")
- cat(knowndbs, sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-demoacnuc | on |    | Demo Database | 
-\end{Soutput}
-\end{Schunk}
-
-and modify  the \textbf{dbplaces} as follows:
-
-\begin{verbatim}
-setenv  demoacnuc       'ACNUC_HOME/acnucdatabase/index ACNUC_HOME/acnucdatabase/flat_files'
-\end{verbatim}
-
-\begin{Schunk}
-\begin{Sinput}
- indexpath <- normalizePath("../ACNUC_HOME/index")
- ffpath <- normalizePath("../ACNUC_HOME/flat_files")
+ indexpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
+ ffpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
  newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, 
      "'", sep = "", collapse = "")
- writeLines(newdb, "../RACNUCD_HOME/racnucd/dbplaces")
- dbplaces <- readLines("../RACNUCD_HOME/racnucd/dbplaces")
+ writeLines(newdb, "./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
+ dbplaces <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
  cat(dbplaces, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-setenv demoacnuc '/Users/lobry/seqinr/inst/doc/src/ACNUC_HOME/index /Users/lobry/seqinr/inst/doc/src/ACNUC_HOME/flat_files'
+setenv demoacnuc '/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/index /Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
 \end{Soutput}
 \end{Schunk}
 
-Finaly, in the RACNUCD\_HOME/racnucd/ directory, type
-\begin{verbatim}
-./racnucd racnucd.ini
-\end{verbatim}
+\subsubsection{Launch the server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The server should launch and say:
-\begin{verbatim}
 
-*******************************************************
-Start of remote acnuc server : Tue Oct 16 15:46:16 2007
-
-\end{verbatim}
-
+Finaly, in the RACNUCD\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
 
 \begin{Schunk}
 \begin{Sinput}
- setwd("../RACNUCD_HOME/racnucd")
+ setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
  system("./racnucd racnucd.ini > racnucd.log &")
  Sys.sleep(1)
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "10482  p1  S+     0:00.01 ./racnucd racnucd.ini"  
-[2] "10486  p1  S+     0:00.03 ./racnucd racnucd.ini"  
-[3] "10501  p1  S+     0:00.01 sh -c ps | grep racnucd"
-[4] "10503  p1  R+     0:00.00 grep racnucd"           
+[1] "  610  p1- S      0:00.02 ./racnucd racnucd.ini"  
+[2] "17691  p1  S+     0:00.01 sh -c ps | grep racnucd"
+[3] "17693  p1  R+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Wed Oct 17 20:39:34 2007
+Start of remote acnuc server : Sat Oct 27 10:16:54 2007
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -393,19 +415,17 @@ Start of remote acnuc server : Wed Oct 17 20:39:34 2007
 The server is now ready.
 
 \subsection{Using seqinR to query your local socket server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Launch \Rlogo{}, load the \texttt{seqinr} package  and type
 
-\begin{Schunk}
-\begin{Sinput}
-choosebank(host="my_machine.domaine",info=T)
-\end{Sinput}
-\end{Schunk}
+
+\begin{verbatim}
+choosebank(host="my_machine",info=T)
+\end{verbatim}
+
 for example:
 
-\begin{Schunk}
-\begin{Sinput}
-choosebank(host="semle.univ-lyon1.fr",info=T)
-\end{Sinput}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -427,17 +447,8 @@ choosebank(host="semle.univ-lyon1.fr",info=T)
 \end{Soutput}
 \end{Schunk}
 
-You should obtain something like:
 
-\begin{Soutput}
-       bank status
-1 demoacnuc     on
-                                                                 info
-1 ACNUC database example. (September 2007) Last Updated: Oct 15, 2007
-\end{Soutput}
-\end{Schunk}
-
-You can now query the database. For example:
+You can query the database. For example:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -465,79 +476,439 @@ You can now query the database. For example:
 \end{Soutput}
 \end{Schunk}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ACNUC sockets server binaries distributions. (under development)}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Binaries are available for several machines: 
-
-\begin{itemize}
-	\item  Unix sunOS
-	\item  Linux RedHat
-	\item Darwin Mac OS
-\end{itemize}
-
-You can download the different distribution at this address: 
-(XXX to be done XXX ).
-
-Then you can install the socket server :
-
-Bla.. blah blah
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Building your own  ACNUC database. (under development)}
+\section{Building your own  ACNUC database.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 One of the interest of a local server is to be able use your own ACNUC
 database.
 
- \subsection{System requirements.}
- 
-ACNUC runs on UNIX systems, Windows NT/95/98/00/XP, MacOS 9/X. Tested UNIX
-systems include SUN, Linux on PC, IBM RS/6000, Silicon Graphics, DEC Alpha,
-Fujitsu UXP/M. ACNUC should be easily installed on any other UNIX platforms. 
 
-\subsection{Database requirements.}
+\subsection{Database flatfiles formats.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ACNUC database are build from flat files in several possible format : EMBL, Genbank or
-SwissProt.
+SwissProt. Instructions to install ACNUC databases are given at this url :
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/localinstall.html
+\end{verbatim}
+
 
 \subsection{Download the ACNUC dababase management tools.}
  
+ 
+ 
+ 
+ The code source of the ACNUC tools server are available on the PBIL server  at this url:
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar
+\end{verbatim}
+
 \subsection{Install the ACNUC dababase management tools.}
+ANCUC management tools are described at this url :
+\begin{verbatim}
+http://pbil.univ-lyon1.fr/databases/acnuc/acnuc_gestion.html
+\end{verbatim}
 
-\subsection{Database building}
+Let ACNUC\_HOME/ACNUC\_SOFT/tools be the base directory for the ACNUC tools.
 
+
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("./ACNUC_HOME/ACNUC_SOFT/tools", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
+
+\begin{itemize}
+\item Dowload the \texttt{acnucsoft.tar} file into ACNUC\_HOME/ACNUC\_SOFT/tools.
+
+% Mettre eval=F apres premier download
+\begin{Schunk}
+\begin{Sinput}
+ download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar", 
+     destfile = "./ACNUC_HOME/ACNUC_SOFT/tools/acnucsoft.tar")
+\end{Sinput}
+\end{Schunk}
+
+
+\item Untar the \texttt{acnucsoft.tar} file 
+
+\begin{Schunk}
+\begin{Sinput}
+ setwd("./ACNUC_HOME/ACNUC_SOFT/tools/")
+ system("tar -xvf acnucsoft.tar")
+ system("rm -f acnucsoft.tar")
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
+
+
+
+
+\item Go into ACNUC\_SOFT/ and type;
+\begin{verbatim}
+make
+\end{verbatim}
+This should create the ACNUC management tools and ACNUC querying tools.
+
+\begin{Schunk}
+\begin{Sinput}
+ setwd("./ACNUC_HOME/ACNUC_SOFT/tools/")
+ system("make")
+ dir()
+\end{Sinput}
+\begin{Soutput}
+ [1] "acnuc2fasta"         "acnuc2fasta.c"       "acnucf2c.c"         
+ [4] "acnucf2c.o"          "arbrebin.c"          "arbrebin.o"         
+ [7] "bit.c"               "bit.o"               "compressnewdiv"     
+[10] "compressnewdiv.c"    "connectindex"        "connectindex.c"     
+[13] "conv_to_bigannots"   "conv_to_bigannots.c" "coperations.c"      
+[16] "dir_acnuc.h"         "dir_io.c"            "dir_io.h"           
+[19] "dir_io.o"            "dynlist.c"           "dynlist.o"          
+[22] "extract.c"           "extract.o"           "fortran_ex.f"       
+[25] "gbemgener"           "gbemgener.c"         "gestion_acnuc.c"    
+[28] "gestion_acnuc.o"     "hashacc.c"           "hashacc.o"          
+[31] "initf"               "initf.c"             "libcacnuc.a"        
+[34] "lngbit.c"            "lngbit.o"            "makefile"           
+[37] "mdshrt_lng.c"        "mdshrt_lng.o"        "misc_acnuc.c"       
+[40] "misc_acnuc.o"        "ncbitaxo.h"          "newordalphab"       
+[43] "newordalphab.c"      "pretty_seq.c"        "pretty_seq.o"       
+[46] "proc_requete.c"      "proc_requete.o"      "query"              
+[49] "query.c"             "query.o"             "readidreport.c"     
+[52] "readidreport.o"      "readncbitaxo"        "readncbitaxo.c"     
+[55] "renamediv"           "renamediv.c"         "simext.h"           
+[58] "smjytload"           "smjytload.c"         "sortsubseq"         
+[61] "sortsubseq.c"        "supold"              "supold.c"           
+[64] "swgener"             "swgener.c"           "testmatchindex"     
+[67] "testmatchindex.c"    "two_banks.c"         "two_banks.o"        
+[70] "updatehelp"          "updatehelp.c"        "use_acnuc.c"        
+[73] "use_acnuc.o"         "utilgener.c"         "utilgener.h"        
+[76] "utilgener.o"         "utilgener2.c"        "utilgener2.o"       
+[79] "utilquery.c"         "utilquery.o"        
+\end{Soutput}
+\begin{Sinput}
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
+
+\end{itemize}
+ 
+\subsection{Database building : index generation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+You can now build your own database.
+All you need is a flat files
+in EMBL, GenBank or SwissProt format. You can download a file example at :
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z
+\end{verbatim}
+
+Let's use this SwissProt file to build your database
+\begin{itemize}
+
+\item Let ACNUC\_HOME/ACNUC\_DB/mydb be the directory for your databases.
+
+
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("./ACNUC_HOME/ACNUC_DB/mydb", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
+This directory should contain the  \textit{index} and \textit{flat\_files} directories.
+
+\begin{Schunk}
+\begin{Sinput}
+ dir.create("./ACNUC_HOME/ACNUC_DB/mydb/index", showWarning = FALSE)
+ dir.create("./ACNUC_HOME/ACNUC_DB/mydb/flat_files", showWarning = FALSE)
+\end{Sinput}
+\end{Schunk}
+
+\item Download the \texttt{escherichia\_uniprot.dat.Z} file into ACNUC\_HOME/ACNUC\_DB/mydb/flat\_files.
+
+% Mettre eval=F apres premier download
+\begin{Schunk}
+\begin{Sinput}
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z", 
+     destfile = "./ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat.Z")
+\end{Sinput}
+\end{Schunk}
+
+
+\item Uncompress the \texttt{escherichia\_uniprot.dat.Z} file 
+
+\begin{Schunk}
+\begin{Sinput}
+ setwd("./ACNUC_HOME/ACNUC_DB/mydb/flat_files/")
+ system("gunzip -f escherichia_uniprot.dat.Z")
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
+
+
+\item A simple building of the index can be done with the script  \texttt{buildindex.csh} available at:
+
+\begin{verbatim}
+ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh
+\end{verbatim}
+
+
+You can copy this file in ACNUC\_HOME/ACNUC\_DB/mydb and execute it by typing::
+
+\begin{verbatim}
+./buildindex.csh escherichia_uniprot
+\end{verbatim}
+
+% Mettre eval=F apres premier download
+\begin{Schunk}
+\begin{Sinput}
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh", 
+     destfile = "./ACNUC_HOME/ACNUC_DB/mydb/buildindex.csh")
+ setwd("./ACNUC_HOME/ACNUC_DB/mydb/")
+ system("chmod +x ./buildindex.csh")
+ system("./buildindex.csh escherichia_uniprot >  ./build.log")
+ cat(readLines("build.log", 50), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+ Build a protein database in:
+ ============================
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ 
+ACNUC environment:
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ 
+ACNUC tools in:
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ 
+flat file: escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ 
+Begin to build index...
+Sat Oct 27 10:17:15 CEST 2007
+=====================================
+Initialise
+Normal end.
+
+=====================================
+Generation des index
+Program started at Sat Oct 27 10:17:15 2007
+
+New division created: escherichia_uniprot
+Start loading ncbi species taxonomy
+Warning: file $acnuctaxo/id.report not found
+Sequence loading started at Sat Oct 27 10:17:15 2007
+
+---->3MG1_ECOLI
+---->3MG2_ECOLI
+---->6PGD_ECOLI
+---->6PGL_ECOLI
+---->A4UR75_ECOLI
+---->A4UR76_ECOLI
+---->A4UR77_ECOLI
+---->A4UR78_ECOLI
+---->A4UR79_ECOLI
+---->A4UR80_ECOLI
+---->A4UR81_ECOLI
+---->A4UR83_ECOLI
+---->A4UR84_ECOLI
+---->A4UR86_ECOLI
+---->A5A605_ECOLI
+---->A5A607_ECOLI
+---->A5A609_ECOLI
+---->A5A611_ECOLI
+---->A5A612_ECOLI
+---->A5A613_ECOLI
+---->A5A614_ECOLI
+\end{Soutput}
+\begin{Sinput}
+ cat(tail(readLines("build.log"), 50), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+---->ZRAS_ECOLI
+---->ZUPT_ECOLI
+---->ZUR_ECOLI
+Program finished at Sat Oct 27 10:17:19 2007
+
+lues=4461  chargees=4461  difference=0 seqs/second=1115.25
+
+=====================================
+run newordalphab
+
+Sorting file SUBSEQ.NEW
+Writing list of loci and unvalid seqs
+Sorting file SMJYT.NEW
+Computing sequence hashing
+Writing SPECIES.NEW
+Writing KEYWORDS.NEW
+Writing hashing data
+Short lists of keywords and info records
+Sorting file ACCESS.NEW
+Sorting file BIBLIO.NEW
+Writing LOCUS.NEW and lists of access#s and refers
+Sorting file AUTHOR.NEW
+Writing lists of seqs and authors for refers
+Writing lists of refers for authors
+Writing tree structure of keywords
+Writing tree structure of species
+Replacing old index files by new ones
+Normal end
+
+=====================================
+run updatehelp
+Sat Oct 27 10:17:20 CEST 2007
+Index have been sucessfully build.
+=====================================
+ 
+Testing the index:
+==================
+Opening a flat database in 2 divisions
+Sorry, no help available for this command: CONT
+[27 free lists available]
+
+Command? (or H for help)
+Enter your selection criteria, or H(elp) (EX: sp=equus and k=globin@)
+List LIST1 contains 4461 sequences 
+
+Command? (or H for help)
+List name,  or H(elp) ?  [LIST1] Name of file to write list content? [default= list1.mne] 
+Command? (or H for help)
+End of ACNUC retrieval program
+    4461    4461  182901 test.mn
+\end{Soutput}
+\begin{Sinput}
+ setwd(pwd)
+\end{Sinput}
+\end{Schunk}
+You can check the building in the \texttt{build.log} file.
+
+\end{itemize}
+
+
+
+
+%%%%%%%%%%%%%%
 \section{Misc} 
 %%%%%%%%%%%%%
 
-Other tools for acnuc
+\subsection{Other tools for acnuc}
 
 Several powerful tools dedicated to query ACNUC databases are available. 
-
 The programs \textbf{query} and \textbf{query\_win} allow to query an ACNUC database according to the same
-criteria than described  in seqinR. It allows as well several functionality to extact biological data.
-\textbf{query\_win} is a graphical version of query.
-\textbf{query} is an on-line version which allows to query and ACNUC database through scripts.
+criteria than described  in \seqinr{}. It allows as well several functionality to extract biological data.
+\textbf{query\_win} is a graphical version of query (\textit{cf} figure \ref{queryw}).
+\textbf{query} is an command-line version which allows to query and ACNUC database through scripts.
 Both \textbf{query} and  \textbf{query\_win} are available as a
 \textit{client} or a \textit{local} application. More information on these programs can be found at:
+\url{http://pbil.univ-lyon1.fr/software/query_win.html}
+
+\begin{figure}
+\fbox{
+\begin{minipage}{\textwidth}
+\includegraphics[width=\textwidth]{../figs/query_win_screenshot}
+\caption{Screenshot of query\_win}
+\label{queryw}
+\end{minipage}
+}
+\end{figure}
+
+
+Note:
+The \textit{local} version of \textbf{query} is distributed with the ACNUC management  tools,
+ thus it is already available in your ./ACNUC\_HOME/ACNUC\_SOFT/tools/ directory.
+Before using it you need to set two environment  variables, \textit{acnuc} and \textit{gcganuc} :
 \begin{verbatim}
-http://pbil.univ-lyon1.fr/software/query_win.html
-\end{verbatim}. 
+setenv acnuc MYDATABASE/index
+setenv gcgacnuc MYDATABASE/flat_files 
+\end{verbatim}
+
+where MYDATABASE is the path to the database you want to query ( for example: ./ACNUC\_HOME/ACNUC\_DB/demoacnuc/
+ or ./ACNUC\_HOME/ACNUC\_DB/mydb/)
+  
+ 
 
 
 
 
-\section{Citation} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Technical description of the racnucd daemon}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Technical information about the acnuc socket server is available at this url:
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/racnucd.html}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ACNUC remote access protocol}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Description of the socket communication protocol with acnuc is availble at this url:
+\url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}
+
+
+
+
+\section{Citation (à faire valider par Manolo)} 
 %%%%%%%%%%%%%
 
-If you use query\_win or query in a published work, please cite the following reference:
-Gouy M, Gautier C, Attimonelli M, Lanave C, di Paola G. (1985)
- ACNUC--a portable retrieval system for nucleic acid sequence databases: 
- logical and physical designs and usage.. CABIOS, 1, 167-172. 
+You can use a citation along these lines:
 
+\vspace{0.2cm}
+
+\noindent\fbox{\begin{minipage}{\textwidth}
+\noindent Sequences from [\textit{cite your source of data}] were structured under the 
+ACNUC model \cite{acnuc1984, acnuc1985, acnuc1985b}, hosted [at \textit{give your URL if
+public}] by an ACNUC server \cite{acnuc2007} and analyzed with 
+the \seqinr{} client \cite{seqinr} under the \Rlogo{} statistical environment \cite{RfromR}.
+\end{minipage}}
+
+\vspace{0.2cm}
+
+For \LaTeX{} users, these references are available in the \texttt{book.bib} file that ships
+with \seqinr{} in the \texttt{seqinr/doc/src/config/} folder. To locate this file on your
+computer try:
+
+\begin{Schunk}
+\begin{Sinput}
+ (seqinrloc <- normalizePath(.path.package("seqinr")))
+\end{Sinput}
+\begin{Soutput}
+[1] "/Users/lobry/seqinr.Rcheck/seqinr"
+\end{Soutput}
+\begin{Sinput}
+ setwd(seqinrloc)
+ dir()
+\end{Sinput}
+\begin{Soutput}
+ [1] "CITATION"    "CONTENTS"    "DESCRIPTION" "INDEX"       "Meta"       
+ [6] "R"           "R-ex"        "data"        "demo"        "doc"        
+[11] "exec"        "help"        "html"        "latex"       "libs"       
+[16] "man"         "sequences"  
+\end{Soutput}
+\begin{Sinput}
+ setwd("./doc/src/config")
+ dir()
+\end{Sinput}
+\begin{Soutput}
+[1] "atxy.sty"                   "authors.tex"               
+[3] "book.bib"                   "book.bib.~1.1.2.17.~"      
+[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.1.~"  
+[7] "commontex.tex"              "sessionInfo.rnw"           
+[9] "sessionInfo.rnw.~1.1.2.1.~"
+\end{Soutput}
+\begin{Sinput}
+ cat(readLines("book.bib", n = 5), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+@incollection{seqinr,
+    author = {Charif, D. and Lobry, J.R.},
+    title = {Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.},
+    booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
+    year = {2007},
+\end{Soutput}
+\end{Schunk}
+
+%
+% For Sweave users, go back home:
+%
 
 
 \section{Session Informations}
@@ -558,7 +929,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Oct 17 20:39:35 2007
+  \item \Rlogo{} compilation time was: Sat Oct 27 10:17:20 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
