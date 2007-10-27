@@ -39,6 +39,112 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section{How can I compute a score over a moving window?}
+
+As an illustration, suppose that we want to reproduce a part
+of figure 1 from \cite{LobryMBE96} whose screenshot is given
+just below:
+
+\noindent\includegraphics[width=\textwidth]{../figs/gcskewmbe96}
+
+We need a fragment of \textit{Escherchia coli} K12 chromosome from
+67.4 min to 4.1 min on the genetic map. Let's put this fragment
+into the string \texttt{myseq}:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("greview")
+ myseq1 <- gfrag("U00096", start = 3217270, length = 10^7)
+ myseq2 <- gfrag("U00096", start = 1, length = 194133)
+ closebank()
+ myseq <- paste(myseq1, myseq2, sep = "")
+ nchar(myseq)
+\end{Sinput}
+\begin{Soutput}
+[1] 1616539
+\end{Soutput}
+\end{Schunk}
+
+This is not exactly the same sequence that was used in \cite{LobryMBE96}
+but very close to. We define a function and move along the sequence:
+
+\begin{Schunk}
+\begin{Sinput}
+ gcskew <- function(x) {
+     tmp <- s2c(x)
+     nC <- sum(tmp == "c")
+     nG <- sum(tmp == "g")
+     return(100 * (nC - nG)/(nC + nG))
+ }
+ step <- 10000
+ wsize <- 10000
+ starts <- seq(from = 1, to = nchar(myseq), by = step)
+ starts <- starts[-length(starts)]
+ n <- length(starts)
+ result <- numeric(n)
+ for (i in seq_len(n)) {
+     result[i] <- gcskew(substr(myseq, starts[i], starts[i] + 
+         wsize - 1))
+ }
+\end{Sinput}
+\end{Schunk}
+
+And we plot the result:
+
+\begin{Schunk}
+\begin{Sinput}
+ xx <- starts/1000
+ yy <- result
+ n <- length(result)
+ hline <- 0
+ plot(yy ~ xx, type = "n", axes = FALSE, ann = FALSE, ylim = c(-10, 
+     10))
+ polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", 
+     border = NA)
+ usr <- par("usr")
+ rect(usr[1], usr[3], usr[2], hline, col = "white", border = NA)
+ lines(xx, yy)
+ abline(h = hline)
+ box()
+ axis(1, at = seq(0, 1600, by = 200))
+ axis(2, las = 1)
+ title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %", main = expression(paste("GC skew in ", 
+     italic(Escherichia ~ ~coli))))
+ arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
+ text(860, 5.5, "origin of replication", pos = 4)
+\end{Sinput}
+\end{Schunk}
+
+\noindent\includegraphics[width=\textwidth]{../figs/FAQ-gcplot}
+
+
+
+\section{How can I extract just a fragment from my sequence?}
+
+Use the generic function \texttt{getFrag()} :
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("emblTP")
+ query("mylist", "AC=A00001")
+ getFrag(mylist$req[[1]], begin = 10, end = 20)
+\end{Sinput}
+\begin{Soutput}
+ [1] "g" "a" "t" "g" "g" "a" "g" "a" "a" "t" "t"
+attr(,"seqMother")
+[1] "A00001"
+attr(,"begin")
+[1] 10
+attr(,"end")
+[1] 20
+attr(,"class")
+[1] "SeqFrag"
+\end{Soutput}
+\begin{Sinput}
+ closebank()
+\end{Sinput}
+\end{Schunk}
+
 \section{How do I compute a score on my sequences?}
 
 In the example below we want to compute the G+C content in third codon
@@ -75,14 +181,14 @@ the proteins this way:
 \begin{Soutput}
  [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
  [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
-[15]  9.435422  4.310745  6.145496  4.876054 11.006430 10.876036  6.624309
+[15]  9.435422  4.310745  6.145496  4.876054 11.006430 10.876041  6.624309
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
 [36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031937  5.858421
-[43]  5.858421 11.777511 11.777516 10.619175 11.365738  9.460987 10.864793
-[50] 13.002373  9.845859 10.584868 11.421252 10.248320 11.031938 10.402075
+[43]  5.858421 11.777516 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584862 11.421257 10.248320 11.031938 10.402075
 [57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043602  6.624309
-[64]  6.612505  6.624309  4.310745
+[64]  6.612505  6.624309  4.310747
 \end{Soutput}
 \end{Schunk}
 
@@ -410,13 +516,21 @@ it's always better to use the accession numbers.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
-    xtable~1.4-3
+  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+    xtable~1.5-1
+  \item Loaded via a namespace (and not attached): grid~2.6.0,
+    rcompgen~0.1-15
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Sat Oct 27 21:08:36 2007
+  \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
 % END - DO NOT REMOVE THIS LINE

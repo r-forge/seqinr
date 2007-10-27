@@ -9,6 +9,90 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section{How can I compute a score over a moving window?}
+
+As an illustration, suppose that we want to reproduce a part
+of figure 1 from \cite{LobryMBE96} whose screenshot is given
+just below:
+
+\noindent\includegraphics[width=\textwidth]{../figs/gcskewmbe96}
+
+We need a fragment of \textit{Escherchia coli} K12 chromosome from
+67.4 min to 4.1 min on the genetic map. Let's put this fragment
+into the string \texttt{myseq}:
+
+<<getmyseq,fig=F,eval=T>>=
+choosebank("greview")
+myseq1 <-gfrag("U00096", start = 3217270, length = 10^7)
+myseq2 <- gfrag("U00096", start = 1, length = 194133)
+closebank()
+myseq <- paste(myseq1, myseq2, sep = "")
+nchar(myseq)
+@ 
+
+This is not exactly the same sequence that was used in \cite{LobryMBE96}
+but very close to. We define a function and move along the sequence:
+
+<<movingwindow,fig=F>>=
+gcskew <- function(x){
+  tmp <- s2c(x)
+  nC <- sum(tmp == "c")
+  nG <- sum(tmp == "g")
+  return(100*(nC - nG)/(nC + nG))
+}
+
+step <- 10000
+wsize <- 10000
+starts <- seq(from = 1, to = nchar(myseq), by = step)
+starts <- starts[-length(starts)] # remove last one
+n <- length(starts)
+result <- numeric(n)
+for(i in seq_len(n)){
+	result[i] <- gcskew(substr(myseq, starts[i], starts[i] + wsize - 1))
+}
+@ 
+
+And we plot the result:
+
+<<gcplot,fig=T,include=F,width=9.1,height=4.5>>=
+xx <- starts/1000
+yy <- result
+n <- length(result)
+hline <- 0
+
+plot (yy ~ xx, type="n", axes=FALSE, ann=FALSE, ylim = c(-10, 10))
+polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", border=NA)
+
+usr <- par("usr")
+rect(usr[1], usr[3], usr[2], hline, col="white", border=NA)
+
+lines(xx, yy)
+
+abline (h=hline)
+box()
+axis(1, at = seq(0,1600, by = 200))
+axis(2, las = 1) 
+title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %", 
+main = expression(paste("GC skew in ", italic(Escherichia~~coli))))
+arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
+text(860, 5.5, "origin of replication", pos = 4)
+@ 
+
+\noindent\includegraphics[width=\textwidth]{../figs/FAQ-gcplot}
+
+
+
+\section{How can I extract just a fragment from my sequence?}
+
+Use the generic function \texttt{getFrag()} :
+
+<<getFrag,fig=F>>=
+choosebank("emblTP")
+query("mylist", "AC=A00001")
+getFrag(mylist$req[[1]], begin = 10, end = 20)
+closebank()
+@ 
+
 \section{How do I compute a score on my sequences?}
 
 In the example below we want to compute the G+C content in third codon
