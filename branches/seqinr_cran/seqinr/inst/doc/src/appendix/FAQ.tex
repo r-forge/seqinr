@@ -76,16 +76,52 @@ from the concatenation of nine overlapping sequences
 Ambiguities have been resolved since then and its was a chimeric sequence
 from K-12 strains MG1655 and W3110 \cite{HayashiK2006}, the sequence used here
 is from strain MG1655 only \cite{BlattnerFR1997}. 
-}. We define a function and move along the sequence:
+}. We define a function called \texttt{gcskew()} that computes our score 
+for a given string \texttt{x}:
 
 \begin{Schunk}
 \begin{Sinput}
  gcskew <- function(x) {
-     tmp <- s2c(x)
+     if (!is.character(x) || length(x) > 1) 
+         stop("single string expected")
+     tmp <- tolower(s2c(x))
      nC <- sum(tmp == "c")
      nG <- sum(tmp == "g")
+     if (nC + nG == 0) 
+         return(NA)
      return(100 * (nC - nG)/(nC + nG))
  }
+ gcskew("GCCC")
+\end{Sinput}
+\begin{Soutput}
+[1] 50
+\end{Soutput}
+\begin{Sinput}
+ gcskew("GCCCNNNNNN")
+\end{Sinput}
+\begin{Soutput}
+[1] 50
+\end{Soutput}
+\end{Schunk}
+
+Note some defensive programming tricks used here:
+
+\begin{itemize}
+\item We check that the argument \texttt{x} is a single string.
+\item We expand it as vector of single chars with \texttt{s2c()} only within the
+      function to avoid big objects in the workspace.
+\item We force to lower case letters with \texttt{tolower()} so that we can use 
+      upper case letters too.
+\item We avoid division by zero and return \texttt{NA} in this case.
+\item We do not divide by the length of \texttt{x} but by the actual number
+      of C and G so that ambiguous bases such as N do not introduce biases.
+\end{itemize}
+
+
+We move now along the sequence:
+
+\begin{Schunk}
+\begin{Sinput}
  step <- 10000
  wsize <- 10000
  starts <- seq(from = 1, to = nchar(myseq), by = step)
@@ -221,14 +257,14 @@ the proteins this way:
 \begin{Soutput}
  [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
  [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
-[15]  9.435422  4.310745  6.145496  4.876054 11.006424 10.876041  6.624309
+[15]  9.435422  4.310747  6.145496  4.876054 11.006424 10.876041  6.624309
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
 [36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
-[43]  5.858421 11.777516 11.777511 10.619175 11.365738  9.460987 10.864793
-[50] 13.002381  9.845859 10.584862 11.421252 10.248325 11.031943 10.402075
-[57]  4.863862  6.612505  9.681066 11.150310 11.182499 11.043602  6.624309
-[64]  6.612505  6.624309  4.310745
+[43]  5.858421 11.777511 11.777516 10.619175 11.365744  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421257 10.248320 11.031937 10.402075
+[57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043602  6.624309
+[64]  6.612505  6.624309  4.310747
 \end{Soutput}
 \end{Schunk}
 
@@ -569,7 +605,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Oct 28 09:58:52 2007
+  \item \Rlogo{} compilation time was: Sun Oct 28 10:26:38 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

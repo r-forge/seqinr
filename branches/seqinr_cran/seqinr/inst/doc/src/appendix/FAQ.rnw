@@ -41,15 +41,40 @@ from the concatenation of nine overlapping sequences
 Ambiguities have been resolved since then and its was a chimeric sequence
 from K-12 strains MG1655 and W3110 \cite{HayashiK2006}, the sequence used here
 is from strain MG1655 only \cite{BlattnerFR1997}. 
-}. We define a function and move along the sequence:
+}. We define a function called \texttt{gcskew()} that computes our score 
+for a given string \texttt{x}:
 
-<<movingwindow,fig=F>>=
+<<scoredef,fig=F>>=
 gcskew <- function(x){
-  tmp <- s2c(x)
+  if( !is.character(x) || length(x) > 1 ) stop("single string expected")
+  tmp <- tolower(s2c(x))
   nC <- sum(tmp == "c")
   nG <- sum(tmp == "g")
+  if( nC + nG == 0 ) return(NA)
   return(100*(nC - nG)/(nC + nG))
 }
+gcskew("GCCC")
+gcskew("GCCCNNNNNN")
+@
+
+Note some defensive programming tricks used here:
+
+\begin{itemize}
+\item We check that the argument \texttt{x} is a single string.
+\item We expand it as vector of single chars with \texttt{s2c()} only within the
+      function to avoid big objects in the workspace.
+\item We force to lower case letters with \texttt{tolower()} so that we can use 
+      upper case letters too.
+\item We avoid division by zero and return \texttt{NA} in this case.
+\item We do not divide by the length of \texttt{x} but by the actual number
+      of C and G so that ambiguous bases such as N do not introduce biases.
+\end{itemize}
+
+
+We move now along the sequence:
+
+<<movingwindow,fig=F>>=
+
 
 step <- 10000
 wsize <- 10000
