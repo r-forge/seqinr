@@ -87,7 +87,11 @@ for(i in seq_len(n)){
 }
 @ 
 
-And we plot the result:
+And we plot\footnote{
+This code is adapted from the code at \url{http://www.stat.auckland.ac.nz/~paul/RGraphics/chapter3.html} for
+figure 3.25 in Paul Murrell's book \cite{MurrellP2005}. This book is a must read if you are interested
+by \Rlogo{}'s \textit{force de frappe} in the graphic domain. 
+} the result:
 
 <<gcplot,fig=T,include=F,width=9.1,height=4.5>>=
 xx <- starts/1000
