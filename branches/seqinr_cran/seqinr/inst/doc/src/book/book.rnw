@@ -17,7 +17,7 @@
 \definecolor{MyDarkBlue}{rgb}{0.1,0,0.35} 
 \usepackage[colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
 citecolor = MyDarkBlue, filecolor = MyDarkBlue, menucolor = MyDarkBlue,
-pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = true]{hyperref}
+pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = page]{hyperref}
 
 
 \setcounter{minitocdepth}{1}
@@ -85,7 +85,9 @@ includepart("../frontmatter/cover.tex", withminiTOC = F, withchapter=FALSE)
 \dominitoc
 \tableofcontents
 %
-% Get the list of *.tex files to be included from the fact that there is a corresponding *.rnw file
+% Get the list of *.tex files to be included from the fact that there is a corresponding *.rnw file.
+% This is automatic for the frontmatter and appendix section, but we need some manual inclusion
+% for the mainmatter section to keep chapter in appropriate order.
 %
 <<getfilelist,echo=F,results=hide,fig=F>>=
 rnw2tex <- function(directory){
@@ -94,7 +96,6 @@ rnw2tex <- function(directory){
   return(potential.tex.files[file.exists(potential.tex.files)])
 }
 frontmatter <- rnw2tex("../frontmatter")
-mainmatter <- rnw2tex("../mainmatter")
 appendix <- rnw2tex("../appendix")
 @
 
