@@ -89,8 +89,9 @@ includepart("../frontmatter/cover.tex", withminiTOC = F, withchapter=FALSE)
 %
 <<getfilelist,echo=F,results=hide,fig=F>>=
 rnw2tex <- function(directory){
-  x <- list.files(path = directory, pattern = ".rnw", full.names = TRUE)
-  return(sub("....$", ".tex", x))
+  files.rnw <- list.files(path = directory, pattern = glob2rx("*.rnw"), full.names = TRUE)
+  potential.tex.files <- sub("....$", ".tex", files.rnw)
+  return(potential.tex.files[file.exists(potential.tex.files)])
 }
 frontmatter <- rnw2tex("../frontmatter")
 mainmatter <- rnw2tex("../mainmatter")
