@@ -253,7 +253,7 @@ cat(dbplaces, sep = "\n")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Finaly, in the RACNUCD\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
+Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
 
 <<startserver,fig=F,eval=T>>=
 setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
