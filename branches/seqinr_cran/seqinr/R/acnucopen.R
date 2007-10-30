@@ -33,6 +33,7 @@ acnucopen <- function(db, socket, challenge = NA){
   # Check that there is an answer from server:
   #
   if(length(answerFromServer) == 0){
+    close(socket)
     stop("Empty answer from server")
   }
   res <- parser.socket(answerFromServer)
@@ -40,6 +41,7 @@ acnucopen <- function(db, socket, challenge = NA){
   # Check that no error is returned:
   #
   if(res[1] != "0"){
+    close(socket)
     if( res[1] == "1" ){
       stop("unrecognized command") # should not happen
     }
