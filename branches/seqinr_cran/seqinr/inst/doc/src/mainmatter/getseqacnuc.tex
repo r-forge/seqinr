@@ -261,6 +261,7 @@ close them as soon as the information has been retrieved.
      xlab = "Log10(number of taxa)")
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/getseqacnuc-plottaxaperbank}
 
 \subsection{Make your query}
 
@@ -759,15 +760,15 @@ subset of EMBL database to allow for the reproducibility of results.
 \end{Sinput}
 \begin{Soutput}
          used (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells 244210  6.6    4023516 107.5  5860551 156.5
-Vcells 611431  4.7   29807360 227.5 37726935 287.9
+Ncells 244238  6.6    4116643 110.0  5860551 156.5
+Vcells 570301  4.4   29637240 226.2 37726935 287.9
 \end{Soutput}
 \begin{Sinput}
  (tcb <- system.time(choosebank("emblTP")))
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      0.054       0.001       5.411 
+      0.056       0.001       5.395 
 \end{Soutput}
 \begin{Sinput}
  (tqu <- system.time(query("hsCDS", "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", 
@@ -775,7 +776,7 @@ utilisateur    syst`eme    'ecoul'e
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      0.000       0.000      11.206 
+      0.001       0.000      11.886 
 \end{Soutput}
 \begin{Sinput}
  (nseq <- hsCDS$nelem)
@@ -833,7 +834,7 @@ extractseqs OK, program carry on...
 Ok, everything is fine!
 Closing socket close_sock_gz_r  status = 0
 utilisateur    syst`eme    'ecoul'e 
-     10.926       1.092      62.522 
+      8.988       1.058      58.535 
 \end{Soutput}
 \end{Schunk}
 
@@ -843,10 +844,10 @@ the relevant database. We suppose that the sequences we are interested in
 are all the complete coding sequences from \textit{Homo sapiens} that
 are encoded in the nucleus (we don't want sequences from human mitochondrion). 
 We have used a virtual query to speed up things:
-it was about 11 seconds 
+it was about 12 seconds 
 to create on the server a list of 78573
 sequences. We have downloaded the sequences in zlib compressed mode:
-it was about 63 seconds
+it was about 59 seconds
 to dowload the sequences in the object \texttt{mycds}, which looks like :
 
 \begin{Schunk}
@@ -882,11 +883,11 @@ We save now the sequences in a local FASTA file for future use:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      0.870       0.787       2.418 
+      0.872       0.793       2.990 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 2 seconds
+It was then about 3 seconds
 to dump the sequences on a local file. We read the sequences as strings
 without setting attributes to save time:
 
@@ -897,11 +898,11 @@ without setting attributes to save time:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-     33.636       0.274      33.992 
+     35.106       0.284      35.505 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 34 seconds
+It was then about 36 seconds
 to read the sequences as strings. We save them in XDR format:
 
 \begin{Schunk}
@@ -910,11 +911,11 @@ to read the sequences as strings. We save them in XDR format:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-     38.722       0.270      39.542 
+     38.959       0.461      42.378 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 40 seconds
+It was then about 42 seconds
 to save the sequences in XDR format. How long is it to load the sequences
 from XDR format?
 
@@ -924,7 +925,7 @@ from XDR format?
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      1.747       0.042       1.799 
+      1.763       0.040       1.841 
 \end{Soutput}
 \end{Schunk}
 
@@ -938,11 +939,11 @@ corresponding proteins. We download the translated CDS from the server:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      3.691       0.614      60.116 
+      3.623       0.628      60.634 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 60 seconds
+It was then about 61 seconds
 to get the protein sequences from the server. The object \texttt{myprot} looks
 like:
 
@@ -979,7 +980,7 @@ We save the protein sequences in a local FASTA file for future use:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      0.330       0.275       0.994 
+      0.333       0.277       0.906 
 \end{Soutput}
 \end{Schunk}
 
@@ -994,11 +995,11 @@ without setting attributes to save time:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-     21.552       0.116      21.719 
+     23.600       0.130      23.824 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 22 seconds
+It was then about 24 seconds
 to read the protein sequences as strings. We save them in XDR format:
 
 \begin{Schunk}
@@ -1007,11 +1008,11 @@ to read the protein sequences as strings. We save them in XDR format:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      3.795       0.152       4.298 
+      3.777       0.148       4.853 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 4 seconds
+It was then about 5 seconds
 to save the protein sequences in XDR format. How long is it to load the 
 protein sequences from XDR format?
 
@@ -1021,7 +1022,7 @@ protein sequences from XDR format?
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      1.084       0.024       1.109 
+      1.096       0.025       1.126 
 \end{Soutput}
 \end{Schunk}
 
@@ -2204,7 +2205,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Oct 30 17:09:55 2007
+  \item \Rlogo{} compilation time was: Tue Oct 30 17:27:08 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

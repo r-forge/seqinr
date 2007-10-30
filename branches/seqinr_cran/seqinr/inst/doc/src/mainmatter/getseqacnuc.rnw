@@ -126,7 +126,7 @@ display the number of taxa (\textit{i.e.} the number of nodes) in the species ta
 with each available database (including frozen databases). For this, we loop over available databases and 
 close them as soon as the information has been retrieved.
 
-<<taxaperbank,fig=F,eval=F>>=
+<<taxaperbank,fig=F,eval=T>>=
 banks <- c(choosebank(), choosebank(tagbank = "TP"))
 nbanks <- length(banks)
 ntaxa <- numeric(nbanks) # pre-allocate
@@ -141,7 +141,7 @@ for(i in seq_len(nbanks)){
 }
 names(ntaxa) <- banks
 @ 
-<<plottaxaperbank,fig=T,eval=F>>=
+<<plottaxaperbank,fig=T,eval=T>>=
 dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
 main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")
