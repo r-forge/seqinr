@@ -88,7 +88,8 @@ choosebank <- function(bank = NA,
   resdf <- kdb(tag = tagbank, socket = socket)
   nbank <- nrow(resdf)
   
-  if( is.na(bank) ){  
+  if( is.na(bank) ){
+    close(socket) # No more needed
     if(verbose) cat("No bank argument was given...\n")
     if( !infobank ){
       if(verbose) cat("infobank parameter is FALSE, I'm just returning bank names\n")
