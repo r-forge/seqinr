@@ -15,9 +15,9 @@
 % This package *MUST* be the last one called
 %
 \definecolor{MyDarkBlue}{rgb}{0.1,0,0.35} 
-\usepackage[colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
+\usepackage[pdftex, colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
 citecolor = MyDarkBlue, filecolor = MyDarkBlue, menucolor = MyDarkBlue,
-pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = page]{hyperref}
+pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = page, plainpages=false]{hyperref}
 
 
 \setcounter{minitocdepth}{1}

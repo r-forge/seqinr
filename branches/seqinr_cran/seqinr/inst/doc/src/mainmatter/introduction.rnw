@@ -104,7 +104,7 @@ widthcm <- acnucbooksize*bpbk/acnucbp
 It would be about \Sexpr{ifelse(exists("widthkm"), round(widthkm, 1), "???")}
 kilometer long in ACNUC book format to print GenBank today (\today).
 
-\section{About \Rlogo{} and CRAN}
+\section{About R and CRAN}
 
 \Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
 which provides a wide variety of statistical and graphical techniques: linear and 
@@ -205,7 +205,7 @@ We have printed here only the first 9 entries because they are too numerous.
 To get help on a specific function, say \texttt{aaa()}, just prefix its name
 with a question mark, as in \texttt{?aaa} and press enter.
 
-\section{About running \Rlogo{} in batch mode}
+\section{About running R in batch mode}
 
 Although \Rlogo{} is usually run in an interactive mode, some data pre-processing 
 and analyses could be too long. You can run your \Rlogo{} code in batch mode

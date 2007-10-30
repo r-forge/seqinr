@@ -128,8 +128,8 @@ release with the same format as the ACNUC book:
 \end{Sinput}
 \begin{Soutput}
 [1] "             ****     ACNUC Data Base Content      ****                         "
-[2] "         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 29, 2007"          
-[3] "81,769,573,804 bases; 77,862,943 sequences; 4,534,119 subseqs; 481,639 refers."  
+[2] "         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007"          
+[3] "81,770,960,650 bases; 77,863,951 sequences; 4,534,640 subseqs; 481,662 refers."  
 [4] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "   
 \end{Soutput}
 \begin{Sinput}
@@ -137,7 +137,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "81,769,573,804"
+[1] "81,770,960,650"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -146,14 +146,14 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.988773
+[1] 6.988891
 \end{Soutput}
 \end{Schunk}
 
 It would be about 7
 kilometer long in ACNUC book format to print GenBank today (\today).
 
-\section{About \Rlogo{} and CRAN}
+\section{About R and CRAN}
 
 \Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
 which provides a wide variety of statistical and graphical techniques: linear and 
@@ -178,7 +178,7 @@ In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document
 is a package \emph{vignette}, which means that all code outputs present 
 here were actually obtained by runing them.
 The examples given thereafter were run under \texttt{R version 2.6.0 (2007-10-03)}
-on Mon Oct 29 18:43:54 2007 with Sweave \cite{Sweave}. There is a section at the end of
+on Tue Oct 30 08:43:02 2007 with Sweave \cite{Sweave}. There is a section at the end of
 each chapter called \textbf{Session Informations} that gives details about
 packages and package versions that were involved\footnote{
 Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
@@ -242,7 +242,7 @@ We have printed here only the first 9 entries because they are too numerous.
 To get help on a specific function, say \texttt{aaa()}, just prefix its name
 with a question mark, as in \texttt{?aaa} and press enter.
 
-\section{About running \Rlogo{} in batch mode}
+\section{About running R in batch mode}
 
 Although \Rlogo{} is usually run in an interactive mode, some data pre-processing 
 and analyses could be too long. You can run your \Rlogo{} code in batch mode
@@ -476,7 +476,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon Oct 29 18:43:57 2007
+  \item \Rlogo{} compilation time was: Tue Oct 30 08:43:06 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
