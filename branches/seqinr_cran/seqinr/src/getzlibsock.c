@@ -104,7 +104,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	itestd++;
 	if (debugon){	
 		if (itestd>10) {
-			printf("*");
+			Rprintf("*");
 			itestd=0;
 			}
 		}
@@ -127,7 +127,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	}
 
   if (debugon)
-  	printf("\n-->[%s]\n",res);
+  	Rprintf("\n-->[%s]\n",res);
   if (strncmp(res,"code=0",6) != 0) {
   	Rprintf("extractseqs error!\n");
 	Rprintf("[%s]\n",res);
@@ -144,7 +144,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	return ans ;
 	}
   if (debugon)
-  	printf("Socket answer is ok %s(%d)\n",res, strlen(res));		 
+  	Rprintf("Socket answer is ok %s(%d)\n",res, strlen(res));		 
   nn = (n < 0) ? 1000 : n; /* initially allocate space for 1000 lines */
   nnn = (n < 0) ? INT_MAX : n;
   PROTECT(ans = allocVector(STRSXP, nn));
