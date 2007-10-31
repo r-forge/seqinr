@@ -1,24 +1,3 @@
-###################################################################################################
-#                                                                                                 #
-#                              crelistfromclientdata                                              #
-#                                                                                                 #
-#                To create on server a bitlist from data lines sent by client                     #                                                                                                 #
-#                                                                                                 #
-# ==>  crelistfromclientdata{&type=[SQ|AC|SP|KW]}&nl=xx                                           #
-# 0 or more lines of data sent by client to server                                                #
-# <==  code=0&name="xx"&lrank=xx&count=xx\n                                                       #
-# To create on server a bitlist from data lines sent by client.                                   #
-# type: the type of data sent to server (SQ=seqs, AC=acc nos, SP=species, KW=keywords)            #
-#      SQ by default                                                                              #
-# nl: announces the number of data lines that follow (0 is OK)                                    #
-# code: 0 iff OK                                                                                  #
-#      3 no list creation is possible                                                             #
-#      4 EOF while reading the nl lines from client                                               #
-# name: name of bitlist created from this data                                                    #
-# lrank: rank of this bitlist                                                                     #
-# count: count of elements in bitlist                                                             #
-#                                                                                                 #
-###################################################################################################
 
 crelistfromclientdata <- function(listname, file, type, socket = autosocket(), invisible = TRUE, verbose = FALSE, 
 virtual = FALSE) {
@@ -92,13 +71,18 @@ virtual = FALSE) {
     cat("list count of elements is:", p[4], "\n")
   }
   #
-  # Use query with user parameters:
+  # set ACNUC list name with user suplied parameters:
+  #
+  resstl <- setlistname(lrank = p[3], name = listname)
+  if(resstl != 0) stop(paste("problem with setlistname, code : ", resstl))
+  #
+  # Put results into workspace
   #
   if(invisible){
-  invisible(query(listname = listname, query = p[2], socket = socket, invisible = TRUE, 
+  invisible(query(listname = listname, query = listname, socket = socket, invisible = TRUE, 
     verbose = verbose, virtual = virtual))
   } else {
-    return(query(listname = listname, query = p[2], socket = socket, invisible = FALSE, 
+    return(query(listname = listname, query = listname, socket = socket, invisible = FALSE, 
     verbose = verbose, virtual = virtual))
   }
 }
