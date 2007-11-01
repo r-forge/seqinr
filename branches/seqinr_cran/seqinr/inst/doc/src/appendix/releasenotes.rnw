@@ -15,6 +15,14 @@
 
 \begin{itemize}
 
+\item Function \texttt{read.alignment()} has gained a new argument
+  \texttt{forceToLower} defaulting to TRUE to force lower case in
+  the character of the sequence (this is for a smoother interaction
+  with the package \texttt{ape}). The argument \texttt{File} is now
+  deprecated and a warning is issued when used instead of \texttt{file}. 
+  The example in the function \texttt{kaks()} has been corrected
+  to avoid this warning when reading the example files.
+
 \item New low level utility function \texttt{knowndbs()} and its
   shortcut \texttt{kdb()} to get a description of databases 
   known by an ACNUC server.
