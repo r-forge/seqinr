@@ -7,11 +7,9 @@
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
+\tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
 
-%
-% Prochlorococcus marinus example
-%
 
 \section{Introduction}
 
@@ -20,7 +18,7 @@ variables for which little or nothing is known concerning their
 distribution. This makes them particularly suitable for statistical
 analysis of biological sequences, in particular for the study of over-
 and under-representation of $k$-letter words (\textit{cf} section 
-page \ref{dinu}).
+number \ref{dinu}).
 
 \section{Elementary nonparametric statistics}
 
@@ -53,6 +51,88 @@ We note $\omega$ the ranks of TRUE elements:
 @ 
 
 With one exception, the statistics names are the same as in the ANALSEQ software.
+
+As a practical application, we want to study the isochore structure in \textit{Mus
+musculus} chromosome 1 using non-overlapping windows of 100 kb. Data were 
+computed this way:
+
+%
+% Data saved in *.RData format to avoid long computation
+%
+<<getdatafomensemble,fig=F,eval=FALSE>>=
+choosebank("ensembl")
+n <- 201
+res <- rep(-1,10*n)
+chr1 <- paste("MOUSE1_",1:n, sep = "")
+i <- 1
+for(frag in chr1){
+	myseq <- gfrag(frag, 1, 10^6)
+	for(w in seq(1, nchar(myseq), by = 10^5)){
+	  res[i] <- GC(s2c(substr(myseq, start = w, stop = w + 10^5 - 1)))
+    print(paste(i,res[i]))
+    i <- i + 1
+  }
+}
+res <- res[res >= 0]
+res[res == 0] <- NA
+res <- 100*res
+closebank()
+save(res, file = "chr1.RData")
+@ 
+
+The folowing representation follows the conventions used in Fig 2 from \cite{PacesJ2004}.
+
+<<bernardiplot,fig=T,width=15,height=3.5,include=F>>=
+load("chr1.RData")
+n <- length(res)
+xx <- seq_len(n)/10
+plot(xx, res, type = "l", las = 1,
+ylab = "G+C content [%]",
+main = "Isochores in mouse chromosome 1", xaxt = "n",
+xlab = "Position on the chromosome [Mb]")
+axis(1, at = seq(0,200,by=10))
+breaks <- c(0, 37.5, 42.5, 47.5, 52.5, 100)
+cut(res, breaks = breaks, 
+labels = c("darkblue", "blue", "yellow", "orange", "red"),
+ordered=T) -> lev
+segments(x0 = xx, y0 = min(res, na.rm = TRUE), x1=xx, y1=res,col=as.character(lev),lend="butt")
+segments(x0 = xx[is.na(res)], y0 = min(res,na.rm=T), x1 = xx[is.na(res)], y1=max(res,na.rm=T),
+col = grey(0.7))
+lines(xx, res)
+abline(h=breaks, lty = 3)
+@ 
+\includegraphics[width=1.3\textwidth]{../figs/nonparastats-bernardiplot}
+
+The gray area represent undocumented parts of the chromosome, we won't
+consider them in the following and recode the sequence in TRUE and FALSE
+if the values are above or below the median, respectively:
+
+<<medianplot,fig=T,width=15,height=3.5,include=F>>=
+yy <- res[!is.na(res)]
+n <- length(yy)
+xx <- seq_len(n)/10
+hline <- median(yy)
+plot (yy ~ xx, type="n", axes=FALSE, ann=FALSE)
+polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", border=NA)
+usr <- par("usr")
+rect(usr[1], usr[3], usr[2], hline, col="white", border=NA)
+lines(xx, yy)
+abline (h=hline)
+box()
+axis(1)
+axis(2, las = 1) 
+title(xlab = "Position on the chromosome [Mb]", ylab = "G+C content [%]", 
+main = "Isochores in mouse chromosome 1")
+@ 
+\includegraphics[width=1.3\textwidth]{../figs/nonparastats-medianplot}
+
+Our logical vector is therefore defined as follows:
+
+<<appli,fig=F>>=
+appli <- yy > median(yy)
+head(appli)
+tail(appli)
+@ 
 
 \subsection{Rank sum}
 
@@ -111,6 +191,15 @@ arrows(x0 = SR(SRh)$SR, y0 = 0.01, x1 = SR(SRh)$SR, y1 = 0.0015, length = 0.1)
 text(SR(SRh)$SR, 0.01, "Observed\nvalue", pos = 3)
 @ 
 
+\noindent\textbf{Real case application}
+
+<<SRappli,fig=F>>=
+SR(appli)$stat
+@
+
+The rank sum is higher than expected at random, there is an excess of GC rich regions
+at the rigth end (3'end) of the chromosome.
+
 \subsection{Rank variance}
 
 This statistics is the variance of ranks:
@@ -152,6 +241,16 @@ length(VRh), "M =", sum(VRh)), xlab = "Possible rank variances", proba = TRUE)
 lines(density(simVR), lwd = 2)
 arrows(VR(VRh)$VR, 0.004, VR(VRh)$VR, 0, le = 0.1)
 @ 
+
+\noindent\textbf{Real case application}
+
+<<SRappli,fig=F>>=
+VR(appli)$stat
+@
+
+The variance of ranks is higher than expected at random, there is an excess of GC rich regions
+at the telomeric ends of the chromosome.
+
 
 \subsection{Clustering around the observed centre}
 
@@ -209,6 +308,17 @@ CC(s2c("---*****---------") == "*")
 CC(s2c("***-------***----") == "*")
 @ 
 
+\noindent\textbf{Real case application}
+
+<<SRappli,fig=F>>=
+CC(appli)$stat
+@
+
+The dispersion around the observed centre is higher than expected at random, there is a trend for
+GC rich sequences to avoid this centre.
+
+
+
 \subsection{Number of runs}
 
 The statistics $\mathrm{NS}$ is the number of runs in the sequence:
@@ -244,6 +354,17 @@ library(tseries)
 s2c("-*-*-*-*-*-*-*-*-") == "*" -> NSh
 tseries::runs.test(as.factor(NSh))$statistic
 @ 
+
+\noindent\textbf{Real case application}
+
+<<SRappli,fig=F>>=
+NS(appli)$stat
+@
+
+The number of runs is much less than expected at random, there is a trend for
+GC rich sequences to aggregate in consecutive runs: this is the isochore
+structure.
+
 
 \subsection{Multiple clusters}
 
@@ -292,6 +413,16 @@ GM(s2c("-*-*-*-*-*-*-*-*-") == "*")
 GM(s2c("***------***-***-") == "*")
 @ 
 
+\noindent\textbf{Real case application}
+
+<<GMappli,fig=F>>=
+GM(appli)$stat
+@
+
+The number of cluster is much higher than expected at random, there is a trend for
+GC rich sequences to aggregate in clusters: this is again the reflect of the isochore
+structure in this chromosome.
+
 \section{Dinucleotides over- and under-representation}
 \label{dinu}
 
@@ -319,7 +450,7 @@ that compose it ($\rho_{xy} = 1$). Departure from this value
 characterizes either over- or under-representation of dinucleotide
 $xy$.
 
-<<n, echo= FALSE,eval=F>>=
+<<n, echo= FALSE,eval=T>>=
 n <- 500
 di <- 4
 @ 
@@ -332,7 +463,7 @@ sequences, we can fit a normal distribution which is centered on 1
 
 \begin{figure}[H]
   \begin{center}
-<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=F>>=
+<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=T>>=
 rhoseq <- sapply(seq(n),function(x){rho(sample(s2c('acgt'),6000,rep=TRUE))})
 hist(rhoseq[di,],freq=FALSE,xlab="Rho statistic",main=paste("Distribution for dinucleotide",toupper(labels(rhoseq)[[1]][di]),"on",n,"random sequences"),las=1,col=grey(0.8),border=grey(0.5))
 abline(v=1,lwd=2,lty=3)
@@ -393,7 +524,7 @@ we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. We will first make a
 request to retrieve all available CDS from this bacteria:
 
-<<querycoli, echo = TRUE,eval=F>>=
+<<querycoli, echo = TRUE,eval=T>>=
 choosebank("greview")
 query("coli","sp=escherichia coli et t=cds et no k=partial")
 names <- unlist(lapply(coli$req,getName))
@@ -423,7 +554,7 @@ set to \texttt{TRUE} (\texttt{FALSE} being the default).
 
 \begin{figure}[H]
   \begin{center}
-<<dinuclcoli, echo = TRUE, fig = TRUE,eval=F>>=
+<<dinuclcoli, echo = TRUE, fig = TRUE,eval=T>>=
 rhocoli=rho(sequence)
 zcolibase=zscore(sequence,mod='base',exact=TRUE)
 zcolicodon=zscore(sequence,mod='codon')
@@ -501,17 +632,17 @@ to UV wavelengths differ and depend on the micro-organism
 
 %% %% \begin{figure}
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
 %% @
 %% %%   \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
 %% @ 
 %% %%    \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
 %% @
 %% %%    \end{minipage}
@@ -533,7 +664,7 @@ with a high G+C content will contain few phototargets (see Fig.
 
 \begin{figure}[H]
   \begin{center}
-<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=F>>=
+<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=T>>=
 worstcase = function(gc){
 c = gc
 t = (1-gc)
@@ -598,7 +729,7 @@ In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=F>>=
+<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=T>>=
 worstcase = function(gc){
 c = gc
 t = (1-gc)
@@ -669,7 +800,7 @@ June 16, 2005), we have computed the mean of the $z$-score with
 the \texttt{base} model on all intergenic sequences, and the mean of
 the $z$-score with the \texttt{codon} model on all CDS:
 
-<<dinucl,eval=F>>=
+<<dinucl,eval=T>>=
 data(dinucl)
 @ 
 
@@ -679,7 +810,7 @@ none of the four pyrimidine dinucleotides (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=F>>=
+<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=T>>=
 par(mfrow=c(2,2))
 plot(dinucl$intergenic$CT,dinucl$coding$CT,xlab="intergenic",ylab="coding",main="CpT bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
 abline(v=0,lty=3)
@@ -748,14 +879,14 @@ We have computed the $z$-score with the \texttt{codon} model on
 all CDS from each of these three strains (as retrieved from Genome
 Reviews database on June 16, 2005):
 
-<<dinucl,eval=F>>=
+<<dinucl,eval=T>>=
 data(prochlo)
 @ 
 
 
 \begin{figure}[H]
    \begin{center}
-<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=F>>=
+<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=T>>=
 par(mfrow=c(2,2),mar=c(2,3,2,3))
 plot(density(prochlo$BX548174$CT),ylim=c(0,0.4),xlim=c(-4,4),lty=3,lwd=2,main="CpT bias",xlab="",ylab="",las=1)
 lines(density(prochlo$AE017126$CT),lwd=2,lty=2)

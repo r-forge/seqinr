@@ -37,11 +37,9 @@
 
 
 \maketitle
+\tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
 
-%
-% Prochlorococcus marinus example
-%
 
 \section{Introduction}
 
@@ -50,7 +48,7 @@ variables for which little or nothing is known concerning their
 distribution. This makes them particularly suitable for statistical
 analysis of biological sequences, in particular for the study of over-
 and under-representation of $k$-letter words (\textit{cf} section 
-page \ref{dinu}).
+number \ref{dinu}).
 
 \section{Elementary nonparametric statistics}
 
@@ -104,6 +102,102 @@ We note $\omega$ the ranks of TRUE elements:
 \end{Schunk}
 
 With one exception, the statistics names are the same as in the ANALSEQ software.
+
+As a practical application, we want to study the isochore structure in \textit{Mus
+musculus} chromosome 1 using non-overlapping windows of 100 kb. Data were 
+computed this way:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("ensembl")
+ n <- 201
+ res <- rep(-1, 10 * n)
+ chr1 <- paste("MOUSE1_", 1:n, sep = "")
+ i <- 1
+ for (frag in chr1) {
+     myseq <- gfrag(frag, 1, 10^6)
+     for (w in seq(1, nchar(myseq), by = 10^5)) {
+         res[i] <- GC(s2c(substr(myseq, start = w, stop = w + 
+             10^5 - 1)))
+         print(paste(i, res[i]))
+         i <- i + 1
+     }
+ }
+ res <- res[res >= 0]
+ res[res == 0] <- NA
+ res <- 100 * res
+ closebank()
+ save(res, file = "chr1.RData")
+\end{Sinput}
+\end{Schunk}
+
+The folowing representation follows the conventions used in Fig 2 from \cite{PacesJ2004}.
+
+\begin{Schunk}
+\begin{Sinput}
+ load("chr1.RData")
+ n <- length(res)
+ xx <- seq_len(n)/10
+ plot(xx, res, type = "l", las = 1, ylab = "G+C content [%]", 
+     main = "Isochores in mouse chromosome 1", xaxt = "n", 
+     xlab = "Position on the chromosome [Mb]")
+ axis(1, at = seq(0, 200, by = 10))
+ breaks <- c(0, 37.5, 42.5, 47.5, 52.5, 100)
+ lev <- cut(res, breaks = breaks, labels = c("darkblue", "blue", 
+     "yellow", "orange", "red"), ordered = T)
+ segments(x0 = xx, y0 = min(res, na.rm = TRUE), x1 = xx, y1 = res, 
+     col = as.character(lev), lend = "butt")
+ segments(x0 = xx[is.na(res)], y0 = min(res, na.rm = T), x1 = xx[is.na(res)], 
+     y1 = max(res, na.rm = T), col = grey(0.7))
+ lines(xx, res)
+ abline(h = breaks, lty = 3)
+\end{Sinput}
+\end{Schunk}
+\includegraphics[width=1.3\textwidth]{../figs/nonparastats-bernardiplot}
+
+The gray area represent undocumented parts of the chromosome, we won't
+consider them in the following and recode the sequence in TRUE and FALSE
+if the values are above or below the median, respectively:
+
+\begin{Schunk}
+\begin{Sinput}
+ yy <- res[!is.na(res)]
+ n <- length(yy)
+ xx <- seq_len(n)/10
+ hline <- median(yy)
+ plot(yy ~ xx, type = "n", axes = FALSE, ann = FALSE)
+ polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", 
+     border = NA)
+ usr <- par("usr")
+ rect(usr[1], usr[3], usr[2], hline, col = "white", border = NA)
+ lines(xx, yy)
+ abline(h = hline)
+ box()
+ axis(1)
+ axis(2, las = 1)
+ title(xlab = "Position on the chromosome [Mb]", ylab = "G+C content [%]", 
+     main = "Isochores in mouse chromosome 1")
+\end{Sinput}
+\end{Schunk}
+\includegraphics[width=1.3\textwidth]{../figs/nonparastats-medianplot}
+
+Our logical vector is therefore defined as follows:
+
+\begin{Schunk}
+\begin{Sinput}
+ appli <- yy > median(yy)
+ head(appli)
+\end{Sinput}
+\begin{Soutput}
+[1] FALSE FALSE FALSE FALSE FALSE FALSE
+\end{Soutput}
+\begin{Sinput}
+ tail(appli)
+\end{Sinput}
+\begin{Soutput}
+[1]  TRUE  TRUE FALSE FALSE FALSE  TRUE
+\end{Soutput}
+\end{Schunk}
 
 \subsection{Rank sum}
 
@@ -190,6 +284,20 @@ The probabilities for all possibe outcomes for the rank sums are given by
 \end{Schunk}
 \includegraphics{../figs/nonparastats-demodwilcox}
 
+\noindent\textbf{Real case application}
+
+\begin{Schunk}
+\begin{Sinput}
+ SR(appli)$stat
+\end{Sinput}
+\begin{Soutput}
+[1] 10.91808
+\end{Soutput}
+\end{Schunk}
+
+The rank sum is higher than expected at random, there is an excess of GC rich regions
+at the rigth end (3'end) of the chromosome.
+
 \subsection{Rank variance}
 
 This statistics is the variance of ranks:
@@ -253,6 +361,21 @@ of the rank variance, for instance:
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/nonparastats-simVR}
+
+\noindent\textbf{Real case application}
+
+\begin{Schunk}
+\begin{Sinput}
+ VR(appli)$stat
+\end{Sinput}
+\begin{Soutput}
+[1] 4.032348
+\end{Soutput}
+\end{Schunk}
+
+The variance of ranks is higher than expected at random, there is an excess of GC rich regions
+at the telomeric ends of the chromosome.
+
 
 \subsection{Clustering around the observed centre}
 
@@ -329,6 +452,22 @@ $stat
 \end{Soutput}
 \end{Schunk}
 
+\noindent\textbf{Real case application}
+
+\begin{Schunk}
+\begin{Sinput}
+ CC(appli)$stat
+\end{Sinput}
+\begin{Soutput}
+[1] 2.738359
+\end{Soutput}
+\end{Schunk}
+
+The dispersion around the observed centre is higher than expected at random, there is a trend for
+GC rich sequences to avoid this centre.
+
+
+
 \subsection{Number of runs}
 
 The statistics $\mathrm{NS}$ is the number of runs in the sequence:
@@ -388,6 +527,22 @@ Standard Normal
        3.786054 
 \end{Soutput}
 \end{Schunk}
+
+\noindent\textbf{Real case application}
+
+\begin{Schunk}
+\begin{Sinput}
+ NS(appli)$stat
+\end{Sinput}
+\begin{Soutput}
+[1] -33.74634
+\end{Soutput}
+\end{Schunk}
+
+The number of runs is much less than expected at random, there is a trend for
+GC rich sequences to aggregate in consecutive runs: this is the isochore
+structure.
+
 
 \subsection{Multiple clusters}
 
@@ -456,6 +611,21 @@ $stat
 \end{Soutput}
 \end{Schunk}
 
+\noindent\textbf{Real case application}
+
+\begin{Schunk}
+\begin{Sinput}
+ GM(appli)$stat
+\end{Sinput}
+\begin{Soutput}
+[1] 319.1627
+\end{Soutput}
+\end{Schunk}
+
+The number of cluster is much higher than expected at random, there is a trend for
+GC rich sequences to aggregate in clusters: this is again the reflect of the isochore
+structure in this chromosome.
+
 \section{Dinucleotides over- and under-representation}
 \label{dinu}
 
@@ -486,7 +656,7 @@ $xy$.
 
 We expect the $\rho$ statistic of a randomly generated sequence to be
 neither over- nor under-represented. Indeed, when we compute the
-$\rho$ statistic on 11 random
+$\rho$ statistic on 500 random
 sequences, we can fit a normal distribution which is centered on 1
 (see Fig. \ref{rho})
 
@@ -508,9 +678,10 @@ sequences, we can fit a normal distribution which is centered on 1
      ])), lwd = 2, lty = 2)
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/nonparastats-rho}
 \end{center}
    \caption{Distribution of the $\rho$ statistic computed on
-     11 random sequences. The vertical
+     500 random sequences. The vertical
      dotted line is centered on 1. The dashed curve draws the fitted normal
      distribution.}
    \label{rho}
@@ -569,7 +740,7 @@ request to retrieve all available CDS from this bacteria:
 \end{Sinput}
 \end{Schunk}
 
-From the ??? sequences
+From the 34939 sequences
 annotated as CDS in the Genome Reviews database, let's choose one
 coding sequence: say, for instance, the one with accession number \texttt{U00096.PE448}. We can see
 that this CDS encodes a maltose O-acetyltransferase protein
@@ -603,6 +774,7 @@ set to \texttt{TRUE} (\texttt{FALSE} being the default).
  plot(zcolicodon, ylim = c(-2.5, 2.5), las = 1, ylab = "zscore with codon model")
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/nonparastats-dinuclcoli}
 \end{center}
    \caption{Three different non-parametric statistics (from left to
    right: $\rho$, $zscore$ with \texttt{base} model, $zscore$ with
@@ -672,17 +844,17 @@ to UV wavelengths differ and depend on the micro-organism
 
 %% %% \begin{figure}
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
 %% @
 %% %%   \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
 %% @ 
 %% %%    \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
+%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
 %% @
 %% %%    \end{minipage}
@@ -704,6 +876,7 @@ with a high G+C content will contain few phototargets (see Fig.
 
 \begin{figure}[H]
   \begin{center}
+\includegraphics{../figs/nonparastats-GCcoli}
 \end{center}
 \caption{Density of phototargets, weighted by their frequency in the
   \textit{Escherichia coli} chromosome, and calculated for different
@@ -729,6 +902,7 @@ In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
 
 \begin{figure}[H]
    \begin{center}
+\includegraphics{../figs/nonparastats-GCmicro}
 \end{center}
 \caption{Density of phototargets, weighted by their frequency in the
   \textit{Micrococcus lysodeikticus} chromosome, and calculated for
@@ -772,6 +946,7 @@ none of the four pyrimidine dinucleotides (see Fig.
 
 \begin{figure}[H]
    \begin{center}
+\includegraphics{../figs/nonparastats-dinucl-graphes}
 \end{center}
    \caption{Plot of the mean $zscore$ statistics for
    \textbf{intergenic sequences} (x-axis) and for \textbf{coding
@@ -819,6 +994,7 @@ Reviews database on June 16, 2005):
 
 \begin{figure}[H]
    \begin{center}
+\includegraphics{../figs/nonparastats-prochlo}
 \end{center}
    \caption{Each figure shows the distributions of the $zscore$ in all
      \textbf{coding sequences} corresponding to each of the three
@@ -853,12 +1029,12 @@ This part was compiled under the following \Rlogo{}~environment:
     gee~4.13-13, lattice~0.16-5, nlme~3.1-85, quadprog~1.4-11,
     seqinr~1.1-3, tseries~0.10-11, xtable~1.5-1, zoo~1.4-0
   \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15
+    rcompgen~0.1-15, tools~2.6.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Nov  4 16:47:06 2007
+  \item \Rlogo{} compilation time was: Sun Nov  4 19:07:16 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
