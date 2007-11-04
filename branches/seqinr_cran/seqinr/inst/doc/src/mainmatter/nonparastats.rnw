@@ -2,7 +2,7 @@
 \input{../config/commontex}
 
 \title{Nonparametric statistics}
-\author{Palmeira, L.}
+\author{Palmeira, L. \and Lobry, J.R.}
 
 \begin{document}
 \SweaveInput{../config/commonrnw.rnw}
@@ -19,7 +19,283 @@ Nonparametric statistical methods were initially developped to study
 variables for which little or nothing is known concerning their
 distribution. This makes them particularly suitable for statistical
 analysis of biological sequences, in particular for the study of over-
-and under-representation of $k$-letter words.
+and under-representation of $k$-letter words (\textit{cf} section 
+page \ref{dinu}).
+
+\section{Elementary nonparametric statistics}
+
+\subsection{Introduction}
+
+Those rank statistics are those that were available under the ANALSEQ
+software \cite{analseq, acnuc1984}. We consider here a sequence
+of booleans, for instance:
+
+<<x,fig=F>>=
+(x <- rep(c(T,F),10))
+@ 
+
+We note $\mathrm{N}$ the total number of elements in the vector:
+
+<<N,fig=F>>=
+(N <- length(x))
+@ 
+
+We note $\mathrm{M}$ the total number of TRUE elements in the vector:
+
+<<N,fig=F>>=
+(M <- sum(x))
+@ 
+
+We note $\omega$ the ranks of TRUE elements:
+
+<<omega,fig=F>>=
+(omega <- which(x))
+@ 
+
+With one exception, the statistics names are the same as in the ANALSEQ software.
+
+\subsection{Rank sum}
+
+The statistic $\mathrm{SR}$ is the sum of the ranks of TRUE elements.
+
+$$
+\mathrm{SR} = \sum_{j \in \omega}{j}
+$$
+
+\begin{verbatim}
+**-***-----------     ==> SR low  (18)
+---------***--***     ==> SR high (81)
+\end{verbatim}
+
+\begin{eqnarray*}
+\mathrm{E(SR)} & = & \mathrm{\frac{M(N + 1)}{2}} \\
+\mathrm{V(SR)} & = & \mathrm{\frac{M(N + 1)(N - M)}{12}}
+\end{eqnarray*}
+
+
+<<SR,fig=F>>=
+SR <- function(bool, N = length(bool), M = sum(bool)){
+	stopifnot(is.logical(bool))
+	SR <- sum(seq_len(N)[bool])
+	E <- M*(N + 1)/2
+	V <- M*(N + 1)*(N - M)/12
+	return(list(SR = SR, stat = (SR - E)/sqrt(V)))
+}
+SR(s2c("**-***-----------") == "*")
+SR(s2c("---------***--***") == "*")
+@
+
+Here is a way to obtain the same result using the standard \Rlogo{} \texttt{wilcox.test()}
+function to make a Wilcoxon's rank sum test \cite{WilcoxonF1945}:
+
+<<wilcoxtest,fig=F>>=
+SRh <- s2c("---------***--***") == "*"
+x <- seq_len(length(SRh))
+x[!SRh] <- -1*x[!SRh]
+wilcox.test(x)$statistic
+@ 
+
+The probabilities for all possibe outcomes for the rank sums are given by
+\texttt{dwilcox()} but note the $\frac{M(M+1)}{2}$ shift:
+
+<<demodwilcox,fig=T>>=
+m <- sum(SRh)
+n <- length(SRh) - m
+dwilcox(x = 0:(n*m), m = m, n = n) -> pdf
+plot(x = 0:(m*n) + m*(m+1)/2, y = pdf, xlab = "Possible rank sums",
+ylab = "Density", main = paste("---------***--*** : N =", length(SRh), "M =", sum(SRh)),
+pch = 19)
+points(SR(SRh)$SR, dwilcox(x = SR(SRh)$SR - m*(m+1)/2, m = m, n = n), col = "red",
+pch = 19)
+arrows(x0 = SR(SRh)$SR, y0 = 0.01, x1 = SR(SRh)$SR, y1 = 0.0015, length = 0.1)
+text(SR(SRh)$SR, 0.01, "Observed\nvalue", pos = 3)
+@ 
+
+\subsection{Rank variance}
+
+This statistics is the variance of ranks:
+
+$$
+\mathrm{VR} = \sum_{j \in \omega}{(j - \mathrm{\frac{N+1}{2}})^2}
+$$
+
+\begin{verbatim}
+------****-------    ==> VR low  (6)
+***----------****    ==> VR high (323)
+\end{verbatim}
+
+\begin{eqnarray*}
+\mathrm{E(VR)} & = & \mathrm{\frac{M(N + 1)(N-1)}{12}} \\
+\mathrm{V(VR)} & = & \mathrm{\frac{M(N - M)(N + 1)(N + 2)(N - 2)}{180}}
+\end{eqnarray*}
+
+<<VR,fig=F>>=
+VR <- function(bool, N = length(bool), M = sum(bool)){
+	stopifnot(is.logical(bool))
+	VR <- sum ((seq_len(N)[bool] - (N + 1)/2)^2)
+	E <- (M*(N + 1)*(N - 1))/12
+	V <- (M*(N - M)*(N + 1)*(N + 2)*(N - 2))/180
+	return(list(VR = VR, stat = (VR - E)/sqrt(V)))
+}
+VR(s2c("------****-------") == "*")
+VR(s2c("***----------****") == "*")
+@ 
+
+We can use simulations to have an idea of the probability density function
+of the rank variance, for instance:
+
+<<simVR,fig=T>>=
+VRh <- s2c("***----------****") == "*"
+replicate(5000, VR(sample(VRh))$VR) -> simVR
+hist(simVR, col = grey(0.7), main = paste("***----------**** : N =",
+length(VRh), "M =", sum(VRh)), xlab = "Possible rank variances", proba = TRUE)
+lines(density(simVR), lwd = 2)
+arrows(VR(VRh)$VR, 0.004, VR(VRh)$VR, 0, le = 0.1)
+@ 
+
+\subsection{Clustering around the observed centre}
+
+Let note $\mathrm{C(\omega)}$ the observed centre:
+
+$$
+\mathrm{C(\omega)} = \left\{ \begin{array}{rl}
+ \omega\left(\mathrm{\frac{M+1}{2}}\right) &\mbox{ if $\mathrm{M}$ is odd} \\
+ \omega\left(\mathrm{\frac{M}{2} + 1}\right) &\mbox{ if $\mathrm{M}$ is even}
+       \end{array} \right.
+$$
+
+The statistic $\mathrm{CC}$\footnote{
+the original notation was GC in the ANALSEQ software, we use CC instead to
+avoid a collision with the \texttt{GC()} function to compute the G+C content.
+} is the dispersion around $\mathrm{C(\omega)}$ is defined by:
+
+$$
+\mathrm{CC} = \sum_{j \in \omega}{\left| j - \mathrm{C(\omega)} \right|}
+$$
+
+\begin{verbatim}
+---*****---------    ==> CC low  (6)
+***-------***----    ==> CC high (30)
+\end{verbatim}
+
+Noting $\left[x\right]$ the floor of $x$, we have:
+
+$$
+\mathrm{E(CC)} = \mathrm{\frac{(N+1)\left[\frac{M}{2}\right]\left[\frac{M+1}{2}\right]}{M+1}}
+$$
+
+and
+
+$$
+\mathrm{V(CC)} = \left\{ \begin{array}{rl}
+ \mathrm{\frac{(M - 1)(M + 3)(N + 1)(N - M)}{48(M + 2)}} &\mbox{ if $\mathrm{M}$ is odd} \\
+ \mathrm{\frac{M(N + 1)(N - M)(M^2 + 2*M + 4)}{48(M + 1)^2}} &\mbox{ if $\mathrm{M}$ is even}
+       \end{array} \right.
+$$
+
+<<CC,fig=F>>=
+CC <- function(bool, N = length(bool), M = sum(bool)){
+	stopifnot(is.logical(bool))
+	C <- median(seq_len(N)[bool])
+	GC <- sum(abs(seq_len(N)[bool] - C))
+	E <- ((N + 1)*floor(M/2)*floor((M + 1)/2))/(M + 1)
+	if(M %% 2 == 1)
+	  V <- ((M - 1)*(M + 3)*(N + 1)*(N - M))/(48*(M + 2))
+	else
+	  V <- (M*(N + 1)*(N - M)*(M^2 + 2*M + 4))/(48*(M + 1)^2)
+	return(list(GC = GC, stat = (GC - E)/sqrt(V)))
+}
+CC(s2c("---*****---------") == "*")
+CC(s2c("***-------***----") == "*")
+@ 
+
+\subsection{Number of runs}
+
+The statistics $\mathrm{NS}$ is the number of runs in the sequence:
+
+\begin{verbatim}
+--***---***--***-    ==> NS low  (7)
+-*-*-*-*-*-*-*-*-    ==> NS high (17)
+\end{verbatim}
+
+\begin{eqnarray*}
+\mathrm{E(NS)} & = & \mathrm{\frac{2M(N - M)}{N} + 1} \\
+\mathrm{V(NS)} & = & \mathrm{\frac{2M(N - M)(2M(N - M) - N)}{N^2(N - 1)}}
+\end{eqnarray*}
+
+<<NS,fig=F>>=
+NS <- function(bool, N = length(bool), M = sum(bool)){
+	stopifnot(is.logical(bool))
+	NS <- length(rle(bool)$lengths)
+	DMNmM <- 2*M*(N - M)
+	E <- DMNmM/N + 1
+	V <- (DMNmM*(DMNmM - N))/(N*N*(N - 1))
+	return(list(NS = NS, stat = (NS - E)/sqrt(V)))
+}
+NS(s2c("--***---***--***-") == "*")
+NS(s2c("-*-*-*-*-*-*-*-*-") == "*")
+@ 
+
+The same result can be obtained with the function \texttt{runs.test()} from
+package \textbf{tseries} \cite{tseries} this way:
+
+<<NStseries,fig=F>>=
+library(tseries)
+s2c("-*-*-*-*-*-*-*-*-") == "*" -> NSh
+tseries::runs.test(as.factor(NSh))$statistic
+@ 
+
+\subsection{Multiple clusters}
+
+The statistics $\mathrm{GM}$ is the variance of the length $n_k$ of FALSE runs (including
+runs of length zero) between two TRUE. Let note:
+
+\begin{itemize}
+\item $n_k(\omega)$ the number of FALSE between $\omega(k-1)$ and $\omega(k)$ for $2 \le k \le \mathrm{M}$.
+\item $n_1(\omega)$ the number of FALSE before $\omega(1)$.
+\item $n_{\mathrm{M+1}}(\omega)$ the number of FALSE after $\omega(\mathrm{M})$.
+\end{itemize}
+
+$$
+\mathrm{GM} = \frac{1}{\mathrm{M}}\sum_{i = 1}^{\mathrm{M+1}}{\left( n_i(\omega) - \mathrm{\frac{N-M}{M+1}} \right)^2}
+$$
+
+\begin{verbatim}
+-*-*-*-*-*-*-*-*-    ==> GM low  (0)
+***------***-***-    ==> GM high (3.5)
+\end{verbatim}
+
+\begin{eqnarray*}
+\mathrm{E(GM)} & = & \mathrm{\frac{(N + 1)(N - M)}{(M +1)(M + 2)}} \\
+\mathrm{V(GM)} & = & \mathrm{\frac{4(N - M - 1)(N + 1)(N + 2)(N - M)}{M(M + 2)^2(M + 3)(M + 4)}}
+\end{eqnarray*}
+
+<<GM,fig=F>>=
+GM <-function(bool, N = length(bool), M = sum(bool)){
+	stopifnot(is.logical(bool))
+	XGM <- (N - M)/(M + 1)
+	LS0 <- GM <- 0
+	for(i in seq_len(N)){
+		if(bool[i]){
+			GM <- GM + (LS0 - XGM)^2
+			LS0 <- 0
+		} else {
+			LS0 <- LS0 + 1
+		}
+	}
+	GM <- (GM + (LS0 - XGM)^2)/M
+	E <- ((N + 1)*(N - M))/((M +1)*(M + 2))
+  V <- (4*(N - M - 1)*(N + 1)*(N + 2)*(N - M))/(M*(M + 2)^2*(M + 3)*(M + 4))
+	return(list(GM = GM, stat = (GM - E)/sqrt(V)))
+}
+GM(s2c("-*-*-*-*-*-*-*-*-") == "*")
+GM(s2c("***------***-***-") == "*")
+@ 
+
+\section{Dinucleotides over- and under-representation}
+\label{dinu}
+
+\subsection{Introduction}
 
 We will briefly describe two statistics for the measure of
 dinucleotide over- and under-representation in sequences
@@ -27,8 +303,6 @@ dinucleotide over- and under-representation in sequences
 subsequently use them to answer the long-time controversial question
 concerning the relationship between UV exposure and genomic content in
 bacteria \cite{Singer,Bak}.
-
-\section{Determining dinucleotides over- and under-representation}
 
 \subsection{The \textit{rho} statistic}
 
@@ -45,7 +319,7 @@ that compose it ($\rho_{xy} = 1$). Departure from this value
 characterizes either over- or under-representation of dinucleotide
 $xy$.
 
-<<n, echo= FALSE,eval=T>>=
+<<n, echo= FALSE,eval=F>>=
 n <- 500
 di <- 4
 @ 
@@ -58,7 +332,7 @@ sequences, we can fit a normal distribution which is centered on 1
 
 \begin{figure}[H]
   \begin{center}
-<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=T>>=
+<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=F>>=
 rhoseq <- sapply(seq(n),function(x){rho(sample(s2c('acgt'),6000,rep=TRUE))})
 hist(rhoseq[di,],freq=FALSE,xlab="Rho statistic",main=paste("Distribution for dinucleotide",toupper(labels(rhoseq)[[1]][di]),"on",n,"random sequences"),las=1,col=grey(0.8),border=grey(0.5))
 abline(v=1,lwd=2,lty=3)
@@ -119,7 +393,7 @@ we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. We will first make a
 request to retrieve all available CDS from this bacteria:
 
-<<querycoli, echo = TRUE,eval=T>>=
+<<querycoli, echo = TRUE,eval=F>>=
 choosebank("greview")
 query("coli","sp=escherichia coli et t=cds et no k=partial")
 names <- unlist(lapply(coli$req,getName))
@@ -149,7 +423,7 @@ set to \texttt{TRUE} (\texttt{FALSE} being the default).
 
 \begin{figure}[H]
   \begin{center}
-<<dinuclcoli, echo = TRUE, fig = TRUE,eval=T>>=
+<<dinuclcoli, echo = TRUE, fig = TRUE,eval=F>>=
 rhocoli=rho(sequence)
 zcolibase=zscore(sequence,mod='base',exact=TRUE)
 zcolicodon=zscore(sequence,mod='codon')
@@ -227,17 +501,17 @@ to UV wavelengths differ and depend on the micro-organism
 
 %% %% \begin{figure}
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
 %% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
 %% @
 %% %%   \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
 %% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
 %% @ 
 %% %%    \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=F>>=
 %% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
 %% @
 %% %%    \end{minipage}
@@ -259,7 +533,7 @@ with a high G+C content will contain few phototargets (see Fig.
 
 \begin{figure}[H]
   \begin{center}
-<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=T>>=
+<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=F>>=
 worstcase = function(gc){
 c = gc
 t = (1-gc)
@@ -324,7 +598,7 @@ In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=T>>=
+<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=F>>=
 worstcase = function(gc){
 c = gc
 t = (1-gc)
@@ -395,7 +669,7 @@ June 16, 2005), we have computed the mean of the $z$-score with
 the \texttt{base} model on all intergenic sequences, and the mean of
 the $z$-score with the \texttt{codon} model on all CDS:
 
-<<dinucl,eval=T>>=
+<<dinucl,eval=F>>=
 data(dinucl)
 @ 
 
@@ -405,7 +679,7 @@ none of the four pyrimidine dinucleotides (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=T>>=
+<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=F>>=
 par(mfrow=c(2,2))
 plot(dinucl$intergenic$CT,dinucl$coding$CT,xlab="intergenic",ylab="coding",main="CpT bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
 abline(v=0,lty=3)
@@ -474,14 +748,14 @@ We have computed the $z$-score with the \texttt{codon} model on
 all CDS from each of these three strains (as retrieved from Genome
 Reviews database on June 16, 2005):
 
-<<dinucl,eval=T>>=
+<<dinucl,eval=F>>=
 data(prochlo)
 @ 
 
 
 \begin{figure}[H]
    \begin{center}
-<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=T>>=
+<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=F>>=
 par(mfrow=c(2,2),mar=c(2,3,2,3))
 plot(density(prochlo$BX548174$CT),ylim=c(0,0.4),xlim=c(-4,4),lty=3,lwd=2,main="CpT bias",xlab="",ylab="",las=1)
 lines(density(prochlo$AE017126$CT),lwd=2,lty=2)
