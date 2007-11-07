@@ -2,7 +2,7 @@
 # G+C content
 #################################
 
-GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
+GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE )
 {
   #
   # NA propagation:
@@ -19,20 +19,29 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
   #
   # Compute the count of each base:
   #
-	nc <- sum( seq == "c" )
-	ng <- sum( seq == "g" )			
-	if(oldGC) return( (nc + ng)/length(seq) )
-	na <- sum( seq == "a" )
-	nt <- sum( seq == "t" )
-
-	if(! exact){
-          if((na+nc+ng+nt)==0){
-            result <- 0
-          }
-          else{
-            result <- (nc + ng)/(na + nc + ng + nt)
-          }
-	} else {
+  nc <- sum( seq == "c" )
+  ng <- sum( seq == "g" )			
+  na <- sum( seq == "a" )
+  nt <- sum( seq == "t" )
+  
+  #
+  # oldGC case:
+  #
+  if(oldGC){
+    warning("argument oldGC is deprecated")
+    return( (nc + ng)/length(seq) )
+  }
+  
+  #
+  # General case:
+  #
+  if(! exact){
+     if(na + nc + ng + nt == 0){
+       result <- NA.GC
+     } else {
+      result <- (nc + ng)/(na + nc + ng + nt)
+    }
+  } else {
 		#
 		# We have our first estimate of GC vs. AT base counts:
 		#
@@ -125,10 +134,13 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 		# n : any (a, c, g or t) is not informative, so
 		# we compute the G+C content as:
 		#
-                
-		result <- ngc/(ngc + nat)
+                if( ngc + nat == 0){
+                  result <- NA.GC
+                } else {
+  		  result <- ngc/(ngc + nat)
+                }
 	}
-	return(result)
+  return(result)
 }
 
 ######################

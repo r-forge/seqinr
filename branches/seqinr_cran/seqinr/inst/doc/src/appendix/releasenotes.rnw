@@ -15,6 +15,18 @@
 
 \begin{itemize}
 
+\item There is a new chapter to explain how to set up a
+  local ACNUC server on *nix platforms.
+
+\item There is a new appendix in which all the examples protected
+  by a \texttt{dontrun} are forced to be executed.
+
+\item Function \texttt{GC()} has gained a new argument \texttt{NA.GC}
+  defaulting to \code{NA} to say what should be returned when the
+  GC content cannot be computed from data (for instance with a
+  sequence like NNNNNNNNNNNN). The argument \texttt{oldGC} is now
+  deprecated and a warning is issued.
+
 \item Function \texttt{read.alignment()} has gained a new argument
   \texttt{forceToLower} defaulting to TRUE to force lower case in
   the character of the sequence (this is for a smoother interaction
@@ -22,6 +34,17 @@
   deprecated and a warning is issued when used instead of \texttt{file}. 
   The example in the function \texttt{kaks()} has been corrected
   to avoid this warning when reading the example files.
+
+\item New low level utility function \texttt{acnucclose()} and
+  \texttt{quitacnuc()} to close an ACNUC server. These functions
+  are called by \texttt{closebank()} so that a simple call to
+  it should be enough.
+
+\item New low level utility function \texttt{clientid()} to
+  send the client ID to an ACNUC server.
+
+\item New low level utility function \texttt{countfreelists()} to
+  get the number of free lists available in an ACNUC server.
 
 \item New low level utility function \texttt{knowndbs()} and its
   shortcut \texttt{kdb()} to get a description of databases 
@@ -42,7 +65,7 @@
   ACNUC list by selecting sequences either by length, either by date, 
   either for the presence of a given string in annotations.
 
-\item New low level function \texttt{getlistate()} to Ask for 
+\item New low level function \texttt{getlistate()} to ask for 
   information about an ACNUC list.
 
 \item New low level function \texttt{setlistname()} to set the name of 

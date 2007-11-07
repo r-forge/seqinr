@@ -16,7 +16,7 @@
   into account when requested.
 }
 \usage{
-GC(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
+GC(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE)
 GC1(seq, ...)
 GC2(seq, ...)
 GC3(seq, ...)
@@ -28,9 +28,12 @@ GC3(seq, ...)
   	if your sequence is already in lower-case}
   \item{exact}{logical defaulting to \code{FALSE}: should ambiguous bases taken
   	into account when computing the G+C content (see details)}
+  \item{NA.GC}{what should be returned when the GC is impossible to
+    compute from data, for instance with NNNNNNN}
   \item{oldGC}{logical defaulting to \code{FALSE}: should the GC content computed
     as in seqinR <= 1.0-6, that is as the sum of 'g' and 'c' bases divided by
-    the length of the sequence}
+    the length of the sequence. As from seqinR >= 1.1-3, this argument is
+    deprecated and a warning is issued.}
   \item{...}{arguments passed to the function \code{GC}}
 }
 \details{
@@ -59,6 +62,7 @@ GC3(seq, ...)
   \code{GC2} returns the fraction of G+C at second codon position as a numeric vector,
   \code{GC3} returns the fraction of G+C at third codon position as a numeric vector.
   \code{NA} is returned when \code{seq} is \code{NA}.
+  \code{NA.GC} is returned when the GC can not be computed from data.
 }
 \references{
   \code{citation("seqinr")}.
@@ -88,6 +92,13 @@ lower-case characters. Do not confuse with \code{\link{gc}} for garbage collecti
   GC(s2c("acgt")) # 0.5
   GC(s2c("acgtssss")) # 0.5
   GC(s2c("acgtssss"), exact = TRUE) # 0.75
+#
+# Missing data:
+#
+  stopifnot(is.na(GC(s2c("NNNN"))))
+  stopifnot(is.na(GC(s2c("NNNN"), exact = TRUE)))
+  stopifnot(is.na(GC(s2c("WWSS"))))
+  stopifnot(GC(s2c("WWSS"), exact = TRUE) == 0.5)
 #
 # How to reproduce the results obtained with the C program codonW
 # version 1.4.4 writen by John Peden. We use here the "input.dat"
