@@ -55,14 +55,22 @@ WIDTH\_BIB, lrtxt, SUBINLNG: max lengths of record keys in database.
   stopifnot(all(unlist(res) == expected))
   tryalreadyopen <- try(acnucopen("emblTP", socket = mysocket))
   stopifnot(inherits(tryalreadyopen, "try-error"))
-  acnucclose(mysocket)
+  # Need a fresh socket because acnucopen() close it if error:
+  mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
+    port = 5558, server = FALSE, blocking = TRUE)
   tryoff <-  try(acnucopen("off", socket = mysocket))
   stopifnot(inherits(tryoff, "try-error"))
+
+  mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
+    port = 5558, server = FALSE, blocking = TRUE)
   tryinexistent <-  try(acnucopen("tagadatagadatsointsoin", socket = mysocket))
   stopifnot(inherits(tryinexistent, "try-error"))
+
+  mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
+    port = 5558, server = FALSE, blocking = TRUE)
   trycloseunopened <- try(acnucclose(mysocket))
   stopifnot(inherits(trycloseunopened, "try-error"))
-  close(mysocket)
+
  }
 }
 \keyword{utilities}
