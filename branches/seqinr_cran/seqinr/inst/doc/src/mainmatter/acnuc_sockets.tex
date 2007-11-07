@@ -386,7 +386,7 @@ setenv demoacnuc '/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_D
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Finaly, in the RACNUCD\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
+Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as follow :
 
 \begin{Schunk}
 \begin{Sinput}
@@ -396,16 +396,16 @@ Finaly, in the RACNUCD\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server a
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "  610  p1- S      0:00.02 ./racnucd racnucd.ini"  
-[2] "17691  p1  S+     0:00.01 sh -c ps | grep racnucd"
-[3] "17693  p1  R+     0:00.00 grep racnucd"           
+[1] " 5047  p1  S+     0:00.00 ./racnucd racnucd.ini"  
+[2] " 5048  p1  S+     0:00.01 sh -c ps | grep racnucd"
+[3] " 5050  p1  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Sat Oct 27 10:16:54 2007
+Start of remote acnuc server : Wed Nov  7 12:08:13 2007
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -434,7 +434,7 @@ for example:
  hostname
 \end{Sinput}
 \begin{Soutput}
-[1] "sueoka.local"
+[1] "wiportucb955.univ-lyon1.fr"
 \end{Soutput}
 \begin{Sinput}
  choosebank(host = hostname, info = TRUE)
@@ -686,19 +686,19 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Sat Oct 27 10:17:15 CEST 2007
+Wed Nov  7 12:08:32 CET 2007
 =====================================
 Initialise
 Normal end.
 
 =====================================
 Generation des index
-Program started at Sat Oct 27 10:17:15 2007
+Program started at Wed Nov  7 12:08:34 2007
 
 New division created: escherichia_uniprot
 Start loading ncbi species taxonomy
 Warning: file $acnuctaxo/id.report not found
-Sequence loading started at Sat Oct 27 10:17:15 2007
+Sequence loading started at Wed Nov  7 12:08:34 2007
 
 ---->3MG1_ECOLI
 ---->3MG2_ECOLI
@@ -729,9 +729,9 @@ Sequence loading started at Sat Oct 27 10:17:15 2007
 ---->ZRAS_ECOLI
 ---->ZUPT_ECOLI
 ---->ZUR_ECOLI
-Program finished at Sat Oct 27 10:17:19 2007
+Program finished at Wed Nov  7 12:08:39 2007
 
-lues=4461  chargees=4461  difference=0 seqs/second=1115.25
+lues=4461  chargees=4461  difference=0 seqs/second=892.20
 
 =====================================
 run newordalphab
@@ -757,7 +757,7 @@ Normal end
 
 =====================================
 run updatehelp
-Sat Oct 27 10:17:20 CEST 2007
+Wed Nov  7 12:08:40 CET 2007
 Index have been sucessfully build.
 =====================================
  
@@ -889,10 +889,10 @@ computer try:
 \end{Sinput}
 \begin{Soutput}
 [1] "atxy.sty"                   "authors.tex"               
-[3] "book.bib"                   "book.bib.~1.1.2.17.~"      
+[3] "book.bib"                   "book.bib.~1.1.2.18.~"      
 [5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.1.~"  
 [7] "commontex.tex"              "sessionInfo.rnw"           
-[9] "sessionInfo.rnw.~1.1.2.1.~"
+[9] "sessionInfo.rnw.~1.1.2.2.~"
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("book.bib", n = 5), sep = "\n")
@@ -911,7 +911,7 @@ computer try:
 %
 
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
@@ -929,7 +929,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Oct 27 10:17:20 2007
+  \item \Rlogo{} compilation time was: Wed Nov  7 12:08:41 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
