@@ -94,6 +94,7 @@ rnw2tex <- function(directory){
   return(potential.tex.files[file.exists(potential.tex.files)])
 }
 frontmatter <- rnw2tex("../frontmatter")
+mainmatter <- rnw2tex("../mainmatter")
 appendix <- rnw2tex("../appendix")
 @
 
