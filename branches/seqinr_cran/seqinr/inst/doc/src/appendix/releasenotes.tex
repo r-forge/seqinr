@@ -45,6 +45,18 @@
 
 \begin{itemize}
 
+\item Function \texttt{read.alignment()} has gained a new argument
+  \texttt{forceToLower} defaulting to TRUE to force lower case in
+  the character of the sequence (this is for a smoother interaction
+  with the package \texttt{ape}). The argument \texttt{File} is now
+  deprecated and a warning is issued when used instead of \texttt{file}. 
+  The example in the function \texttt{kaks()} has been corrected
+  to avoid this warning when reading the example files.
+
+\item New low level utility function \texttt{knowndbs()} and its
+  shortcut \texttt{kdb()} to get a description of databases 
+  known by an ACNUC server.
+
 \item New low level utility function \texttt{autosocket()} to get the
   socket connection to the last opened ACNUC database.
 
@@ -438,7 +450,7 @@ A BibTeX entry for LaTeX users is
   }
 
 Note that the orginal article updated is available in the
-../../../../../seqinr.Rcheck/seqinr/doc/ folder in PDF format
+/Users/lobry/seqinr.Rcheck/seqinr/doc/ folder in PDF format
 \end{Soutput}
 \end{Schunk}
 
@@ -468,7 +480,7 @@ now possible.
 
 
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
@@ -486,7 +498,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Oct 20 23:19:20 2007
+  \item \Rlogo{} compilation time was: Wed Nov  7 12:32:40 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
