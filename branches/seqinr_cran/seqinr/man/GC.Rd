@@ -3,6 +3,7 @@
 \alias{GC1}
 \alias{GC2}
 \alias{GC3}
+\alias{GCpos}
 \title{Calculates the fractional G+C content of nucleic acid sequences.}
 \description{
   Calculates the fraction of G+C bases of the input nucleic acid
@@ -17,24 +18,31 @@
 }
 \usage{
 GC(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE)
-GC1(seq, ...)
-GC2(seq, ...)
-GC3(seq, ...)
+GC1(seq, frame = 0, ...)
+GC2(seq, frame = 0, ...)
+GC3(seq, frame = 0, ...)
+GCpos(seq, pos, frame = 0, ...)
 }
 \arguments{
   \item{seq}{a nucleic acid sequence as a vector of single characters}
+  \item{frame}{for coding sequences, an integer (0, 1, 2) giving the frame}
   \item{forceToLower}{logical defaulting to \code{TRUE}: force sequence
   	characters in lower-case. Turn this to \code{FALSE} to save time
   	if your sequence is already in lower-case}
   \item{exact}{logical defaulting to \code{FALSE}: should ambiguous bases taken
   	into account when computing the G+C content (see details)}
   \item{NA.GC}{what should be returned when the GC is impossible to
-    compute from data, for instance with NNNNNNN}
+    compute from data, for instance with NNNNNNN. This behaviour could
+    be different when argument \code{exact} is \code{TRUE}, for instance
+    the G+C content of WWSS is \code{NA} by default, but is 0.5 when
+   \code{exact} is set to \code{TRUE}}
+  \item{...}{arguments passed to the function \code{GC}}
+  \item{pos}{for coding sequences, the codon position (1, 2, 3) that should be
+    taken into account to compute the G+C content}
   \item{oldGC}{logical defaulting to \code{FALSE}: should the GC content computed
     as in seqinR <= 1.0-6, that is as the sum of 'g' and 'c' bases divided by
     the length of the sequence. As from seqinR >= 1.1-3, this argument is
     deprecated and a warning is issued.}
-  \item{...}{arguments passed to the function \code{GC}}
 }
 \details{
 	When \code{exact} is set to \code{TRUE} the G+C content is estimated 
@@ -57,12 +65,13 @@ GC3(seq, ...)
 	is similar way and then the G+C content is computed as ngc/(nat + ngc).
 }
 \value{
-  \code{GC} returns the fraction of G+C as a numeric vector,
-  \code{GC1} returns the fraction of G+C at first codon position as a numeric vector,
-  \code{GC2} returns the fraction of G+C at second codon position as a numeric vector,
-  \code{GC3} returns the fraction of G+C at third codon position as a numeric vector.
+  \code{GC} returns the fraction of G+C (in [0,1]) as a numeric vector of length one.
+  \code{GCpos} returns GC at position \code{pos}.
+  \code{GC1}, \code{GC2}, \code{GC3} are wrappers for \code{GCpos} with the
+    argument \code{pos} set to 1, 2, and 3, respectively.
   \code{NA} is returned when \code{seq} is \code{NA}.
-  \code{NA.GC} is returned when the GC can not be computed from data.
+  \code{NA.GC} defaulting to \code{NA} is returned when the G+C content 
+    can not be computed from data.
 }
 \references{
   \code{citation("seqinr")}.
@@ -99,6 +108,13 @@ lower-case characters. Do not confuse with \code{\link{gc}} for garbage collecti
   stopifnot(is.na(GC(s2c("NNNN"), exact = TRUE)))
   stopifnot(is.na(GC(s2c("WWSS"))))
   stopifnot(GC(s2c("WWSS"), exact = TRUE) == 0.5)
+#
+# Coding sequences tests:
+#
+  cdstest <- s2c("ATGATG")
+  stopifnot(GC3(cdstest) == 1)
+  stopifnot(GC2(cdstest) == 0)
+  stopifnot(GC1(cdstest) == 0)
 #
 # How to reproduce the results obtained with the C program codonW
 # version 1.4.4 writen by John Peden. We use here the "input.dat"

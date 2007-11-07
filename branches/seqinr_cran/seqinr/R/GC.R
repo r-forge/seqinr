@@ -144,26 +144,39 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 }
 
 ######################
+# GCpos		     #
+######################
+
+GCpos <- function(seq, pos, frame = 0, ...){
+  if(nchar(seq[1]) > 1){
+    warning("sequence is not a vector of chars, I'm trying to cast it into one")
+    seq <- s2c(seq[1])
+  }
+  #
+  # Take frame into account:
+  #
+  if(frame != 0) seq <- seq[(1 + frame):length(seq)]
+  #
+  # Return result:
+  #
+  GC(seq[seq(pos, length(seq), by = 3)], ...)
+}
+
+######################
 # GC1		     #
 ######################
 
-GC1 <- function(seq, ...){
-	GC(seq[seq(1, length(seq), by = 3)], ...)
-}
+GC1 <- function(seq, frame = 0, ...) GCpos(seq = seq, pos = 1, frame = frame, ...)
 
 ######################
 # GC2		     #
 ######################
 
-GC2 <- function(seq, ...){
-	GC(seq[seq(2, length(seq), by = 3)], ...)
-}
+GC2 <- function(seq, frame = 0, ...) GCpos(seq = seq, pos = 2, frame = frame, ...)
 
 ######################
 # GC3		     #
 ######################
 
-GC3 <- function(seq, ...){
-	GC(seq[seq(3, length(seq), by = 3)], ...)
-}
+GC3 <- function(seq, frame = 0, ...) GCpos(seq = seq, pos = 3, frame = frame, ...)
 

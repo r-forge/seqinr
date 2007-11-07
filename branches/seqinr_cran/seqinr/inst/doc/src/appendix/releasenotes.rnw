@@ -25,7 +25,10 @@
   defaulting to \code{NA} to say what should be returned when the
   GC content cannot be computed from data (for instance with a
   sequence like NNNNNNNNNNNN). The argument \texttt{oldGC} is now
-  deprecated and a warning is issued.
+  deprecated and a warning is issued. Functions \texttt{GC1()},
+  \texttt{GC2()}, \texttt{GC3()} are now simple wrappers for the
+  more general \texttt{GCpos()} function. The new argument \texttt{frame}
+  allows to take the frame into account for CDS.
 
 \item Function \texttt{read.alignment()} has gained a new argument
   \texttt{forceToLower} defaulting to TRUE to force lower case in
