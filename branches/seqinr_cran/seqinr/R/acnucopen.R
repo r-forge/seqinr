@@ -60,7 +60,7 @@ acnucopen <- function(db, socket, challenge = NA){
     if( res[1] == "6" ){
       stop(paste("Database with name -->", db, "<-- is protected by a password (unimplemented).\n", sep = ""))
     }
-    stop("I don't know what this error code means for acnucopen, please contact package maintener.\n")
+    stop(Paste("I don't know what this error code means for acnucopen:", res[1]))
   }
   return(list(type = res[2], totseqs = as.numeric(res[3]), totspecs = as.numeric(res[4]),
               totkeys = as.numeric(res[5]), ACC_LENGTH = as.numeric(res[6]),
