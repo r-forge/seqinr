@@ -195,6 +195,19 @@ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), sep = "\n")
 \item \textbf{dbplaces} is a file containing the path of the available databases
 \end{itemize}
 
+
+
+You may want to change the port of the socket server, according to the availabilities and restricttions on your machine.
+For example , lets use the port 6667 in a new racnucd.new file.
+
+<<modifyinit,fig=F,eval=T>>=
+initline <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini")
+initline[1]="port=6667"
+writeLines(initline, "./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new")
+cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new"), sep = "\n")
+@ 
+
+ 
 \subsubsection{Configuring the knowndbs file.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -257,7 +270,7 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
 
 <<startserver,fig=F,eval=T>>=
 setwd("./ACNUC_HOME/ACNUC_SOFT/racnucd")
-system("./racnucd racnucd.ini > racnucd.log &")
+system("./racnucd racnucd.new > racnucd.log &")
 Sys.sleep(1)
 system("ps | grep racnucd", intern = TRUE)
 cat(readLines("racnucd.log"), sep = "\n")
@@ -273,7 +286,7 @@ Launch \Rlogo{}, load the \texttt{seqinr} package  and type
 
 
 \begin{verbatim}
-choosebank(host="my_machine",info=T)
+choosebank(host="my_machine",port=6667,info=T)
 \end{verbatim}
 
 for example:
@@ -283,14 +296,14 @@ for example:
 library(seqinr)
 system("hostname", intern = TRUE) -> hostname
 hostname
-choosebank(host = hostname, info = TRUE)
+choosebank(host = hostname,port=6667, info = TRUE)
 @ 
 
 
 You can query the database. For example:
 
 <<tryquery,fig=F,eval=T>>=
-choosebank(bank = "demoacnuc", host = hostname)
+choosebank(bank = "demoacnuc",host = hostname,port=6667)
 query("mylist", "k=rib@ prot@")
 mylist$nelem
 sapply(mylist$req, getName)
