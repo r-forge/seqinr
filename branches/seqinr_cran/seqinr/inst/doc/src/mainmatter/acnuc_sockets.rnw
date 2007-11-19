@@ -198,11 +198,11 @@ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), sep = "\n")
 
 
 You may want to change the port of the socket server, according to the availabilities and restricttions on your machine.
-For example , lets use the port 6667 in a new racnucd.new file.
+For example , lets use the port 49152 in a new racnucd.new file.
 
 <<modifyinit,fig=F,eval=T>>=
 initline <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini")
-initline[1]="port=6667"
+initline[1]="port=49152"
 writeLines(initline, "./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new")
 cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new"), sep = "\n")
 @ 
@@ -286,7 +286,7 @@ Launch \Rlogo{}, load the \texttt{seqinr} package  and type
 
 
 \begin{verbatim}
-choosebank(host="my_machine",port=6667,info=T)
+choosebank(host="my_machine",port=49152,info=T)
 \end{verbatim}
 
 for example:
@@ -296,14 +296,14 @@ for example:
 library(seqinr)
 system("hostname", intern = TRUE) -> hostname
 hostname
-choosebank(host = hostname,port=6667, info = TRUE)
+choosebank(host = hostname,port=49152, info = TRUE)
 @ 
 
 
 You can query the database. For example:
 
 <<tryquery,fig=F,eval=T>>=
-choosebank(bank = "demoacnuc",host = hostname,port=6667)
+choosebank(bank = "demoacnuc",host = hostname,port=49152)
 query("mylist", "k=rib@ prot@")
 mylist$nelem
 sapply(mylist$req, getName)
