@@ -65,7 +65,7 @@ read.alignment(file, format, forceToLower = TRUE, File = NULL)
    to 10 characters and may contain blanks. 
 }
    \item{"fasta"}{ Sequence in fasta format begins with a single-line 
-   description (distinguished bby a greater-than (>) symbol), followed 
+   description (distinguished by a greater-than (>) symbol), followed 
    by sequence data on the next line.
 }
 }
