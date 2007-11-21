@@ -1,9 +1,10 @@
 \name{read.fasta}
 \alias{read.fasta}
 \alias{readfasta}
+\alias{FASTA}
 \title{ read FASTA formatted files }
 \description{
-  Read sequences from a file in FASTA format.
+  Read nucleic or amino-acid sequences from a file in FASTA format.
 }
 \usage{
 read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
@@ -25,21 +26,31 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
 }
 \details{
   FASTA is a widely used format in biology, some FASTA files are distributed
-  with the seqinr package, see the examples section bellow.
+  with the seqinr package, see the examples section below.
   Sequence in FASTA format begins with a single-line 
-  description (distinguished by a greater-than (>) symbol), followed 
-  by sequence data on the next line. Lines starting by a semicolon ';'
-  are ignored.
+  description (distinguished by a greater-than '>' symbol), followed 
+  by sequence data on the next lines. Lines starting by a semicolon ';'
+  are ignored, as in the original FASTA program (Pearson and Lipman 1988).
 }
 \value{
   By default \code{read.fasta} return a list of vector of chars. Each element 
   is a sequence object of the class \code{SeqFastadna} or \code{SeqFastaAA}.
 }
 \references{
+
+  Pearson, W.R. and Lipman, D.J. (1988) Improved tools for biological 
+  sequence comparison. \emph{Proceedings of the National Academy 
+  of Sciences of the United States of America}, \bold{85}:2444-2448
+
   \code{citation("seqinr")}
 }
 \author{ D. Charif, J.R. Lobry }
-\seealso{ \code{\link{write.fasta}}, \code{\link{read.alignment}} }
+\seealso{
+  \code{\link{write.fasta}} to write sequences in a FASTA file, 
+  \code{\link{gb2fasta}} to convert a GenBank file into a FASTA file,
+  \code{\link{read.alignment}} to read aligned sequences,
+  \code{\link{reverse.align}} to get an alignment at the nucleic level from the
+  one at the amino-acid level }
 \examples{
 #
 # Example of a DNA file in FASTA format:
