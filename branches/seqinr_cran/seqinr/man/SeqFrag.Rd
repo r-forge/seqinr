@@ -31,7 +31,7 @@
 }
 \seealso{\code{\link{getFrag}} }
 \examples{
- s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
- getFrag(s[[1]],1,10) 	
+ s <- read.fasta(file = system.file("sequences/malM.fasta", package = "seqinr"))
+ getFrag(s[[1]], 1, 10) 	
 }
 \keyword{utilities}
