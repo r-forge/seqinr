@@ -16,13 +16,18 @@
 \begin{itemize}
 
 \item There is a new chapter to explain how to set up a
-  local ACNUC server on *nix platforms.
+  local ACNUC server on Unix-like platforms.
 
 \item New dataset \texttt{m16j} to make a GC skew plot as in
   \cite{LobryMBE96}.
 
 \item There is a new appendix in which all the examples protected
   by a \texttt{dontrun} statment are forced to be executed.
+
+\item Function \texttt{read.fasta()} now supports comment lines
+  starting by a semicolon character in FASTA files. An example
+  of such a file is provided in \texttt{sequences/legacy.fasta}.
+  The argument \texttt{File} is now deprecated.
 
 \item Function \texttt{GC()} has gained a new argument \texttt{NA.GC}
   defaulting to \texttt{NA} to say what should be returned when the
