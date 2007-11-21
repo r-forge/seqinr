@@ -20,6 +20,15 @@ pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = page, plainpages=false]
 
 \setcounter{minitocdepth}{1}
 
+%
+% We need to load seqinR dev version here before the title to update to
+% the last version number automatically:
+%
+<<loadseqinrdev,echo=F,results=hide>>=
+# if seqinr was checked with "R CMD check seqinr", then this should load
+# the last development version:
+library(seqinr, lib = normalizePath("../../../../../seqinr.Rcheck"))
+@
 
 \title{\Seqinr{} \Sexpr{packageDescription("seqinr")$Version}: a contributed package to the \Rlogo{}~project 
 for statistical computing devoted to biological sequences retrieval and analysis}
