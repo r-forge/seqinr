@@ -1,15 +1,25 @@
 read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqinr"), 
   seqtype = "DNA", File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
-  set.attributes = TRUE)
+  set.attributes = TRUE, legacy.mode = TRUE)
 {
   #
   # Check arguments:
   #
-  if(!is.null(File)) file <- File
+  if(!is.null(File)){
+    file <- File
+    warning("File is deprecated, use file instead")
+  }
   #
   # Read the fasta file as a vector of strings:
   #
   lines <- readLines(file)
+  #
+  # Remove comment lines starting with a semicolon ';'
+  #
+  if(legacy.mode){
+    is.comment.line <- function(line) return(substr(line, 1, 1) == ";")
+    lines <- lines[!is.comment.line(lines)]
+  }
   #
   # Get the line numbers where sequences names are:
   #
