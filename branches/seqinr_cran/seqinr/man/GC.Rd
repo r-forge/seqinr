@@ -26,11 +26,16 @@ GCpos(seq, pos, frame = 0, ...)
 \arguments{
   \item{seq}{a nucleic acid sequence as a vector of single characters}
   \item{frame}{for coding sequences, an integer (0, 1, 2) giving the frame}
-  \item{forceToLower}{logical defaulting to \code{TRUE}: force sequence
+  \item{forceToLower}{logical. if \code{TRUE}  force sequence
   	characters in lower-case. Turn this to \code{FALSE} to save time
-  	if your sequence is already in lower-case}
-  \item{exact}{logical defaulting to \code{FALSE}: should ambiguous bases taken
-  	into account when computing the G+C content (see details)}
+  	if your sequence is already in lower-case (cpu time is approximately
+        divided by 3 when turned off)}
+  \item{exact}{logical: if \code{TRUE} ambiguous bases are taken
+  	into account when computing the G+C content (see details).
+        Turn this to \code{FALSE} to save time if your you can neglect
+        ambiguous bases in your sequence (cpu time is approximately
+        divided by 3 when turned off)
+}
   \item{NA.GC}{what should be returned when the GC is impossible to
     compute from data, for instance with NNNNNNN. This behaviour could
     be different when argument \code{exact} is \code{TRUE}, for instance
@@ -125,9 +130,9 @@ lower-case characters. Do not confuse with \code{\link{gc}} for garbage collecti
   input <- read.fasta(file = inputdatfile) # read the FASTA file
   inputoutfile <- system.file("sequences/input.out", package = "seqinr")
   input.res <- read.table(inputoutfile, header = TRUE) # read codonW result file
-
+#
 # remove stop codon before computing G+C content (as in codonW)
-
+#
   GC.codonW <- function(dnaseq, ...){
   	 GC(dnaseq[seq_len(length(dnaseq) - 3)], ...)
   }
@@ -139,5 +144,57 @@ lower-case characters. Do not confuse with \code{\link{gc}} for garbage collecti
   main = "Comparison of G+C content results")
   abline(c(0, 1), col = "red")
   legend("topleft", inset = 0.01, legend = "y = x", lty = 1, col = "red")
+\dontrun{
+# Too long for routine check
+# This is a benchmark to compare the effect of various parameter
+# setting on computation time
+n <- 10
+from <-10^4
+to <- 10^5
+size <- seq(from = from, to = to, length = n)
+res <- data.frame(matrix(NA, nrow = n, ncol = 5))
+colnames(res) <- c("size", "FF", "FT", "TF", "TT")
+res[, "size"] <- size
+
+for(i in seq_len(n)){
+  myseq <- sample(x = s2c("acgtws"), size = size[i], replace = TRUE)   
+  res[i, "FF"] <- system.time(GC(myseq, forceToLower = FALSE, exact = FALSE))[3]
+  res[i, "FT"] <- system.time(GC(myseq, forceToLower = FALSE, exact = TRUE))[3]
+  	res[i, "TF"] <- system.time(GC(myseq, forceToLower = TRUE, exact = FALSE))[3]
+  	res[i, "TT"] <- system.time(GC(myseq, forceToLower = TRUE, exact = TRUE))[3]
+}
+
+par(oma = c(0,0,2.5,0), mar = c(4,5,0,2) + 0.1, mfrow = c(2, 1))
+plot(res$size, res$TT, las = 1, 
+xlab = "Sequence size [bp]",
+ylim = c(0, max(res$TT)), xlim = c(0, max(res$size)), ylab = "")
+title(ylab = "Observed time [s]", line = 4)
+abline(lm(res$TT~res$size))
+points(res$size, res$FT, col = "red")
+abline(lm(res$FT~res$size), col = "red", lty = 3)
+points(res$size, res$TF, pch = 2)
+abline(lm(res$TF~res$size))
+points(res$size, res$FF, pch = 2, col = "red")
+abline(lm(res$FF~res$size), lty = 3, col = "red")
+
+
+legend("topleft", inset = 0.01, legend = c("forceToLower = TRUE", "forceToLower = FALSE"), col = c("black", "red"), lty = c(1,3))
+legend("bottomright", inset = 0.01, legend = c("exact = TRUE", "exact = FALSE"),
+pch = c(1,2))
+
+mincpu <- lm(res$FF~res$size)$coef[2]
+
+barplot(
+c(lm(res$FF~res$size)$coef[2]/mincpu, 
+  lm(res$TF~res$size)$coef[2]/mincpu,
+  lm(res$FT~res$size)$coef[2]/mincpu,
+  lm(res$TT~res$size)$coef[2]/mincpu),
+horiz = TRUE, xlab = "Increase of CPU time",
+col = c("red", "black", "red", "black"),
+names.arg = c("(F,F)", "(T,F)", "(F,T)", "(T,T)"), las = 1)
+title(ylab = "forceToLower,exact", line = 4)
+
+mtext("CPU time as function of options", outer = TRUE, line = 1, cex = 1.5)
+}
 }
 \keyword{manip}
