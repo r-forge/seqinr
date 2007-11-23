@@ -522,7 +522,7 @@ Description of the socket communication protocol with acnuc is availble at this 
 
 
 
-\section{Citation (à faire valider par Manolo)} 
+\section{Citation} 
 %%%%%%%%%%%%%
 
 You can use a citation along these lines:
@@ -531,7 +531,7 @@ You can use a citation along these lines:
 
 \noindent\fbox{\begin{minipage}{\textwidth}
 \noindent Sequences from [\textit{cite your source of data}] were structured under the 
-ACNUC model \cite{acnuc1984, acnuc1985, acnuc1985b}, hosted [at \textit{give your URL if
+ACNUC model \cite{acnuc1985}, hosted [at \textit{give your URL if
 public}] by an ACNUC server \cite{acnuc2007} and analyzed with 
 the \seqinr{} client \cite{seqinr} under the \Rlogo{} statistical environment \cite{RfromR}.
 \end{minipage}}
