@@ -1081,6 +1081,38 @@ The results show that there is no systematic under-representation of
 none of the four pyrimidine dinucleotides (see figure
 \ref{dinucl-graphes} produced by the following code).
 
+\begin{Schunk}
+\begin{Sinput}
+ data(dinucl)
+ par(mfrow = c(2, 2), mar = c(4, 4, 0.5, 0.5) + 0.1)
+ myplot <- function(x) {
+     plot(dinucl$intergenic[, x], dinucl$coding[, x], xlab = "intergenic", 
+         ylab = "coding", las = 1, ylim = c(-6, 4), xlim = c(-3, 
+             3), cex = 0)
+     rect(-10, -10, -1.96, 10, col = "yellow", border = "yellow")
+     rect(1.96, -10, 10, 10, col = "yellow", border = "yellow")
+     rect(-10, -10, 10, -1.96, col = "yellow", border = "yellow")
+     rect(-10, 1.96, 10, 10, col = "yellow", border = "yellow")
+     abline(v = 0, lty = 3)
+     abline(h = 0, lty = 3)
+     abline(h = -1.96, lty = 2)
+     abline(h = +1.96, lty = 2)
+     abline(v = -1.96, lty = 2)
+     abline(v = +1.96, lty = 2)
+     points(dinucl$intergenic[, x], dinucl$coding[, x], pch = 21, 
+         col = rgb(0.1, 0.1, 0.1, 0.5), bg = rgb(0.5, 0.5, 
+             0.5, 0.5))
+     legend("bottomright", inset = 0.02, legend = paste(substr(x, 
+         1, 1), "p", substr(x, 2, 2), " bias", sep = ""), cex = 1.25, 
+         bg = "white")
+     box()
+ }
+ myplot("CT")
+ myplot("TC")
+ myplot("CC")
+ myplot("TT")
+\end{Sinput}
+\end{Schunk}
 
 \begin{figure}
 \centering\fbox{
@@ -1123,19 +1155,38 @@ linked to their UV exposure?
 
 We have computed the $z$-score with the \texttt{codon} model on
 all CDS from each of these three strains (as retrieved from Genome
-Reviews database on June 16, 2005):
+Reviews database on June 16, 2005). Figure \ref{prochlo} was
+produced with the following code:
 
 \begin{Schunk}
 \begin{Sinput}
  data(prochlo)
+ oneplot <- function(x) {
+     plot(density(prochlo$BX548174[, x]), ylim = c(0, 0.4), 
+         xlim = c(-4, 4), lty = 3, main = paste(substr(x, 1, 
+             1), "p", substr(x, 2, 2), " bias", sep = ""), 
+         xlab = "", ylab = "", las = 1, type = "n")
+     rect(-10, -1, -1.96, 10, col = "yellow", border = "yellow")
+     rect(1.96, -1, 10, 10, col = "yellow", border = "yellow")
+     lines(density(prochlo$BX548174[, x]), lty = 3)
+     lines(density(prochlo$AE017126[, x]), lty = 2)
+     lines(density(prochlo$BX548175[, x]), lty = 1)
+     abline(v = c(-1.96, 1.96), lty = 5)
+     box()
+ }
+ par(mfrow = c(2, 2), mar = c(2, 3, 2, 0.5) + 0.1)
+ oneplot("CT")
+ oneplot("TC")
+ oneplot("CC")
+ oneplot("TT")
 \end{Sinput}
 \end{Schunk}
 
-
-\begin{figure}[H]
-   \begin{center}
-\includegraphics{../figs/nonparastats-prochlo}
-\end{center}
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-prochlo}
    \caption{Each figure shows the distributions of the $zscore$ in all
      \textbf{coding sequences} corresponding to each of the three
      strains of \textit{Prochlorococcus marinus}. In each figure, the
@@ -1147,6 +1198,8 @@ Reviews database on June 16, 2005):
      normal distribution (dashed vertical lines) are plotted as
      benchmarks.}
 \label{prochlo}
+\end{minipage}
+}
 \end{figure}
 
 Figure \ref{prochlo} shows that there is no difference between the
@@ -1174,7 +1227,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Nov 24 17:37:35 2007
+  \item \Rlogo{} compilation time was: Sat Nov 24 19:01:55 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
