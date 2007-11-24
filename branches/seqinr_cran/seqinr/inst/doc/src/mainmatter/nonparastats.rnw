@@ -449,9 +449,8 @@ that compose it ($\rho_{xy} = 1$). Departure from this value
 characterizes either over- or under-representation of dinucleotide
 $xy$.
 
-<<n, echo= FALSE,eval=T>>=
+<<setn,echo=F,results=hide>>=
 n <- 500
-di <- 4
 @ 
 
 We expect the $\rho$ statistic of a randomly generated sequence to be
@@ -460,24 +459,41 @@ $\rho$ statistic on \Sexpr{ifelse(exists("n"),n, "???")} random
 sequences, we can fit a normal distribution which is centered on 1
 (see Fig. \ref{rho})
 
-\begin{figure}[H]
-  \begin{center}
-<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=T>>=
-rhoseq <- sapply(seq(n),function(x){rho(sample(s2c('acgt'),6000,rep=TRUE))})
-hist(rhoseq[di,],freq=FALSE,xlab="Rho statistic",main=paste("Distribution for dinucleotide",toupper(labels(rhoseq)[[1]][di]),"on",n,"random sequences"),las=1,col=grey(0.8),border=grey(0.5))
-abline(v=1,lwd=2,lty=3)
-min=min(rhoseq[di,])
-max=max(rhoseq[di,])
-x=seq(min,max,length.out=1000)
-lines(x,dnorm(x,mean=mean(rhoseq[di,]),sd=sd(rhoseq[di,])),lwd=2,lty=2)
+<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,include=F,eval=T>>=
+set.seed(1)
+<<setn>>
+di <- 4
+lseq <- 6000
+rhoseq <- replicate(n, rho(sample(s2c('acgt'), size = lseq, replace = TRUE)))
+x <- seq(min(rhoseq[di,]), max(rhoseq[di,]), length.out = 1000)
+y <- dnorm(x, mean = mean(rhoseq[di,]), sd = sd(rhoseq[di,]))
+histo <- hist(rhoseq[di,], plot = FALSE)
+plot(histo, freq = FALSE, xlab = expression(paste(rho, " statistic")),
+  main = paste("Distribution for dinucleotide", 
+  toupper(labels(rhoseq)[[1]][di]), "on", n, "random sequences"),
+  las = 1, col = grey(0.8), border = grey(0.5),
+  ylim = c(0, max(c(y, histo$density))))
+lines(x, y, lty = 1, col = "red")
+abline(v = 1, lty = 3, col = "blue", lwd = 2)
+legend("topleft", inset = 0.01, legend = c("normal fit", 
+  expression(paste(rho, " = 1"))), lty = c(1, 3),
+  col = c("red", "blue"), lwd = c(1, 2))
 @ 
-\end{center}
-   \caption{Distribution of the $\rho$ statistic computed on
-     \Sexpr{ifelse(exists("n"),n, "???")} random sequences. The vertical
-     dotted line is centered on 1. The dashed curve draws the fitted normal
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-rho}
+\caption{Distribution of the $\rho$ statistic computed on
+     \Sexpr{ifelse(exists("n"),n, "???")} random sequences of
+      length \Sexpr{ifelse(exists("lseq"), lseq, "???")}. The vertical
+     dotted line is centered on 1. The curve draws the fitted normal
      distribution.}
-   \label{rho}
-   \end{figure}
+\label{rho}
+\end{minipage}
+}
+\end{figure}
 
 The downside of this statistic, is that the model against which we
 compare the sequence under study is fixed. For several types of
@@ -520,21 +536,21 @@ can be established, we can use the \texttt{base} model.
 
 Let's have a look at what these different statistics can show. First,
 we will extract a CDS sequence of \textit{Escherichia coli}'s
-chromosome from the Genome Reviews database. We will first make a
-request to retrieve all available CDS from this bacteria:
+chromosome from the Genome Reviews database. Let's use, for instance, 
+the CDS with accession number \texttt{U00096.PE448}:
 
-<<querycoli, echo = TRUE,eval=T>>=
+<<querycds,fig=F>>=
 choosebank("greview")
-query("coli","sp=escherichia coli et t=cds et no k=partial")
-names <- unlist(lapply(coli$req,getName))
-sequence <- getSequence(coli$req[[which(names=="U00096.PE448")]]) 
-@
+query("coli","N=U00096.PE448")
+sequence <- getSequence(coli$req[[1]])
+annot <- getAnnot(coli$req[[1]])
+closebank()
+cat(annot, sep="\n")
+@ 
 
-From the \Sexpr{ifelse(exists("coli"),coli$nelem, "???")} sequences
-annotated as CDS in the Genome Reviews database, let's choose one
-coding sequence: say, for instance, the one with accession number \texttt{U00096.PE448}. We can see
-that this CDS encodes a maltose O-acetyltransferase protein
-(\verb+getAnnot(coli$req[[which(names=="U00096.PE448")]],30)+). We will now compare the three
+We can see
+that this CDS encodes a maltose O-acetyltransferase protein. 
+We will now compare the three
 following nonparametric statistics:
 
 \begin{itemize}
@@ -549,41 +565,62 @@ version (seqinR 1.1-1 and previous versions) incorporated an
 approximation for large sequences. This has been possible with the
 help of Sophie Schbath \cite{Schbath-thesis}, and the new version of
 this calculation can be obtained with the argument \texttt{exact} 
-set to \texttt{TRUE} (\texttt{FALSE} being the default).
+set to \texttt{TRUE} (\texttt{FALSE} being the default). The following
+code was used to produce figure \ref{dinuclcoli}:
 
-\begin{figure}[H]
-  \begin{center}
-<<dinuclcoli, echo = TRUE, fig = TRUE,eval=T>>=
-rhocoli=rho(sequence)
-zcolibase=zscore(sequence,mod='base',exact=TRUE)
-zcolicodon=zscore(sequence,mod='codon')
-par(mfrow=c(1,3))
-plot(rhocoli-1,ylim=c(-0.5,0.5),las=1,ylab="rho")
-plot(zcolibase,ylim=c(-2.5,2.5),las=1,ylab="zscore with base model")
-plot(zcolicodon,ylim=c(-2.5,2.5),las=1,ylab="zscore with codon model")
-@    
-\end{center}
+<<dinuclcoli, echo = TRUE, fig = TRUE,include=F,eval=T>>=
+rhocoli <- rho(sequence)
+zcolibase <- zscore(sequence, model = 'base', exact = TRUE)
+zcolicodon <- zscore(sequence,model = 'codon')
+par(mfrow = c(3, 1), lend = "butt", oma = c(0,0,2,0), mar = c(3,4,0,2))
+col <- c("green", "blue", "orange", "red")
+plot(rhocoli - 1, ylim = c(-0.5,0.5), las = 1, 
+  ylab = expression(rho), lwd = 10, xaxt = "n",
+  col = col)
+axis(1, at = 1:16, labels = toupper(words(2)))
+abline(h = 0)
+plot(zcolibase, ylim = c(-2.5,2.5), las = 1, 
+  ylab = "zscore with base model", lwd = 10, xaxt = "n",
+  col = col)
+axis(1, at = 1:16, labels = toupper(words(2)))
+abline(h = 0)
+plot(zcolicodon, ylim = c(-2.5,2.5), las = 1, 
+  ylab = "zscore with codon model", lwd = 10, xaxt = "n",
+  col = col)
+axis(1, at = 1:16, labels = toupper(words(2)))
+abline(h = 0)
+mtext("Comparison of the three statistics", outer = TRUE, cex = 1.5)
+@ 
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-dinuclcoli}
    \caption{Three different non-parametric statistics (from left to
    right: $\rho$, $zscore$ with \texttt{base} model, $zscore$ with
    \texttt{codon} model), computed on the same sequence from
    \textit{Escherichia coli}. In order to make the figures easily
    comparable, we substracted 1 to the \texttt{rho()} results, so that
-   all 3 statistics are centered on 0. }
+   all 3 statistics are centered at 0. }
 \label{dinuclcoli}
+\end{minipage}
+}
 \end{figure}
 
-The first two figures are almost identical: this is due to the way the
+The first two panels in figure \ref{dinuclcoli} are almost identical: 
+this is due to the way the
 $z$-score statistic has been built. The statistic computed with
 the \texttt{base} model is a reflection of the $\rho$ statistic. The
 difference being that the $z$-score follows a standard normal
 distribution, which makes easier the comparisons between the results
 from the \texttt{base} model and the ones from the \texttt{codon}
-model. The last figure ($z$-score with \texttt{codon} model), is
+model. The last pannel ($z$-score with \texttt{codon} model), is
 completely different: almost all over- and under-representations have
 been erased. We can safely say that these over- and
 under-representations were due to codon usage bias.
 
-On this last figure, four dinucleotides stand out: CC and TT seem
+On the last panel, four dinucleotides stand out: CC and TT seem
 rather under-represented, CT and TC rather over-represented. This
 means that, in this sequence, codons ending with a given pyrimidine
 tend to be more frequently followed by a codon starting with the other
@@ -612,15 +649,13 @@ to UV wavelengths differ and depend on the micro-organism
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{rcccc}
-  \hline
+  \hline \hline
   & G+C content & CC (\%) & CT + TC (\%) & TT (\%)\\
   \hline
   \textit{Haemophilus influenzae} & 62 & 5 & 24 & 71 \\
-  \hline
   \textit{Escherichia coli} & 50 & 7 & 34 & 59 \\
-  \hline
   \textit{Micrococcus lysodeikticus} & 30 & 26 & 55 & 19 \\
-  \hline
+  \hline \hline
 \end{tabular}
 \caption{Proportion of dimers formed in the DNA of three bacteria
   after irradiation with 265 nm UV light. Table adapted from
@@ -658,33 +693,30 @@ others. Bak \textit{et al.} \cite{Bak} strongly criticize their
 methodology, but no clear cut answer is achieved.
 
 In an \textit{Escherichia coli} chromosome, it is true that a sequence
-with a high G+C content will contain few phototargets (see Fig.
-\ref{GCcoli}).
+with a high G+C content will contain few phototargets: the following
+code was used to produce figure \ref{GCcoli}.
 
-\begin{figure}[H]
-  \begin{center}
-<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=T>>=
-worstcase = function(gc){
-c = gc
-t = (1-gc)
-(0.59*t*t + 0.34*t*c + 0.07*c*c)/2
+<<GCcoli,fig=T,include=F,results=hide,height=5,eval=T>>=
+worstcase <- function(gc){
+  c <- gc
+  t <- (1-gc)
+  (0.59*t*t + 0.34*t*c + 0.07*c*c)/2
 }
-randomcase = function(gc){
-c = gc/2
-t = (1-gc)/2
-0.59*t*t + 0.34*t*c + 0.07*c*c
+randomcase <- function(gc){
+  c <- gc/2
+  t <- (1-gc)/2
+  0.59*t*t + 0.34*t*c + 0.07*c*c
 }
-bestcase = function(gc){
-c = (gc)/2
-t = (1-gc)/2
-if ((c+t)<=0.5){
-0
-} 
-else{
-c = (c + t - 0.5)/2
-t = (c + t - 0.5)/2
-0.59*t*t + 0.34*t*c + 0.07*c*c
-}
+bestcase <- function(gc){
+  c <- (gc)/2
+  t <- (1-gc)/2
+  if ((c + t) <= 0.5){
+    0
+  } else {
+  c <- (c + t - 0.5)/2
+  t <- (c + t - 0.5)/2
+  0.59*t*t + 0.34*t*c + 0.07*c*c
+  }
 }
 xval <- seq(from = 0, to = 100, length = 100)
 sapply(xval/100, randomcase) -> yrand
@@ -693,8 +725,7 @@ sapply(xval/100, bestcase) -> ybest
 plot(xval, 100*yworst, las = 1, type = "l", lwd = 2, lty = 1 ,
 xlab = "G+C content [%]",
 ylab = "Phototargets weighted density [%]",
-main =
-"Estimated as in Escherichia coli chromosome",
+main = "Estimated as in Escherichia coli chromosome",
 ylim = c(0, max(100*yworst)))
 points(xval,100*yrand,type='l',lwd=2,lty=2)
 points(xval,100*ybest,type='l',lwd=2,lty=3)
@@ -703,7 +734,12 @@ arrows(25, 25, 75, 25, code = 1,le = 0.1)
 arrows(25, 25, 75, 25,code = 2,le = 0.1)
 text(50,25,"Biological range",pos=3)
 @
-\end{center}
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-GCcoli}
 \caption{Density of phototargets, weighted by their frequency in the
   \textit{Escherichia coli} chromosome, and calculated for different
   G+C contents and for three kinds of random genomes. The weights are
@@ -719,37 +755,36 @@ text(50,25,"Biological range",pos=3)
   dinucleotide is the result of chance ($f_{xy} = f_{x}\times
   f_{y}$).}
 \label{GCcoli}
+\end{minipage}
+}
 \end{figure}
 
 
-In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
-\ref{GCmicro}), we can see that this is no longer true...
+In a \textit{Micrococcus lysodeikticus} sequence (the following code
+was used to produce figure \ref{GCmicro}), we can see that this 
+is no longer true...
 
-
-\begin{figure}[H]
-   \begin{center}
-<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=T>>=
-worstcase = function(gc){
-c = gc
-t = (1-gc)
-(0.19*t*t + 0.55*t*c + 0.26*c*c)/2
+<<GCmicro,fig=T,include=F,results=hide,height=5,eval=T>>=
+worstcase <- function(gc){
+  c <- gc
+  t <- (1-gc)
+  (0.19*t*t + 0.55*t*c + 0.26*c*c)/2
 }
-randomcase = function(gc){
-c = gc/2
-t = (1-gc)/2
-0.19*t*t + 0.55*t*c + 0.26*c*c
+randomcase <- function(gc){
+  c <- gc/2
+  t <- (1-gc)/2
+  0.19*t*t + 0.55*t*c + 0.26*c*c
 }
-bestcase = function(gc){
-c = (gc)/2
-t = (1-gc)/2
-if ((c+t)<=0.5){
-0
-} 
-else{
-c = (c + t - 0.5)/2
-t = (c + t - 0.5)/2
-0.19*t*t + 0.55*t*c + 0.26*c*c
-}
+bestcase <- function(gc){
+  c <- (gc)/2
+  t <- (1-gc)/2
+  if ((c + t) <= 0.5){
+    0
+  } else {
+  c <- (c + t - 0.5)/2
+  t <- (c + t - 0.5)/2
+  0.19*t*t + 0.55*t*c + 0.26*c*c
+  }
 }
 xval <- seq(from = 0, to = 100, length = 100)
 sapply(xval/100, randomcase) -> yrand
@@ -758,8 +793,7 @@ sapply(xval/100, bestcase) -> ybest
 plot(xval, 100*yworst, las = 1, type = "l", lwd = 2, lty = 1 ,
 xlab = "G+C content [%]",
 ylab = "Phototargets weighted density [%]",
-main =
-"Estimated as in Micrococcus lysodeikticus chromosome",
+main = "Estimated as in Micrococcus lysodeikticus chromosome",
 ylim = c(0, max(100*yworst)))
 points(xval,100*yrand,type='l',lwd=2,lty=2)
 points(xval,100*ybest,type='l',lwd=2,lty=3)
@@ -768,17 +802,25 @@ arrows(25, 25, 75, 25, code = 1,le = 0.1)
 arrows(25, 25, 75, 25,code = 2,le = 0.1)
 text(50,25,"Biological range",pos=3)
 @
-\end{center}
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-GCmicro}
 \caption{Density of phototargets, weighted by their frequency in the
   \textit{Micrococcus lysodeikticus} chromosome, and calculated for
   different G+C contents and for three kinds of random genomes. The
   weights are as follows:
-  $0.19*f_{tt}+0.55*(f_{tc}+f_{ct})+0.26*f_{cc}$. See previous figure
+  $0.19*f_{tt}+0.55*(f_{tc}+f_{ct})+0.26*f_{cc}$. See figure \ref{GCcoli}
   for more details.}
 \label{GCmicro}
+\end{minipage}
+}
 \end{figure}
 
-These two figures show that the density of phototargets depends on:
+These two figures (figure \ref{GCcoli} and \ref{GCmicro}) show 
+that the density of phototargets depends on:
 
 \begin{itemize}
 \item the degree of aggregation of pyrimidine dinucleotides in the
@@ -797,50 +839,45 @@ Are CC, TT, CT and TC dinucleotides avoided in light-exposed bacteria?
 On all available genomes (as retrieved from Genome Reviews database on
 June 16, 2005), we have computed the mean of the $z$-score with
 the \texttt{base} model on all intergenic sequences, and the mean of
-the $z$-score with the \texttt{codon} model on all CDS:
-
-<<dinucl,eval=T>>=
-data(dinucl)
-@ 
-
+the $z$-score with the \texttt{codon} model on all CDS.
 The results show that there is no systematic under-representation of
-none of the four pyrimidine dinucleotides (see Fig.
-\ref{dinucl-graphes}).
+none of the four pyrimidine dinucleotides (see figure
+\ref{dinucl-graphes} produced by the following code).
 
-\begin{figure}[H]
-   \begin{center}
-<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=T>>=
-par(mfrow=c(2,2))
-plot(dinucl$intergenic$CT,dinucl$coding$CT,xlab="intergenic",ylab="coding",main="CpT bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
-abline(v=0,lty=3)
-abline(h=0,lty=3)
-abline(h=-1.96,lty=2)
-abline(h=+1.96,lty=2)
-abline(v=-1.96,lty=2)
-abline(v=+1.96,lty=2)
-plot(dinucl$intergenic$TC,dinucl$coding$TC,xlab="intergenic",ylab="coding",main="TpC bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
-abline(v=0,lty=3)
-abline(h=0,lty=3)
-abline(h=-1.96,lty=2)
-abline(h=+1.96,lty=2)
-abline(v=-1.96,lty=2)
-abline(v=+1.96,lty=2)
-plot(dinucl$intergenic$CC,dinucl$coding$CC,xlab="intergenic",ylab="coding",main="CpC bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
-abline(v=0,lty=3)
-abline(h=0,lty=3)
-abline(h=-1.96,lty=2)
-abline(h=+1.96,lty=2)
-abline(v=-1.96,lty=2)
-abline(v=+1.96,lty=2)
-plot(dinucl$intergenic$TT,dinucl$coding$TT,xlab="intergenic",ylab="coding",main="TpT bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
-abline(v=0,lty=3)
-abline(h=0,lty=3)
-abline(h=-1.96,lty=2)
-abline(h=+1.96,lty=2)
-abline(v=-1.96,lty=2)
-abline(v=+1.96,lty=2)
+<<dinucl-graphes,echo=FALSE,fig=TRUE,include=F,eval=T>>=
+data(dinucl)
+par(mfrow = c(2, 2), mar = c(4,4,0.5,0.5)+0.1)
+myplot <- function(x){
+  plot(dinucl$intergenic[, x], dinucl$coding[, x],
+  xlab = "intergenic", ylab = "coding", 
+  las = 1, ylim = c(-6, 4), 
+  xlim = c(-3, 3), cex = 0)
+  rect(-10,-10,-1.96,10,col="yellow", border = "yellow")
+  rect(1.96,-10,10,10,col="yellow", border = "yellow")
+  rect(-10,-10,10,-1.96,col="yellow", border = "yellow")
+  rect(-10,1.96,10,10,col="yellow", border = "yellow")
+  abline(v=0,lty=3)
+  abline(h=0,lty=3)
+  abline(h=-1.96,lty=2)
+  abline(h=+1.96,lty=2)
+  abline(v=-1.96,lty=2)
+  abline(v=+1.96,lty=2)
+  points(dinucl$intergenic[, x], dinucl$coding[, x], pch = 21,
+  col = rgb(.1,.1,.1,.5), bg = rgb(.5,.5,.5,.5))
+  legend("bottomright", inset = 0.02, legend = paste(substr(x,1,1), "p", substr(x,2,2), " bias", sep = ""), cex = 1.25, bg = "white")
+  box()
+}
+myplot("CT")
+myplot("TC")
+myplot("CC")
+myplot("TT")
 @ 
-\end{center}
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/nonparastats-dinucl-graphes}
    \caption{Plot of the mean $zscore$ statistics for
    \textbf{intergenic sequences} (x-axis) and for \textbf{coding
    sequences} (y-axis), for each of the four pyrimidine dinucleotides.
@@ -851,7 +888,8 @@ abline(v=+1.96,lty=2)
    noted that the variability within one chromosome is sometimes as
    great as that between different chromosomes.}
 \label{dinucl-graphes}
-\end{figure}
+\end{minipage}
+}\end{figure}
 
 However, we have little or no information on the exposure of this
 bacteria to UV light. In order to fully answer this question, let's do
