@@ -43,7 +43,7 @@ read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqin
   sequences <- lapply(seq_len(nseq), function(i) paste(lines[start[i]:end[i]], collapse = ""))
   if(seqonly) return(sequences)
   #
-  # Read sequence names (unoptimized):
+  # Read sequence names:
   #
   nomseq <- lapply(seq_len(nseq), function(i){
     firstword <- strsplit(lines[ind[i]], " ")[[1]][1]
@@ -54,7 +54,7 @@ read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqin
   #
   if(seqtype == "DNA"){
     if(forceDNAtolower){
-      sequences <- tolower(sequences)
+      sequences <- as.list(tolower(sequences))
     }
   }
   #
