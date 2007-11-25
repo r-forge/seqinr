@@ -27,7 +27,9 @@
 \item Function \texttt{read.fasta()} now supports comment lines
   starting by a semicolon character in FASTA files. An example
   of such a file is provided in \texttt{sequences/legacy.fasta}.
-  The argument \texttt{File} is now deprecated.
+  The argument \texttt{File} is now deprecated. There is also
+  a new argument \texttt{seqonly} to import just the sequences
+  without names, annotations and coercion attempts.
 
 \item Function \texttt{GC()} has gained a new argument \texttt{NA.GC}
   defaulting to \texttt{NA} to say what should be returned when the
