@@ -17,17 +17,20 @@ read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqin
   # Remove comment lines starting with a semicolon ';'
   #
   if(legacy.mode){
-    is.comment.line <- function(line) return(substr(line, 1, 1) == ";")
-    lines <- lines[!is.comment.line(lines)]
+    comments <- grep("^;", lines)
+    if(length(comments) > 0) lines <- lines[-comments]
   }
   #
   # Get the line numbers where sequences names are:
   #
-  ind <- grep(">", lines)
+  ind <- which(substr(lines, 1L, 1L) == ">")
   #
   # Compute the total number of sequences:
   #
   nseq <- length(ind)
+  if(nseq == 0){
+    stop("no line starting with a > character found")
+  }
   #
   # Add an extra line so that the last sequence is not lost:
   #
