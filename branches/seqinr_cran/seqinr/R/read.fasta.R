@@ -1,6 +1,6 @@
 read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqinr"), 
   seqtype = "DNA", File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
-  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE)
+  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE)
 {
   #
   # Check arguments:
@@ -66,8 +66,10 @@ read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqin
   #
   if(set.attributes){
     for(i in seq_len(nseq)){
+      Annot <- lines[ind[i]]
+      if(strip.desc) Annot <- substr(Annot, 2L, nchar(Annot))
       attributes(sequences[[i]]) <- list(name = nomseq[[i]], 
-        Annot = (lines[ind[i]]),
+        Annot = Annot,
         class = switch(seqtype, "AA" = "SeqFastaAA", "DNA" = "SeqFastadna"))
     }
   }

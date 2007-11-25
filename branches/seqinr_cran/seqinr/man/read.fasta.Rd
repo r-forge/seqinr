@@ -9,7 +9,7 @@
 \usage{
 read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
   seqtype = "DNA", File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
-  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE)
+  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE)
 }
 \arguments{
   \item{file}{ The name of the file which the sequences in fasta format are to be 
@@ -26,6 +26,8 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   \item{seqonly}{if TRUE, only sequences as returned without attempt to modify
     them or to get their names and annotations (execution time is divided approximately
    by a factor 3)}
+  \item{strip.desc}{if TRUE the '>' at the beginning of the description lines is removed
+  in the annotations of the sequences}
 }
 \details{
   FASTA is a widely used format in biology, some FASTA files are distributed
@@ -34,6 +36,8 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   description (distinguished by a greater-than '>' symbol), followed 
   by sequence data on the next lines. Lines starting by a semicolon ';'
   are ignored, as in the original FASTA program (Pearson and Lipman 1988).
+  The sequence name is just after the '>' up to the next space ' ' character,
+  trailling infos are ignored for the name but saved in the annotations.
 }
 \value{
   By default \code{read.fasta} return a list of vector of chars. Each element 
