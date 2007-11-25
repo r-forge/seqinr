@@ -53,6 +53,12 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   one at the amino-acid level }
 \examples{
 #
+# Simple sanity check with a small FASTA file:
+#
+  smallFastaFile <- system.file("sequences/smallAA.fasta", package = "seqinr")
+  mySmallProtein <- read.fasta(file = smallFastaFile, as.string = TRUE, seqtype = "AA")[[1]]
+  stopifnot(mySmallProtein == "SEQINRSEQINRSEQINRSEQINR*")
+#
 # Example of a DNA file in FASTA format:
 #
   dnafile <- system.file("sequences/malM.fasta", package = "seqinr")
