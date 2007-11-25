@@ -9,7 +9,7 @@
 \usage{
 read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
   seqtype = "DNA", File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
-  set.attributes = TRUE, legacy.mode = TRUE)
+  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE)
 }
 \arguments{
   \item{file}{ The name of the file which the sequences in fasta format are to be 
@@ -23,6 +23,9 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   returned as lower case letters }
   \item{set.attributes}{ whether sequence attributes should be set}
   \item{legacy.mode}{if TRUE lines starting with a semicolon ';' are ignored}
+  \item{seqonly}{if TRUE, only sequences as returned without attempt to modify
+    them or to get their names and annotations (execution time is divided approximately
+   by a factor 3)}
 }
 \details{
   FASTA is a widely used format in biology, some FASTA files are distributed
