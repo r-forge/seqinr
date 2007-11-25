@@ -1,4 +1,25 @@
-	#####################################################################################
+#
+# Would be better this way:
+#
+getAnnot <- function(object, ...) UseMethod("getAnnot")
+
+getAnnot.default <- function(object, ...) stop(paste("no getAnnot method for objects of class:", class(object)))
+
+getAnnot.list <- function(object, ...) sapply(seq_len(length(object)), function(i) getAnnot(object[[i]], ...))
+
+getAnnot.SeqFastadna <- function(object, ...) attr(object, "Annot")
+
+getAnnot.SeqFastaAA <- function(object, ...) attr(object, "Annot")
+
+getAnnot.SeqAcnucWeb <- function(object, ..., nbl = 10000, socket = autosocket()){		
+  return(readAnnots.socket(socket, name = object, nl = nbl)) 
+}
+
+#
+# To be changed in a similar way
+#
+
+        #####################################################################################
 	# 		classes de séquences						    #
 	#  toutes les classes doivent avoir exactement la même interface à savoir:	    #
 	#  une fonction initNomClasse qui retourne une instance de la classe		    #
@@ -56,13 +77,7 @@ getName <-  function(object) {
   }
 }
 
-getAnnot <- function(object, nbl = 10000, socket = autosocket()) {
-  if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
-  {
-    getAnnot.default(object, nbl = nbl)
-  }
-  else UseMethod("getAnnot")
-}
+
 
 getLocation <- function(object, socket = autosocket()) {
   if(! inherits(object, c("SeqAcnucWeb"))) 
@@ -137,10 +152,6 @@ getName.default <- function(object){
  	stop("no name")
 }
 
-getAnnot.default <- function(object, nbl, socket = autosocket()){ 
- 	stop("no annotation for this sequence")
-}
-
 getLocation.default <- function(object, socket = autosocket()){
  	stop("no information about the position")
 }
@@ -200,9 +211,7 @@ getName.SeqFastadna <- function(object){
 	return(attr(object,"name"))
 }
 
-getAnnot.SeqFastadna <- function(object, nbl, socket = autosocket()){
-	return(attr(object,"Annot"))
-}
+
 
 summary.SeqFastadna <- function(object, alphabet = s2c("acgt"), ...){
 	length <- getLength(object)
@@ -259,9 +268,7 @@ getName.SeqFastaAA <- function(object){
 	return(attr(object,"name"))
 }
 
-getAnnot.SeqFastaAA <- function(object, nbl, socket = autosocket()){
-	return(attr(object,"Annot"))
-}
+
 
 summary.SeqFastaAA <- function(object,...){
 	length = getLength(object)
@@ -308,9 +315,7 @@ getLength.SeqAcnucWeb <- function(object){
   return(attr(object, "length"))
 }
 
-getAnnot.SeqAcnucWeb <- function(object, nbl = 10000, socket = autosocket()){		
-  return(readAnnots.socket(socket, name = object, nl = nbl)) 
-}
+
 
 getKeyword.SeqAcnucWeb <- function(object, socket = autosocket()){	
   return(unlist(getKeywordsocket(socket, name = object)))

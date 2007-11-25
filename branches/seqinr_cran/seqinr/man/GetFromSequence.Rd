@@ -1,9 +1,4 @@
 \name{GetFromSequence}
-\alias{getAnnot}
-\alias{getAnnot.SeqAcnucWeb}
-\alias{getAnnot.SeqFastadna}
-\alias{getAnnot.SeqFastaAA}
-\alias{getAnnot.default}
 \alias{readAnnots.socket}
 \alias{getAnnots}
 \alias{getFrag}
@@ -65,7 +60,6 @@
   \code{SeqFrag}.
 }
 \usage{
-getAnnot(object, nbl = 10000, socket = autosocket())
 getFrag(object, begin, end, socket =  autosocket())
 getKeyword(object, socket =  autosocket())
 getLength(object)
@@ -78,9 +72,6 @@ getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous =
   \item{object}{ an object of the class \code{SeqAcnucWeb}
     [ or of the classes \code{SeqFastadna}, \code{SeqFastaAA}] [ or of
     the class \code{SeqFrag}] }
-  \item{nbl}{ the maximum number of line of annotation to read. Reading of 
-     lines stops when nl lines have been transmitted or at the last annotation 
-     line of the sequence (SQ or ORIGIN line). }
   \item{begin}{ First base }
   \item{end}{ Last base }
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
