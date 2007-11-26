@@ -5,6 +5,8 @@
 \alias{getAnnot.SeqAcnucWeb}
 \alias{getAnnot.SeqFastadna}
 \alias{getAnnot.SeqFastaAA}
+\alias{getAnnot.qaw}
+\alias{getAnnot.logical}
 \alias{readAnnots.socket}
 
 \title{Generic Function to get sequence annotations}
@@ -15,13 +17,13 @@ objects of the \code{SeqAcnucWeb} class.
 }
 \usage{
 getAnnot(object, ...)
-\method{getAnnot}{SeqAcnucWeb}(object, ..., nbl = 10000, socket = autosocket())
+\method{getAnnot}{SeqAcnucWeb}(object, ..., nbl = 100, socket = autosocket())
 }
 \arguments{
   \item{object}{ an object of the class \code{SeqAcnucWeb}
     or \code{SeqFastadna}, or \code{SeqFastaAA} or a list of these objects }
   \item{nbl}{ the maximum number of line of annotation to read. Reading of 
-     lines stops when nl lines have been transmitted or at the last annotation 
+     lines stops when nbl lines have been transmitted or at the last annotation 
      line of the sequence (SQ or ORIGIN line). }
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
                         database (default is a socket to the last opened database).}
