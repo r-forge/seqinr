@@ -5,6 +5,7 @@
 \alias{getAnnot.SeqAcnucWeb}
 \alias{getAnnot.SeqFastadna}
 \alias{getAnnot.SeqFastaAA}
+\alias{readAnnots.socket}
 
 \title{Generic Function to get sequence annotations}
 \description{

@@ -1,6 +1,4 @@
 \name{GetFromSequence}
-\alias{readAnnots.socket}
-\alias{getAnnots}
 \alias{getFrag}
 \alias{getFrag.SeqAcnucWeb}
 \alias{getFrag.SeqFastadna}
