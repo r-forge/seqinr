@@ -57,7 +57,14 @@
 \item Function \texttt{read.fasta()} now supports comment lines
   starting by a semicolon character in FASTA files. An example
   of such a file is provided in \texttt{sequences/legacy.fasta}.
-  The argument \texttt{File} is now deprecated.
+  The argument \texttt{File} is now deprecated. There is
+  a new argument \texttt{seqonly} to import just the sequences
+  without names, annotations and coercion attempts. There is
+  a new argument \texttt{strip.desc} to remove the leading
+  '>' character in annotations (as in function \texttt{readFASTA}
+  from the Biostrings package \cite{Biostrings}). The FASTA file
+  example \texttt{someORF.fsa} from Biostrings is also added
+  for comparisons.
 
 \item Function \texttt{GC()} has gained a new argument \texttt{NA.GC}
   defaulting to \texttt{NA} to say what should be returned when the
@@ -532,7 +539,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Nov 21 22:18:50 2007
+  \item \Rlogo{} compilation time was: Mon Nov 26 00:56:05 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
