@@ -1,18 +1,18 @@
 \name{waterabs}
 \alias{waterabs}
 \docType{data}
-\title{Light absorbtion by the water column}
+\title{Light absorption by the water column}
 \encoding{latin1}
 \description{
-The absorbion of light by water is highly dependent on the wavelength, this
-dataset gives the absorbtion coefficients from 200 to 700 nm.
+The absorption of light by water is highly dependent on the wavelength, this
+dataset gives the absorption coefficients from 200 to 700 nm.
 }
 \usage{data(waterabs)}
 \format{
   A data.frame with 2 columns:
   \describe{
     \item{lambda}{wavelength in nm}
-    \item{abs}{absorbtion coefficient in 1/cm}
+    \item{abs}{absorption coefficient in 1/cm}
   }
 }
 
@@ -57,7 +57,7 @@ abs <- waterabs$absorption               # absorption coefficient cm-1
 # Annotate:
 #
   title(ylab = 'Depth under water surface (m)', xlab = "Wavelength (nm)",
-  main = "Light absorbsion by the water column")
+  main = "Light absorption by the water column")
   axis(2 , at = seq(0, 15000, l = 7),
       labels = rev(c("0","25","50","75","100","125","150")), las = 1)
   axis(1,at=(3:6)*100,labels= TRUE)
