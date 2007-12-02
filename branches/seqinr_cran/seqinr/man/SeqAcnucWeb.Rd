@@ -2,7 +2,7 @@
 \alias{SeqAcnucWeb}
 \alias{as.SeqAcnucWeb}
 \alias{is.SeqAcnucWeb}
-\alias{parser.socket}
+
 \title{Sequence coming from a remote ACNUC data base}
 \description{
     \code{as.SeqAcnucWeb} is called by many functions, for instance by \code{query}, 
