@@ -21,6 +21,16 @@
 \item New dataset \texttt{m16j} to make a GC skew plot as in
   \cite{LobryMBE96}.
 
+\item New dataset \texttt{waterabs} giving the absorption of light 
+  by water. This dataset was compiled by Palmeira \cite{PalmeiraL2007}
+  from \cite{LitjensRA1999, QuickendenTI1980}.
+
+\item Generic functions \texttt{getAnnot()}, \texttt{getFrag()},
+  \texttt{getKeyword()}, \texttt{getLength()}, \texttt{getLocation()},
+  \texttt{getName()}, \texttt{getSequence()} and \texttt{getTrans()}
+  have gained methods to handle objects from class \texttt{list}
+  and \texttt{qaw}.
+
 \item There is a new appendix in which all the examples protected
   by a \texttt{dontrun} statment are forced to be executed.
 
