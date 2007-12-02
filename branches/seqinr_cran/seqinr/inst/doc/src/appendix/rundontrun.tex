@@ -55,12 +55,13 @@ This is the list of function that don't run for now and need to be fixed.
 
 \begin{Schunk}
 \begin{Sinput}
- stoplist <- c("reverse.align")
+ stoplist <- c("reverse.align", "extractseqs")
 \end{Sinput}
 \end{Schunk}
 
 % GetFromSequence: see later
 % reverse.align: need clustalw on line, see later
+% extractseqs: strange behaviour when in Sweave document???
 
 \section{Don't run generator}
 
@@ -92,383 +93,52 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
 \end{Sinput}
 \end{Schunk}
 
-\subsection{\texttt{GetFromSequence()}}
+\subsection{\texttt{GC()}}
 \begin{Schunk}
 \begin{Sinput}
- # Need internet connection
-   choosebank("emblTP")
-   query("fc", "sp=felis catus et t=cds")
-   getSequence(fc$req[[1]])
-\end{Sinput}
-\begin{Soutput}
-   [1] "a" "t" "g" "a" "c" "c" "a" "a" "c" "a" "t" "t" "c" "g" "a" "a" "a"
-  [18] "a" "t" "c" "a" "c" "a" "c" "c" "c" "c" "c" "t" "t" "a" "c" "c" "a"
-  [35] "a" "a" "a" "t" "t" "a" "t" "t" "a" "a" "t" "c" "a" "c" "t" "c" "a"
-  [52] "t" "t" "c" "a" "t" "c" "g" "a" "c" "c" "t" "a" "c" "c" "t" "g" "c"
-  [69] "c" "c" "c" "a" "t" "c" "t" "a" "a" "c" "a" "t" "c" "t" "c" "a" "g"
-  [86] "c" "a" "t" "g" "a" "t" "g" "a" "a" "a" "c" "t" "t" "c" "g" "g" "c"
- [103] "t" "c" "c" "c" "t" "t" "c" "t" "a" "g" "g" "a" "g" "t" "c" "t" "g"
- [120] "c" "c" "t" "a" "a" "t" "c" "t" "t" "a" "c" "a" "a" "a" "t" "c" "c"
- [137] "t" "c" "a" "c" "c" "g" "g" "c" "c" "t" "c" "t" "t" "t" "t" "t" "g"
- [154] "g" "c" "c" "a" "t" "a" "c" "a" "c" "t" "a" "c" "a" "c" "a" "t" "c"
- [171] "a" "g" "a" "c" "a" "c" "a" "a" "c" "a" "a" "c" "c" "g" "c" "c" "t"
- [188] "t" "t" "t" "c" "a" "t" "c" "a" "g" "t" "t" "a" "c" "c" "c" "a" "c"
- [205] "a" "t" "c" "t" "g" "t" "c" "g" "c" "g" "a" "c" "g" "t" "t" "a" "a"
- [222] "t" "t" "a" "t" "g" "g" "c" "t" "g" "a" "a" "t" "c" "a" "t" "c" "c"
- [239] "g" "a" "t" "a" "t" "t" "t" "a" "c" "a" "c" "g" "c" "c" "a" "a" "c"
- [256] "g" "g" "a" "g" "c" "t" "t" "c" "t" "a" "t" "a" "t" "t" "c" "t" "t"
- [273] "t" "a" "t" "c" "t" "g" "c" "c" "t" "g" "t" "a" "c" "a" "t" "a" "c"
- [290] "a" "t" "g" "t" "a" "g" "g" "a" "c" "g" "g" "g" "g" "a" "a" "t" "a"
- [307] "t" "a" "c" "t" "a" "c" "g" "g" "c" "t" "c" "c" "t" "a" "c" "a" "c"
- [324] "c" "t" "t" "c" "t" "c" "a" "g" "a" "g" "a" "c" "a" "t" "g" "a" "a"
- [341] "a" "c" "a" "t" "t" "g" "g" "a" "a" "t" "c" "a" "t" "a" "c" "t" "a"
- [358] "t" "t" "a" "t" "t" "t" "a" "c" "a" "g" "t" "c" "a" "t" "a" "g" "c"
- [375] "c" "a" "c" "a" "g" "c" "t" "t" "t" "t" "a" "t" "g" "g" "g" "a" "t"
- [392] "a" "c" "g" "t" "c" "c" "t" "a" "c" "c" "a" "t" "g" "a" "g" "g" "c"
- [409] "c" "a" "a" "a" "t" "g" "t" "c" "c" "t" "t" "c" "t" "g" "a" "g" "g"
- [426] "a" "g" "c" "a" "a" "c" "c" "g" "t" "a" "a" "t" "c" "a" "c" "t" "a"
- [443] "a" "c" "c" "t" "c" "c" "t" "g" "t" "c" "a" "g" "c" "a" "a" "t" "t"
- [460] "c" "c" "a" "t" "a" "c" "a" "t" "c" "g" "g" "g" "a" "c" "t" "g" "a"
- [477] "a" "c" "t" "a" "g" "t" "a" "g" "a" "a" "t" "g" "a" "a" "t" "c" "t"
- [494] "g" "a" "g" "g" "g" "g" "g" "c" "t" "t" "c" "t" "c" "a" "g" "t" "a"
- [511] "g" "a" "c" "a" "a" "a" "g" "c" "c" "a" "c" "c" "c" "t" "a" "a" "c"
- [528] "a" "c" "g" "a" "t" "t" "c" "t" "t" "t" "g" "c" "t" "t" "t" "c" "c"
- [545] "a" "c" "t" "t" "c" "a" "t" "t" "c" "t" "t" "c" "c" "a" "t" "t" "c"
- [562] "a" "t" "t" "a" "t" "c" "t" "c" "a" "g" "c" "c" "t" "t" "a" "g" "c"
- [579] "a" "g" "c" "a" "g" "t" "a" "c" "a" "c" "c" "t" "c" "t" "t" "a" "t"
- [596] "t" "c" "c" "t" "t" "c" "a" "t" "g" "a" "a" "a" "c" "a" "g" "g" "a"
- [613] "t" "c" "t" "a" "a" "c" "a" "a" "c" "c" "c" "c" "t" "c" "a" "g" "g"
- [630] "a" "a" "t" "t" "a" "c" "a" "t" "c" "c" "g" "a" "t" "t" "c" "a" "g"
- [647] "a" "c" "a" "a" "a" "a" "t" "c" "c" "c" "a" "t" "t" "c" "c" "a" "c"
- [664] "c" "c" "a" "t" "a" "c" "t" "a" "t" "a" "c" "a" "a" "t" "c" "a" "a"
- [681] "a" "g" "a" "c" "a" "t" "c" "c" "t" "a" "g" "g" "t" "c" "t" "t" "c"
- [698] "t" "a" "g" "t" "a" "c" "t" "a" "g" "t" "t" "t" "t" "a" "a" "c" "a"
- [715] "c" "t" "c" "a" "t" "a" "c" "t" "a" "c" "t" "c" "g" "t" "c" "c" "t"
- [732] "a" "t" "t" "t" "t" "c" "a" "c" "c" "a" "g" "a" "c" "c" "t" "g" "c"
- [749] "t" "a" "g" "g" "a" "g" "a" "c" "c" "c" "a" "g" "a" "c" "a" "a" "c"
- [766] "t" "a" "c" "a" "t" "c" "c" "c" "a" "g" "c" "c" "a" "a" "c" "c" "c"
- [783] "t" "t" "t" "a" "a" "a" "t" "a" "c" "c" "c" "c" "t" "c" "c" "c" "c"
- [800] "a" "t" "a" "t" "t" "a" "a" "a" "c" "c" "t" "g" "a" "a" "t" "g" "a"
- [817] "t" "a" "c" "t" "t" "c" "c" "t" "a" "t" "t" "c" "g" "c" "a" "t" "a"
- [834] "c" "g" "c" "a" "a" "t" "t" "c" "t" "c" "c" "g" "a" "t" "c" "c" "a"
- [851] "t" "c" "c" "c" "c" "a" "a" "c" "a" "a" "a" "c" "t" "a" "g" "g" "g"
- [868] "g" "g" "a" "g" "t" "c" "c" "t" "a" "g" "c" "c" "c" "t" "a" "g" "t"
- [885] "a" "c" "t" "c" "t" "c" "c" "a" "t" "c" "c" "t" "a" "g" "t" "a" "c"
- [902] "t" "a" "g" "c" "a" "a" "t" "c" "a" "t" "t" "c" "c" "a" "a" "t" "c"
- [919] "c" "t" "c" "c" "a" "c" "a" "c" "c" "t" "c" "c" "a" "a" "a" "c" "a"
- [936] "a" "c" "g" "a" "g" "g" "a" "a" "t" "a" "a" "t" "g" "t" "t" "t" "c"
- [953] "g" "a" "c" "c" "a" "c" "t" "a" "a" "g" "c" "c" "a" "a" "t" "g" "t"
- [970] "c" "t" "a" "t" "t" "c" "t" "g" "a" "c" "t" "c" "c" "t" "a" "g" "t"
- [987] "a" "g" "c" "g" "g" "a" "t" "c" "t" "c" "c" "t" "a" "a" "c" "c" "c"
-[1004] "t" "a" "a" "c" "a" "t" "g" "a" "a" "t" "c" "g" "g" "t" "g" "g" "c"
-[1021] "c" "a" "a" "c" "c" "t" "g" "t" "a" "g" "a" "a" "c" "a" "t" "c" "c"
-[1038] "a" "t" "t" "c" "a" "t" "c" "a" "c" "c" "a" "t" "c" "g" "g" "c" "c"
-[1055] "a" "a" "c" "t" "a" "g" "c" "c" "t" "c" "c" "a" "t" "c" "c" "t" "a"
-[1072] "t" "a" "t" "t" "t" "c" "t" "c" "a" "a" "c" "c" "c" "t" "c" "c" "t"
-[1089] "a" "a" "t" "c" "c" "t" "a" "a" "t" "a" "c" "c" "c" "a" "t" "c" "t"
-[1106] "c" "a" "g" "g" "c" "a" "t" "t" "a" "t" "t" "g" "a" "a" "a" "a" "c"
-[1123] "c" "g" "c" "c" "t" "a" "c" "t" "c" "a" "a" "a" "t" "g" "a" "a" "g"
-[1140] "a"
-\end{Soutput}
-\begin{Sinput}
-   getSequence(fc$req[[1]], as.string = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] "atgaccaacattcgaaaatcacacccccttaccaaaattattaatcactcattcatcgacctacctgccccatctaacatctcagcatgatgaaacttcggctcccttctaggagtctgcctaatcttacaaatcctcaccggcctctttttggccatacactacacatcagacacaacaaccgccttttcatcagttacccacatctgtcgcgacgttaattatggctgaatcatccgatatttacacgccaacggagcttctatattctttatctgcctgtacatacatgtaggacggggaatatactacggctcctacaccttctcagagacatgaaacattggaatcatactattatttacagtcatagccacagcttttatgggatacgtcctaccatgaggccaaatgtccttctgaggagcaaccgtaatcactaacctcctgtcagcaattccatacatcgggactgaactagtagaatgaatctgagggggcttctcagtagacaaagccaccctaacacgattctttgctttccacttcattcttccattcattatctcagccttagcagcagtacacctcttattccttcatgaaacaggatctaacaacccctcaggaattacatccgattcagacaaaatcccattccacccatactatacaatcaaagacatcctaggtcttctagtactagttttaacactcatactactcgtcctattttcaccagacctgctaggagacccagacaactacatcccagccaaccctttaaatacccctccccatattaaacctgaatgatacttcctattcgcatacgcaattctccgatccatccccaacaaactagggggagtcctagccctagtactctccatcctagtactagcaatcattccaatcctccacacctccaaacaacgaggaataatgtttcgaccactaagccaatgtctattctgactcctagtagcggatctcctaaccctaacatgaatcggtggccaacctgtagaacatccattcatcaccatcggccaactagcctccatcctatatttctcaaccctcctaatcctaatacccatctcaggcattattgaaaaccgcctactcaaatgaaga"
-\end{Soutput}
-\begin{Sinput}
-   closebank()
- # Need internet connection
-   choosebank("emblTP")
-   query("fc", "sp=felis catus et t=cds")
-   annots <- getAnnot(fc$req[[1]])
-   cat(annots, sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-ID   AB004237   standard; genomic DNA; ORG; 1140 BP.
-XX
-AC   AB004237;
-XX
-SV   AB004237.1
-XX
-DT   03-NOV-1997 (Rel. 53, Created)
-DT   03-MAR-2000 (Rel. 62, Last updated, Version 2)
-XX
-DE   Felis catus mitochondrial DNA for cytochrome b, complete cds.
-XX
-KW   cytochrome b.
-XX
-OS   Felis catus (cat)
-OC   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia;
-OC   Eutheria; Carnivora; Fissipedia; Felidae; Felis.
-OG   Mitochondrion
-XX
-RN   [1]
-RP   1-1140
-RA   Yoshida H.;
-RT   ;
-RL   Submitted (21-MAY-1997) to the EMBL/GenBank/DDBJ databases.
-RL   Haruhiro Yoshida, Sensyu University, Laboratory of Physiology; 1-1,
-RL   Higasi-Mita 2-Chome, Tama-Ku, Kawasaki, Kanagawa 214-80, Japan
-RL   (E-mail:life@center.equinst.go.jp, Tel:+81-44-911-0588,
-RL   Fax:+81-44-911-1231)
-XX
-RN   [2]
-RA   Yoshida H.;
-RT   "Nucleotide sequence for feline cytochrome b";
-RL   Unpublished.
-XX
-DR   GOA; O20405.
-DR   TrEMBL; O20405; O20405.
-XX
-FH   Key             Location/Qualifiers
-FH
-FT   source          1..1140
-FT                   /db_xref="taxon:9685"
-FT                   /mol_type="genomic DNA"
-FT                   /organelle="mitochondrion"
-FT                   /organism="Felis catus"
-FT   CDS             1..1140
-FT                   /codon_start=1
-FT                   /db_xref="GOA:O20405"
-FT                   /db_xref="TrEMBL:O20405"
-FT                   /transl_table=2
-FT                   /product="cytochrome b"
-FT                   /protein_id="BAA23000.1"
-FT                   /translation="MTNIRKSHPLTKIINHSFIDLPAPSNISAWWNFGSLLGVCLILQI
-FT                   LTGLFLAMHYTSDTTTAFSSVTHICRDVNYGWIIRYLHANGASMFFICLYMHVGRGMYY
-FT                   GSYTFSETWNIGIMLLFTVMATAFMGYVLPWGQMSFWGATVITNLLSAIPYIGTELVEW
-FT                   IWGGFSVDKATLTRFFAFHFILPFIISALAAVHLLFLHETGSNNPSGITSDSDKIPFHP
-FT                   YYTIKDILGLLVLVLTLMLLVLFSPDLLGDPDNYIPANPLNTPPHIKPEWYFLFAYAIL
-FT                   RSIPNKLGGVLALVLSILVLAIIPILHTSKQRGMMFRPLSQCLFWLLVADLLTLTWIGG
-FT                   QPVEHPFITIGQLASILYFSTLLILMPISGIIENRLLKW"
-XX
-SQ   Sequence 1140 BP; 336 A; 350 C; 151 G; 303 T; 0 other;
-\end{Soutput}
-\begin{Sinput}
-   closebank()
-   # Need internet connection for getKeyword.SeqAcnucWeb()
-   choosebank("emblTP")
-   query("fc", "sp=felis catus et t=cds")
-   getKeyword(fc$req[[1]])
-\end{Sinput}
-\begin{Soutput}
-[1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"      
-[5] "CDS"         
-\end{Soutput}
-\begin{Sinput}
-   # Should be: [1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"       "CDS"
-   closebank()  
-   # Need internet connection for getName.SeqAcnucWeb()
-   choosebank("emblTP")
-   query("fc", "sp=felis catus et t=cds")
-   sapply(fc$req, getName)
-\end{Sinput}
-\begin{Soutput}
-  [1] "AB004237"         "AB004238"         "AB005557"        
-  [4] "AB009279.PE1"     "AB009280.PE1"     "AB010807.PE1"    
-  [7] "AB010808.PE1"     "AB010872.UGT1A1"  "AB011965.SDF-1A" 
- [10] "AB011966.SDF-1B"  "AB016710.PE1"     "AB016711.PE1"    
- [13] "AB016712.C-MU"    "AB018479.PE1"     "AB021707.PE1"    
- [16] "AB022910"         "AB023952.CD26"    "AB025314.CD16"   
- [19] "AB025315"         "AB025316.CD28"    "AB029153"        
- [22] "AB029395.CTLA4"   "AB030650.CD80"    "AB030651.CD80"   
- [25] "AB030652.CD86"    "AB036698.PE1"     "AB038241"        
- [28] "AB041360.OB"      "AB042552.G-CSF"   "AB042553.G-CSF"  
- [31] "AB043535.PE1"     "AB043791.BLCAP"   "AB045377.CAUXIN" 
- [34] "AB046211.IGIF"    "AB046610.PE1"     "AB050947"        
- [37] "AB051103.TNFR-I"  "AB051104"         "AB056857"        
- [40] "AB060687.PE1"     "AB061272.FQKI"    "AB062551.CD2"    
- [43] "AB069665"         "AB071947.PE1"     "AB072009"        
- [46] "AB072010"         "AB072011.PE1"     "AB072012.PE1"    
- [49] "AB072013.PE1"     "AB072014.PE1"     "AB073748.PIM-1"  
- [52] "AB080187.HGF"     "AB080231"         "AB080724.BAX"    
- [55] "AB080951.BCL-XL"  "AB083479.RANTES"  "AB084139"        
- [58] "AB090246.PE1"     "AB094147.CES1"    "AB094676"        
- [61] "AB094996"         "AB094997"         "AB094998"        
- [64] "AB094999"         "AB095000"         "AB095001"        
- [67] "AB095002"         "AB095003"         "AB096611.BCL-2"  
- [70] "AB099654.SRY"     "AB099709.MDM2"    "AB100089"        
- [73] "AB107955.BRCA2"   "AB111914.CD63"    "AB112589.MCL-1"  
- [76] "AB113364.MDH"     "AB114676.CES-K1"  "AB128982"        
- [79] "AF003087.PRP"     "AF003701"         "AF008572.PE1"    
- [82] "AF010191.MAN-B"   "AF010192.MAN-B"   "AF012094.ETS2"   
- [85] "AF012095.LDHA"    "AF012096"         "AF012097.FGG"    
- [88] "AF012098"         "AF012423.GUSB"    "AF012424.GUSB"   
- [91] "AF013961"         "AF014805.HEXB"    "AF025436.IL-5"   
- [94] "AF029974.GLB1"    "AF030398"         "AF031532"        
- [97] "AF036953.PE1"     "AF039137.UGT1A"   "AF039138.UGT1A"  
-[100] "AF047012.PE1"     "AF051372"         "AF053007"        
-[103] "AF053483.BCHE"    "AF053485.ACHE"    "AF053485.PE2"    
-[106] "AF054601"         "AF054602"         "AF054603.PE1"    
-[109] "AF054604"         "AF054605"         "AF054606"        
-[112] "AF054607"         "AF054608"         "AF059714.CCR5"   
-[115] "AF060520"         "AF061062"         "AF064085.UGT1A"  
-[118] "AF068770"         "AF071561.PE1"     "AF073781.BLGI"   
-[121] "AF073782.BLGI"    "AF073783.BLGII"   "AF073784.BLGII"  
-[124] "AF073785.BLGIII"  "AF074085.PIT1"    "AF079105.CD154"  
-[127] "AF083095"         "AF095461"         "AF095716"        
-[130] "AF097177"         "AF108148"         "AF118820"        
-[133] "AF127917.PE1"     "AF129114"         "AF132040.PE1"    
-[136] "AF135968"         "AF136718"         "AF153202.CTLA-4" 
-[139] "AF153444.PE1"     "AF154844.CD152"   "AF155060.ENV"    
-[142] "AF155149.PE1"     "AF157827.CD86"    "AF158598.PE1"    
-[145] "AF162134.PE1"     "AF170725.CTLA-4"  "AF172359"        
-[148] "AF175280"         "AF192344"         "AF192345.PE1"    
-[151] "AF192387.FLVCR1"  "AF192488.BAR3"    "AF192537"        
-[154] "AF192538"         "AF198257.PE1"     "AF201740.WT1"    
-[157] "AF203023.CFTR"    "AF203028.TS"      "AF203761"        
-[160] "AF203771"         "AF218264"         "AF226606"        
-[163] "AF229809.MYLC-2"  "AF229810.MYHCS"   "AF233688"        
-[166] "AF238996.PE1"     "AF251261.PE1"     "AF252989"        
-[169] "AF253014"         "AF253495.PE1"     "AF258783.NPC1"   
-[172] "AF272340"         "AF276984"         "AF283068"        
-[175] "AF283075"         "AF283076"         "AF283077"        
-[178] "AF283079"         "AF283080"         "AF283084"        
-[181] "AF283085"         "AF283092"         "AF283093"        
-[184] "AF283094"         "AF283096"         "AF283097"        
-[187] "AF283101"         "AF284018"         "AF286379.XDH"    
-[190] "AF292564.CYP17"   "AF295101"         "AF298813.PE1"    
-[193] "AF307854.ARP3"    "AF309967.PTH"     "AF320770"        
-[196] "AF325359.PE1"     "AF354649.PE1"     "AF377343"        
-[199] "AF394194"         "AF406782"         "AF411811"        
-[202] "AF411812"         "AF411813"         "AF420018.CD103"  
-[205] "AF425738.BNP"     "AF457136.NF1"     "AF459800"        
-[208] "AF459801.TCRB"    "AF459802.CYP1A1"  "AF459803.F11"    
-[211] "AF459804.JAK3"    "AF459805.F9"      "AF459806"        
-[214] "AF459807.IRF6"    "AF459808.IRF6"    "AF459809.TNFA"   
-[217] "AF459810.TNFA"    "AF465212.PE1"     "AF479487"        
-[220] "AF479488"         "AF479489"         "AF481882"        
-[223] "AF503618.SMN"     "AF503619.IGHMBP2" "AF503633"        
-[226] "AF503634"         "AF519449"         "AF519619"        
-[229] "AF519620"         "AF540379.C-FOS"   "AX592839"        
-[232] "AX592841"         "AX592843"         "AX592845"        
-[235] "AX592847"         "AX592849"         "AX592851"        
-[238] "AX592853"         "AX592855"         "AX592857"        
-[241] "AX592859"         "AX592861"         "AX592863"        
-[244] "AY007703.CD80"    "AY007704.CD86"    "AY011246"        
-[247] "AY011306"         "AY011369.APP"     "AY011433"        
-[250] "AY011496"         "AY011615"         "AY011679.CREM"   
-[253] "AY011738"         "AY011858"         "AY011915"        
-[256] "AY011977"         "AY012029"         "AY012085"        
-[259] "AY029366.CYPA"    "AY033627"         "AY052414"        
-[262] "AY052501.PE1"     "AY083522.PE1"     "AY094503.SMN"    
-[265] "AY117391"         "AY117392"         "AY117393"        
-[268] "AY117394"         "AY117395"         "AY130775"        
-[271] "AY137581.TLR9"    "AY138140"         "AY140547.CD34"   
-[274] "AY160954"         "AY167024"         "AY183144"        
-[277] "AY191817.LY49"    "AY237394.ASIP"    "AY237395"        
-[280] "AY241070"         "AY250763"         "AY250764"        
-[283] "AY250766"         "AY250767.PE1"     "AY258627"        
-[286] "AY258628"         "AY258629.PE1"     "AY268184.TNNI3"  
-[289] "AY286232"         "AY286233"         "AY286234"        
-[292] "AY286235"         "AY286236"         "AY286237"        
-[295] "AY286238"         "AY286239"         "AY286240"        
-[298] "AY286241"         "AY286242"         "AY286243"        
-[301] "AY286244"         "AY286245"         "AY286246"        
-[304] "AY286247"         "AY286248"         "AY286249"        
-[307] "AY286250"         "AY286252"         "AY286253"        
-[310] "AY286254"         "AY299540"         "AY316122.PE1"    
-[313] "AY316123.PE1"     "AY316124.PE1"     "AY316125.PE1"    
-[316] "AY316126.PE1"     "AY316127.PE1"     "AY316128.PE1"    
-[319] "AY316129"         "AY316130.PE1"     "AY316131.PE1"    
-[322] "AY316132.PE1"     "AY316133.PE1"     "AY347714"        
-[325] "AY349164"         "AY367085"         "AY382177.PE1"    
-[328] "AY386317"         "AY424645.SRY"     "AY425617"        
-[331] "AY439007.GBE1"    "AY461386.PE1"     "AY462088"        
-[334] "AY462089"         "AY462090"         "AY462113.GAP43"  
-[337] "AY465429"         "AY485420"         "AY496705"        
-[340] "AY496706"         "AY514486.PE1"     "AY521232"        
-[343] "AY521233"         "AY523406"         "AY523407"        
-[346] "D84649.PE1"       "D84650.PE1"       "D89018"          
-[349] "D89020"           "D89021"           "D89022"          
-[352] "D89023"           "D89024"           "D89025"          
-[355] "FC05776.PE1"      "FC05777.PE1"      "FC05778.PE1"     
-[358] "FC07667.FLA-I"    "FC07668.FLA-I"    "FC07669.FLA-I"   
-[361] "FC07670.FLA-I"    "FC07671.FLA-I"    "FC07672.FLA-I"   
-[364] "FC07673.FLA-I"    "FC07674.FLA-I"    "FC13390.PE1"     
-[367] "FC17007"          "FC22229.PE1"      "FC22230.PE1"     
-[370] "FC22231.PE1"      "FC22232.PE1"      "FC24247"         
-[373] "FC25973.PE1"      "FC25974.PE1"      "FC27351.PE1"     
-[376] "FC31569.ALPL"     "FC31613"          "FC39569.IL10"    
-[379] "FC40716"          "FC42725.LPL"      "FC51429"         
-[382] "FCA010941"        "FCA012326.PE1"    "FCA1"            
-[385] "FCA251174"        "FCA286818"        "FCA300702"       
-[388] "FCA417432.OPS"    "FCA417433.ROM1"   "FCA417434.PDEG"  
-[391] "FCA428209"        "FCA428210"        "FCA428211"       
-[394] "FCA428212"        "FCA438467"        "FCA441328.CYTB"  
-[397] "FCA550779"        "FCA9815.CCR5"     "FCA9816.CXCR4"   
-[400] "FCAB483.PE1"      "FCAB484.PE1"      "FCAB485.PE1"     
-[403] "FCAF1099"         "FCAF6749.BGAL"    "FCCA2ATPM.PE1"   
-[406] "FCCDAN.PE1"       "FCCFE6.PE1"       "FCCHURTIN.POL"   
-[409] "FCD106"           "FCD833.SCF"       "FCERYTHRO.PE1"   
-[412] "FCFELL4LU.FELL-4" "FCFES19.PE1"      "FCFLVEP.PE1"     
-[415] "FCFLVEPA.PE1"     "FCFT810.PE1"      "FCFTT.PE1"       
-[418] "FCGAD.GAD1"       "FCIFNGAM.FELINF"  "FCIGA.IFN-GAMMA" 
-[421] "FCIGIF"           "FCIL12P35"        "FCIL12P40.PE1"   
-[424] "FCIL2"            "FCIL2A.IL2"       "FCINLK6A.PE1"    
-[427] "FCMAX"            "FCMHCIGL1.PE1"    "FCMHCIGLA.PE1"   
-[430] "FCMYC.C-MYC"      "FCP53.PE1"        "FCP53A.PE1"      
-[433] "FCPDS.PE1"        "FCPERIPH.RDS"     "FCPHOSDUC.PE1"   
-[436] "FCPRION"          "FCSCE.PE1"        "FCU39634.PE1"    
-[439] "FCU57754.PE1"     "FCU57755.PE1"     "FCU58920.FAPN"   
-[442] "FCU63558.PE1"     "FCU72344.TNFR-1"  "FCU81267.PE1"    
-[445] "FCU91787.CYP450"  "FCU92795.CXCR4"   "FCU94342"        
-[448] "FCUCX1S4.NCX1"    "FD04444.PE1"      "FD685.PE1"       
-[451] "FDAGAT.PE1"       "FDALBUMIN.ALB"    "FDBEHAB.PE1"     
-[454] "FDCDNA.PE1"       "FDCDNAA.PE1"      "FDFCD9.PE1"      
-[457] "FDFDI.FEL-D-I"    "FDFELDI.FEL-D-I"  "FDFELDI1.PE1"    
-[460] "FDFELDI1.PE2"     "FDFELDI2.PE1"     "FDFELDIB.FEL-D-I"
-[463] "FDFMSC.PE1"       "FDFZP2G.PE1"      "FDFZP3G.PE1"     
-[466] "FDGCSF.PE1"       "FDI2RAC.PE1"      "FDIAPP.PE1"      
-[469] "FDNEUR.PE1"       "FDO132013"        "FDO487677"       
-[472] "FDPDP"            "FDTNFA.PE1"       "FSI409128.COII"  
-[475] "FSI409128.PE2"    "FSI409128.PE3"    "FSI409129.COII"  
-[478] "FSI409129.PE2"    "FSI409129.PE3"    "FSI409130.COII"  
-[481] "FSI409130.PE2"    "FSI409130.PE3"    "FSI409131.COII"  
-[484] "FSI409131.PE2"    "FSI409131.PE3"    "FSI409132.COII"  
-[487] "FSI409132.PE2"    "FSI409132.PE3"    "FSI409133.COII"  
-[490] "FSI409133.PE2"    "FSI409133.PE3"    "FSI409134.COII"  
-[493] "FSI409134.PE2"    "FSI409134.PE3"    "FSSISG1.CIS"     
-[496] "MI1290634.PE1"    "MIFCCBD"          "MIFCCU207.ND1"   
-[499] "MIFCCU207.ND2"    "MIFCCU207.COI"    "MIFCCU207.COII"  
-[502] "MIFCCU207.PE5"    "MIFCCU207.PE6"    "MIFCCU207.COIII" 
-[505] "MIFCCU207.ND3"    "MIFCCU207.ND4L"   "MIFCCU207.ND4"   
-[508] "MIFCCU207.ND5"    "MIFCCU207.ND6"    "MIFCCU207.CYTB"  
-[511] "MIFDCYTB"         "S48472.PE1"       "S62636.PE1"      
-[514] "S70340.HEXB"      "S70434.PE1"       "S75096"          
-[517] "S75098"           "S75099.COI"       "S75101"          
-[520] "S75328"           "S75331.COII"      "S75332.COI"      
-[523] "S76596.C-KIT"     "U51472.SMYHC"     "U51480"          
-[526] "U51482"           "U51483"           "U51484"          
-[529] "U51485"           "U51486"           "U51487"          
-[532] "U51488"           "U51489"           "U51490"          
-[535] "U51491"           "U51492"           "U51493"          
-[538] "U51494"           "U51496"           "U51497"          
-[541] "U51498"           "U51499"           "U51500"          
-[544] "U51501"           "U51502"           "U51503"          
-[547] "U51504"           "U51505"           "U51506"          
-[550] "U51507"           "U51508"           "U51509"          
-[553] "U51510"           "U51511"           "U51512"          
-[556] "U51513"           "U51514"           "U51515"          
-[559] "U51516"           "U51517"           "U51518"          
-[562] "U51519"           "U51520"           "U51521"          
-[565] "U51522"           "U51523"           "U51524"          
-[568] "U51525"           "U51526"           "U51527"          
-[571] "U51528"           "U51529"           "U51530"          
-[574] "U51531"           "U51532"           "U51533"          
-[577] "U51534"           "U51535"           "U51536"          
-[580] "U51537"           "U51538"           "U51539"          
-[583] "U51540"           "U51541"           "U51542"          
-[586] "U51573.DRB"       "U51574.DRB"       "U51575.DRB"      
-[589] "U51576.DRA"       "U51577.DRA"       "U51578.DRA"      
-[592] "U51983"           "U51984"           "U62088"          
-[595] "U62089"           "U62090"           "U62091.N-RAS"    
-[598] "U62404"           "U83184"           "U83185"          
-[601] "U92796.PE1"       "U96104"           "U97589"          
-\end{Soutput}
-\begin{Sinput}
-   closebank()
+ # Too long for routine check
+ # This is a benchmark to compare the effect of various parameter
+ # setting on computation time
+ n <- 10
+ from <-10^4
+ to <- 10^5
+ size <- seq(from = from, to = to, length = n)
+ res <- data.frame(matrix(NA, nrow = n, ncol = 5))
+ colnames(res) <- c("size", "FF", "FT", "TF", "TT")
+ res[, "size"] <- size
+ for(i in seq_len(n)){
+   myseq <- sample(x = s2c("acgtws"), size = size[i], replace = TRUE)   
+   res[i, "FF"] <- system.time(GC(myseq, forceToLower = FALSE, exact = FALSE))[3]
+   res[i, "FT"] <- system.time(GC(myseq, forceToLower = FALSE, exact = TRUE))[3]
+         res[i, "TF"] <- system.time(GC(myseq, forceToLower = TRUE, exact = FALSE))[3]
+         res[i, "TT"] <- system.time(GC(myseq, forceToLower = TRUE, exact = TRUE))[3]
+ }
+ par(oma = c(0,0,2.5,0), mar = c(4,5,0,2) + 0.1, mfrow = c(2, 1))
+ plot(res$size, res$TT, las = 1, 
+ xlab = "Sequence size [bp]",
+ ylim = c(0, max(res$TT)), xlim = c(0, max(res$size)), ylab = "")
+ title(ylab = "Observed time [s]", line = 4)
+ abline(lm(res$TT~res$size))
+ points(res$size, res$FT, col = "red")
+ abline(lm(res$FT~res$size), col = "red", lty = 3)
+ points(res$size, res$TF, pch = 2)
+ abline(lm(res$TF~res$size))
+ points(res$size, res$FF, pch = 2, col = "red")
+ abline(lm(res$FF~res$size), lty = 3, col = "red")
+ legend("topleft", inset = 0.01, legend = c("forceToLower = TRUE", "forceToLower = FALSE"), col = c("black", "red"), lty = c(1,3))
+ legend("bottomright", inset = 0.01, legend = c("exact = TRUE", "exact = FALSE"),
+ pch = c(1,2))
+ mincpu <- lm(res$FF~res$size)$coef[2]
+ barplot(
+ c(lm(res$FF~res$size)$coef[2]/mincpu, 
+   lm(res$TF~res$size)$coef[2]/mincpu,
+   lm(res$FT~res$size)$coef[2]/mincpu,
+   lm(res$TT~res$size)$coef[2]/mincpu),
+ horiz = TRUE, xlab = "Increase of CPU time",
+ col = c("red", "black", "red", "black"),
+ names.arg = c("(F,F)", "(T,F)", "(F,T)", "(T,T)"), las = 1)
+ title(ylab = "forceToLower,exact", line = 4)
+ mtext("CPU time as function of options", outer = TRUE, line = 1, cex = 1.5)
 \end{Sinput}
 \end{Schunk}
 \subsection{\texttt{SeqAcnucWeb()}}
@@ -754,41 +424,280 @@ locus FALSE    TRUE     TRUE     TRUE
      g2.coord = system.file("sequences/ct.coord",package = "seqinr"))
 \end{Sinput}
 \end{Schunk}
-\subsection{\texttt{extractseqs()}}
+\subsection{\texttt{getAnnot()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et O=mitochondrion et Y>2001 et no k=partial")
+   # get the first 5 lines annotating the first sequence:
+   annots <- getAnnot(fc$req[[1]], nbl = 5)
+   cat(annots, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+\end{Soutput}
+\begin{Sinput}
+   # or use the list method to get them all at once:
+   annots <- getAnnot(fc$req, nbl = 5)
+   cat(annots, sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+FT   CDS             100..303
+FT                   /db_xref="GOA:Q94NW9"
+FT                   /db_xref="TrEMBL:Q94NW9"
+FT                   /transl_table=2
+FT                   /gene="ATPase8"
+\end{Soutput}
+\begin{Sinput}
+   closebank()
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getKeyword()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+   getKeyword(fc$req[[1]])
+\end{Sinput}
+\begin{Soutput}
+[1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"      
+[5] "CDS"         
+\end{Soutput}
+\begin{Sinput}
+   # Should be: 
+   # [1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"       "CDS"
+   closebank()  
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getLength()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+   getLength(fc)
+\end{Sinput}
+\begin{Soutput}
+ [1] 1140 1140  300  402  402   27  204   95   27  204   95   27  204   95
+[15]   27  204   95   27  204   95   27  204   95   27  204   95  316  402
+[29]  957 1042 1545  684  204  681  784  347  297 1378 1821  528 1140 1140
+[43]  345  319  237  250  345  237  249
+\end{Soutput}
+\begin{Sinput}
+   closebank()  
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getLocation()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+   getLocation(fc$req[[5]])
+\end{Sinput}
+\begin{Soutput}
+[1]  27 428
+\end{Soutput}
+\begin{Sinput}
+   closebank()  
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getName()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+   getName(fc)
+\end{Sinput}
+\begin{Soutput}
+ [1] "AB004237"        "AB004238"        "AF172359"        "FCA300702"      
+ [5] "FCA441328.CYTB"  "FSI409128.COII"  "FSI409128.PE2"   "FSI409128.PE3"  
+ [9] "FSI409129.COII"  "FSI409129.PE2"   "FSI409129.PE3"   "FSI409130.COII" 
+[13] "FSI409130.PE2"   "FSI409130.PE3"   "FSI409131.COII"  "FSI409131.PE2"  
+[17] "FSI409131.PE3"   "FSI409132.COII"  "FSI409132.PE2"   "FSI409132.PE3"  
+[21] "FSI409133.COII"  "FSI409133.PE2"   "FSI409133.PE3"   "FSI409134.COII" 
+[25] "FSI409134.PE2"   "FSI409134.PE3"   "MI1290634.PE1"   "MIFCCBD"        
+[29] "MIFCCU207.ND1"   "MIFCCU207.ND2"   "MIFCCU207.COI"   "MIFCCU207.COII" 
+[33] "MIFCCU207.PE5"   "MIFCCU207.PE6"   "MIFCCU207.COIII" "MIFCCU207.ND3"  
+[37] "MIFCCU207.ND4L"  "MIFCCU207.ND4"   "MIFCCU207.ND5"   "MIFCCU207.ND6"  
+[41] "MIFCCU207.CYTB"  "MIFDCYTB"        "S75096"          "S75098"         
+[45] "S75099.COI"      "S75101"          "S75328"          "S75331.COII"    
+[49] "S75332.COI"     
+\end{Soutput}
+\begin{Sinput}
+   closebank()  
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getSequence()}}
 \begin{Schunk}
 \begin{Sinput}
  # Need internet connection
-  choosebank("swissprotTP")
-  query("mylist", "k=globin", virtual = TRUE)
-  mylist.fasta <- exseq("mylist", verbose = TRUE)
+   choosebank("emblTP")
+   query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+   getSequence(fc$req[[1]])
 \end{Sinput}
 \begin{Soutput}
-I'm checking the arguments...
-... and everything is OK up to now.
-Format is  fasta 
-Operation is  simple 
-The rank of the list  mylist is  2 .
-request :  extractseqs&lrank=2&format=fasta&operation=simple&zlib=T 
-Running getzlibsock... 
-'con' is a connection...
-Socket number is 6....
-Trying to get answer from socket...
-
--->[code=0]
-Socket answer is ok code=0(6)
-n=1000, nn=1000,nnn=1000
-extractseqs successfully ended ...
-Number of lines     : 102
-Number of sequences : 28
-extractseqs OK, program carry on...
-Ok, everything is fine!
-Closing socket close_sock_gz_r  status = 0
+   [1] "a" "t" "g" "a" "c" "c" "a" "a" "c" "a" "t" "t" "c" "g" "a" "a" "a"
+  [18] "a" "t" "c" "a" "c" "a" "c" "c" "c" "c" "c" "t" "t" "a" "c" "c" "a"
+  [35] "a" "a" "a" "t" "t" "a" "t" "t" "a" "a" "t" "c" "a" "c" "t" "c" "a"
+  [52] "t" "t" "c" "a" "t" "c" "g" "a" "c" "c" "t" "a" "c" "c" "t" "g" "c"
+  [69] "c" "c" "c" "a" "t" "c" "t" "a" "a" "c" "a" "t" "c" "t" "c" "a" "g"
+  [86] "c" "a" "t" "g" "a" "t" "g" "a" "a" "a" "c" "t" "t" "c" "g" "g" "c"
+ [103] "t" "c" "c" "c" "t" "t" "c" "t" "a" "g" "g" "a" "g" "t" "c" "t" "g"
+ [120] "c" "c" "t" "a" "a" "t" "c" "t" "t" "a" "c" "a" "a" "a" "t" "c" "c"
+ [137] "t" "c" "a" "c" "c" "g" "g" "c" "c" "t" "c" "t" "t" "t" "t" "t" "g"
+ [154] "g" "c" "c" "a" "t" "a" "c" "a" "c" "t" "a" "c" "a" "c" "a" "t" "c"
+ [171] "a" "g" "a" "c" "a" "c" "a" "a" "c" "a" "a" "c" "c" "g" "c" "c" "t"
+ [188] "t" "t" "t" "c" "a" "t" "c" "a" "g" "t" "t" "a" "c" "c" "c" "a" "c"
+ [205] "a" "t" "c" "t" "g" "t" "c" "g" "c" "g" "a" "c" "g" "t" "t" "a" "a"
+ [222] "t" "t" "a" "t" "g" "g" "c" "t" "g" "a" "a" "t" "c" "a" "t" "c" "c"
+ [239] "g" "a" "t" "a" "t" "t" "t" "a" "c" "a" "c" "g" "c" "c" "a" "a" "c"
+ [256] "g" "g" "a" "g" "c" "t" "t" "c" "t" "a" "t" "a" "t" "t" "c" "t" "t"
+ [273] "t" "a" "t" "c" "t" "g" "c" "c" "t" "g" "t" "a" "c" "a" "t" "a" "c"
+ [290] "a" "t" "g" "t" "a" "g" "g" "a" "c" "g" "g" "g" "g" "a" "a" "t" "a"
+ [307] "t" "a" "c" "t" "a" "c" "g" "g" "c" "t" "c" "c" "t" "a" "c" "a" "c"
+ [324] "c" "t" "t" "c" "t" "c" "a" "g" "a" "g" "a" "c" "a" "t" "g" "a" "a"
+ [341] "a" "c" "a" "t" "t" "g" "g" "a" "a" "t" "c" "a" "t" "a" "c" "t" "a"
+ [358] "t" "t" "a" "t" "t" "t" "a" "c" "a" "g" "t" "c" "a" "t" "a" "g" "c"
+ [375] "c" "a" "c" "a" "g" "c" "t" "t" "t" "t" "a" "t" "g" "g" "g" "a" "t"
+ [392] "a" "c" "g" "t" "c" "c" "t" "a" "c" "c" "a" "t" "g" "a" "g" "g" "c"
+ [409] "c" "a" "a" "a" "t" "g" "t" "c" "c" "t" "t" "c" "t" "g" "a" "g" "g"
+ [426] "a" "g" "c" "a" "a" "c" "c" "g" "t" "a" "a" "t" "c" "a" "c" "t" "a"
+ [443] "a" "c" "c" "t" "c" "c" "t" "g" "t" "c" "a" "g" "c" "a" "a" "t" "t"
+ [460] "c" "c" "a" "t" "a" "c" "a" "t" "c" "g" "g" "g" "a" "c" "t" "g" "a"
+ [477] "a" "c" "t" "a" "g" "t" "a" "g" "a" "a" "t" "g" "a" "a" "t" "c" "t"
+ [494] "g" "a" "g" "g" "g" "g" "g" "c" "t" "t" "c" "t" "c" "a" "g" "t" "a"
+ [511] "g" "a" "c" "a" "a" "a" "g" "c" "c" "a" "c" "c" "c" "t" "a" "a" "c"
+ [528] "a" "c" "g" "a" "t" "t" "c" "t" "t" "t" "g" "c" "t" "t" "t" "c" "c"
+ [545] "a" "c" "t" "t" "c" "a" "t" "t" "c" "t" "t" "c" "c" "a" "t" "t" "c"
+ [562] "a" "t" "t" "a" "t" "c" "t" "c" "a" "g" "c" "c" "t" "t" "a" "g" "c"
+ [579] "a" "g" "c" "a" "g" "t" "a" "c" "a" "c" "c" "t" "c" "t" "t" "a" "t"
+ [596] "t" "c" "c" "t" "t" "c" "a" "t" "g" "a" "a" "a" "c" "a" "g" "g" "a"
+ [613] "t" "c" "t" "a" "a" "c" "a" "a" "c" "c" "c" "c" "t" "c" "a" "g" "g"
+ [630] "a" "a" "t" "t" "a" "c" "a" "t" "c" "c" "g" "a" "t" "t" "c" "a" "g"
+ [647] "a" "c" "a" "a" "a" "a" "t" "c" "c" "c" "a" "t" "t" "c" "c" "a" "c"
+ [664] "c" "c" "a" "t" "a" "c" "t" "a" "t" "a" "c" "a" "a" "t" "c" "a" "a"
+ [681] "a" "g" "a" "c" "a" "t" "c" "c" "t" "a" "g" "g" "t" "c" "t" "t" "c"
+ [698] "t" "a" "g" "t" "a" "c" "t" "a" "g" "t" "t" "t" "t" "a" "a" "c" "a"
+ [715] "c" "t" "c" "a" "t" "a" "c" "t" "a" "c" "t" "c" "g" "t" "c" "c" "t"
+ [732] "a" "t" "t" "t" "t" "c" "a" "c" "c" "a" "g" "a" "c" "c" "t" "g" "c"
+ [749] "t" "a" "g" "g" "a" "g" "a" "c" "c" "c" "a" "g" "a" "c" "a" "a" "c"
+ [766] "t" "a" "c" "a" "t" "c" "c" "c" "a" "g" "c" "c" "a" "a" "c" "c" "c"
+ [783] "t" "t" "t" "a" "a" "a" "t" "a" "c" "c" "c" "c" "t" "c" "c" "c" "c"
+ [800] "a" "t" "a" "t" "t" "a" "a" "a" "c" "c" "t" "g" "a" "a" "t" "g" "a"
+ [817] "t" "a" "c" "t" "t" "c" "c" "t" "a" "t" "t" "c" "g" "c" "a" "t" "a"
+ [834] "c" "g" "c" "a" "a" "t" "t" "c" "t" "c" "c" "g" "a" "t" "c" "c" "a"
+ [851] "t" "c" "c" "c" "c" "a" "a" "c" "a" "a" "a" "c" "t" "a" "g" "g" "g"
+ [868] "g" "g" "a" "g" "t" "c" "c" "t" "a" "g" "c" "c" "c" "t" "a" "g" "t"
+ [885] "a" "c" "t" "c" "t" "c" "c" "a" "t" "c" "c" "t" "a" "g" "t" "a" "c"
+ [902] "t" "a" "g" "c" "a" "a" "t" "c" "a" "t" "t" "c" "c" "a" "a" "t" "c"
+ [919] "c" "t" "c" "c" "a" "c" "a" "c" "c" "t" "c" "c" "a" "a" "a" "c" "a"
+ [936] "a" "c" "g" "a" "g" "g" "a" "a" "t" "a" "a" "t" "g" "t" "t" "t" "c"
+ [953] "g" "a" "c" "c" "a" "c" "t" "a" "a" "g" "c" "c" "a" "a" "t" "g" "t"
+ [970] "c" "t" "a" "t" "t" "c" "t" "g" "a" "c" "t" "c" "c" "t" "a" "g" "t"
+ [987] "a" "g" "c" "g" "g" "a" "t" "c" "t" "c" "c" "t" "a" "a" "c" "c" "c"
+[1004] "t" "a" "a" "c" "a" "t" "g" "a" "a" "t" "c" "g" "g" "t" "g" "g" "c"
+[1021] "c" "a" "a" "c" "c" "t" "g" "t" "a" "g" "a" "a" "c" "a" "t" "c" "c"
+[1038] "a" "t" "t" "c" "a" "t" "c" "a" "c" "c" "a" "t" "c" "g" "g" "c" "c"
+[1055] "a" "a" "c" "t" "a" "g" "c" "c" "t" "c" "c" "a" "t" "c" "c" "t" "a"
+[1072] "t" "a" "t" "t" "t" "c" "t" "c" "a" "a" "c" "c" "c" "t" "c" "c" "t"
+[1089] "a" "a" "t" "c" "c" "t" "a" "a" "t" "a" "c" "c" "c" "a" "t" "c" "t"
+[1106] "c" "a" "g" "g" "c" "a" "t" "t" "a" "t" "t" "g" "a" "a" "a" "a" "c"
+[1123] "c" "g" "c" "c" "t" "a" "c" "t" "c" "a" "a" "a" "t" "g" "a" "a" "g"
+[1140] "a"
 \end{Soutput}
 \begin{Sinput}
-  # 103 lines of FASTA 
-  stopifnot(length(mylist.fasta) == 103)
-  closebank()
+   getSequence(fc$req[[1]], as.string = TRUE)
 \end{Sinput}
+\begin{Soutput}
+[1] "atgaccaacattcgaaaatcacacccccttaccaaaattattaatcactcattcatcgacctacctgccccatctaacatctcagcatgatgaaacttcggctcccttctaggagtctgcctaatcttacaaatcctcaccggcctctttttggccatacactacacatcagacacaacaaccgccttttcatcagttacccacatctgtcgcgacgttaattatggctgaatcatccgatatttacacgccaacggagcttctatattctttatctgcctgtacatacatgtaggacggggaatatactacggctcctacaccttctcagagacatgaaacattggaatcatactattatttacagtcatagccacagcttttatgggatacgtcctaccatgaggccaaatgtccttctgaggagcaaccgtaatcactaacctcctgtcagcaattccatacatcgggactgaactagtagaatgaatctgagggggcttctcagtagacaaagccaccctaacacgattctttgctttccacttcattcttccattcattatctcagccttagcagcagtacacctcttattccttcatgaaacaggatctaacaacccctcaggaattacatccgattcagacaaaatcccattccacccatactatacaatcaaagacatcctaggtcttctagtactagttttaacactcatactactcgtcctattttcaccagacctgctaggagacccagacaactacatcccagccaaccctttaaatacccctccccatattaaacctgaatgatacttcctattcgcatacgcaattctccgatccatccccaacaaactagggggagtcctagccctagtactctccatcctagtactagcaatcattccaatcctccacacctccaaacaacgaggaataatgtttcgaccactaagccaatgtctattctgactcctagtagcggatctcctaaccctaacatgaatcggtggccaacctgtagaacatccattcatcaccatcggccaactagcctccatcctatatttctcaaccctcctaatcctaatacccatctcaggcattattgaaaaccgcctactcaaatgaaga"
+\end{Soutput}
+\begin{Sinput}
+   closebank()
+\end{Sinput}
+\end{Schunk}
+\subsection{\texttt{getTrans()}}
+\begin{Schunk}
+\begin{Sinput}
+   # Need internet connection.
+   # Translation of the following EMBL entry:
+   #
+   # FT   CDS             join(complement(153944..154157),complement(153727..153866),
+   # FT                   complement(152185..153037),138523..138735,138795..138955)
+   # FT                   /codon_start=1
+   choosebank("emblTP")
+   query("trans", "N=AE003734.PE35")
+   getTrans(trans$req[[1]])
+\end{Sinput}
+\begin{Soutput}
+  [1] "M" "A" "D" "D" "E" "Q" "F" "S" "L" "C" "W" "N" "N" "F" "N" "T" "N" "L"
+ [19] "S" "A" "G" "F" "H" "E" "S" "L" "C" "R" "G" "D" "L" "V" "D" "V" "S" "L"
+ [37] "A" "A" "E" "G" "Q" "I" "V" "K" "A" "H" "R" "L" "V" "L" "S" "V" "C" "S"
+ [55] "P" "F" "F" "R" "K" "M" "F" "T" "Q" "M" "P" "S" "N" "T" "H" "A" "I" "V"
+ [73] "F" "L" "N" "N" "V" "S" "H" "S" "A" "L" "K" "D" "L" "I" "Q" "F" "M" "Y"
+ [91] "C" "G" "E" "V" "N" "V" "K" "Q" "D" "A" "L" "P" "A" "F" "I" "S" "T" "A"
+[109] "E" "S" "L" "Q" "I" "K" "G" "L" "T" "D" "N" "D" "P" "A" "P" "Q" "P" "P"
+[127] "Q" "E" "S" "S" "P" "P" "P" "A" "A" "P" "H" "V" "Q" "Q" "Q" "Q" "I" "P"
+[145] "A" "Q" "R" "V" "Q" "R" "Q" "Q" "P" "R" "A" "S" "A" "R" "Y" "K" "I" "E"
+[163] "T" "V" "D" "D" "G" "L" "G" "D" "E" "K" "Q" "S" "T" "T" "Q" "I" "V" "I"
+[181] "Q" "T" "T" "A" "A" "P" "Q" "A" "T" "I" "V" "Q" "Q" "Q" "Q" "P" "Q" "Q"
+[199] "A" "A" "Q" "Q" "I" "Q" "S" "Q" "Q" "L" "Q" "T" "G" "T" "T" "T" "T" "A"
+[217] "T" "L" "V" "S" "T" "N" "K" "R" "S" "A" "Q" "R" "S" "S" "L" "T" "P" "A"
+[235] "S" "S" "S" "A" "G" "V" "K" "R" "S" "K" "T" "S" "T" "S" "A" "N" "V" "M"
+[253] "D" "P" "L" "D" "S" "T" "T" "E" "T" "G" "A" "T" "T" "T" "A" "Q" "L" "V"
+[271] "P" "Q" "Q" "I" "T" "V" "Q" "T" "S" "V" "V" "S" "A" "A" "E" "A" "K" "L"
+[289] "H" "Q" "Q" "S" "P" "Q" "Q" "V" "R" "Q" "E" "E" "A" "E" "Y" "I" "D" "L"
+[307] "P" "M" "E" "L" "P" "T" "K" "S" "E" "P" "D" "Y" "S" "E" "D" "H" "G" "D"
+[325] "A" "A" "G" "D" "A" "E" "G" "T" "Y" "V" "E" "D" "D" "T" "Y" "G" "D" "M"
+[343] "R" "Y" "D" "D" "S" "Y" "F" "T" "E" "N" "E" "D" "A" "G" "N" "Q" "T" "A"
+[361] "A" "N" "T" "S" "G" "G" "G" "V" "T" "A" "T" "T" "S" "K" "A" "V" "V" "K"
+[379] "Q" "Q" "S" "Q" "N" "Y" "S" "E" "S" "S" "F" "V" "D" "T" "S" "G" "D" "Q"
+[397] "G" "N" "T" "E" "A" "Q" "V" "T" "Q" "H" "V" "R" "N" "C" "G" "P" "Q" "M"
+[415] "F" "L" "I" "S" "R" "K" "G" "G" "T" "L" "L" "T" "I" "N" "N" "F" "V" "Y"
+[433] "R" "S" "N" "L" "K" "F" "F" "G" "K" "S" "N" "N" "I" "L" "Y" "W" "E" "C"
+[451] "V" "Q" "N" "R" "S" "V" "K" "C" "R" "S" "R" "L" "K" "T" "I" "G" "D" "D"
+[469] "L" "Y" "V" "T" "N" "D" "V" "H" "N" "H" "M" "G" "D" "N" "K" "R" "I" "E"
+[487] "A" "A" "K" "A" "A" "G" "M" "L" "I" "H" "K" "K" "L" "S" "S" "L" "T" "A"
+[505] "A" "D" "K" "I" "Q" "G" "S" "W" "K" "M" "D" "T" "E" "G" "N" "P" "D" "H"
+[523] "L" "P" "K" "M" "*"
+\end{Soutput}
 \end{Schunk}
 \subsection{\texttt{getType()}}
 \begin{Schunk}
@@ -1071,10 +980,10 @@ $otheraccessmatches
 22    nurebprot     on
 23   taxobacgen     on
                                                                             info
-1                  GenBank Rel. 162 (15 October 2007) Last Updated: Nov  7, 2007
-2            EMBL Library Release 92 (September 2007) Last Updated: Nov  7, 2007
+1                  GenBank Rel. 162 (15 October 2007) Last Updated: Nov 30, 2007
+2            EMBL Library Release 92 (September 2007) Last Updated: Nov 30, 2007
 3               EMBL Whole Genome Shotgun sequences Release 92  (September 2007)
-4        UniProt Rel. 12 (SWISS-PROT 54 + TrEMBL 37): Last Updated: Nov  5, 2007
+4        UniProt Rel. 12 (SWISS-PROT 54 + TrEMBL 37): Last Updated: Nov 19, 2007
 5                                                   Ensembl databases release 41
 6                        RefSeq 15.0 (1 January 2006) Last Updated: Jan 23, 2006
 7                        HOBACGEN - genomic data - Release 10 (February 12 2002)
@@ -1243,9 +1152,9 @@ Genetic code used: NUG=AUN=M when initiation codon
 \end{Sinput}
 \begin{Soutput}
       AUT       BIB       ACC       SMJ       SUB       LOC       KEY 
-   164546    482576  78044641      4911  82544306  78012480   7312546 
+   165152    484468  79360574      4932  83935189  79794229   7401652 
      SPEC      SHRT       LNG       EXT       TXT 
-   498873 698840815  21880087   6507739    402505 
+   503804 714581316  22543462   6989121    405605 
 \end{Soutput}
 \end{Schunk}
 \subsection{\texttt{rearranged.oriloc()}}
@@ -1386,20 +1295,20 @@ Genetic code used: NUG=AUN=M when initiation codon
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.6.1 (2007-11-26), \verb|i386-apple-darwin8.10.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+  \item Other packages: MASS~7.2-38, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.17-2, nlme~3.1-86, seqinr~1.1-3,
     xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15
+  \item Loaded via a namespace (and not attached): grid~2.6.1,
+    rcompgen~0.1-17
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Nov  7 13:20:47 2007
+  \item \Rlogo{} compilation time was: Sun Dec  2 17:49:23 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

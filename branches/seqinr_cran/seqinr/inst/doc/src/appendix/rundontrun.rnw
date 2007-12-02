@@ -31,11 +31,12 @@ dir()
 This is the list of function that don't run for now and need to be fixed.
 
 <<stoplist,fig=F>>=
-stoplist <- c("reverse.align")
+stoplist <- c("reverse.align", "extractseqs")
 @ 
 
 % GetFromSequence: see later
 % reverse.align: need clustalw on line, see later
+% extractseqs: strange behaviour when in Sweave document???
 
 \section{Don't run generator}
 

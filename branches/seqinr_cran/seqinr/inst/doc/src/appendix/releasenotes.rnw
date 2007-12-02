@@ -31,6 +31,9 @@
   have gained methods to handle objects from class \texttt{list}
   and \texttt{qaw}.
 
+\item Functions \texttt{getAttributsocket()} and \texttt{getNumber.socket()}
+  are now deprecated, a warning is issued.
+
 \item There is a new appendix in which all the examples protected
   by a \texttt{dontrun} statment are forced to be executed.
 
