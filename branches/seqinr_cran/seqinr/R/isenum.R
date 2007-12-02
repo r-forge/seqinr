@@ -58,3 +58,23 @@ isenum <- function(what, idby = c("name", "access"), socket = autosocket()){
 }
 
 isn <- function(what, ...) isenum(what, ...)$number
+
+#
+# getNumber.socket (deprecated as from seqinR 1.1-3)
+#
+getNumber.socket <- function(socket, name){
+  warning("getNumber.socket is deprecated, use isn() instead")
+  isn(what = name, socket = socket)
+}
+
+#
+# getAttributsocket (deprecated as from seqinR 1.1-3)
+#
+getAttributsocket <- function( socket, name){
+  warning("getAttributsocket is deprecated, use isenum instead.")
+  request <- paste("isenum&name=", name, sep = "")
+  writeLines( request, socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  p <- parser.socket(res)
+  return( list(length = as.numeric(p[2]), frame = as.numeric(p[3]), gencode = as.numeric(p[4])) )
+}
