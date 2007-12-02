@@ -36,7 +36,8 @@ getFrag.SeqAcnucWeb <- function(object, begin, end, ..., socket = autosocket(), 
   if(end > lobj) stop("end parameter is too large")
   if(begin > lobj) stop("begin parameter is too large")
   length <- end - begin + 1
-  newSeq <- getSequenceSocket(socket, object, start = begin, length = length)
+#  newSeq <- getSequenceSocket(socket, object, start = begin, length = length)
+  newSeq <- gfrag(what = name, start = begin, length = length, idby = "name", socket = socket)
   as.SeqFrag(newSeq, begin = begin, end = end, name = name)
 }
 
