@@ -1,6 +1,8 @@
 \name{isenum}
 \alias{isenum}
 \alias{isn}
+\alias{getNumber.socket}
+\alias{getAttributsocket}
 \title{Get the ACNUC number of a sequence from its name or accession number}
 \description{
 Gives the ACNUC number of a sequence in the \code{number} element of the returned list.
@@ -9,6 +11,8 @@ More informations are returned for subsequences corresponding to coding sequence
 \usage{
 isenum(what, idby = c("name", "access"), socket = autosocket())
 isn(what, ...)
+getNumber.socket(socket, name)
+getAttributsocket(socket, name)
 }
 \arguments{
   \item{what}{a sequence name or a sequence accession number}
@@ -16,6 +20,7 @@ isn(what, ...)
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
                         database (default is a socket to the last opened database).}
   \item{...}{arguments passed to \code{isenum}.}
+  \item{name}{a sequence name.}
 }
 \value{
 A list whith the following 6 components:
@@ -29,7 +34,10 @@ A list whith the following 6 components:
     to the given accession nunmber, and that only the ACNUC number of the first attached 
    sequence is returned in the \code{number} component of the list.}
 
-\code{isn(what, ...)} is a shortcut for \code{isenum(what, ...)$number}. 
+\code{isn(what, ...)} is a shortcut for \code{isenum(what, ...)$number}.\cr
+
+As from seqinR 1.1-3 \code{getNumber.socket} and
+\code{getAttributsocket} are deprecated (a warning is issued). 
 }
 
 
