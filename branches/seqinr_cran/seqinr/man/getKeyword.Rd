@@ -5,7 +5,6 @@
 \alias{getKeyword.SeqAcnucWeb}
 \alias{getKeyword.qaw}
 \alias{getKeyword.logical}
-\alias{getKeywordsocket}
 
 \title{Generic function to get keywords associated to sequences}
 \description{

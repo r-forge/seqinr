@@ -6,9 +6,6 @@
 \alias{getLocation.qaw}
 \alias{getLocation.logical}
 
-\alias{getLocationSocket}
-
-
 \title{Generic function to get the location of subsequences on the parent sequence}
 \description{
 This function works only with subsequences from an ACNUC server.

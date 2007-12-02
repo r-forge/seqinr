@@ -9,7 +9,6 @@
 \alias{getSequence.SeqFastaAA}
 \alias{getSequence.qaw}
 \alias{getSequence.logical}
-\alias{getSequenceSocket}
 
 \title{Generic function to get sequence data}
 \description{
