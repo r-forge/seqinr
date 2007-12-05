@@ -2,7 +2,7 @@ Package: seqinr
 Version: 1.1-3
 Date: 2007-11-26
 Title: Biological Sequences Retrieval and Analysis 
-Author: Delphine Charif and Jean R. Lobry and Anamaria Necsulea and Leonor Palmeira
+Author: Delphine Charif and Jean R. Lobry and Anamaria Necsulea and Leonor Palmeira and Simon Penel
 Maintainer: Simon Penel <penel@biomserv.univ-lyon1.fr>
 Depends: R (>= 2.4.0)
 Suggests: ade4, segmented
