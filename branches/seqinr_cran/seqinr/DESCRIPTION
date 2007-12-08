@@ -1,6 +1,6 @@
 Package: seqinr
-Version: 1.1-3
-Date: 2007-11-26
+Version: 1.1-4
+Date: 2007-12-08
 Title: Biological Sequences Retrieval and Analysis 
 Author: Delphine Charif and Jean R. Lobry and Anamaria Necsulea and Leonor Palmeira and Simon Penel
 Maintainer: Simon Penel <penel@biomserv.univ-lyon1.fr>
@@ -9,6 +9,6 @@ Suggests: ade4, segmented
 Description: Exploratory data analysis and data visualization
   for biological sequence (DNA and protein) data. Include also
   utilities for sequence data management under the ACNUC system.
-License: GPL version 2 or newer
+License: GPL (>= 2)
 URL: http://pbil.univ-lyon1.fr/software/SeqinR/home.php?lang=eng, Mailing list: http://pbil.univ-lyon1.fr/software/SeqinR/mailing.php?lang=eng
 ZipData:no
