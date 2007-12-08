@@ -20,7 +20,7 @@ Minor release to fix problems found by Kurt Hornik.
 \item In the \texttt{DESCRIPTION} file \texttt{License: GPL (>= 2)} instead
   of \texttt{License: GPL version 2 or newer}.
  
-\item The files \texttt{inst/doc/src/mainmatter/acnuc_sockets.rnw .tex}
+\item The files \texttt{inst/doc/src/mainmatter/acnuc\_sockets.rnw .tex}
   with non-portable file names were changed to \texttt{acnucsocket.rnw}
   and \texttt{acnucsocket.tex}.
 
