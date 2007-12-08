@@ -145,7 +145,7 @@ includepart("../mainmatter/introduction.tex") #  9.3
 includepart("../mainmatter/getseqflat.tex")   #  47.6
 includepart("../mainmatter/getseqacnuc.tex")  #  763.4
 includepart("../mainmatter/dealseq.tex")      #  1
-includepart("../mainmatter/acnuc_sockets.tex")#  55.4
+includepart("../mainmatter/acnucsocket.tex")#  55.4
 includepart("../mainmatter/multivariate.tex") #  31.4
 includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
 @
