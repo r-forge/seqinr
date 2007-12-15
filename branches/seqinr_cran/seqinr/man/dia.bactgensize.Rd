@@ -11,13 +11,13 @@ also represented
 }
 \usage{
 dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500,
-       sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000)
+       sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000, maxgensize = 20000)
 }
 \arguments{
   \item{fit}{ integer value. If \code{fit == O} no normal fit
 is produced, if \code{fit == 2} try to fit a superposition of
 two normal distributions, if \code{fit == 3} try to fit a
-superposition of three normal distribution.
+superposition of three normal distributions.
              }
   \item{p}{ initial guess for the proportion of the first population. }
   \item{m1}{ initial guess for the mean of the first population. }
@@ -26,7 +26,9 @@ superposition of three normal distribution.
   \item{sd2}{initial guess for the standard deviation of the second population. }
   \item{p3}{ initial guess for the proportion of the third population. }
   \item{m3}{ initial guess for the mean of the third population. }
-  \item{sd3}{initial guess for the standard deviation of the second population. }
+  \item{sd3}{initial guess for the standard deviation of the third population. }
+  \item{maxgensize}{maximum admissive value in bp for a bacterial genome size:
+     only value less or equal to this threshold are considrered.}
 }
 \value{
   An invisible dataframe with three components:

@@ -11,6 +11,18 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-5}
+
+\begin{itemize}
+
+\item Function \texttt{dia.bactgensize()} to plot the distribution of
+  bacterial genome size from GOLD data \cite{gold1, gold2, gold3, gold4}
+ has gained a new arugument
+  \texttt{maxgensize} defaulting to 20000 to remove outliers. The
+  internal URLs have also been updated.
+
+\end{itemize}
+
 \subsection*{release 1.1-4}
 
 Minor release to fix problems found by Kurt Hornik.
