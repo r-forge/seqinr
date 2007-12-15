@@ -17,9 +17,11 @@
 
 \item Function \texttt{dia.bactgensize()} to plot the distribution of
   bacterial genome size from GOLD data \cite{gold1, gold2, gold3, gold4}
- has gained a new arugument
-  \texttt{maxgensize} defaulting to 20000 to remove outliers. The
-  internal URLs have also been updated.
+  has gained a new argument \texttt{maxgensize} defaulting to 20000 
+  to remove outliers. It has also gained a new argument \texttt{source}
+  for the file to look for raw data, defaulting to an (outdated) local
+  copy so that the function can be called even when there is no internet
+  connection.
 
 \end{itemize}
 

@@ -41,15 +41,17 @@
 
 \section*{1.1 series}
 
-\subsection{release 1.1-5}
+\subsection*{release 1.1-5}
 
 \begin{itemize}
 
 \item Function \texttt{dia.bactgensize()} to plot the distribution of
   bacterial genome size from GOLD data \cite{gold1, gold2, gold3, gold4}
- has gained a new arugument
-  \texttt{maxgensize} defaulting to 20000 to remove outliers. The
-  internal URLs have alse been updated.
+  has gained a new argument \texttt{maxgensize} defaulting to 20000 
+  to remove outliers. It has also gained a new argument \texttt{source}
+  for the file to look for raw data, defaulting to an (outdated) local
+  copy so that the function can be called even when there is no internet
+  connection.
 
 \end{itemize}
 
@@ -579,7 +581,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Dec 15 12:34:49 2007
+  \item \Rlogo{} compilation time was: Sat Dec 15 19:09:23 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
