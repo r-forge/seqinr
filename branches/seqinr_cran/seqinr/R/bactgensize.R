@@ -21,7 +21,9 @@ dia.bactgensize <- function(
 #
   alldata <- read.table(source, header = TRUE, sep = "\t",
                         comment.char = "", quote = "")
-  prodata <- subset(alldata, SUPERKINGDOM == "Archaea" | SUPERKINGDOM == "Bacteria")
+  SUPERKINGDOM <- 1 # col number
+  kingdom <- alldata[, SUPERKINGDOM]
+  prodata <- alldata[ kingdom == "Archaea" | kingdom == "Bacteria", ]
   data <- prodata[, c("GENUS", "SPECIES", "SIZE.kb.")]
   names(data) <- c("genus", "species", "gs")
   data <- data[complete.cases(data), ]
