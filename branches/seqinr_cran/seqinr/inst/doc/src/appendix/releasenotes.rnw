@@ -17,8 +17,11 @@
 \item As pointed by e-mail on 15 Jan 2008 by Stefanie Hartmann, the
   argument \texttt{frame} in function \texttt{count()} was misleading
   for someone with a molecular biology background. The argument has
-  been replaced by \texttt{phase}. The old argument name is now deprecated
-  and a warning is issued.
+  been replaced by \texttt{start}. The old argument name is now deprecated
+  and a warning is issued. The example section has been extended to
+  give an example with the complete human mitochondrion sequence, the
+  corresponding fasta file (\texttt{humanMito.fasta}) has been added in the 
+  \texttt{sequences} directory.
 \end{itemize}
 
 \subsection*{release 1.1-5}

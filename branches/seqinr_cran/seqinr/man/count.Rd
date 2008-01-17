@@ -6,22 +6,22 @@
   sequence. Note that the oligomers are overlapping.
 }
 \usage{
-count(seq, word, phase = 0, freq = FALSE, alphabet = s2c("acgt"), frame = phase)
+count(seq, word, start = 0, freq = FALSE, alphabet = s2c("acgt"), frame = start)
 }
 \arguments{
   \item{seq}{ a vector of single chars }
   \item{word}{ an integer giving the size of word (n-mer) to count }
-  \item{phase}{ an integer (0, 1, 2,...) giving the starting
+  \item{start}{ an integer (0, 1, 2,...) giving the starting
     position to consider in the sequence. The default value 0 means that
     we start at the first nucleotide in the sequence.}
   \item{freq}{ if TRUE, word relative frequencies (summing to 1) are returned instead of counts}
   \item{alphabet}{a vector of single characters}
-  \item{frame}{synonymous for phase, this argument is deprecated as from seqinR 1.1-6
+  \item{frame}{synonymous for start, this argument is deprecated as from seqinR 1.1-6
   and a warning is issued}
 }
 \details{
  \code{count} counts the occurence of all words by moving a window of
- length \code{word}. The window step is always an unit. \code{phase}
+ length \code{word}. The window step is always an unit. \code{start}
  controls the starting position in the sequence for the count.
 }
 \value{
@@ -29,7 +29,7 @@ count(seq, word, phase = 0, freq = FALSE, alphabet = s2c("acgt"), frame = phase)
   oligomers. All oligomers are returned, even if absent from
   the sequence.		
 }
-\author{ D. Charif, J.R. Lobry }
+\author{ D. Charif, J.R. Lobry with suggestions from Gabriel Valiente and Stefanie Hartmann}
 \references{
   \code{citation("seqinr")}
 }
@@ -42,9 +42,9 @@ a <- s2c("acgggtacggtcccatcgaa")
 ##
 count(a, 2)
 ##
-## To count trinucleotide occurrences in sequence a, in phase 2:
+## To count trinucleotide occurrences in sequence a, with start = 2:
 ##
-count(a, 3, 2)
+count(a, 3, start = 2)
 ##
 ## To count dinucleotide relative frequencies in sequence a:
 ##
