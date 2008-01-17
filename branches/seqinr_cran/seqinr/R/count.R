@@ -1,17 +1,18 @@
-count <- function(seq, word, frame = 0, freq = FALSE, alphabet = s2c("acgt")){
+count <- function(seq, word, phase = 0, freq = FALSE, alphabet = s2c("acgt"), frame = phase){
+  if(!missing(frame)) warning("argument frame is deprecated, use phase instead")
 #
-# l is the number of elements in the sequence when starting at "frame" position
+# l is the number of elements in the sequence when starting at "phase" position
 # and ending so that the last word is documented:
 #
-  l <- length(seq) - word - frame + 1
+  l <- length(seq) - word - phase + 1
 #
 # s contains all words starting characters:
 #
-  s <- seq[(frame + 1):(frame + l)]
+  s <- seq[(phase + 1):(phase + l)]
 #
 # After this statment seq contains all characters useful to build words:
 #
-  seq <- seq[(frame + 1):length(seq)]
+  seq <- seq[(phase + 1):length(seq)]
   if (word == 1){
     counts <- table(factor(seq, levels = levels(as.factor(words(1, alphabet = alphabet)))))
   } else {
