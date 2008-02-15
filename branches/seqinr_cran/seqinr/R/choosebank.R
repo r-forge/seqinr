@@ -78,7 +78,7 @@ choosebank <- function(bank = NA,
   #
   # Send client ID to server:
   #
-  clientid(socket = socket)
+  clientid(socket = socket, verbose = verbose)
            
   ###############################################################################
   #
