@@ -14,6 +14,13 @@
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item Function \texttt{choosebank()} has gained four arguments
+  (\texttt{server}, \texttt{blocking}, \texttt{open}, \texttt{encoding})
+  that are passed to \texttt{socketConnection()}. The value of
+  the argument \texttt{verbose} is now passed to \texttt{clientid()}
+  which knows now how to handle it.
+
 \item As pointed by e-mail on 15 Jan 2008 by Stefanie Hartmann, the
   argument \texttt{frame} in function \texttt{count()} was misleading
   for someone with a molecular biology background. The argument has
