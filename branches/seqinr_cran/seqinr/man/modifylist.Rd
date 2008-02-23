@@ -6,7 +6,7 @@ This function modifies a previously existing ACNUC list by selecting sequences
 either by length, either by date, either for the presence of a given string in annotations. 
 }
 \usage{
-modifylist(listname, modlistname = listname, operation, type = c("length", "date", "scan"), socket = autosocket(), virtual = FALSE)
+modifylist(listname, modlistname = listname, operation, type = c("length", "date", "scan"), socket = autosocket(), virtual = FALSE, verbose = FALSE)
 }
 \arguments{
   \item{listname}{the name of the ACNUC list to modify}
@@ -18,6 +18,7 @@ modifylist(listname, modlistname = listname, operation, type = c("length", "date
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
                         database (default is a socket to the last opened database).}
   \item{virtual}{if TRUE, no attempt is made to retrieve the information about all the elements of the list. In this case, the \code{req} component of the list is set to NA.}
+  \item{verbose}{logical, if TRUE mode verbose is on}
 }
 
 \details{
