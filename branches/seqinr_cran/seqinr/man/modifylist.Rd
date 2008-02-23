@@ -53,7 +53,8 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
-\seealso{\code{\link{choosebank}}, \code{\link{query}} }
+\seealso{\code{\link{choosebank}}, \code{\link{query}} and
+  \code{\link{prepgetannots}} to select the annotation lines for scan.}
 \examples{
 \dontrun{ # Need internet connection
   choosebank("emblTP")
