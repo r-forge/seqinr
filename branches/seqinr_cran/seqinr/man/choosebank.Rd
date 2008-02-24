@@ -11,7 +11,7 @@
 }
 \usage{
 choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, server = FALSE,
-                    blocking = TRUE, open = "a+", encoding = "ASCII", verbose = FALSE,
+                    blocking = TRUE, open = "a+", encoding = "", verbose = FALSE,
                     timeout = 5, infobank = FALSE, tagbank = NA)
 }
 \arguments{
