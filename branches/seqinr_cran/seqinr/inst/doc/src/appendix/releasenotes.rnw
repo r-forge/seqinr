@@ -9,11 +9,24 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+The release notes are listed in reverse chronological order:
+most recent on top.
+
+
 \section*{1.1 series}
 
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge Clay
+  function \texttt{modifylist()} failed to scan in GenBank FEATURES
+  annotation lines. There is now a new function called
+  \texttt{prepgetannots()}, aliased to \texttt{pga()}, that allows
+  to set up the annotation lines to be scaned. Called with default
+  arguments, this function turns on all annotation lines for scan.
+  This function can also be used to set up the annotation lines to
+  be returned by \texttt{getAnnot()}.
 
 \item Function \texttt{choosebank()} has gained four arguments
   (\texttt{server}, \texttt{blocking}, \texttt{open}, \texttt{encoding})
@@ -59,7 +72,7 @@ Minor release to fix mainly problems in the documentation.
 
 \end{itemize}
 
-\subsection*{release 1.1-4}
+\subsection*{release 1.1-4 (10-Dec-2007)}
 
 Minor release to fix problems found by Kurt Hornik.
 

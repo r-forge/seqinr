@@ -4,7 +4,7 @@
 \title{Release notes}
 \author{Lobry, J.R. \and Nec\c{s}ulea, A. \and Palmeira, L. \and Penel, S.}
 
-\usepackage{/Library/Frameworks/R.framework/Versions/2.6/Resources/share/texmf/Sweave}
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -39,11 +39,24 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+The release notes are listed in reverse chronological order:
+most recent on top.
+
+
 \section*{1.1 series}
 
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge Clay
+  function \texttt{modifylist()} failed to scan in GenBank FEATURES
+  annotation lines. There is now a new function called
+  \texttt{prepgetannots()}, aliased to \texttt{pga()}, that allows
+  to set up the annotation lines to be scaned. Called with default
+  arguments, this function turns on all annotation lines for scan.
+  This function can also be used to set up the annotation lines to
+  be returned by \texttt{getAnnot()}.
 
 \item Function \texttt{choosebank()} has gained four arguments
   (\texttt{server}, \texttt{blocking}, \texttt{open}, \texttt{encoding})
@@ -89,7 +102,7 @@ Minor release to fix mainly problems in the documentation.
 
 \end{itemize}
 
-\subsection*{release 1.1-4}
+\subsection*{release 1.1-4 (10-Dec-2007)}
 
 Minor release to fix problems found by Kurt Hornik.
 
@@ -603,18 +616,19 @@ This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
   \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/fr_FR.UTF-8|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
   \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1,
     gee~4.13-13, lattice~0.17-4, nlme~3.1-86, seqinr~1.1-6,
     xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.6.2
+  \item Loaded via a namespace (and not attached): grid~2.6.2,
+    rcompgen~0.1-17
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Feb 16 13:52:45 2008
+  \item \Rlogo{} compilation time was: Sun Feb 24 07:28:08 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
