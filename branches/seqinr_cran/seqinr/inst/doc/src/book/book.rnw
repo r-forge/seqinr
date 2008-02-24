@@ -143,7 +143,7 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 <<mainmatter, echo=F,results=tex, fig = F>>=
 includepart("../mainmatter/introduction.tex") #  9.3
 includepart("../mainmatter/getseqflat.tex")   #  47.6
-includepart("../mainmatter/getseqacnuc.tex")  #  763.4 (less now) 546 (more less) 
+includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 includepart("../mainmatter/querylang.tex")    #  273
 includepart("../mainmatter/extractseqs.tex")  #  233
 includepart("../mainmatter/dealseq.tex")      #  1
