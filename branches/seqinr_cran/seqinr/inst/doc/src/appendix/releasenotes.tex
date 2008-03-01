@@ -39,15 +39,22 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section*{Introduction}
+
 The release notes are listed in reverse chronological order:
 most recent on top.
-
 
 \section*{1.1 series}
 
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item Function \texttt{reverse.align()} has gained two arguments
+  \texttt{forceDNAtolower = TRUE} and \texttt{forceAAtolower = FALSE} 
+  that are passed to the functions used to read the sequences.
+  There is now a new dataset \texttt{revaligntest} used to check
+  the result in the example section of \texttt{reverse.align()}.
 
 \item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge Clay
   function \texttt{modifylist()} failed to scan in GenBank FEATURES
@@ -628,16 +635,15 @@ This part was compiled under the following \Rlogo{}~environment:
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1,
-    gee~4.13-13, lattice~0.17-4, nlme~3.1-86, seqinr~1.1-6,
-    xtable~1.5-2
+  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
+    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
   \item Loaded via a namespace (and not attached): grid~2.6.2,
-    rcompgen~0.1-17
+    lattice~0.17-4, rcompgen~0.1-17
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Feb 24 09:34:37 2008
+  \item \Rlogo{} compilation time was: Sat Mar  1 11:30:39 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
