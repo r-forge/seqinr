@@ -49,7 +49,7 @@ An example of an ACNUC database is available on the PBIL ftp server  at this url
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
  
 You may install the database as it follows:
-Let ACNUC\_HOME be the base directory for ACNUC intallation.
+Let \texttt{ACNUC\_HOME} be the base directory for ACNUC installation.
 
 <<makeACNUCHOME,fig=F,eval=T>>=
 dir.create("./ACNUC_HOME", showWarning = FALSE)

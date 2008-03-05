@@ -79,7 +79,7 @@ An example of an ACNUC database is available on the PBIL ftp server  at this url
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
  
 You may install the database as it follows:
-Let ACNUC\_HOME be the base directory for ACNUC intallation.
+Let \texttt{ACNUC\_HOME} be the base directory for ACNUC installation.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -409,16 +409,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "14706  p1  S      0:00.01 ./racnucd racnucd.new"  
-[2] "17428  p1  S+     0:00.00 sh -c ps | grep racnucd"
-[3] "17430  p1  R+     0:00.00 grep racnucd"           
+[1] "14706  p1- S      0:00.01 ./racnucd racnucd.new"  
+[2] "16578  p4  S+     0:00.00 sh -c ps | grep racnucd"
+[3] "16581  p4  R+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Tue Mar  4 11:16:40 2008
+Start of remote acnuc server : Wed Mar  5 17:13:53 2008
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -678,15 +678,111 @@ You can copy this file in ACNUC\_HOME/ACNUC\_DB/mydb and execute it by typing::
  cat(readLines("build.log", 50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-ERROR
-directory /Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../ACNUC_SOFT is missing
+ Build a protein database in:
+ ============================
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ 
+ACNUC environment:
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ 
+ACNUC tools in:
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ 
+flat file: escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ 
+Begin to build index...
+Wed Mar  5 17:14:29 CET 2008
+=====================================
+Initialise
+Normal end.
+
+=====================================
+Generation des index
+Program started at Wed Mar  5 17:14:30 2008
+
+New division created: escherichia_uniprot
+Removing updated sequences
+0 modified sequences removed
+Loading acc nos started at Wed Mar  5 17:14:30 2008
+finished at Wed Mar  5 17:14:30 2008
+Start loading ncbi species taxonomy
+Warning: file $acnuctaxo/id.report not found
+Sequence loading started at Wed Mar  5 17:14:30 2008
+
+---->3MG1_ECOLI
+---->3MG2_ECOLI
+---->6PGD_ECOLI
+---->6PGL_ECOLI
+---->A4UR75_ECOLI
+---->A4UR76_ECOLI
+---->A4UR77_ECOLI
+---->A4UR78_ECOLI
+---->A4UR79_ECOLI
+---->A4UR80_ECOLI
+---->A4UR81_ECOLI
+---->A4UR83_ECOLI
+---->A4UR84_ECOLI
+---->A4UR86_ECOLI
+---->A5A605_ECOLI
+---->A5A607_ECOLI
+---->A5A609_ECOLI
 \end{Soutput}
 \begin{Sinput}
  cat(tail(readLines("build.log"), 50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-ERROR
-directory /Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../ACNUC_SOFT is missing
+Program finished at Wed Mar  5 17:14:33 2008
+
+write_quick_meres...done
+
+lues=4461  chargees=4461  difference=0
+seqs/second=1487.00
+
+=====================================
+run newordalphab
+
+Sorting file SUBSEQ.NEW
+Writing list of loci and unvalid seqs
+Sorting file SMJYT.NEW
+Computing sequence hashing
+Writing SPECIES.NEW
+Writing KEYWORDS.NEW
+Writing hashing data
+Short lists of keywords and info records
+Sorting file ACCESS.NEW
+Sorting file BIBLIO.NEW
+Writing LOCUS.NEW and lists of access#s and refers
+Sorting file AUTHOR.NEW
+Writing lists of seqs and authors for refers
+Writing lists of refers for authors
+Writing tree structure of keywords
+Writing tree structure of species
+Replacing old index files by new ones
+Normal end
+
+=====================================
+run updatehelp
+Wed Mar  5 17:14:35 CET 2008
+Index have been sucessfully build.
+=====================================
+ 
+Testing the index:
+==================
+Opening a flat database in 2 divisions
+Sorry, no help available for this command: CONT
+[27 free lists available]
+
+Command? (or H for help)
+Enter your selection criteria, or H(elp) (EX: sp=equus and k=globin@)
+List LIST1 contains 4461 sequences 
+
+Command? (or H for help)
+List name,  or H(elp) ?  [LIST1] Name of file to write list content? [default= list1.mne] 
+Command? (or H for help)
+End of ACNUC retrieval program
+    4461    4461   93681 test.mn
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -827,7 +923,7 @@ This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
   \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
   \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
@@ -838,7 +934,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Mar  4 11:17:19 2008
+  \item \Rlogo{} compilation time was: Wed Mar  5 17:14:35 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
