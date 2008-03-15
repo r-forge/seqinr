@@ -19,6 +19,8 @@ most recent on top.
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+\item A reference to \cite{GautierC1985} was missing in the documentation
+  of function \texttt{zscore()} for the codon model.
 
 \item As suggested by e-mail on 11 Mar 2008 by Christian Gautier,
   the function \texttt{count()}
