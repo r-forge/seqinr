@@ -1,5 +1,9 @@
 count <- function(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start){
 #
+# For backward compatibility:
+#
+  if(!missing(frame)) start = frame
+#
 # istarts contains the first position of oligomers in the sequence (starting at 1)
 #
   istarts <- seq(from = 1 + start, to = length(seq), by = by)
