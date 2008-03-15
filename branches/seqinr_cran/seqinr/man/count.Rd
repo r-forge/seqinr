@@ -2,34 +2,34 @@
 \alias{count}
 \title{Composition of dimer/trimer/etc oligomers}
 \description{
-  Counts the number of times dimer/trimer/etc oligomers occurs in a
-  sequence. Note that the oligomers are overlapping.
+  Counts the number of times dimer/trimer/etc oligomers occur in a
+  sequence. Note that the oligomers are overlapping by default.
 }
 \usage{
-count(seq, word, start = 0, freq = FALSE, alphabet = s2c("acgt"), frame = start)
+count(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start)
 }
 \arguments{
-  \item{seq}{ a vector of single chars }
-  \item{word}{ an integer giving the size of word (n-mer) to count }
-  \item{start}{ an integer (0, 1, 2,...) giving the starting
+  \item{seq}{a vector of single characters.}
+  \item{word}{an integer giving the size of word (n-mer) to count.}
+  \item{start}{an integer (0, 1, 2,...) giving the starting
     position to consider in the sequence. The default value 0 means that
     we start at the first nucleotide in the sequence.}
-  \item{freq}{ if TRUE, word relative frequencies (summing to 1) are returned instead of counts}
-  \item{alphabet}{a vector of single characters}
-  \item{frame}{synonymous for start, this argument is deprecated as from seqinR 1.1-6
-  and a warning is issued}
+  \item{by}{an integer defaulting to 1 for the window step.}
+  \item{freq}{if TRUE, word relative frequencies (summing to 1) are returned instead of counts}
+  \item{alphabet}{a vector of single characters used to build the oligomer set.}
+  \item{frame}{synonymous for start}
 }
 \details{
  \code{count} counts the occurence of all words by moving a window of
- length \code{word}. The window step is always an unit. \code{start}
- controls the starting position in the sequence for the count.
+ length \code{word}. The window step is controlled by the argument \code{by}. 
+\code{start} controls the starting position in the sequence for the count.
 }
 \value{
   This function returns a \code{\link{table}} whose \code{\link{dimnames}} are all the possible
   oligomers. All oligomers are returned, even if absent from
   the sequence.		
 }
-\author{ D. Charif, J.R. Lobry with suggestions from Gabriel Valiente and Stefanie Hartmann}
+\author{ D. Charif, J.R. Lobry with suggestions from Gabriel Valiente, Stefanie Hartmann and Christian Gautier}
 \references{
   \code{citation("seqinr")}
 }
@@ -40,15 +40,21 @@ a <- s2c("acgggtacggtcccatcgaa")
 ##
 ## To count dinucleotide occurrences in sequence a:
 ##
-count(a, 2)
+count(a, word = 2)
 ##
 ## To count trinucleotide occurrences in sequence a, with start = 2:
 ##
-count(a, 3, start = 2)
+count(a, word = 3, start = 2)
 ##
 ## To count dinucleotide relative frequencies in sequence a:
 ##
-count(a, 2, freq = TRUE)
+count(a, word = 2, freq = TRUE)
+##
+## To count dinucleotides in codon positions III-I in a coding sequence:
+##
+alldinuclIIIpI <- s2c("NNaaNatNttNtgNgtNtcNctNtaNagNggNgcNcgNgaNacNccNcaNN")
+resIIIpI <- count(alldinuclIIIpI, word = 2, start = 2, by = 3)
+stopifnot(all( resIIIpI == 1))
 ##
 ## Simple sanity check:
 ##

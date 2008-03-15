@@ -1,33 +1,34 @@
-count <- function(seq, word, start = 0, freq = FALSE, alphabet = s2c("acgt"), frame = start){
-  if(!missing(frame)) warning("argument frame is deprecated, use start instead")
+count <- function(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start){
 #
-# l is the number of elements in the sequence when starting at "start" position
-# and ending so that the last word is documented:
+# istarts contains the first position of oligomers in the sequence (starting at 1)
 #
-  l <- length(seq) - word - start + 1
+  istarts <- seq(from = 1 + start, to = length(seq), by = by)
 #
-# s contains all words starting characters:
+# oligos contains the first character of oligomers:
 #
-  s <- seq[(start + 1):(start + l)]
+  oligos <- seq[istarts]
 #
-# After this statment seq contains all characters useful to build words:
+# oligos.levels contains all possible oligomers for a given alphabet:
 #
-  seq <- seq[(start + 1):length(seq)]
-  if (word == 1){
-    counts <- table(factor(seq, levels = levels(as.factor(words(1, alphabet = alphabet)))))
-  } else {
+  oligos.levels <- levels(as.factor(words(word, alphabet = alphabet)))
+#
+# For n-mers with n >= 2 we paste the following characters in the
+# sequence to build the observed set of all oligomers. Some NA are
+# generated at the end of the sequence and discarded when counting
+# them.
+#
+  if (word >= 2){
     for(i in 2:word){
-      #
-      # Here we build all words by pasting the following characters:
-      #
-      s <- paste(s, seq[i:(i + l - 1)], sep = "")
+      oligos <- paste(oligos, seq[istarts + i - 1], sep = "")
     }
-    counts <- table(factor(s, levels = levels(as.factor(words(word, alphabet = alphabet)))))
   }
-  
-  if (freq == FALSE){
-    return(counts)
-  } else{
-    return(counts/sum(counts))
-  }
+#
+# We count all oligomers, even missing ones, and discard NA
+#
+  counts <- table(factor(oligos, levels = oligos.levels))
+#
+# Build result:
+#
+  if(freq == TRUE) counts <- counts/sum(counts)
+  return(counts)
 }
