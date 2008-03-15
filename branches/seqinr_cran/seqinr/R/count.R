@@ -27,8 +27,7 @@ count <- function(seq, word, start = 0, freq = FALSE, alphabet = s2c("acgt"), fr
   
   if (freq == FALSE){
     return(counts)
-  }
-  else{
-    return((counts/(length(seq) - word + 1)))
+  } else{
+    return(counts/sum(counts))
   }
 }
