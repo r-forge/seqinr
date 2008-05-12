@@ -23,7 +23,7 @@ oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
     this by something like \code{seq.fasta = "myseq.fasta"} to work
     with your own data if the file \code{myseq.fasta} is present in
     the current working directory (see \code{\link{getwd}}), or give
-    a full path access to the sequence file (see \code{\link{file.path}}).}
+    a full path access to the sequence file (see \code{\link{file.choose}}).}
   \item{g2.coord}{ the name of file which contains the output of
 glimmer program (*.predict in glimmer version 3)}
   \item{glimmer.version}{glimmer version used, could be 2 or 3}
