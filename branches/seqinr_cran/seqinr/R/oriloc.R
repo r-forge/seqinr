@@ -14,7 +14,8 @@ oriloc <- function(
   clean.tmp.files = TRUE,
   rot = 0)
 {
-  if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
+  aGBKfileWasGiven <- !missing(gbk) && !is.null(gbk)
+  if(aGBKfileWasGiven) # Work directly with genbank file
   {
     if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)=="file://"){
       tmpgbk <- tempfile(pattern = "oriloc_gbk")
@@ -221,7 +222,7 @@ oriloc <- function(
 #
 # Delete temporary files if requested:
 #
-  if( !missing(gbk) && clean.tmp.files)
+  if(aGBKfileWasGiven && clean.tmp.files)
   {
     file.remove(tmpgbk)
     file.remove(seq.fasta)
