@@ -56,8 +56,14 @@ most recent on top.
 
 \begin{itemize}
 
+\item The construct \texttt{get(getOption("device"))(width = 18, height = 11)}
+  that was used in the example section for \texttt{data(prochlo)} is no
+  more valid since \Rlogo{}~2.8.0 (fall 2008). The example has been
+  restricted to work only with \texttt{X11}, \texttt{windows} and
+  \texttt{quartz} devices.
+
 \item As pointed by e-mail on 12 May 2008 by Indranuj Mukherjee there
-  was a bug in the function \texttt{oriloc()}: when call with a
+  was a bug in the function \texttt{oriloc()}: when called with a
   \texttt{gbk = NULL} argument the function was trying to remove
   non-existent files, yielding an error. The bug has been fixed and
   the documentation of the function \texttt{oriloc()} has been
@@ -671,19 +677,19 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.7.0 (2008-04-22), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-41, ade4~1.4-7, ape~2.2,
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
     nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.7.0,
-    lattice~0.17-6, tools~2.7.0
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon May 12 12:58:01 2008
+  \item \Rlogo{} compilation time was: Mon May 12 15:26:09 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
