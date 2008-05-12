@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -226,7 +232,7 @@ is as follows:
 \centering
 \includegraphics[width=\textwidth]{../figs/FAQ-demolowess}
 \caption{Playing with the smoothing parameter \texttt{f} of
-  the \texttt{lowes()} function.}
+  the \texttt{lowess()} function.}
 \label{demolowess}
 \end{minipage}
 }
@@ -298,9 +304,9 @@ the proteins this way:
 [15]  9.435422  4.310747  6.145496  4.876054 11.006430 10.876036  6.624309
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
-[36] 11.182499  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
-[43]  5.858421 11.777516 11.777511 10.619175 11.365744  9.460987 10.864793
-[50] 13.002373  9.845859 10.584868 11.421252 10.248320 11.031938 10.402075
+[36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031943  5.858421
+[43]  5.858421 11.777511 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421252 10.248320 11.031938 10.402075
 [57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043602  6.624309
 [64]  6.612505  6.624309  4.310745
 \end{Soutput}
@@ -630,19 +636,19 @@ it's always better to use the accession numbers.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
-    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.6.2,
-    lattice~0.17-4, rcompgen~0.1-17
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Mar  2 12:49:41 2008
+  \item \Rlogo{} compilation time was: Mon May 12 15:32:35 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
