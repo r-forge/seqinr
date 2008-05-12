@@ -17,6 +17,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -528,10 +534,10 @@ this way:
 \end{Sinput}
 \begin{Soutput}
              sname                    libel
-3723   CHLOROPLAST       Chloroplast genome
-3724 MITOCHONDRION     Mitochondrial genome
-3725   NUCLEOMORPH       Nucleomorph genome
-3726       PLASTID non-green plastid genome
+3756   CHLOROPLAST       Chloroplast genome
+3757 MITOCHONDRION     Mitochondrial genome
+3758   NUCLEOMORPH       Nucleomorph genome
+3759       PLASTID non-green plastid genome
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -655,7 +661,7 @@ To select for instance all fully annotated sequences from Uniprot we can use:
  STexample$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 349480
+[1] 362782
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -1177,19 +1183,19 @@ keywords list operand.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
-    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.6.2,
-    lattice~0.17-4, rcompgen~0.1-17
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Feb 24 16:58:54 2008
+  \item \Rlogo{} compilation time was: Mon May 12 18:14:12 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
