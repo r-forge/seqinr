@@ -41,6 +41,7 @@ library(xtable)
 library(ade4)
 library(ape)
 library(MASS)
+library(tseries)
 @
 %
 %  Sweave Options
