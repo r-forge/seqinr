@@ -31,12 +31,20 @@ dir()
 This is the list of function that don't run for now and need to be fixed.
 
 <<stoplist,fig=F>>=
-stoplist <- c("reverse.align", "extractseqs")
+stoplist <- c("reverse.align", "extractseqs", "acnucopen", "modifylist", "plot.SeqAcnucWeb")
 @ 
 
-% GetFromSequence: see later
 % reverse.align: need clustalw on line, see later
+%
 % extractseqs: strange behaviour when in Sweave document???
+%
+% acnucopen :
+%   SUBINLNG 60 -> 504
+%
+% modifylist : Error : mylist$nelem == 33 is not TRUE
+%
+% plot.SeqAcnucWeb : Database with name -->hovernucl<-- is not known by server
+%
 
 \section{Don't run generator}
 
@@ -46,7 +54,7 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
 <<withdontrun,fig=F>>=
 outfile <- file(paste(pwd,"dontrun.rnw", sep = "/"), open = "w")
 fex <- dir()
-for(f in fex){
+for(f in rev(fex)){
   fctname <- substr(x = f, start = 1, stop = nchar(f) - 2)
   if(fctname %in% stoplist) next
   lines <- readLines(f)
