@@ -19,6 +19,15 @@ most recent on top.
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item As pointed by e-mail on 12 May 2008 by Indranuj Mukherjee there
+  was a bug in the function \texttt{oriloc()}: when call with a
+  \texttt{gbk = NULL} argument the function was trying to remove
+  non-existent files, yielding an error. The bug has been fixed and
+  the documentation of the function \texttt{oriloc()} has been
+  extended to better explain how to use the arguments \texttt{seq.fasta}
+  and \texttt{gbk}.
+
 \item A reference to \cite{GautierC1985} was missing in the documentation
   of function \texttt{zscore()} for the codon model.
 

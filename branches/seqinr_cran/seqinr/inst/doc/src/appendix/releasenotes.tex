@@ -55,6 +55,15 @@ most recent on top.
 \subsection*{release 1.1-6}
 
 \begin{itemize}
+
+\item As pointed by e-mail on 12 May 2008 by Indranuj Mukherjee there
+  was a bug in the function \texttt{oriloc()}: when call with a
+  \texttt{gbk = NULL} argument the function was trying to remove
+  non-existent files, yielding an error. The bug has been fixed and
+  the documentation of the function \texttt{oriloc()} has been
+  extended to better explain how to use the arguments \texttt{seq.fasta}
+  and \texttt{gbk}.
+
 \item A reference to \cite{GautierC1985} was missing in the documentation
   of function \texttt{zscore()} for the codon model.
 
@@ -662,19 +671,19 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|C|
+  \item R version 2.7.0 (2008-04-22), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
-    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.6.2,
-    lattice~0.17-4, rcompgen~0.1-17
+  \item Other packages: MASS~7.2-41, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.7.0,
+    lattice~0.17-6, tools~2.7.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Mar 15 11:40:48 2008
+  \item \Rlogo{} compilation time was: Mon May 12 12:58:01 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
