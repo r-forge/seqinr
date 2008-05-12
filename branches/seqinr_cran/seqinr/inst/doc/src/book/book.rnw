@@ -148,7 +148,7 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 %
 <<mainmatter, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/introduction.tex") #  9.3
-includepart("../mainmatter/getseqflat.tex")   #  47.6
+includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 includepart("../mainmatter/querylang.tex")    #  273
 includepart("../mainmatter/extractseqs.tex")  #  233
@@ -163,13 +163,13 @@ includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
 %\appendix
 
 %
-% FAQ.rnw  # 72
-% fdl.rnw  # 0.1   
+% FAQ.rnw  # 72 .. 60
+% fdl.rnw  # 0.1 .. 0.7
 % releasenotes.rnw # 0.24
-% subsequences.rnw # 375
+% subsequences.rnw # 375 .. 367
 % dontrun.rnw (not be sweaved, delete and touch) 
-% gencodes.rnw # 0.9
-% rundontrun.rnw # 259.5 (need two sweave passes)
+% gencodes.rnw # 0.9 .. 0.97
+% rundontrun.rnw # 259.5 .. 280 (need two sweave passes)
 %
 
 <<appendix, echo=F,results=tex, fig = F,eval=T>>=

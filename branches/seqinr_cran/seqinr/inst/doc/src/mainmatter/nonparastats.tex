@@ -4,7 +4,7 @@
 \title{Nonparametric statistics}
 \author{Palmeira, L. \and Lobry, J.R.}
 
-\usepackage{/Library/Frameworks/R.framework/Versions/2.6/Resources/share/texmf/Sweave}
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -15,6 +15,12 @@
 {formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
 %
 % Rlogo
 %
@@ -743,12 +749,12 @@ can be established, we can use the \texttt{base} model.
 Let's have a look at what these different statistics can show. First,
 we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. Let's use, for instance, 
-the CDS with accession number \texttt{U00096.PE448}:
+the following CDS:
 
 \begin{Schunk}
 \begin{Sinput}
  choosebank("greview")
- query("coli", "N=U00096.PE448")
+ query("coli", "N=U00096 ET T=CDS ET K=2.3.1.79@")
  sequence <- getSequence(coli$req[[1]])
  annot <- getAnnot(coli$req[[1]])
  closebank()
@@ -757,26 +763,30 @@ the CDS with accession number \texttt{U00096.PE448}:
 \begin{Soutput}
 FT   CDS             complement(478591..479142)
 FT                   /codon_start=1
-FT                   /gene="maa"
-FT                   /locus_tag="b0459"
-FT                   /product="Maltose O-acetyltransferase "
-FT                   /EC_number="2.3.1.79"
-FT                   /function="maltose O-acetyltransferase activity "
-FT                   /protein_id="AAC73561.1"
-FT                   /db_xref="EMBL:AAB40214.1"
-FT                   /db_xref="EMBL:CAA11147.1"
-FT                   /db_xref="EcoGene:EG14239"
-FT                   /db_xref="GO:0008925"
-FT                   /db_xref="InterPro:IPR001451"
-FT                   /db_xref="InterPro:IPR011004"
-FT                   /db_xref="PDB:1OCX"
-FT                   /db_xref="UniParc:UPI000002EA96"
-FT                   /db_xref="UniProtKB/Swiss-Prot:P77791"
+FT                   /gene="maa {UniProt/Swiss-Prot:P77791}"
+FT                   /locus_tag="b0459 {UniProt/Swiss-Prot:P77791}"
+FT                   /product="Maltose O-acetyltransferase
+FT                   {UniProt/Swiss-Prot:P77791}"
+FT                   /EC_number="2.3.1.79 {UniProt/Swiss-Prot:P77791}"
+FT                   /function="maltose O-acetyltransferase activity
+FT                   {GO:0008925}"
+FT                   /protein_id="AAC73561.1 {EMBL:U00096}"
+FT                   /db_xref="EMBL:AAB40214.1 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="EMBL:CAA11147.1 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="EcoGene:EG14239 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="GO:0008925 {GOA:P77791}"
+FT                   /db_xref="HOGENOM:HBG023156 {HogenProt:P77791}"
+FT                   /db_xref="InterPro:IPR001451 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="InterPro:IPR011004 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="UniParc:UPI000002EA96 {EMBL:AAC73561}"
+FT                   /db_xref="UniProt/Swiss-Prot:P77791 {EMBL:U00096}"
 FT                   /transl_table=11
 FT                   /translation="MSTEKEKMIAGELYRSADETLSRDRLRARQLIHRYNHSLAEEHTL
 FT                   RQQILADLFGQVTEAYIEPTFRCDYGYNIFLGNNFFANFDCVMLDVCPIRIGDNCMLAP
 FT                   GVHIYTATHPIDPVARNSGAELGKPVTIGNNVWIGGRAVINPGVTIGDNVVVASGAVVT
 FT                   KDVPDNVVVGGNPARIIKKL"
+FT                   /%(C+G)="CG<50%"
+FT                   /note="C+G content in third codon positions = 47.8 % "
 \end{Soutput}
 \end{Schunk}
 
@@ -1214,20 +1224,20 @@ that the hypothesis by Singer and Ames \cite{Singer} no longer stands
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, quadprog~1.4-11,
-    seqinr~1.1-3, tseries~0.10-11, xtable~1.5-1, zoo~1.4-0
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    tools~2.6.0
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, quadprog~1.4-11, seqinr~1.1-6, tseries~0.10-15,
+    xtable~1.5-2, zoo~1.5-3
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Nov 24 19:01:55 2007
+  \item \Rlogo{} compilation time was: Mon May 12 19:01:03 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
