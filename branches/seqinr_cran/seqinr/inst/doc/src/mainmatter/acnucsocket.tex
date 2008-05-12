@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -409,16 +415,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "14706  p1- S      0:00.01 ./racnucd racnucd.new"  
-[2] "16578  p4  S+     0:00.00 sh -c ps | grep racnucd"
-[3] "16581  p4  R+     0:00.00 grep racnucd"           
+[1] " 9415  p2  S+     0:00.01 ./racnucd racnucd.new"  
+[2] " 9416  p2  S+     0:00.01 sh -c ps | grep racnucd"
+[3] " 9418  p2  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Wed Mar  5 17:13:53 2008
+Start of remote acnuc server : Mon May 12 18:24:47 2008
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -693,23 +699,23 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Wed Mar  5 17:14:29 CET 2008
+Mon May 12 18:25:29 CEST 2008
 =====================================
 Initialise
 Normal end.
 
 =====================================
 Generation des index
-Program started at Wed Mar  5 17:14:30 2008
+Program started at Mon May 12 18:25:31 2008
 
 New division created: escherichia_uniprot
 Removing updated sequences
 0 modified sequences removed
-Loading acc nos started at Wed Mar  5 17:14:30 2008
-finished at Wed Mar  5 17:14:30 2008
+Loading acc nos started at Mon May 12 18:25:31 2008
+finished at Mon May 12 18:25:31 2008
 Start loading ncbi species taxonomy
 Warning: file $acnuctaxo/id.report not found
-Sequence loading started at Wed Mar  5 17:14:30 2008
+Sequence loading started at Mon May 12 18:25:31 2008
 
 ---->3MG1_ECOLI
 ---->3MG2_ECOLI
@@ -733,12 +739,12 @@ Sequence loading started at Wed Mar  5 17:14:30 2008
  cat(tail(readLines("build.log"), 50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-Program finished at Wed Mar  5 17:14:33 2008
+Program finished at Mon May 12 18:25:35 2008
 
 write_quick_meres...done
 
 lues=4461  chargees=4461  difference=0
-seqs/second=1487.00
+seqs/second=1115.25
 
 =====================================
 run newordalphab
@@ -764,7 +770,7 @@ Normal end
 
 =====================================
 run updatehelp
-Wed Mar  5 17:14:35 CET 2008
+Mon May 12 18:25:39 CEST 2008
 Index have been sucessfully build.
 =====================================
  
@@ -895,8 +901,8 @@ computer try:
 \end{Sinput}
 \begin{Soutput}
 [1] "atxy.sty"                   "authors.tex"               
-[3] "book.bib"                   "book.bib.~1.1.2.29.~"      
-[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.1.~"  
+[3] "book.bib"                   "book.bib.~1.1.2.31.~"      
+[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.2.~"  
 [7] "commontex.tex"              "sessionInfo.rnw"           
 [9] "sessionInfo.rnw.~1.1.2.2.~"
 \end{Soutput}
@@ -922,19 +928,19 @@ computer try:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-40, ade4~1.4-5, ape~2.1-1,
-    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.6.2,
-    lattice~0.17-4, rcompgen~0.1-17
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Mar  5 17:14:35 2008
+  \item \Rlogo{} compilation time was: Mon May 12 18:25:39 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
