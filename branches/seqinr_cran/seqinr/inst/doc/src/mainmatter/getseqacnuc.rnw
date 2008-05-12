@@ -478,8 +478,8 @@ and genetic code for your coding sequence.
 Consider the following CDS from \texttt{M19233}:
 
 <<multi,fig=F>>=
-cat(getAnnot(multi$req[[1]]), sep = "\n")
 query("multi", "AC=M19233 AND T=CDS")
+cat(getAnnot(multi$req[[1]]), sep = "\n")
 @ 
 
 The CDS here is obtained by joining pieces from different entries,
