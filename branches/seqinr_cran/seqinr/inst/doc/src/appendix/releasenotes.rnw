@@ -16,6 +16,34 @@ most recent on top.
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-7}
+
+\begin{itemize}
+
+\item As pointed by e-mail on 31 May 2008 by Marie S{\'e}mon there was
+  no convenient function to compute the Codon Adaptation Index \cite{CAI}.
+  A new function \texttt{cai()} was introduced with the aim of reproducing
+  exactly the results from the program \texttt{codonW} that was written
+  by John Peden during his PhD thesis \cite{codonW} under the supervision 
+  of P.M. Sharp (the most authorative source for CAI computation). A new 
+  dataset \texttt{caitab} that was hard-encoded in \texttt{codonW} for
+  the \texttt{w} values for some species (\textit{viz}
+  \textit{Escherichia coli}, \textit{Bacillus subtilis},
+  \textit{Saccharomyces cerevisiae}) was added. Care was taken to credit
+  original sources. The \textit{E. coli} data that was uncredited is
+  from \cite{CAI}. The \textit{B. subtilis} data that was uncredited
+  is from \cite{ShieldsDC1987} (see the note of caution in \texttt{?caitab}
+  before using this one directly to compute CAI in \textit{B. subtilis}). 
+  The \textit{S. cerevisiae} data that was
+  credited to \cite{SharpPM1991} dates back from \cite{CAI}. A new
+  text file \texttt{scuco.txt} produced by \texttt{codonW} was added
+  in the \texttt{sequences} folder to check that the CAI results from
+  \texttt{cai()} are consistents with thoses from \texttt{codonW} version
+  1.4.4 (03-MAR-2005). This legacy file is used in the example section of
+  the \texttt{cai()} function.
+
+\end{itemize}
+
 \subsection*{release 1.1-6}
 
 \begin{itemize}
