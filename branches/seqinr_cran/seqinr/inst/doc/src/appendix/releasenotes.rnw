@@ -20,6 +20,15 @@ most recent on top.
 
 \begin{itemize}
 
+\item New function \texttt{bma()} to find the IUPAC symbol corresponding
+  to a nucleic sequence.
+
+\item New function \texttt{as.matrix.alignment()} to convert an
+  alignment into a object of class \texttt{matrix}.
+
+\item The encoding of line ends in the example file \texttt{test.mase}
+  is now an unix-like one.
+
 \item As pointed by e-mail on 31 May 2008 by Marie S{\'e}mon there was
   no convenient function to compute the Codon Adaptation Index \cite{CAI}.
   A new function \texttt{cai()} was introduced with the aim of reproducing

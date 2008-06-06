@@ -5,7 +5,7 @@
   The Codon Adaptation Index (Sharp and Li 1987) is the most popular
   index of gene expressivity with about 1000 citations 20 years after its
   publication. Its values range from 0 (low) to 1 (high). The implementation
-  here is intended to work exactly as in the program \code{codonW} writen by
+  here is intended to work exactly as in the program \code{codonW} written by
   by John Peden during his PhD thesis under the supervision of P.M. Sharp.
 }
 \usage{
