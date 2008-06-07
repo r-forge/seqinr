@@ -20,6 +20,16 @@ most recent on top.
 
 \begin{itemize}
 
+\item As pointed by e-mail on 28 May 2008 by Kim Milferstedt a
+  function to compute the consensus for a set of aligned sequences
+  would be helpful. There is now a function \texttt{consensus()}
+  aliased to \texttt{con()} for this. The input is either an object
+  from class \texttt{alignment} or a matrix of characters. The
+  output is either a consensus sequence (using the majority rule,
+  the majority rule with a threshold, or IUPAC symbols for RNA
+  and DNA sequences) or a profile, that is a matrix with the count 
+  of each possible character at each position in the alignment.
+
 \item In the documentation of the \texttt{read.alignment()} function
   a link was added to the \texttt{read.nexus()} function from the
   \texttt{ComPairWise} package \cite{ComPairWise}.
