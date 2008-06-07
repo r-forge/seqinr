@@ -20,6 +20,10 @@ most recent on top.
 
 \begin{itemize}
 
+\item In the documentation of the \texttt{read.alignment()} function
+  a link was added to the \texttt{read.nexus()} function from the
+  \texttt{ComPairWise} package \cite{ComPairWise}.
+
 \item New function \texttt{bma()} to find the IUPAC symbol corresponding
   to a nucleic sequence.
 
