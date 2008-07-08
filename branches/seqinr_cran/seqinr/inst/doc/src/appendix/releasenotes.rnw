@@ -20,6 +20,11 @@ most recent on top.
 
 \begin{itemize}
 
+\item Function \texttt{read.fasta()} has gained new arguments
+  (\textit{viz.} \texttt{bfa}, \texttt{sizeof.longlong},
+  \texttt{endian}, \texttt{apply.mask}) to read DNA binary fasta
+  files in MAQ format.
+
 \item New dataset \texttt{pK} for the values for the side chain of 
   charged amino acids from various sources compiled by Joanna Kiraga
   \cite{KiragaJ2008}.
