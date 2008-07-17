@@ -25,7 +25,8 @@ number \ref{dinu}).
 \subsection{Introduction}
 
 Those rank statistics are those that were available under the ANALSEQ
-software \cite{analseq, acnuc1984}. We consider here a sequence
+software \cite{analseq, acnuc1984}. Formulae were taken from \cite{ChasseJL1988}.
+We consider here a sequence
 of booleans, for instance:
 
 <<x,fig=F>>=
