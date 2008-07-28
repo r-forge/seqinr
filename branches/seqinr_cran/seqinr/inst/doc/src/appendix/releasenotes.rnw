@@ -20,6 +20,9 @@ most recent on top.
 
 \begin{itemize}
 
+\item As suggested by Kurt Hornik two extra \texttt{cr} in the
+  documentation file for \texttt{ec999} were deleted.
+
 \item Function \texttt{read.fasta()} has gained four new arguments
   (\textit{viz.} \texttt{bfa}, \texttt{sizeof.longlong},
   \texttt{endian}, \texttt{apply.mask}) to read DNA binary fasta

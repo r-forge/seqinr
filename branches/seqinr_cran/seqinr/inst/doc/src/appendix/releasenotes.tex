@@ -56,10 +56,15 @@ most recent on top.
 
 \begin{itemize}
 
-\item Function \texttt{read.fasta()} has gained new arguments
+\item As suggested by Kurt Hornik two extra \texttt{cr} in the
+  documentation file for \texttt{ec999} were deleted.
+
+\item Function \texttt{read.fasta()} has gained four new arguments
   (\textit{viz.} \texttt{bfa}, \texttt{sizeof.longlong},
   \texttt{endian}, \texttt{apply.mask}) to read DNA binary fasta
-  files in MAQ format.
+  files in MAQ format. There is a new \texttt{ct.bfa} file
+  in the \texttt{sequences} folder to check for the MAQ format
+  reading.
 
 \item New dataset \texttt{pK} for the values for the side chain of 
   charged amino acids from various sources compiled by Joanna Kiraga
@@ -743,20 +748,20 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.7.0 (2008-04-22), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.7.1 (2008-06-23), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-41, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, quadprog~1.4-11, seqinr~1.1-7, tseries~0.10-15,
-    xtable~1.5-2, zoo~1.5-3
-  \item Loaded via a namespace (and not attached): grid~2.7.0,
-    lattice~0.17-6
+  \item Other packages: MASS~7.2-42, ade4~1.4-9, ape~2.2-1,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~1.1-7, tseries~0.10-15,
+    xtable~1.5-2, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): grid~2.7.1,
+    lattice~0.17-8
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Jul  8 15:31:49 2008
+  \item \Rlogo{} compilation time was: Mon Jul 28 11:13:26 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
