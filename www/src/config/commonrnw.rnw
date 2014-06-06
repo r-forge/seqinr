@@ -29,13 +29,25 @@
 <<options, echo=FALSE, fig=FALSE, results=hide, eval=TRUE>>=
 options(prompt=" ", continue=" ", width = 77)
 .RversionName <-strsplit(R.version.string, ",")[[1]]
-if (as.numeric(R.version[["major"]])+as.numeric(R.version[["minor"]])/100 >=2.09 ) {
-    framenumber<-4
+.CurFileName <- NULL
+.PrefixName <- NULL
+.GetFileName <- function() {
+  syscalls <- as.character(sys.calls())
+  .FrameNumber <- sort(c( grep("Sweave\\(", syscalls),
+                     grep("function \\(file, driver = RweaveLatex\\(", syscalls)
+                   ))[1]
+  if (!is.na(.FrameNumber)) {
+    .CurFileName <- get("srcFilenames", env = sys.frame(.FrameNumber))
+    .PrefixName <-strsplit(.CurFileName, "\\.")[[1]][1]
   } else {
-    framenumber<-3
+    .CurFileName <- "unknownfile"
+    .PrefixName <- "unknownfile"
+  }
+  assign(".CurFileName", .CurFileName, envir=parent.env(environment()))
+  assign(".PrefixName", .PrefixName, envir=parent.env(environment()))
 }
-.CurFileName <- get("file", env = parent.frame(framenumber))
-.PrefixName <-strsplit(.CurFileName, "\\.")[[1]][1]
+.GetFileName()
+rm(".GetFileName")
 r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
