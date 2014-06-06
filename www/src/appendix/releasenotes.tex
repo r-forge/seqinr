@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{releasenotes-concordance}
 %
 % To change the R input/output style:
 %
@@ -50,7 +51,86 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{3.0 series}
+
+\subsection*{release 3.0-11}
+
+\begin{itemize}
+
+\item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument
+so that it can handle sequences provided as strings instead of vectors of single
+character.
+
+\end{itemize}
+
+\subsection*{release 3.0-10}
+
+
+\subsection*{release 3.0-0}
+
+\begin{itemize}
+
+\item As pointed out by Leonor Palmeira on the \texttt{rpourlesnuls}
+diffusion list on 20-MAY-2010 there was no constructor for objects
+of class alignment. There is now a \texttt{as.alignment()} function.
+\end{itemize}
+
+
 \section*{2.0 series}
+
+\subsection*{release 2.0-9}
+
+\begin{itemize}
+
+\item As pointed out by Avril Coghlan on the seqinR diffusion list on
+17-MAR-2010 there was a bug in the \texttt{getAnnot()} function.
+This is now fixed.
+
+\item As suggested by Avril Coghlan on the seqinR diffusion list on
+02-MAR-2010 the function \texttt{rho()} has gained a \texttt{wordsize}
+argument.
+
+\item The argument \texttt{word} in function \texttt{count()} is
+now more explicitely called \texttt{wordsize}.
+
+\item The example section in file \texttt{read.alignment.Rd} has gained
+a new quality control sanity check.
+
+\item The \texttt{File} argument that was deprecated since seqinR
+release 1.1-3 in function \texttt{read.alignment()} is no more valid.
+Just use \texttt{file} instead.
+
+\item As pointed by Darren Obbard on the seqinr diffusion list on
+05-MAR-2010 there was a memory leak problem when calling the
+\texttt{read.alignment()} function with the fasta format. This
+is now fixed for the fasta format, but the remaining formats have
+not been checked for this problem.
+
+\end{itemize}
+
+\subsection*{release 2.0-8}
+
+\begin{itemize}
+
+\item As pointed by Oliver Clay and Lionel Guy on the seqinr diffusion
+list on 19-FEB-2010 there was a bug in \texttt{getSequence.list()}
+function that confused \texttt{write.fasta()} when all sequences were
+of the same length (a similar bug was reported by Yann Lesecque
+on 30-MAR-2009 for the \texttt{getTrans()} function). This is now
+fixed.
+
+\item The message printed when function \texttt{where.is.this.acc()} fails
+to find a database with a given accession number for a sequence is now
+completed to warn the user that (s)he may have supplied a sequence name
+instead of a genuine accession number.
+
+\item The title in the documentation for the function \texttt{write.fasta()}
+was changed to make clear that more than one sequence can be written at once.
+The function now does not return anything instead of \texttt{NULL} previously.
+The argument \texttt{file.out} was moved to the left so that it is easier now 
+to use it by position during function call.
+
+\end{itemize}
 
 \subsection*{release 2.0-7}
 
@@ -390,7 +470,7 @@ aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
 \end{Soutput}
 \begin{Sinput}
- stopifnot(all(resIIIpI == 1))
+ stopifnot(all( resIIIpI == 1))
 \end{Sinput}
 \end{Schunk}
 
@@ -647,8 +727,8 @@ Minor release to fix problems found by Kurt Hornik.
 letters, some sequences were modified. This should no more be the case:
 \begin{Schunk}
 \begin{Sinput}
- ali <- list(nb = 4, nam = c("speciesA", "speciesB", "speciesC", 
-     "speciesD"), seq = c("ACGT", "acgt", "ACGT", "ACGT"))
+ ali <- list(nb=4, nam=c("speciesA", "speciesB", "speciesC", "speciesD"),
+ seq=c("ACGT","acgt","ACGT","ACGT"))
  class(ali) <- "alignment"
  print(ali$seq)
 \end{Sinput}
@@ -925,14 +1005,14 @@ To cite seqinR in publications use:
 
   Charif, D. and Lobry, J.R. (2007)
 
-A BibTeX entry for LaTeX users is
+Une entrée BibTeX pour les utilisateurs LaTeX est
 
-  @incollection{,
+  @InCollection{,
     author = {D. Charif and J.R. Lobry},
     title = {Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.},
     booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
     year = {2007},
-    editor = {U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo},
+    editor = {U. Bastolla and M. Porto and H.E. Roman and M. Vendruscolo},
     series = {Biological and Medical Physics, Biomedical Engineering},
     pages = {207-232},
     address = {New York},
@@ -978,20 +1058,20 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-10, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Nov 15 11:55:18 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 12:53:58 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
