@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{dealseq-concordance}
 %
 % To change the R input/output style:
 %
@@ -308,7 +309,7 @@ The result should be the same as previously:
 
 \begin{Schunk}
 \begin{Sinput}
- identical(myseqtcp, myseqtcp2)
+  identical(myseqtcp, myseqtcp2)
 \end{Sinput}
 \begin{Soutput}
 [1] TRUE
@@ -353,8 +354,8 @@ produce figure \ref{vecto2}:
 \begin{Sinput}
  basecount <- table(myseq)
  myseqname <- getName(myseq)
- dotchart(basecount, xlim = c(0, max(basecount)), pch = 19, 
-     main = paste("Base count in", myseqname))
+ dotchart(basecount, xlim = c(0, max(basecount)), pch = 19,
+   main = paste("Base count in",  myseqname))
 \end{Sinput}
 \end{Schunk}
 
@@ -375,8 +376,8 @@ the dinucleotide counts in the sequence:
 \begin{Schunk}
 \begin{Sinput}
  dinuclcount <- count(myseq, 2)
- dotchart(dinuclcount[order(dinuclcount)], xlim = c(0, max(dinuclcount)), 
-     pch = 19, main = paste("Dinucleotide count in", myseqname))
+ dotchart(dinuclcount[order(dinuclcount)], xlim = c(0, max(dinuclcount)), pch = 19,
+   main = paste("Dinucleotide count in",  myseqname))
 \end{Sinput}
 \end{Schunk}
 
@@ -400,7 +401,7 @@ the codon usage in the sequence:
 \begin{Schunk}
 \begin{Sinput}
  codonusage <- uco(myseq)
- dotchart.uco(codonusage, main = paste("Codon usage in", myseqname))
+ dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 \end{Sinput}
 \end{Schunk}
 
@@ -449,20 +450,20 @@ the codon usage in the sequence:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 14:18:57 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 13:47:50 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

@@ -5,6 +5,7 @@
 \author{Charif, D. \and Lobry, J.R.}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
