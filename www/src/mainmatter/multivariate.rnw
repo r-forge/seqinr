@@ -5,6 +5,7 @@
 \author{Lobry, J.R.}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
@@ -439,7 +440,7 @@ facaa
 The non synonymous codon usage analysis is the between amino-acid analysis:
 
 <<toy6, fig=T,eval=T>>=
-nonsynonymous <- t(between(dudi = t(global), fac = facaa, scann = FALSE, nf = 2))
+nonsynonymous <- t(bca(x = t(global), fac = facaa, scann = FALSE, nf = 2))
 myplot(nonsynonymous, asp = 1, pch = 19, xlab = "", ylab = "", main = "Non synonymous codon usage")
 @
 
@@ -457,7 +458,7 @@ amino-acid effect, we use the synonymous codon usage analysis, that is the withi
 analysis:
 
 <<toy8, fig=T,eval=T>>=
-synonymous <- t(within(dudi = t(global), fac = facaa, scann = FALSE, nf = 2))
+synonymous <- t(wca(x = t(global), fac = facaa, scann = FALSE, nf = 2))
 myplot(synonymous, asp = 1, pch = 19, xlab = "", ylab = "", main = "Synonymous codon usage")
 @
 
@@ -600,7 +601,7 @@ This is to define a factor for amino-acids. The function \texttt{translate()} us
 default the standard genetic code and this is OK for \textit{E. coli}.
 
 <<vlg7, fig = F, eval=T>>=
-ec999.syn <- within(dudi = ec999.coa, fac = facaa, scannf = FALSE) # run synonymous codon usage analysis
+ec999.syn <- wca(x = ec999.coa, fac = facaa, scannf = FALSE) # run synonymous codon usage analysis
 ec999.syn
 @
 
@@ -609,7 +610,7 @@ the object \texttt{ec999.syn} shows that most of the variability is at the synon
 level, a common situation in codon usage studies.
 
 <<vlg8, fig = F, eval=T>>=
-ec999.btw <- between(dudi = ec999.coa, fac  = facaa, scannf = FALSE) # run non-sysnonymous codon usage analysis <=> amino-acid usage
+ec999.btw <- bca(x = ec999.coa, fac  = facaa, scannf = FALSE) # run non-sysnonymous codon usage analysis <=> amino-acid usage
 ec999.btw
 @
 
@@ -643,9 +644,9 @@ use the two-dimensional kernel density estimation provided by the function
 
 %
 % Akashi Gojobori
-%
+% \textit{To be completed}
 
-\textit{To be completed}
+
 
 <<xaacost, fig = FALSE, echo = FALSE,eval=T>>=
 data(aacost)

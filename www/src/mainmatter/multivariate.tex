@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{multivariate-concordance}
 %
 % To change the R input/output style:
 %
@@ -84,16 +85,14 @@ to visualize this small data set:
 \begin{Sinput}
  library(ade4)
  pco <- dudi.pco(dist(toyaa), scann = F, nf = 2)
- myplot <- function(res, ...) {
-     plot(res$li[, 1], res$li[, 2], ...)
-     text(x = res$li[, 1], y = res$li[, 2], labels = 1:3, pos = ifelse(res$li[, 
-         2] < 0, 1, 3))
-     perm <- c(3, 1, 2)
-     lines(c(res$li[, 1], res$li[perm, 1]), c(res$li[, 2], 
-         res$li[perm, 2]))
+ myplot <- function( res, ... )
+ {
+   plot(res$li[ , 1], res$li[ , 2], ...)
+   text(x = res$li[ , 1], y = res$li[ , 2], labels = 1:3, pos = ifelse(res$li[ , 2] < 0, 1, 3))
+   perm <- c(3, 1, 2)
+   lines( c(res$li[ , 1], res$li[perm, 1]), c(res$li[ , 2], res$li[perm, 2]))
  }
- myplot(pco, main = "Euclidian distance", asp = 1, pch = 19, 
-     xlab = "", ylab = "", las = 1)
+ myplot(pco, main = "Euclidian distance", asp = 1, pch = 19, xlab = "", ylab = "", las = 1)
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-euclidian}
@@ -138,10 +137,9 @@ in protein $i$ and $i'$, respectively.
 3 0.60 0.35 0.05
 \end{Soutput}
 \begin{Sinput}
- pco1 <- dudi.pco(dist(profile), scann = F, nf = 2)
- myplot(pco1, main = "Euclidian distance on protein profiles", 
-     asp = 1, pch = 19, xlab = "", ylab = "", ylim = range(pco1$li[, 
-         2]) * 1.2)
+ dudi.pco(dist(profile), scann = F, nf = 2) -> pco1
+ myplot(pco1, main = "Euclidian distance on protein profiles", asp = 1, pch = 19, xlab = "", ylab = "",
+   ylim = range(pco1$li[ , 2])*1.2)
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-profile}
@@ -173,8 +171,8 @@ of view, the map is now like this:
 \begin{Schunk}
 \begin{Sinput}
  coa <- dudi.coa(toyaa, scann = FALSE, nf = 2)
- myplot(coa, main = expression(paste(chi^2, " distance")), 
-     asp = 1, pch = 19, xlab = "", ylab = "")
+ myplot(coa, main = expression(paste(chi^2," distance")), 
+   asp = 1, pch = 19, xlab = "", ylab = "")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-afc}
@@ -224,14 +222,14 @@ assertion :
 
 \begin{Schunk}
 \begin{Sinput}
- download.file(url = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", 
-     destfile = "data.txt")
- ec <- read.table(file = "data.txt", header = TRUE, row.names = 1)
+ download.file(url="ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", destfile = "data.txt")
+ ec <- read.table(file = "data.txt", header = TRUE, 
+     row.names = 1)
  ec.coa <- dudi.coa(ec, scann = FALSE, nf = 1)
- F1 <- ec.coa$li[, 1]
- hist(F1, proba = TRUE, xlab = "First factor for amino-acid variability", 
-     col = grey(0.8), border = grey(0.5), las = 1, ylim = c(0, 
-         6), main = "Protein distribution on first factor")
+ F1 <- ec.coa$li[,1]
+ hist(F1, proba = TRUE, xlab = "First factor for amino-acid variability",
+ col = grey(0.8), border = grey(0.5), las = 1, ylim = c(0,6),
+         main="Protein distribution on first factor")
  lines(density(F1, adjust = 0.5), lwd = 2)
 \end{Sinput}
 \end{Schunk}
@@ -242,11 +240,11 @@ the amino-acid coordinates on this factor?
 
 \begin{Schunk}
 \begin{Sinput}
- aacoo <- ec.coa$co[, 1]
+ aacoo <- ec.coa$co[ , 1]
  names(aacoo) <- rownames(ec.coa$co)
- aacoo <- sort(aacoo)
- dotchart(aacoo, pch = 19, xlab = "Coordinate on first factor", 
-     main = "Amino acid coordinates on first factor")
+ aacoo <- sort( aacoo)
+ dotchart(aacoo, pch = 19, xlab = "Coordinate on first factor",
+ main = "Amino acid coordinates on first factor")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-lobrygautier2}
@@ -278,7 +276,7 @@ We need also the coefficients corresponding to the GRAVY score:
 
 \begin{Schunk}
 \begin{Sinput}
- gravy <- read.table(file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/gravy.txt")
+ gravy <- read.table(file ="ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/gravy.txt")
  gravy[1:5, ]
 \end{Sinput}
 \begin{Soutput}
@@ -311,8 +309,8 @@ We then re-order the columns of the data set and check that everthing is OK:
 
 \begin{Schunk}
 \begin{Sinput}
- ecfr <- ecfr[, order(names(ecfr))]
- ecfr[1:5, 1:5]
+ ecfr <- ecfr[ , order(names(ecfr))]
+ ecfr[1:5,1:5]
 \end{Sinput}
 \begin{Soutput}
             ala        arg        asn        asp         cys
@@ -335,9 +333,8 @@ the GRAVY score:
 
 \begin{Schunk}
 \begin{Sinput}
- gscores <- as.matrix(ecfr) %*% coef
- plot(gscores, F1, xlab = "GRAVY Score", ylab = "F1 Score", 
-     las = 1, main = "The first factor is protein hydrophaty")
+ as.matrix(ecfr) %*% coef -> gscores
+ plot(gscores,F1,xlab="GRAVY Score", ylab="F1 Score",las=1,main="The first factor is protein hydrophaty")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-lobrygautier5}
@@ -354,12 +351,11 @@ We then define our own probability density function and then use \texttt{fitdist
 
 \begin{Schunk}
 \begin{Sinput}
- dmixnor <- function(x, p, m1, sd1, m2, sd2) {
-     p * dnorm(x, m1, sd1) + (1 - p) * dnorm(x, m2, sd2)
+ dmixnor <- function(x, p, m1, sd1, m2, sd2){
+   p*dnorm(x, m1, sd1) + (1 - p)*dnorm(x, m2, sd2)
  }
  library(MASS)
- e <- fitdistr(F1, dmixnor, list(p = 0.88, m1 = -0.04, sd1 = 0.076, 
-     m2 = 0.34, sd2 = 0.07))$estimate
+ fitdistr(F1, dmixnor, list(p=0.88, m1=-0.04, sd1=0.076, m2=0.34, sd2=0.07))$estimate -> e
  e
 \end{Sinput}
 \begin{Soutput}
@@ -367,10 +363,11 @@ We then define our own probability density function and then use \texttt{fitdist
  0.88405009 -0.03989489  0.07632235  0.33579162  0.06632259 
 \end{Soutput}
 \begin{Sinput}
- hist(F1, proba = TRUE, col = grey(0.8), main = "Ajustement with a mixture of two normal distributions", 
-     xlab = "First factor for amino-acid variability", las = 1)
+ hist(F1, proba = TRUE, col = grey(0.8), 
+ main = "Ajustement with a mixture of two normal distributions",
+ xlab = "First factor for amino-acid variability", las = 1)
  xx <- seq(from = min(F1), to = max(F1), length = 200)
- lines(xx, dmixnor(xx, e[1], e[2], e[3], e[4], e[5]), lwd = 2)
+ lines(xx, dmixnor(xx,e[1],e[2],e[3],e[4],e[5]), lwd = 2)
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-logfitdis}
@@ -401,15 +398,17 @@ and \textit{Rattus norvegicus} species:
 
 \begin{Schunk}
 \begin{Sinput}
- ortho <- read.alignment(system.file("sequences/ortho.fasta", 
-     package = "seqinr"), format = "fasta")
+ ortho <- read.alignment(system.file("sequences/ortho.fasta", package = "seqinr"), format="fasta")
  kaks.ortho <- kaks(ortho)
  kaks.ortho$ka/kaks.ortho$ks
 \end{Sinput}
 \begin{Soutput}
-             AK002358.PE1 HSU78678.PE1
-HSU78678.PE1    0.1243472             
-RNU73525.PE1    0.1405012    0.1356036
+                                     AK002358.PE1            501 residues
+HSU78678.PE1            501 residues                            0.1243472
+RNU73525.PE1            501 residues                            0.1405012
+                                     HSU78678.PE1            501 residues
+HSU78678.PE1            501 residues                                     
+RNU73525.PE1            501 residues                            0.1356036
 \end{Soutput}
 \end{Schunk}
 
@@ -447,7 +446,7 @@ of the genetic code:
 
 \begin{Schunk}
 \begin{Sinput}
- global <- dudi.coa(toycodon, scann = FALSE, nf = 2)
+ global <- dudi.coa(toycodon, scann = FALSE, nf= 2)
  myplot(global, asp = 1, pch = 19, xlab = "", ylab = "", main = "Global codon usage")
 \end{Sinput}
 \end{Schunk}
@@ -529,10 +528,8 @@ The non synonymous codon usage analysis is the between amino-acid analysis:
 
 \begin{Schunk}
 \begin{Sinput}
- nonsynonymous <- t(between(dudi = t(global), fac = facaa, 
-     scann = FALSE, nf = 2))
- myplot(nonsynonymous, asp = 1, pch = 19, xlab = "", ylab = "", 
-     main = "Non synonymous codon usage")
+ nonsynonymous <- t(bca(x = t(global), fac = facaa, scann = FALSE, nf = 2))
+ myplot(nonsynonymous, asp = 1, pch = 19, xlab = "", ylab = "", main = "Non synonymous codon usage")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-toy6}
@@ -567,10 +564,8 @@ analysis:
 
 \begin{Schunk}
 \begin{Sinput}
- synonymous <- t(within(dudi = t(global), fac = facaa, scann = FALSE, 
-     nf = 2))
- myplot(synonymous, asp = 1, pch = 19, xlab = "", ylab = "", 
-     main = "Synonymous codon usage")
+ synonymous <- t(wca(x = t(global), fac = facaa, scann = FALSE, nf = 2))
+ myplot(synonymous, asp = 1, pch = 19, xlab = "", ylab = "", main = "Synonymous codon usage")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-toy8}
@@ -581,16 +576,15 @@ synonymous codon usage:
 
 \begin{Schunk}
 \begin{Sinput}
- tmp <- synonymous$co[, 1, drop = FALSE]
+ synonymous$co[ , 1, drop = FALSE] -> tmp
  tmp <- tmp[order(tmp$Axis1), , drop = FALSE]
- colcod <- sapply(rownames(tmp), function(x) ifelse(substr(x, 
-     3, 3) == "c" || substr(x, 3, 3) == "g", "blue", "red"))
- pchcod <- ifelse(colcod == "red", 1, 19)
- dotchart(tmp$Axis1, labels = toupper(rownames(tmp)), color = colcod, 
-     pch = pchcod, main = "Codon coordinates on first factor\nfor synonymous codon usage")
- legend("topleft", inset = 0.02, legend = c("GC ending codons", 
-     "AT ending codons"), text.col = c("blue", "red"), pch = c(19, 
-     1), col = c("blue", "red"), bg = "white")
+ colcod <- sapply(rownames(tmp), function(x) ifelse(substr(x,3,3) == "c" || substr(x,3,3) == "g", "blue", "red"))
+ pchcod <- ifelse(colcod=="red",1,19)
+ dotchart(tmp$Axis1, labels = toupper(rownames(tmp)),
+ color = colcod, pch = pchcod,
+ main = "Codon coordinates on first factor\nfor synonymous codon usage")
+ legend("topleft", inset = 0.02, legend = c("GC ending codons", "AT ending codons"),
+ text.col = c("blue", "red"), pch = c(19,1), col = c("blue","red"), bg = "white")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-toy9}
@@ -626,15 +620,18 @@ The argument was in figure 5 of the paper (\textit{cf} fig \ref{lobgau5}), that 
 %
 \begin{Schunk}
 \begin{Sinput}
- ec <- read.table(file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", 
-     header = TRUE, row.names = 1)
- ec.coa <- dudi.coa(ec, scann = FALSE, nf = 3)
- F2 <- ec.coa$li[, 2]
- tmp <- read.table(file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/ecoli999.cai")
+ ec <- read.table(
+      file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt",
+      header = TRUE,
+      row.names = 1)
+ ec.coa <- dudi.coa(ec, scann = FALSE, nf=3)
+ F2 <- ec.coa$li[,2]
+ tmp <- read.table(
+      file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/ecoli999.cai")
  cai <- exp(tmp$V2)
- if (cor(cai, F2) > 0) F2 <- -F2
- plot(cai, F2, pch = 20, xlab = "CAI Score", ylab = "F2 Score", 
-     main = "Fig 5 from Lobry & Gautier (1994) NAR 22:3174")
+ if(cor(cai,F2) > 0) F2 <- -F2
+ plot(cai, F2, pch=20, xlab="CAI Score", ylab="F2 Score",
+      main="Fig 5 from Lobry & Gautier (1994) NAR 22:3174")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-reprolobgau}
@@ -686,7 +683,7 @@ can see that there is a start codon (ATG) at the beginning of the first coding s
 
 \begin{Schunk}
 \begin{Sinput}
- ec999.uco <- lapply(ec999, uco)
+ ec999.uco <- lapply(ec999, uco) # compute codon usage for all CDS
  class(ec999.uco)
 \end{Sinput}
 \begin{Soutput}
@@ -722,14 +719,14 @@ the class table.
 
 \begin{Schunk}
 \begin{Sinput}
- df <- as.data.frame(lapply(ec999.uco, as.vector))
+ df <- as.data.frame(lapply(ec999.uco, as.vector)) # put it in a dataframe
  dim(df)
 \end{Sinput}
 \begin{Soutput}
 [1]  64 999
 \end{Soutput}
 \begin{Sinput}
- df[1:5, 1:5]
+ df[1:5,1:5]
 \end{Sinput}
 \begin{Soutput}
   ECFOLE.FOLE ECMSBAG.MSBA ECNARZYW.C.NARV ECNARZYW.C.NARW ECNARZYW.C.NARY
@@ -747,8 +744,8 @@ because groups for within and between analyses are usually handled by row.
 
 \begin{Schunk}
 \begin{Sinput}
- row.names(df) <- names(ec999.uco[[1]])
- df[1:5, 1:5]
+ row.names(df) <- names(ec999.uco[[1]]) # add codon names
+ df[1:5,1:5]
 \end{Sinput}
 \begin{Soutput}
     ECFOLE.FOLE ECMSBAG.MSBA ECNARZYW.C.NARV ECNARZYW.C.NARW ECNARZYW.C.NARY
@@ -766,7 +763,7 @@ the data at will without loosing any critical information.
 
 \begin{Schunk}
 \begin{Sinput}
- ec999.coa <- dudi.coa(df = df, scannf = FALSE)
+ ec999.coa <- dudi.coa(df = df, scannf = FALSE) # run global correspondence analysis
  ec999.coa
 \end{Sinput}
 \begin{Soutput}
@@ -800,7 +797,7 @@ user to select manually the number of axes to be kept.
 
 \begin{Schunk}
 \begin{Sinput}
- facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df))))))
+ facaa <- as.factor(aaa(translate(s2c(c2s(rownames(df)))))) # define a factor for amino-acids
  facaa
 \end{Sinput}
 \begin{Soutput}
@@ -817,12 +814,12 @@ default the standard genetic code and this is OK for \textit{E. coli}.
 
 \begin{Schunk}
 \begin{Sinput}
- ec999.syn <- within(dudi = ec999.coa, fac = facaa, scannf = FALSE)
+ ec999.syn <- wca(x = ec999.coa, fac = facaa, scannf = FALSE) # run synonymous codon usage analysis
  ec999.syn
 \end{Sinput}
 \begin{Soutput}
 Within analysis
-call: within(dudi = ec999.coa, fac = facaa, scannf = FALSE)
+call: wca.dudi(x = ec999.coa, fac = facaa, scannf = FALSE)
 class: within dudi 
 
 $nf (axis saved) : 2
@@ -835,7 +832,7 @@ eigen values: 0.04855 0.0231 0.01425 0.007785 0.006748 ...
 1 $eig   43     numeric eigen values       
 2 $lw    64     numeric row weigths        
 3 $cw    999    numeric col weigths        
-4 $tabw  21     numeric table weigths      
+4 $tabw  21     numeric class weigths      
 5 $fac   64     numeric factor for grouping
 
   data.frame nrow ncol content                      
@@ -855,12 +852,12 @@ level, a common situation in codon usage studies.
 
 \begin{Schunk}
 \begin{Sinput}
- ec999.btw <- between(dudi = ec999.coa, fac = facaa, scannf = FALSE)
+ ec999.btw <- bca(x = ec999.coa, fac  = facaa, scannf = FALSE) # run non-sysnonymous codon usage analysis <=> amino-acid usage
  ec999.btw
 \end{Sinput}
 \begin{Soutput}
 Between analysis
-call: between(dudi = ec999.coa, fac = facaa, scannf = FALSE)
+call: bca.dudi(x = ec999.coa, fac = facaa, scannf = FALSE)
 class: between dudi 
 
 $nf (axis saved) : 2
@@ -889,23 +886,22 @@ This is to run the non-sysnonymous codon usage analysis, or amino-acid usage ana
 
 \begin{Schunk}
 \begin{Sinput}
- x <- ec999.syn$co[, 1]
- y <- ec999.btw$co[, 2]
- if (cor(x, y) < 0) y <- -y
- kxy <- kde2d(x, y, n = 100)
+ x <- ec999.syn$co[,1] 
+ y <- ec999.btw$co[,2]
+ if(cor(x,y) < 0) y <- -y
+ kxy <- kde2d(x,y, n = 100)
  nlevels <- 25
- breaks <- seq(from = min(kxy$z), to = max(kxy$z), length = nlevels + 
-     1)
+ breaks <- seq(from = min(kxy$z), to = max(kxy$z), length = nlevels + 1)
  col <- cm.colors(nlevels)
- image(kxy, breaks = breaks, col = col, xlab = "First synonymous factor", 
-     ylab = "Second non-synonymous factor", xlim = c(-0.5, 
-         0.5), ylim = c(-0.3, 0.3), las = 1, main = "The second factor for amino-acid variability is\ncorrelated with gene expressivity")
+ image(kxy, breaks = breaks, col = col, xlab = "First synonymous factor",
+ ylab = "Second non-synonymous factor", xlim = c(-0.5, 0.5),
+ ylim  = c(-0.3, 0.3), las = 1,
+ main = "The second factor for amino-acid variability is\ncorrelated with gene expressivity")
  contour(kxy, add = TRUE, nlevels = nlevels, drawlabels = FALSE)
  box()
- abline(c(0, 1), lty = 2)
- abline(lm(y ~ x))
- legend("topleft", lty = c(2, 1), legend = c("y = x", "y = lm(y~x)"), 
-     inset = 0.01, bg = "white")
+ abline(c(0,1), lty=2)
+ abline(lm(y~x))
+ legend("topleft", lty = c(2,1), legend = c("y = x", "y = lm(y~x)"), inset = 0.01, bg = "white")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-vlg9}
@@ -919,9 +915,9 @@ use the two-dimensional kernel density estimation provided by the function
 
 %
 % Akashi Gojobori
-%
+% \textit{To be completed}
 
-\textit{To be completed}
+
 
 \input{../tables/aacost.tex}
 
@@ -933,20 +929,20 @@ use the two-dimensional kernel density estimation provided by the function
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 14:25:32 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 20:07:29 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
