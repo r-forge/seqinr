@@ -16,6 +16,19 @@ most recent on top.
 
 \section*{3.0 series}
 
+\subsection{release 3.0-11}
+
+\begin{itemize}
+
+\item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument
+so that it can handle sequences provided as strings instead of vectors of single
+character.
+
+\end{itemize}
+
+\subsection{release 3.0-10}
+
+
 \subsection{release 3.0-0}
 
 \begin{itemize}
