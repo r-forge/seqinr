@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{cover-concordance}
 %
 % To change the R input/output style:
 %
@@ -98,9 +99,8 @@ thanks to \texttt{aaindex} database \cite{aaindex1,aaindex2,aaindex3}.
 \begin{Schunk}
 \begin{Sinput}
  data(aaindex)
- grth <- which(sapply(aaindex, function(x) length(grep("Grantham", 
-     x$A)) != 0))
- lapply(aaindex[grth], "[[", "D")
+ grth <- which(sapply(aaindex, function(x) length(grep("Grantham", x$A)) != 0))
+ lapply(aaindex[grth],"[[","D")
 \end{Sinput}
 \begin{Soutput}
 $GRAR740101
@@ -158,7 +158,7 @@ with the following \Rlogo{}~code based on \texttt{grid} \cite{grid},
  library(grid)
  library(XML)
  library(grImport)
- PostScriptTrace("../figs/couverture.eps", "../figs/couverture.rgml")
+ PostScriptTrace("../figs/couverture.eps", "../figs/couverture.rgml") 
 \end{Sinput}
 \end{Schunk}
 
@@ -169,11 +169,11 @@ the current \seqinr{}~release number:
 \begin{Schunk}
 \begin{Sinput}
  cover <- readPicture("../figs/couverture.rgml")
- pdf(file = "../figs/cover.pdf", width = 21/2.54, height = 29.7/2.54)
+ pdf(file="../figs/cover.pdf", width = 21/2.54, height =29.7/2.54)
  pushViewport(plotViewport(margins = c(0, 0, 0, 0)))
  grid.picture(cover)
- grid.text(paste("SeqinR", packageDescription("seqinr")$Version), 
-     gp = gpar(cex = 5), y = unit(0.72, "npc"))
+ grid.text(paste("SeqinR", packageDescription("seqinr")$Version), gp = gpar(cex = 5),
+ y = unit(0.72, "npc"))
  popViewport()
  dev.off()
 \end{Sinput}
@@ -196,20 +196,20 @@ And finally inserted at the begining of the \LaTeX~file with:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 11:08:26 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 13:19:00 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
