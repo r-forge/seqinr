@@ -5,6 +5,7 @@
 \author{Lobry, J.R.}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
 \tableofcontents
@@ -143,7 +144,6 @@ nmirrors <- function( url = paste("http://cran.r-project.org", "mirrors.html", s
   {
     nm <- nm + length(grep("http:", tmp[dtab[i]:ftab[i]]))
   }
-  nm <- nm / 2
   return( list( nm = nm, nc = length(dtab) ) )
 }
 @
@@ -170,13 +170,8 @@ packages and package versions that were involved\footnote{
 Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
 for instance at \url{http://cran.univ-lyon1.fr/src/contrib/Archive}.
 }.
-The last compiled version of this document is distributed along with the \seqinr{}
-package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
-full path to the package is given by the following \Rlogo{} code :
-
-<<whereiseqinr,fig=F>>=
-.find.package("seqinr")
-@ 
+The last compiled version of this document is available at the \seqinr{}
+home page at \url{http://seqinr.r-forge.r-project.org/.}
 
 
 \section{About sequin and \seqinr{}}
