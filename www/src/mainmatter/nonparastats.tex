@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{nonparastats-concordance}
 %
 % To change the R input/output style:
 %
@@ -67,7 +68,7 @@ of booleans, for instance:
 
 \begin{Schunk}
 \begin{Sinput}
- (x <- rep(c(T, F), 10))
+ (x <- rep(c(T,F),10))
 \end{Sinput}
 \begin{Soutput}
  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE
@@ -108,7 +109,8 @@ We note $\omega$ the ranks of TRUE elements:
 \end{Soutput}
 \end{Schunk}
 
-With one exception, the statistics names are the same as in the ANALSEQ software.
+With one exception\footnote{for GC in the ANALSEQ software renamed as CC here}, 
+the statistics names are the same as in the ANALSEQ software.
 
 As a practical application, we want to study the isochore structure in \textit{Mus
 musculus} chromosome 1 using non-overlapping windows of 100 kb. Data were 
@@ -120,21 +122,16 @@ computed this way:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("ensembl")
- n <- 201
- res <- rep(-1, 10 * n)
- chr1 <- paste("MOUSE1_", 1:n, sep = "")
- i <- 1
- for (frag in chr1) {
-     myseq <- gfrag(frag, 1, 10^7)
-     for (w in seq(1, nchar(myseq), by = 10^5)) {
-         res[i] <- GC(s2c(substr(myseq, start = w, stop = w + 
-             10^5 - 1)))
-         i <- i + 1
-     }
+ n <- 196 # Mus musculus chromosome size in Mb (ceil of)
+ myseq <- gfrag("MOUSE_1", 1, n*10^6)
+ res <- rep(-1, 10*n)
+ for(w in seq(1, nchar(myseq), by = 10^5)){
+   res[i] <- GC(s2c(substr(myseq, start = w, stop = w + 10^5 - 1)))
+   i <- i + 1
  }
  res <- res[res >= 0]
  res[res == 0] <- NA
- res <- 100 * res
+ res <- 100*res
  closebank()
  save(res, file = "chr1.RData")
 \end{Sinput}
@@ -147,19 +144,20 @@ The folowing representation follows the conventions used in Fig 2 from \cite{Pac
  load("chr1.RData")
  n <- length(res)
  xx <- seq_len(n)/10
- plot(xx, res, type = "l", las = 1, ylab = "G+C content [%]", 
-     main = "Isochores in mouse chromosome 1", xaxt = "n", 
-     xlab = "Position on the chromosome [Mb]")
- axis(1, at = seq(0, 200, by = 10))
+ plot(xx, res, type = "l", las = 1,
+ ylab = "G+C content [%]",
+ main = "Isochores in mouse chromosome 1", xaxt = "n",
+ xlab = "Position on the chromosome [Mb]")
+ axis(1, at = seq(0,200,by=10))
  breaks <- c(0, 37.5, 42.5, 47.5, 52.5, 100)
- lev <- cut(res, breaks = breaks, labels = c("darkblue", "blue", 
-     "yellow", "orange", "red"), ordered = T)
- segments(x0 = xx, y0 = min(res, na.rm = TRUE), x1 = xx, y1 = res, 
-     col = as.character(lev), lend = "butt")
- segments(x0 = xx[is.na(res)], y0 = min(res, na.rm = T), x1 = xx[is.na(res)], 
-     y1 = max(res, na.rm = T), col = grey(0.7))
+ cut(res, breaks = breaks, 
+ labels = c("darkblue", "blue", "yellow", "orange", "red"),
+ ordered=T) -> lev
+ segments(x0 = xx, y0 = min(res, na.rm = TRUE), x1=xx, y1=res,col=as.character(lev),lend="butt")
+ segments(x0 = xx[is.na(res)], y0 = min(res,na.rm=T), x1 = xx[is.na(res)], y1=max(res,na.rm=T),
+ col = grey(0.7))
  lines(xx, res)
- abline(h = breaks, lty = 3)
+ abline(h=breaks, lty = 3)
 \end{Sinput}
 \end{Schunk}
 \includegraphics[width=1.3\textwidth]{../figs/nonparastats-bernardiplot}
@@ -174,18 +172,17 @@ if the values are above or below the median, respectively:
  n <- length(yy)
  xx <- seq_len(n)/10
  hline <- median(yy)
- plot(yy ~ xx, type = "n", axes = FALSE, ann = FALSE)
- polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", 
-     border = NA)
+ plot (yy ~ xx, type="n", axes=FALSE, ann=FALSE)
+ polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", border=NA)
  usr <- par("usr")
- rect(usr[1], usr[3], usr[2], hline, col = "white", border = NA)
+ rect(usr[1], usr[3], usr[2], hline, col="white", border=NA)
  lines(xx, yy)
- abline(h = hline)
+ abline (h=hline)
  box()
  axis(1)
- axis(2, las = 1)
+ axis(2, las = 1) 
  title(xlab = "Position on the chromosome [Mb]", ylab = "G+C content [%]", 
-     main = "Isochores in mouse chromosome 1")
+ main = "Isochores in mouse chromosome 1")
 \end{Sinput}
 \end{Schunk}
 \includegraphics[width=1.3\textwidth]{../figs/nonparastats-medianplot}
@@ -204,7 +201,7 @@ Our logical vector is therefore defined as follows:
  tail(appli)
 \end{Sinput}
 \begin{Soutput}
-[1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE
+[1]  TRUE  TRUE FALSE FALSE FALSE  TRUE
 \end{Soutput}
 \end{Schunk}
 
@@ -229,12 +226,12 @@ $$
 
 \begin{Schunk}
 \begin{Sinput}
- SR <- function(bool, N = length(bool), M = sum(bool)) {
-     stopifnot(is.logical(bool))
-     SR <- sum(seq_len(N)[bool])
-     E <- M * (N + 1)/2
-     V <- M * (N + 1) * (N - M)/12
-     return(list(SR = SR, stat = (SR - E)/sqrt(V)))
+ SR <- function(bool, N = length(bool), M = sum(bool)){
+ 	stopifnot(is.logical(bool))
+ 	SR <- sum(seq_len(N)[bool])
+ 	E <- M*(N + 1)/2
+ 	V <- M*(N + 1)*(N - M)/12
+ 	return(list(SR = SR, stat = (SR - E)/sqrt(V)))
  }
  SR(s2c("**-***-----------") == "*")
 \end{Sinput}
@@ -264,7 +261,7 @@ function to make a Wilcoxon's rank sum test \cite{WilcoxonF1945}:
 \begin{Sinput}
  SRh <- s2c("---------***--***") == "*"
  x <- seq_len(length(SRh))
- x[!SRh] <- -1 * x[!SRh]
+ x[!SRh] <- -1*x[!SRh]
  wilcox.test(x)$statistic
 \end{Sinput}
 \begin{Soutput}
@@ -280,14 +277,13 @@ The probabilities for all possibe outcomes for the rank sums are given by
 \begin{Sinput}
  m <- sum(SRh)
  n <- length(SRh) - m
- pdf <- dwilcox(x = 0:(n * m), m = m, n = n)
- plot(x = 0:(m * n) + m * (m + 1)/2, y = pdf, xlab = "Possible rank sums", 
-     ylab = "Density", main = paste("---------***--*** : N =", 
-         length(SRh), "M =", sum(SRh)), pch = 19)
- points(SR(SRh)$SR, dwilcox(x = SR(SRh)$SR - m * (m + 1)/2, 
-     m = m, n = n), col = "red", pch = 19)
- arrows(x0 = SR(SRh)$SR, y0 = 0.01, x1 = SR(SRh)$SR, y1 = 0.0015, 
-     length = 0.1)
+ dwilcox(x = 0:(n*m), m = m, n = n) -> pdf
+ plot(x = 0:(m*n) + m*(m+1)/2, y = pdf, xlab = "Possible rank sums",
+ ylab = "Density", main = paste("---------***--*** : N =", length(SRh), "M =", sum(SRh)),
+ pch = 19)
+ points(SR(SRh)$SR, dwilcox(x = SR(SRh)$SR - m*(m+1)/2, m = m, n = n), col = "red",
+ pch = 19)
+ arrows(x0 = SR(SRh)$SR, y0 = 0.01, x1 = SR(SRh)$SR, y1 = 0.0015, length = 0.1)
  text(SR(SRh)$SR, 0.01, "Observed\nvalue", pos = 3)
 \end{Sinput}
 \end{Schunk}
@@ -300,7 +296,7 @@ The probabilities for all possibe outcomes for the rank sums are given by
  SR(appli)$stat
 \end{Sinput}
 \begin{Soutput}
-[1] 10.08087
+[1] 10.73121
 \end{Soutput}
 \end{Schunk}
 
@@ -327,12 +323,12 @@ $$
 
 \begin{Schunk}
 \begin{Sinput}
- VR <- function(bool, N = length(bool), M = sum(bool)) {
-     stopifnot(is.logical(bool))
-     VR <- sum((seq_len(N)[bool] - (N + 1)/2)^2)
-     E <- (M * (N + 1) * (N - 1))/12
-     V <- (M * (N - M) * (N + 1) * (N + 2) * (N - 2))/180
-     return(list(VR = VR, stat = (VR - E)/sqrt(V)))
+ VR <- function(bool, N = length(bool), M = sum(bool)){
+ 	stopifnot(is.logical(bool))
+ 	VR <- sum ((seq_len(N)[bool] - (N + 1)/2)^2)
+ 	E <- (M*(N + 1)*(N - 1))/12
+ 	V <- (M*(N - M)*(N + 1)*(N + 2)*(N - 2))/180
+ 	return(list(VR = VR, stat = (VR - E)/sqrt(V)))
  }
  VR(s2c("------****-------") == "*")
 \end{Sinput}
@@ -341,7 +337,7 @@ $VR
 [1] 6
 
 $stat
-[1] -2.337860
+[1] -2.33786
 \end{Soutput}
 \begin{Sinput}
  VR(s2c("***----------****") == "*")
@@ -361,10 +357,9 @@ of the rank variance, for instance:
 \begin{Schunk}
 \begin{Sinput}
  VRh <- s2c("***----------****") == "*"
- simVR <- replicate(5000, VR(sample(VRh))$VR)
- hist(simVR, col = grey(0.7), main = paste("***----------**** : N =", 
-     length(VRh), "M =", sum(VRh)), xlab = "Possible rank variances", 
-     proba = TRUE)
+ replicate(5000, VR(sample(VRh))$VR) -> simVR
+ hist(simVR, col = grey(0.7), main = paste("***----------**** : N =",
+ length(VRh), "M =", sum(VRh)), xlab = "Possible rank variances", proba = TRUE)
  lines(density(simVR), lwd = 2)
  arrows(VR(VRh)$VR, 0.004, VR(VRh)$VR, 0, le = 0.1)
 \end{Sinput}
@@ -378,7 +373,7 @@ of the rank variance, for instance:
  VR(appli)$stat
 \end{Sinput}
 \begin{Soutput}
-[1] 4.618334
+[1] 4.43128
 \end{Soutput}
 \end{Schunk}
 
@@ -428,17 +423,16 @@ $$
 
 \begin{Schunk}
 \begin{Sinput}
- CC <- function(bool, N = length(bool), M = sum(bool)) {
-     stopifnot(is.logical(bool))
-     C <- median(seq_len(N)[bool])
-     GC <- sum(abs(seq_len(N)[bool] - C))
-     E <- ((N + 1) * floor(M/2) * floor((M + 1)/2))/(M + 1)
-     if (M%%2 == 1) 
-         V <- ((M - 1) * (M + 3) * (N + 1) * (N - M))/(48 * 
-             (M + 2))
-     else V <- (M * (N + 1) * (N - M) * (M^2 + 2 * M + 4))/(48 * 
-         (M + 1)^2)
-     return(list(GC = GC, stat = (GC - E)/sqrt(V)))
+ CC <- function(bool, N = length(bool), M = sum(bool)){
+ 	stopifnot(is.logical(bool))
+ 	C <- median(seq_len(N)[bool])
+ 	GC <- sum(abs(seq_len(N)[bool] - C))
+ 	E <- ((N + 1)*floor(M/2)*floor((M + 1)/2))/(M + 1)
+ 	if(M %% 2 == 1)
+ 	  V <- ((M - 1)*(M + 3)*(N + 1)*(N - M))/(48*(M + 2))
+ 	else
+ 	  V <- (M*(N + 1)*(N - M)*(M^2 + 2*M + 4))/(48*(M + 1)^2)
+ 	return(list(GC = GC, stat = (GC - E)/sqrt(V)))
  }
  CC(s2c("---*****---------") == "*")
 \end{Sinput}
@@ -468,7 +462,7 @@ $stat
  CC(appli)$stat
 \end{Sinput}
 \begin{Soutput}
-[1] 3.748402
+[1] 3.25226
 \end{Soutput}
 \end{Schunk}
 
@@ -493,13 +487,13 @@ The statistics $\mathrm{NS}$ is the number of runs in the sequence:
 
 \begin{Schunk}
 \begin{Sinput}
- NS <- function(bool, N = length(bool), M = sum(bool)) {
-     stopifnot(is.logical(bool))
-     NS <- length(rle(bool)$lengths)
-     DMNmM <- 2 * M * (N - M)
-     E <- DMNmM/N + 1
-     V <- (DMNmM * (DMNmM - N))/(N * N * (N - 1))
-     return(list(NS = NS, stat = (NS - E)/sqrt(V)))
+ NS <- function(bool, N = length(bool), M = sum(bool)){
+ 	stopifnot(is.logical(bool))
+ 	NS <- length(rle(bool)$lengths)
+ 	DMNmM <- 2*M*(N - M)
+ 	E <- DMNmM/N + 1
+ 	V <- (DMNmM*(DMNmM - N))/(N*N*(N - 1))
+ 	return(list(NS = NS, stat = (NS - E)/sqrt(V)))
  }
  NS(s2c("--***---***--***-") == "*")
 \end{Sinput}
@@ -528,7 +522,7 @@ package \textbf{tseries} \cite{tseries} this way:
 \begin{Schunk}
 \begin{Sinput}
  library(tseries)
- NSh <- s2c("-*-*-*-*-*-*-*-*-") == "*"
+ s2c("-*-*-*-*-*-*-*-*-") == "*" -> NSh
  tseries::runs.test(as.factor(NSh))$statistic
 \end{Sinput}
 \begin{Soutput}
@@ -544,7 +538,7 @@ Standard Normal
  NS(appli)$stat
 \end{Sinput}
 \begin{Soutput}
-[1] -33.75721
+[1] -34.25156
 \end{Soutput}
 \end{Schunk}
 
@@ -580,24 +574,22 @@ $$
 
 \begin{Schunk}
 \begin{Sinput}
- GM <- function(bool, N = length(bool), M = sum(bool)) {
-     stopifnot(is.logical(bool))
-     XGM <- (N - M)/(M + 1)
-     LS0 <- GM <- 0
-     for (i in seq_len(N)) {
-         if (bool[i]) {
-             GM <- GM + (LS0 - XGM)^2
-             LS0 <- 0
-         }
-         else {
-             LS0 <- LS0 + 1
-         }
-     }
-     GM <- (GM + (LS0 - XGM)^2)/M
-     E <- ((N + 1) * (N - M))/((M + 1) * (M + 2))
-     V <- (4 * (N - M - 1) * (N + 1) * (N + 2) * (N - M))/(M * 
-         (M + 2)^2 * (M + 3) * (M + 4))
-     return(list(GM = GM, stat = (GM - E)/sqrt(V)))
+ GM <-function(bool, N = length(bool), M = sum(bool)){
+ 	stopifnot(is.logical(bool))
+ 	XGM <- (N - M)/(M + 1)
+ 	LS0 <- GM <- 0
+ 	for(i in seq_len(N)){
+ 		if(bool[i]){
+ 			GM <- GM + (LS0 - XGM)^2
+ 			LS0 <- 0
+ 		} else {
+ 			LS0 <- LS0 + 1
+ 		}
+ 	}
+ 	GM <- (GM + (LS0 - XGM)^2)/M
+ 	E <- ((N + 1)*(N - M))/((M +1)*(M + 2))
+   V <- (4*(N - M - 1)*(N + 1)*(N + 2)*(N - M))/(M*(M + 2)^2*(M + 3)*(M + 4))
+ 	return(list(GM = GM, stat = (GM - E)/sqrt(V)))
  }
  GM(s2c("-*-*-*-*-*-*-*-*-") == "*")
 \end{Sinput}
@@ -627,7 +619,7 @@ $stat
  GM(appli)$stat
 \end{Sinput}
 \begin{Soutput}
-[1] 301.4908
+[1] 353.0584
 \end{Soutput}
 \end{Schunk}
 
@@ -675,21 +667,20 @@ sequences, we can fit a normal distribution which is centered on 1
  n <- 500
  di <- 4
  lseq <- 6000
- rhoseq <- replicate(n, rho(sample(s2c("acgt"), size = lseq, 
-     replace = TRUE)))
- x <- seq(min(rhoseq[di, ]), max(rhoseq[di, ]), length.out = 1000)
- y <- dnorm(x, mean = mean(rhoseq[di, ]), sd = sd(rhoseq[di, 
-     ]))
- histo <- hist(rhoseq[di, ], plot = FALSE)
- plot(histo, freq = FALSE, xlab = expression(paste(rho, " statistic")), 
-     main = paste("Distribution for dinucleotide", toupper(labels(rhoseq)[[1]][di]), 
-         "on", n, "random sequences"), las = 1, col = grey(0.8), 
-     border = grey(0.5), ylim = c(0, max(c(y, histo$density))))
+ rhoseq <- replicate(n, rho(sample(s2c('acgt'), size = lseq, replace = TRUE)))
+ x <- seq(min(rhoseq[di,]), max(rhoseq[di,]), length.out = 1000)
+ y <- dnorm(x, mean = mean(rhoseq[di,]), sd = sd(rhoseq[di,]))
+ histo <- hist(rhoseq[di,], plot = FALSE)
+ plot(histo, freq = FALSE, xlab = expression(paste(rho, " statistic")),
+   main = paste("Distribution for dinucleotide", 
+   toupper(labels(rhoseq)[[1]][di]), "on", n, "random sequences"),
+   las = 1, col = grey(0.8), border = grey(0.5),
+   ylim = c(0, max(c(y, histo$density))))
  lines(x, y, lty = 1, col = "red")
  abline(v = 1, lty = 3, col = "blue", lwd = 2)
- legend("topleft", inset = 0.01, legend = c("normal fit", expression(paste(rho, 
-     " = 1"))), lty = c(1, 3), col = c("red", "blue"), lwd = c(1, 
-     2))
+ legend("topleft", inset = 0.01, legend = c("normal fit", 
+   expression(paste(rho, " = 1"))), lty = c(1, 3),
+   col = c("red", "blue"), lwd = c(1, 2))
 \end{Sinput}
 \end{Schunk}
 
@@ -755,7 +746,7 @@ the following CDS:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("greviews")
- query("coli", "N=U00096_GR ET T=CDS ET K=2.3.1.79@")
+ query("coli","N=U00096_GR ET T=CDS ET K=2.3.1.79@")
  sequence <- getSequence(coli$req[[1]])
  annot <- getAnnot(coli$req[[1]])
  closebank()
@@ -766,39 +757,40 @@ the following CDS:
 \begin{Schunk}
 \begin{Sinput}
  load("annot.RData")
- cat(annot, sep = "\n")
+ cat(annot, sep="\n")
 \end{Sinput}
 \begin{Soutput}
 FT   CDS             complement(478591..479142)
 FT                   /codon_start=1
-FT                   /evidence="1: Evidence at protein level 
-FT                   {UniProtKB/Swiss-Prot:P77791}"
-FT                   /gene_id="IGI00122745"
-FT                   /gene_name="maa {UniProtKB/Swiss-Prot:P77791}"
+FT                   /evidence="1: Evidence at protein level "
+FT                   /gene_id="IGI28831209"
+FT                   /gene_name="maa"
 FT                   /gene_synonym="ECK0453"
-FT                   /gene_synonym="ylaD {UniProtKB/Swiss-Prot:P77791}"
-FT                   /locus_tag="b0459 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /product="Maltose O-acetyltransferase 
-FT                   {UniProtKB/Swiss-Prot:P77791}"
-FT                   /EC_number="2.3.1.79 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /function="maltose O-acetyltransferase activity 
-FT                   {GO:0008925}"
-FT                   /protein_id="AAC73561.1 {EMBL:U00096}"
-FT                   /db_xref="EMBL:AAB40214.1 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="EMBL:CAA11147.1 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="EcoGene:EG14239 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="GO:0008925 {GOA:P77791}"
-FT                   /db_xref="HOGENOM:HBG282173 {HogenProt:P77791}"
-FT                   /db_xref="HOGENOM:P77791 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="InterPro:IPR001451 {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="PDB:1OCX {UniProtKB/Swiss-Prot:P77791}"
-FT                   /db_xref="UniParc:UPI000002EA96 {EMBL:AAC73561}"
-FT                   /db_xref="UniProtKB/Swiss-Prot:P77791 {EMBL:U00096}"
+FT                   /gene_synonym="ylaD"
+FT                   /locus_tag="b0459"
+FT                   /product="Maltose O-acetyltransferase "
+FT                   /EC_number="2.3.1.79"
+FT                   /function="maltose O-acetyltransferase activity "
+FT                   /protein_id="AAC73561.1"
+FT                   /db_xref="EMBL:AAB40214.1"
+FT                   /db_xref="EMBL:CAA11147.1"
+FT                   /db_xref="EcoGene:EG14239"
+FT                   /db_xref="GO:0008925"
+FT                   /db_xref="HOGENOM:HBG282173"
+FT                   /db_xref="HOGENOM:HBG699746"
+FT                   /db_xref="InterPro:IPR001451"
+FT                   /db_xref="InterPro:IPR011004"
+FT                   /db_xref="InterPro:IPR018357"
+FT                   /db_xref="PDB:1OCX"
+FT                   /db_xref="UniParc:UPI000002EA96"
+FT                   /db_xref="UniProtKB/Swiss-Prot:P77791"
 FT                   /transl_table=11
 FT                   /translation="MSTEKEKMIAGELYRSADETLSRDRLRARQLIHRYNHSLAEEHTL
 FT                   RQQILADLFGQVTEAYIEPTFRCDYGYNIFLGNNFFANFDCVMLDVCPIRIGDNCMLAP
 FT                   GVHIYTATHPIDPVARNSGAELGKPVTIGNNVWIGGRAVINPGVTIGDNVVVASGAVVT
 FT                   KDVPDNVVVGGNPARIIKKL"
+FT                   /%(C+G)="CG<50%"
+FT                   /note="C+G content in third codon positions = 47.8 % "
 \end{Soutput}
 \end{Schunk}
 
@@ -828,25 +820,26 @@ code was used to produce figure \ref{dinuclcoli}:
 \begin{Sinput}
  load("sequence.RData")
  rhocoli <- rho(sequence)
- zcolibase <- zscore(sequence, model = "base", exact = TRUE)
- zcolicodon <- zscore(sequence, model = "codon", exact = TRUE)
- par(mfrow = c(3, 1), lend = "butt", oma = c(0, 0, 2, 0), mar = c(3, 
-     4, 0, 2))
+ zcolibase <- zscore(sequence, model = 'base', exact = TRUE)
+ zcolicodon <- zscore(sequence,model = 'codon', exact = TRUE)
+ par(mfrow = c(3, 1), lend = "butt", oma = c(0,0,2,0), mar = c(3,4,0,2))
  col <- c("green", "blue", "orange", "red")
- plot(rhocoli - 1, ylim = c(-0.5, 0.5), las = 1, ylab = expression(rho), 
-     lwd = 10, xaxt = "n", col = col)
+ plot(rhocoli - 1, ylim = c(-0.5,0.5), las = 1, 
+   ylab = expression(rho), lwd = 10, xaxt = "n",
+   col = col)
  axis(1, at = 1:16, labels = toupper(words(2)))
  abline(h = 0)
- plot(zcolibase, ylim = c(-2.5, 2.5), las = 1, ylab = "zscore with base model", 
-     lwd = 10, xaxt = "n", col = col)
+ plot(zcolibase, ylim = c(-2.5,2.5), las = 1, 
+   ylab = "zscore with base model", lwd = 10, xaxt = "n",
+   col = col)
  axis(1, at = 1:16, labels = toupper(words(2)))
  abline(h = 0)
- plot(zcolicodon, ylim = c(-2.5, 2.5), las = 1, ylab = "zscore with codon model", 
-     lwd = 10, xaxt = "n", col = col)
+ plot(zcolicodon, ylim = c(-2.5,2.5), las = 1, 
+   ylab = "zscore with codon model", lwd = 10, xaxt = "n",
+   col = col)
  axis(1, at = 1:16, labels = toupper(words(2)))
  abline(h = 0)
- mtext("Comparison of the three statistics", outer = TRUE, 
-     cex = 1.5)
+ mtext("Comparison of the three statistics", outer = TRUE, cex = 1.5)
 \end{Sinput}
 \end{Schunk}
 
@@ -940,42 +933,42 @@ code was used to produce figure \ref{GCcoli}.
 
 \begin{Schunk}
 \begin{Sinput}
- worstcase <- function(gc) {
-     c <- gc
-     t <- (1 - gc)
-     (0.59 * t * t + 0.34 * t * c + 0.07 * c * c)/2
+ worstcase <- function(gc){
+   c <- gc
+   t <- (1-gc)
+   (0.59*t*t + 0.34*t*c + 0.07*c*c)/2
  }
- randomcase <- function(gc) {
-     c <- gc/2
-     t <- (1 - gc)/2
-     0.59 * t * t + 0.34 * t * c + 0.07 * c * c
+ randomcase <- function(gc){
+   c <- gc/2
+   t <- (1-gc)/2
+   0.59*t*t + 0.34*t*c + 0.07*c*c
  }
- bestcase <- function(gc) {
-     c <- (gc)/2
-     t <- (1 - gc)/2
-     if ((c + t) <= 0.5) {
-         0
-     }
-     else {
-         c <- (c + t - 0.5)/2
-         t <- (c + t - 0.5)/2
-         0.59 * t * t + 0.34 * t * c + 0.07 * c * c
-     }
+ bestcase <- function(gc){
+   c <- (gc)/2
+   t <- (1-gc)/2
+   if ((c + t) <= 0.5){
+     0
+   } else {
+   c <- (c + t - 0.5)/2
+   t <- (c + t - 0.5)/2
+   0.59*t*t + 0.34*t*c + 0.07*c*c
+   }
  }
  xval <- seq(from = 0, to = 100, length = 100)
- yrand <- sapply(xval/100, randomcase)
- yworst <- sapply(xval/100, worstcase)
- ybest <- sapply(xval/100, bestcase)
- plot(xval, 100 * yworst, las = 1, type = "l", lwd = 2, lty = 1, 
-     xlab = "G+C content [%]", ylab = "Phototargets weighted density [%]", 
-     main = "Estimated as in Escherichia coli chromosome", 
-     ylim = c(0, max(100 * yworst)))
- points(xval, 100 * yrand, type = "l", lwd = 2, lty = 2)
- points(xval, 100 * ybest, type = "l", lwd = 2, lty = 3)
- abline(v = c(25, 75), lty = 2)
- arrows(25, 25, 75, 25, code = 1, le = 0.1)
- arrows(25, 25, 75, 25, code = 2, le = 0.1)
- text(50, 25, "Biological range", pos = 3)
+ sapply(xval/100, randomcase) -> yrand
+ sapply(xval/100, worstcase) -> yworst
+ sapply(xval/100, bestcase) -> ybest
+ plot(xval, 100*yworst, las = 1, type = "l", lwd = 2, lty = 1 ,
+ xlab = "G+C content [%]",
+ ylab = "Phototargets weighted density [%]",
+ main = "Estimated as in Escherichia coli chromosome",
+ ylim = c(0, max(100*yworst)))
+ points(xval,100*yrand,type='l',lwd=2,lty=2)
+ points(xval,100*ybest,type='l',lwd=2,lty=3)
+ abline(v=c(25,75),lty=2)
+ arrows(25, 25, 75, 25, code = 1,le = 0.1)
+ arrows(25, 25, 75, 25,code = 2,le = 0.1)
+ text(50,25,"Biological range",pos=3)
 \end{Sinput}
 \end{Schunk}
 
@@ -1010,42 +1003,42 @@ is no longer true...
 
 \begin{Schunk}
 \begin{Sinput}
- worstcase <- function(gc) {
-     c <- gc
-     t <- (1 - gc)
-     (0.19 * t * t + 0.55 * t * c + 0.26 * c * c)/2
+ worstcase <- function(gc){
+   c <- gc
+   t <- (1-gc)
+   (0.19*t*t + 0.55*t*c + 0.26*c*c)/2
  }
- randomcase <- function(gc) {
-     c <- gc/2
-     t <- (1 - gc)/2
-     0.19 * t * t + 0.55 * t * c + 0.26 * c * c
+ randomcase <- function(gc){
+   c <- gc/2
+   t <- (1-gc)/2
+   0.19*t*t + 0.55*t*c + 0.26*c*c
  }
- bestcase <- function(gc) {
-     c <- (gc)/2
-     t <- (1 - gc)/2
-     if ((c + t) <= 0.5) {
-         0
-     }
-     else {
-         c <- (c + t - 0.5)/2
-         t <- (c + t - 0.5)/2
-         0.19 * t * t + 0.55 * t * c + 0.26 * c * c
-     }
+ bestcase <- function(gc){
+   c <- (gc)/2
+   t <- (1-gc)/2
+   if ((c + t) <= 0.5){
+     0
+   } else {
+   c <- (c + t - 0.5)/2
+   t <- (c + t - 0.5)/2
+   0.19*t*t + 0.55*t*c + 0.26*c*c
+   }
  }
  xval <- seq(from = 0, to = 100, length = 100)
- yrand <- sapply(xval/100, randomcase)
- yworst <- sapply(xval/100, worstcase)
- ybest <- sapply(xval/100, bestcase)
- plot(xval, 100 * yworst, las = 1, type = "l", lwd = 2, lty = 1, 
-     xlab = "G+C content [%]", ylab = "Phototargets weighted density [%]", 
-     main = "Estimated as in Micrococcus lysodeikticus chromosome", 
-     ylim = c(0, max(100 * yworst)))
- points(xval, 100 * yrand, type = "l", lwd = 2, lty = 2)
- points(xval, 100 * ybest, type = "l", lwd = 2, lty = 3)
- abline(v = c(25, 75), lty = 2)
- arrows(25, 25, 75, 25, code = 1, le = 0.1)
- arrows(25, 25, 75, 25, code = 2, le = 0.1)
- text(50, 25, "Biological range", pos = 3)
+ sapply(xval/100, randomcase) -> yrand
+ sapply(xval/100, worstcase) -> yworst
+ sapply(xval/100, bestcase) -> ybest
+ plot(xval, 100*yworst, las = 1, type = "l", lwd = 2, lty = 1 ,
+ xlab = "G+C content [%]",
+ ylab = "Phototargets weighted density [%]",
+ main = "Estimated as in Micrococcus lysodeikticus chromosome",
+ ylim = c(0, max(100*yworst)))
+ points(xval,100*yrand,type='l',lwd=2,lty=2)
+ points(xval,100*ybest,type='l',lwd=2,lty=3)
+ abline(v=c(25,75),lty=2)
+ arrows(25, 25, 75, 25, code = 1,le = 0.1)
+ arrows(25, 25, 75, 25,code = 2,le = 0.1)
+ text(50,25,"Biological range",pos=3)
 \end{Sinput}
 \end{Schunk}
 
@@ -1093,28 +1086,26 @@ none of the four pyrimidine dinucleotides (see figure
 \begin{Schunk}
 \begin{Sinput}
  data(dinucl)
- par(mfrow = c(2, 2), mar = c(4, 4, 0.5, 0.5) + 0.1)
- myplot <- function(x) {
-     plot(dinucl$intergenic[, x], dinucl$coding[, x], xlab = "intergenic", 
-         ylab = "coding", las = 1, ylim = c(-6, 4), xlim = c(-3, 
-             3), cex = 0)
-     rect(-10, -10, -1.96, 10, col = "yellow", border = "yellow")
-     rect(1.96, -10, 10, 10, col = "yellow", border = "yellow")
-     rect(-10, -10, 10, -1.96, col = "yellow", border = "yellow")
-     rect(-10, 1.96, 10, 10, col = "yellow", border = "yellow")
-     abline(v = 0, lty = 3)
-     abline(h = 0, lty = 3)
-     abline(h = -1.96, lty = 2)
-     abline(h = +1.96, lty = 2)
-     abline(v = -1.96, lty = 2)
-     abline(v = +1.96, lty = 2)
-     points(dinucl$intergenic[, x], dinucl$coding[, x], pch = 21, 
-         col = rgb(0.1, 0.1, 0.1, 0.5), bg = rgb(0.5, 0.5, 
-             0.5, 0.5))
-     legend("bottomright", inset = 0.02, legend = paste(substr(x, 
-         1, 1), "p", substr(x, 2, 2), " bias", sep = ""), cex = 1.25, 
-         bg = "white")
-     box()
+ par(mfrow = c(2, 2), mar = c(4,4,0.5,0.5)+0.1)
+ myplot <- function(x){
+   plot(dinucl$intergenic[, x], dinucl$coding[, x],
+   xlab = "intergenic", ylab = "coding", 
+   las = 1, ylim = c(-6, 4), 
+   xlim = c(-3, 3), cex = 0)
+   rect(-10,-10,-1.96,10,col="yellow", border = "yellow")
+   rect(1.96,-10,10,10,col="yellow", border = "yellow")
+   rect(-10,-10,10,-1.96,col="yellow", border = "yellow")
+   rect(-10,1.96,10,10,col="yellow", border = "yellow")
+   abline(v=0,lty=3)
+   abline(h=0,lty=3)
+   abline(h=-1.96,lty=2)
+   abline(h=+1.96,lty=2)
+   abline(v=-1.96,lty=2)
+   abline(v=+1.96,lty=2)
+   points(dinucl$intergenic[, x], dinucl$coding[, x], pch = 21,
+   col = rgb(.1,.1,.1,.5), bg = rgb(.5,.5,.5,.5))
+   legend("bottomright", inset = 0.02, legend = paste(substr(x,1,1), "p", substr(x,2,2), " bias", sep = ""), cex = 1.25, bg = "white")
+   box()
  }
  myplot("CT")
  myplot("TC")
@@ -1170,20 +1161,20 @@ produced with the following code:
 \begin{Schunk}
 \begin{Sinput}
  data(prochlo)
- oneplot <- function(x) {
-     plot(density(prochlo$BX548174[, x]), ylim = c(0, 0.4), 
-         xlim = c(-4, 4), lty = 3, main = paste(substr(x, 1, 
-             1), "p", substr(x, 2, 2), " bias", sep = ""), 
-         xlab = "", ylab = "", las = 1, type = "n")
-     rect(-10, -1, -1.96, 10, col = "yellow", border = "yellow")
-     rect(1.96, -1, 10, 10, col = "yellow", border = "yellow")
-     lines(density(prochlo$BX548174[, x]), lty = 3)
-     lines(density(prochlo$AE017126[, x]), lty = 2)
-     lines(density(prochlo$BX548175[, x]), lty = 1)
-     abline(v = c(-1.96, 1.96), lty = 5)
-     box()
+ oneplot <- function(x){
+   plot(density(prochlo$BX548174[, x]),
+     ylim = c(0,0.4), xlim = c(-4,4), lty=3,
+     main = paste(substr(x,1,1), "p", substr(x,2,2), " bias", sep = ""),
+     xlab="",ylab="",las=1, type = "n")
+   rect(-10,-1,-1.96,10, col = "yellow", border = "yellow")
+   rect(1.96,-1,10,10, col = "yellow", border = "yellow")
+   lines(density(prochlo$BX548174[, x]),lty=3)
+   lines(density(prochlo$AE017126[, x]),lty=2)
+   lines(density(prochlo$BX548175[, x]),lty=1)
+   abline(v=c(-1.96,1.96),lty=5)
+   box()
  }
- par(mfrow = c(2, 2), mar = c(2, 3, 2, 0.5) + 0.1)
+ par(mfrow=c(2,2),mar=c(2,3,2,0.5) + 0.1)
  oneplot("CT")
  oneplot("TC")
  oneplot("CC")
@@ -1225,47 +1216,47 @@ pyrimidine dinucleotides and UV-exposure.
 %
 \begin{Schunk}
 \begin{Sinput}
- data(prochlo)
- par(oma = c(0, 0, 3, 0), mfrow = c(1, 2), mar = c(5, 4, 0, 
-     0), cex = 1.5)
- example(waterabs, ask = FALSE)
- abline(v = 260, lwd = 2, col = "red")
- par(mar = c(5, 0, 0, 2))
- plot(seq(-5, 3, by = 1), seq(0, 150, length = 9), col = "white", 
+ data(prochlo)  
+   par(oma = c(0, 0, 3, 0), mfrow = c(1, 2), mar = c(5, 4, 0, 0), cex = 1.5)
+   example(waterabs, ask = FALSE) #left figure
+   abline(v=260, lwd = 2, col = "red")
+   par(mar = c(5, 0, 0, 2))
+   plot(seq(-5, 3, by = 1), seq(0, 150, length = 9), col = "white", 
      ann = FALSE, axes = FALSE, xaxs = "i", yaxs = "i")
- axis(1, at = c(-1.96, 0, 1.96), labels = c(-1.96, 0, 1.96))
- lines(rep(-1.96, 2), c(0, 150), lty = 2)
- lines(rep(1.96, 2), c(0, 150), lty = 2)
- title(xlab = "zscore distribution", cex = 1.5, adj = 0.65)
- selcol <- c(6, 8, 14, 16)
- z5 <- prochlo$BX548174[, selcol]
- z120 <- prochlo$AE017126[, selcol]
- z135 <- prochlo$BX548175[, selcol]
- todo <- function(who, xx, col = "black", bottom, loupe) {
-     dst <- density(who[, xx])
-     sel <- which(dst$x >= -3)
-     lines(dst$x[sel], dst$y[sel] * loupe + (bottom), col = col)
- }
- todo2 <- function(who, bottom, loupe) {
+   axis(1, at = c(-1.96, 0, 1.96), labels = c(-1.96, 0, 1.96))
+   lines(rep(-1.96, 2),c(0, 150),lty=2)
+   lines(rep(1.96, 2), c(0, 150),lty=2)
+   title(xlab = "zscore distribution", cex = 1.5, adj = 0.65)
+   selcol <- c(6, 8, 14, 16)
+   z5 <- prochlo$BX548174[, selcol]
+   z120 <- prochlo$AE017126[, selcol]
+   z135 <- prochlo$BX548175[, selcol]
+   todo <- function(who, xx, col = "black", bottom, loupe){
+   	dst <- density(who[, xx])
+   	sel <- which(dst$x >= -3)
+     	lines(dst$x[sel], dst$y[sel]*loupe + (bottom), col = col)
+   }
+   todo2 <- function(who, bottom, loupe){
      todo(who, "CC", "blue", bottom, loupe)
      todo(who, "CT", "red", bottom, loupe)
      todo(who, "TC", "green", bottom, loupe)
      todo(who, "TT", "black", bottom, loupe)
- }
- todo3 <- function(bottom, who, leg, loupe = 90) {
-     lines(c(-5, -3), c(150 - leg, bottom + 20))
-     rect(-3, bottom, 3, bottom + 40)
-     text(-2.6, bottom + 38, paste(leg, "m"))
+   }
+   todo3 <- function(bottom, who, leg, loupe = 90){
+     lines(c(-5,-3), c(150 - leg, bottom + 20))
+     rect(-3,bottom,3,bottom+40)
+     text(-2.6,bottom+38, paste(leg, "m"))
      todo2(who, bottom, loupe)
- }
- todo3(bottom = 110, who = z5, leg = 5)
- todo3(bottom = 50, who = z120, leg = 120)
- todo3(bottom = 5, who = z135, leg = 135)
- legend(-4.5, 110, c("CpC", "CpT", "TpC", "TpT"), lty = 1, 
-     pt.cex = cex, col = c("blue", "red", "green", "black"))
- mtext(expression(paste("Dinucleotide composition for three ", 
-     italic("Prochlorococcus marinus"), " ecotypes")), outer = TRUE, 
-     cex = 2, line = 1)
+   }
+        todo3(bottom = 110, who = z5, leg = 5)
+        todo3(bottom = 50, who = z120, leg = 120)
+        todo3(bottom = 5, who = z135, leg = 135)
+        legend(-4.5,110,c('CpC','CpT','TpC','TpT'),lty=1,pt.cex=cex,
+          col=c('blue','red','green','black'))
+        mtext(expression(paste("Dinucleotide composition for three ", 
+          italic("Prochlorococcus marinus")," ecotypes")), outer = TRUE, cex = 2,
+  line = 1)
+ 
 \end{Sinput}
 \end{Schunk}
 
@@ -1305,20 +1296,20 @@ pyrimidine dinucleotides and UV-exposure.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 14:48:01 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 21:25:11 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
