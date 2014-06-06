@@ -5,6 +5,7 @@
 \author{Penel, S.}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
 \tableofcontents
@@ -535,18 +536,6 @@ the \seqinr{} client \cite{seqinr} under the \Rlogo{} statistical environment \c
 
 \vspace{0.2cm}
 
-For \LaTeX{} users, these references are available in the \texttt{book.bib} file that ships
-with \seqinr{} in the \texttt{seqinr/doc/src/config/} folder. To locate this file on your
-computer try:
-
-<<showbookbib,fig=F>>=
-(seqinrloc <- normalizePath(.path.package("seqinr")))
-setwd(seqinrloc)
-dir()
-setwd("./doc/src/config")
-dir()
-cat(readLines("book.bib", n = 5), sep = "\n")
-@ 
 
 %
 % For Sweave users, go back home:

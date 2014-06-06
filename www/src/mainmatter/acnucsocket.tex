@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{acnucsocket-concordance}
 %
 % To change the R input/output style:
 %
@@ -111,8 +112,8 @@ the directory where you want to install the demo database.
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
- download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z", 
-     destfile = "./ACNUC_HOME/ACNUC_DB/demoacnuc/acnucdatabase.tar.Z")
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z",
+ destfile = "./ACNUC_HOME/ACNUC_DB/demoacnuc/acnucdatabase.tar.Z")
 \end{Sinput}
 \end{Schunk}
 
@@ -212,8 +213,8 @@ let ACNUC\_HOME/ACNUC\_SOFT/ be the base directory for the ACNUC softs.
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
- download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar", 
-     destfile = "./ACNUC_HOME/ACNUC_SOFT/racnucd.tar")
+ download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/racnucd.tar",
+ destfile = "./ACNUC_HOME/ACNUC_SOFT/racnucd.tar")
 \end{Sinput}
 \end{Schunk}
 
@@ -237,21 +238,27 @@ Now you sould get the following directory:
  dir("./ACNUC_HOME/ACNUC_SOFT/")
 \end{Sinput}
 \begin{Soutput}
-[1] "racnucd"
+[1] "racnucd" "tools"  
 \end{Soutput}
 \begin{Sinput}
  dir("./ACNUC_HOME/ACNUC_SOFT/racnucd/")
 \end{Sinput}
 \begin{Soutput}
- [1] "bit.c"                "dbplaces"             "dir_acnuc.h"         
- [4] "dir_io.c"             "dir_io.h"             "execute.c"           
- [7] "execute.h"            "extract.c"            "knowndbs"            
-[10] "lngbit.c"             "makefile"             "md5.c"               
-[13] "misc_acnuc.c"         "ordre.h"              "parser.c"            
-[16] "prep_acnuc_requete.c" "pretty_seq.c"         "proc_requete.c"      
-[19] "racnucd.ini"          "requete_acnuc.h"      "serveur.c"           
-[22] "serveur.h"            "simext.h"             "use_acnuc.c"         
-[25] "utilquery.c"          "zsockw.c"            
+ [1] "bit.c"                "bit.o"                "dbplaces"            
+ [4] "dir_acnuc.h"          "dir_io.c"             "dir_io.h"            
+ [7] "dir_io.o"             "execute.c"            "execute.h"           
+[10] "execute.o"            "extract.c"            "extract.o"           
+[13] "knowndbs"             "lngbit.c"             "lngbit.o"            
+[16] "makefile"             "md5.c"                "md5.o"               
+[19] "misc_acnuc.c"         "misc_acnuc.o"         "ordre.h"             
+[22] "parser.c"             "parser.o"             "prep_acnuc_requete.c"
+[25] "prep_acnuc_requete.o" "pretty_seq.c"         "pretty_seq.o"        
+[28] "proc_requete.c"       "proc_requete.o"       "racnucd"             
+[31] "racnucd.ini"          "racnucd.log"          "racnucd.new"         
+[34] "requete_acnuc.h"      "serveur.c"            "serveur.h"           
+[37] "serveur.o"            "simext.h"             "use_acnuc.c"         
+[40] "use_acnuc.o"          "utilquery.c"          "utilquery.o"         
+[43] "zsockw.c"             "zsockw.o"            
 \end{Soutput}
 \end{Schunk}
 
@@ -265,7 +272,7 @@ This should create the \textbf{racnucd} executable.
  dir(pattern = "racnucd")
 \end{Sinput}
 \begin{Soutput}
-[1] "racnucd"     "racnucd.ini"
+[1] "racnucd"     "racnucd.ini" "racnucd.log" "racnucd.new"
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -281,8 +288,7 @@ The \textbf{racnucd.ini} file is structued as follows:
 
 \begin{Schunk}
 \begin{Sinput}
- cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), 
-     sep = "\n")
+ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 port=5558
@@ -307,10 +313,9 @@ For example , lets use the port 49152 in a new racnucd.new file.
 \begin{Schunk}
 \begin{Sinput}
  initline <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.ini")
- initline[1] = "port=49152"
+ initline[1]="port=49152"
  writeLines(initline, "./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new")
- cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new"), 
-     sep = "\n")
+ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/racnucd.new"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 port=49152
@@ -328,8 +333,7 @@ The \textbf{knowndbs} contains:
 
 \begin{Schunk}
 \begin{Sinput}
- cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs"), 
-     sep = "\n")
+ cat(readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/knowndbs"),sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 embl | on |    | EMBL sequence data library | 
@@ -390,14 +394,13 @@ setenv  demoacnuc       'ACNUC_HOME/ACNUC_DB/demoacnuc/index ACNUC_HOME/ACNUC_DB
 \begin{Sinput}
  indexpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
  ffpath <- normalizePath("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
- newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, 
-     "'", sep = "", collapse = "")
+ newdb <- paste("setenv demoacnuc '", indexpath, " ", ffpath, "'", sep = "", collapse = "")
  writeLines(newdb, "./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
  dbplaces <- readLines("./ACNUC_HOME/ACNUC_SOFT/racnucd/dbplaces")
  cat(dbplaces, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-setenv demoacnuc '/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/index /Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
+setenv demoacnuc '/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/index /Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
 \end{Soutput}
 \end{Schunk}
 
@@ -415,16 +418,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "14492  p2  S+     0:00.01 ./racnucd racnucd.new"  
-[2] "14493  p2  S+     0:00.01 sh -c ps | grep racnucd"
-[3] "14495  p2  S+     0:00.00 grep racnucd"           
+character(0)
+attr(,"status")
+[1] 1
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Thu Nov  5 14:22:23 2009
+Start of remote acnuc server : Fri Jun  6 13:28:33 2014
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -449,8 +452,9 @@ for example:
 \begin{Schunk}
 \begin{Sinput}
  library(seqinr)
+ #system("hostname", intern = TRUE) -> hostname
  hostname <- "localhost"
- choosebank(host = hostname, port = 49152, info = TRUE)
+ choosebank(host = hostname,port=49152, info = TRUE)
 \end{Sinput}
 \begin{Soutput}
        bank status
@@ -465,7 +469,7 @@ You can query the database. For example:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank(bank = "demoacnuc", host = hostname, port = 49152)
+ choosebank(bank = "demoacnuc",host = hostname,port=49152)
  query("mylist", "k=rib@ prot@")
  mylist$nelem
 \end{Sinput}
@@ -539,8 +543,8 @@ Let ACNUC\_HOME/ACNUC\_SOFT/tools be the base directory for the ACNUC tools.
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
- download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar", 
-     destfile = "./ACNUC_HOME/ACNUC_SOFT/tools/acnucsoft.tar")
+ download.file("ftp://pbil.univ-lyon1.fr/pub/acnuc/unix/acnucsoft.tar",
+ destfile = "./ACNUC_HOME/ACNUC_SOFT/tools/acnucsoft.tar")
 \end{Sinput}
 \end{Schunk}
 
@@ -577,21 +581,23 @@ This should create the ACNUC management tools and ACNUC querying tools.
  [7] "bit.c"               "bit.o"               "compressnewdiv.c"   
 [10] "connectindex.c"      "conv_to_bigannots.c" "coperations.c"      
 [13] "dir_acnuc.h"         "dir_io.c"            "dir_io.h"           
-[16] "dir_io.o"            "dynlist.c"           "dynlist.o"          
-[19] "extract.c"           "fortran_ex.f"        "gestion_acnuc.c"    
-[22] "gestion_acnuc.o"     "hashacc.c"           "hashacc.o"          
-[25] "initf.c"             "libcacnuc.a"         "lngbit.c"           
-[28] "lngbit.o"            "makefile"            "mdshrt_lng.c"       
-[31] "mdshrt_lng.o"        "misc_acnuc.c"        "misc_acnuc.o"       
-[34] "ncbitaxo.h"          "newordalphab.c"      "pretty_seq.c"       
-[37] "proc_requete.c"      "query.c"             "readncbitaxo.c"     
-[40] "renamediv.c"         "simext.h"            "smjytload.c"        
-[43] "sortsubseq.c"        "supold.c"            "testmatchindex.c"   
-[46] "two_banks.c"         "two_banks.o"         "updatehelp.c"       
-[49] "use_acnuc.c"         "use_acnuc.o"         "utilgener.c"        
-[52] "utilgener.h"         "utilgener.o"         "utilgener2.c"       
-[55] "utilgener2.o"        "utilquery.c"         "utilquery.o"        
-[58] "voyage.c"           
+[16] "dir_io.o"            "extract.c"           "extract.o"          
+[19] "fortran_ex.f"        "gestion_acnuc.c"     "gestion_acnuc.o"    
+[22] "hashacc.c"           "hashacc.o"           "initf.c"            
+[25] "libcacnuc.a"         "lngbit.c"            "lngbit.o"           
+[28] "makefile"            "mdshrt_lng.c"        "mdshrt_lng.o"       
+[31] "misc_acnuc.c"        "misc_acnuc.o"        "ncbitaxo.h"         
+[34] "newordalphab.c"      "pretty_seq.c"        "pretty_seq.o"       
+[37] "proc_requete.c"      "proc_requete.o"      "query"              
+[40] "query.c"             "query.o"             "readncbitaxo.c"     
+[43] "readncbitaxo.o"      "readtaxdump.c"       "readtaxdump.o"      
+[46] "renamediv.c"         "simext.h"            "smjytload.c"        
+[49] "sortsubseq.c"        "supold.c"            "testmatchindex.c"   
+[52] "two_banks.c"         "two_banks.o"         "updatehelp.c"       
+[55] "use_acnuc.c"         "use_acnuc.o"         "utilgener.c"        
+[58] "utilgener.h"         "utilgener.o"         "utilgener2.c"       
+[61] "utilgener2.o"        "utilquery.c"         "utilquery.o"        
+[64] "voyage.c"           
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -636,8 +642,8 @@ This directory should contain the  \textit{index} and \textit{flat\_files} direc
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
- download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z", 
-     destfile = "./ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat.Z")
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/escherichia_uniprot.dat.Z",
+ destfile = "./ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat.Z")
 \end{Sinput}
 \end{Schunk}
 
@@ -669,30 +675,30 @@ You can copy this file in ACNUC\_HOME/ACNUC\_DB/mydb and execute it by typing::
 % Mettre eval=F apres premier download
 \begin{Schunk}
 \begin{Sinput}
- download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh", 
-     destfile = "./ACNUC_HOME/ACNUC_DB/mydb/buildindex.csh")
+ download.file("ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/buildindex.csh",
+ destfile = "./ACNUC_HOME/ACNUC_DB/mydb/buildindex.csh")
  setwd("./ACNUC_HOME/ACNUC_DB/mydb/")
  system("chmod +x ./buildindex.csh")
  system("./buildindex.csh escherichia_uniprot >  ./build.log")
- cat(readLines("build.log", 50), sep = "\n")
+ cat(readLines("build.log",50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
  Build a protein database in:
  ============================
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
  
 ACNUC environment:
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
  
 ACNUC tools in:
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
  
 flat file: escherichia_uniprot.dat
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Thu Nov  5 14:22:43 CET 2009
+Ven  6 jui 2014 13:28:43 CEST
 =====================================
 Initialise
 
@@ -705,7 +711,7 @@ run newordalphab
 
 =====================================
 run updatehelp
-Thu Nov  5 14:22:43 CET 2009
+Ven  6 jui 2014 13:28:43 CEST
 Index have been sucessfully build.
 =====================================
  
@@ -713,25 +719,25 @@ Testing the index:
 ==================
 \end{Soutput}
 \begin{Sinput}
- cat(tail(readLines("build.log"), 50), sep = "\n")
+ cat(tail(readLines("build.log"),50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
  Build a protein database in:
  ============================
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
  
 ACNUC environment:
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
  
 ACNUC tools in:
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
  
 flat file: escherichia_uniprot.dat
- ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/www/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Thu Nov  5 14:22:43 CET 2009
+Ven  6 jui 2014 13:28:43 CEST
 =====================================
 Initialise
 
@@ -744,7 +750,7 @@ run newordalphab
 
 =====================================
 run updatehelp
-Thu Nov  5 14:22:43 CET 2009
+Ven  6 jui 2014 13:28:43 CEST
 Index have been sucessfully build.
 =====================================
  
@@ -836,45 +842,6 @@ the \seqinr{} client \cite{seqinr} under the \Rlogo{} statistical environment \c
 
 \vspace{0.2cm}
 
-For \LaTeX{} users, these references are available in the \texttt{book.bib} file that ships
-with \seqinr{} in the \texttt{seqinr/doc/src/config/} folder. To locate this file on your
-computer try:
-
-\begin{Schunk}
-\begin{Sinput}
- (seqinrloc <- normalizePath(.path.package("seqinr")))
-\end{Sinput}
-\begin{Soutput}
-[1] "/Users/lobry/seqinr/pkg.Rcheck/seqinr"
-\end{Soutput}
-\begin{Sinput}
- setwd(seqinrloc)
- dir()
-\end{Sinput}
-\begin{Soutput}
- [1] "abif"        "CITATION"    "data"        "DESCRIPTION" "doc"        
- [6] "help"        "html"        "INDEX"       "libs"        "Meta"       
-[11] "R"           "sequences"  
-\end{Soutput}
-\begin{Sinput}
- setwd("./doc/src/config")
- dir()
-\end{Sinput}
-\begin{Soutput}
-[1] "atxy.sty"        "authors.tex"     "book.bib"        "commonrnw.rnw"  
-[5] "commontex.tex"   "sessionInfo.rnw"
-\end{Soutput}
-\begin{Sinput}
- cat(readLines("book.bib", n = 5), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-@incollection{seqinr,
-    author = {Charif, D. and Lobry, J.R.},
-    title = {Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.},
-    booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
-    year = {2007},
-\end{Soutput}
-\end{Schunk}
 
 %
 % For Sweave users, go back home:
@@ -888,20 +855,20 @@ computer try:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 14:22:43 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 13:28:43 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
