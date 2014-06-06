@@ -21,6 +21,9 @@ most recent on top.
 
 \begin{itemize}
 
+\item The broken default link in \texttt{get.db.growth()} has been fixed so
+that now \texttt{dia.db.growth()} works as well.
+
 \item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument
 so that it can handle sequences provided as strings instead of vectors of single
 character.
