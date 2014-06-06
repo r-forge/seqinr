@@ -7,6 +7,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{querylang-concordance}
 %
 % To change the R input/output style:
 %
@@ -84,8 +85,7 @@ criteria between escaped double quotes. For example:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("ambig", "\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", 
-     virtual = T)
+ query("ambig","\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", virtual = T)
  ambig$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -113,14 +113,14 @@ characters. Here are some examples:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("bb", "sp=Borrelia burgdorferi", virtual = T)
+ query("bb","sp=Borrelia burgdorferi",virtual=T)
  bb$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 1682
 \end{Soutput}
 \begin{Sinput}
- query("borrelia", "sp=Borrelia", virtual = T)
+ query("borrelia","sp=Borrelia",virtual=T)
  borrelia$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -136,14 +136,14 @@ Here is an example of use of the wildcard @ to look for sapiens species:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("sapiens", "sp=@sapiens@", virtual = T)
+ query("sapiens","sp=@sapiens@",virtual=T)
  sapiens$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 2216556
 \end{Soutput}
 \begin{Sinput}
- query("sapienspecies", "PS sapiens")
+ query("sapienspecies","PS sapiens")
  getName(sapienspecies)
 \end{Sinput}
 \begin{Soutput}
@@ -191,14 +191,14 @@ NCBI's taxonomy ID. For instance, the taxonomy ID for
 \begin{Schunk}
 \begin{Sinput}
  choosebank("genbank")
- query("hsn", "TID=63221", virtual = T)
+ query("hsn","TID=63221", virtual=T)
  hsn$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1346
+[1] 1355
 \end{Soutput}
 \begin{Sinput}
- query("hsnsp", "PS hsn")
+ query("hsnsp","PS hsn")
  getName(hsnsp)
 \end{Sinput}
 \begin{Soutput}
@@ -217,10 +217,9 @@ characters. Example:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("emblTP")
- query("ecoliribprot", "sp=escherichia coli AND k=rib@ prot@", 
-     virtual = T)
- ecoliribprot$nelem
+  choosebank("emblTP")
+ query("ecoliribprot","sp=escherichia coli AND k=rib@ prot@", virtual=T)
+  ecoliribprot$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 105
@@ -260,7 +259,7 @@ For instance, to select all coding sequences from \textit{Homo sapiens} we can u
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("hscds", "sp=Homo sapiens AND t=cds", virtual = T)
+ query("hscds","sp=Homo sapiens AND t=cds", virtual=T)
  hscds$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -279,7 +278,7 @@ For instance to select all sequences published in \textit{Science}:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("allseqsfromscience", "J=Science", virtual = TRUE)
+ query("allseqsfromscience","J=Science", virtual=TRUE)
  allseqsfromscience$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -298,8 +297,7 @@ this way:
  choosebank("emblTP")
  nl <- readfirstrec(type = "SMJ")
  smj <- readsmj(nl = nl, all.add = TRUE)
- head(smj[!is.na(smj$nature) & smj$nature == "journal", c("sname", 
-     "libel")])
+ head(smj[!is.na(smj$nature) & smj$nature == "journal", c("sname","libel")])
 \end{Sinput}
 \begin{Soutput}
                 sname                                                libel
@@ -325,7 +323,7 @@ we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("rpro", "R=Nature/396/133")
+ query("rpro","R=Nature/396/133")
  getName(rpro)
 \end{Sinput}
 \begin{Soutput}
@@ -343,7 +341,7 @@ This is used to select sequences having a specified author (only last name, no i
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("Graur", "AU=Graur")
+ query("Graur","AU=Graur")
  Graur$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -363,7 +361,7 @@ number AY382159:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("ACexample", "AC=AY382159")
+ query("ACexample","AC=AY382159")
  getName(ACexample$req[[1]])
 \end{Sinput}
 \begin{Soutput}
@@ -371,7 +369,7 @@ number AY382159:
 \end{Soutput}
 \begin{Sinput}
  annotations <- getAnnot(ACexample$req[[1]])
- cat(annotations, sep = "\n")
+ cat(annotations, sep ="\n")
 \end{Sinput}
 \begin{Soutput}
 ID   AY382159   standard; genomic DNA; PRO; 783 BP.
@@ -437,7 +435,7 @@ is possible here.
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("Nexample", "N=AY382159")
+ query("Nexample","N=AY382159")
  getName(Nexample$req[[1]])
 \end{Sinput}
 \begin{Soutput}
@@ -445,7 +443,7 @@ is possible here.
 \end{Soutput}
 \begin{Sinput}
  annotations <- getAnnot(Nexample$req[[1]])
- cat(annotations, sep = "\n")
+ cat(annotations, sep ="\n")
 \end{Sinput}
 \begin{Soutput}
 ID   AY382159   standard; genomic DNA; PRO; 783 BP.
@@ -506,7 +504,7 @@ year and before this year (\texttt{Y<year}).
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("Yexample", "Y=1999", virtual = TRUE)
+ query("Yexample","Y=1999", virtual=TRUE)
  Yexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -527,17 +525,18 @@ this way:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname", 
-     "libel")]
+  nl <- readfirstrec(type = "SMJ")
+   smj <- readsmj(nl = nl, all.add = TRUE)
+  smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname","libel")]
 \end{Sinput}
 \begin{Soutput}
              sname                    libel
-4078   CHLOROPLAST       Chloroplast genome
-4079 MITOCHONDRION     Mitochondrial genome
-4080   NUCLEOMORPH       Nucleomorph genome
-4081       PLASTID non-green plastid genome
+5278   CHLOROPLAST       Chloroplast genome
+5279 CHROMATOPHORE                     <NA>
+5280 HYDROGENOSOME                     <NA>
+5281 MITOCHONDRION     Mitochondrial genome
+5282   NUCLEOMORPH       Nucleomorph genome
+5283       PLASTID non-green plastid genome
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -549,7 +548,7 @@ To select for instance all sequences from chloroplast genome we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("Oexample", "O=chloroplast", virtual = TRUE)
+ query("Oexample","O=chloroplast", virtual=TRUE)
  Oexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -570,22 +569,18 @@ this way:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname", 
-     "libel")]
+  nl <- readfirstrec(type = "SMJ")
+   smj <- readsmj(nl = nl, all.add = TRUE)
+  smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname","libel")]
 \end{Sinput}
 \begin{Soutput}
-    sname                                       libel
-4    CRNA                                        <NA>
-5     DNA                   Sequenced molecule is DNA
-6    MRNA                  sequenced molecule is mRNA
-7     RNA                   Sequenced molecule is RNA
-8    RRNA                  sequenced molecule is rRNA
-9   SCRNA sequenced molecule is small cytoplasmic RNA
-10 SNORNA   sequenced molecule is small nucleolar RNA
-11  SNRNA     sequenced molecule is small nuclear RNA
-12   TRNA                  sequenced molecule is tRNA
+  sname                                   libel
+4  CRNA Sequenced molecule is complementary RNA
+5   DNA               Sequenced molecule is DNA
+6  MRNA              sequenced molecule is mRNA
+7   RNA               Sequenced molecule is RNA
+8  RRNA              sequenced molecule is rRNA
+9  TRNA              sequenced molecule is tRNA
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -597,7 +592,7 @@ To select for instance all sequences sequenced from DNA we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("Mexample", "M=DNA", virtual = TRUE)
+ query("Mexample","M=DNA", virtual=TRUE)
  Mexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -617,10 +612,9 @@ this way:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("embl")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname", 
-     "libel")]
+  nl <- readfirstrec(type = "SMJ")
+   smj <- readsmj(nl = nl, all.add = TRUE)
+  smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
 \end{Sinput}
 \begin{Soutput}
    sname                                        libel
@@ -638,10 +632,9 @@ this way:
 \begin{Sinput}
  closebank()
  choosebank("swissprot")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname", 
-     "libel")]
+  nl <- readfirstrec(type = "SMJ")
+   smj <- readsmj(nl = nl, all.add = TRUE)
+  smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
 \end{Sinput}
 \begin{Soutput}
        sname                                                  libel
@@ -658,11 +651,11 @@ To select for instance all fully annotated sequences from Uniprot we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("swissprot")
- query("STexample", "ST=REVIEWED", virtual = TRUE)
+ query("STexample","ST=REVIEWED", virtual=TRUE)
  STexample$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 509019
+[1] 545388
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -680,7 +673,7 @@ a file of sequence names distributed with the seqinR package:
 \begin{Sinput}
  choosebank("emblTP")
  fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
- cat(readLines(fileSQ), sep = "\n")
+ cat(readLines(fileSQ),sep="\n")
 \end{Sinput}
 \begin{Soutput}
 A04009.OSPA
@@ -732,7 +725,7 @@ a file of sequence accession numbers distributed with the seqinR package:
 \begin{Sinput}
  choosebank("emblTP")
  fileAC <- system.file("sequences/bb.acc", package = "seqinr")
- cat(readLines(fileAC), sep = "\n")
+ cat(readLines(fileAC),sep="\n")
 \end{Sinput}
 \begin{Soutput}
 AY382159
@@ -783,7 +776,7 @@ a file of keywords distributed with the seqinR package:
 \begin{Sinput}
  choosebank("emblTP")
  fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
- cat(readLines(fileKW), sep = "\n")
+ cat(readLines(fileKW),sep="\n")
 \end{Sinput}
 \begin{Soutput}
 PLASMID
@@ -809,7 +802,7 @@ PROMOTER REGION
 \end{Soutput}
 \begin{Sinput}
  clfcd("listKW", file = fileKW, type = "KW")
- getName(listKW)
+ getName(listKW) 
 \end{Sinput}
 \begin{Soutput}
  [1] "PLASMID"         "CIRCULAR"        "PARTIAL"         "5'-PARTIAL"     
@@ -834,7 +827,7 @@ a file of species names distributed with the seqinR package:
 \begin{Sinput}
  choosebank("emblTP")
  fileSP <- system.file("sequences/bb.sp", package = "seqinr")
- cat(readLines(fileSP), sep = "\n")
+ cat(readLines(fileSP),sep="\n")
 \end{Sinput}
 \begin{Soutput}
 BORRELIA ANSERINA
@@ -860,7 +853,7 @@ BORRELIA JAPONICA
 \end{Soutput}
 \begin{Sinput}
  clfcd("listSP", file = fileSP, type = "SP")
- getName(listSP)
+ getName(listSP) 
 \end{Sinput}
 \begin{Soutput}
  [1] "BORRELIA ANSERINA"    "BORRELIA CORIACEAE"   "BORRELIA PARKERI"    
@@ -897,8 +890,7 @@ A list name can be re-used, for instance:
 [1] 1682
 \end{Soutput}
 \begin{Sinput}
- query("MyThirdListName", "MyFirstListName AND MySecondListName", 
-     virtual = TRUE)
+ query("MyThirdListName", "MyFirstListName AND MySecondListName", virtual = TRUE)
  MyThirdListName$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -921,7 +913,7 @@ also coding sequences we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("ANDexample", "SP=Borrelia burgdorferi AND T=CDS", virtual = TRUE)
+ query("ANDexample","SP=Borrelia burgdorferi AND T=CDS", virtual=TRUE)
  ANDexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -943,8 +935,7 @@ from \textit{Escherichia coli} we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("ORexample", "SP=Borrelia burgdorferi OR SP=Escherichia coli", 
-     virtual = TRUE)
+ query("ORexample","SP=Borrelia burgdorferi OR SP=Escherichia coli", virtual=TRUE)
  ORexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -964,8 +955,7 @@ are not partial we can use:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("NOTexample", "SP=Borrelia burgdorferi AND NOT K=PARTIAL", 
-     virtual = TRUE)
+ query("NOTexample","SP=Borrelia burgdorferi AND NOT K=PARTIAL", virtual=TRUE)
  NOTexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -985,11 +975,11 @@ the reciprocity we can use for instance:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("A", "T=TRNA", virtual = TRUE)
- query("B", "PAR A", virtual = TRUE)
- query("C", "SUB B", virtual = TRUE)
- query("D", "PAR C", virtual = TRUE)
- query("emptySet", "B AND NOT D", virtual = TRUE)
+ query("A","T=TRNA", virtual=TRUE)
+ query("B","PAR A", virtual=TRUE)
+ query("C","SUB B", virtual=TRUE)
+ query("D","PAR C", virtual=TRUE)
+ query("emptySet", "B AND NOT D", virtual=TRUE)
  emptySet$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -1007,14 +997,14 @@ This is a unary operator to add all subsequences of members of the single list o
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("SUBexample", "AC=AE000783", virtual = T)
+ query("SUBexample","AC=AE000783",virtual=T)
  SUBexample$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 70
 \end{Soutput}
 \begin{Sinput}
- query("SUBexample2", "SUB SUBexample", virtual = T)
+  query("SUBexample2","SUB SUBexample",virtual=T)
  SUBexample2$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -1033,8 +1023,8 @@ sequences of the operand list.
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("PSexample", "K=hyperthermo@", virtual = T)
- query("PSexample2", "PS PSexample")
+ query("PSexample","K=hyperthermo@",virtual=T)
+ query("PSexample2","PS PSexample")
  getName(PSexample2)
 \end{Sinput}
 \begin{Soutput}
@@ -1054,8 +1044,8 @@ of the operand list.
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("PKexample", "AC=AE000783", virtual = T)
- query("PKexample2", "PK PKexample")
+ query("PKexample","AC=AE000783",virtual=T)
+ query("PKexample2","PK PKexample")
  getName(PKexample2)
 \end{Sinput}
 \begin{Soutput}
@@ -1076,7 +1066,7 @@ of species or keywords.
 \begin{Sinput}
  choosebank("emblTP")
  fileSP <- system.file("sequences/bb.sp", package = "seqinr")
- cat(readLines(fileSP), sep = "\n")
+ cat(readLines(fileSP),sep="\n")
 \end{Sinput}
 \begin{Soutput}
 BORRELIA ANSERINA
@@ -1103,10 +1093,10 @@ BORRELIA JAPONICA
 \begin{Sinput}
  clfcd("listSP", file = fileSP, type = "SP")
  query("UNexample", "UN listSP", virtual = TRUE)
- UNexample$nelem
+ UNexample$nelem 
 \end{Sinput}
 \begin{Soutput}
-[1] 2786
+[1] 2877
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -1121,16 +1111,16 @@ species list operand.
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("hominidae", "SP=Hominidae", virtual = T)
- query("hsp", "PS hominidae", virtual = T)
+ query("hominidae","SP=Hominidae",virtual=T)
+ query("hsp","PS hominidae",virtual=T)
  hsp$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 19
 \end{Soutput}
 \begin{Sinput}
- query("SDexample", "SD hsp")
- getName(SDexample)
+ query("SDexample","SD hsp")
+ getName(SDexample) 
 \end{Sinput}
 \begin{Soutput}
  [1] "HOMINIDAE"                      "PONGO"                         
@@ -1159,15 +1149,15 @@ keywords list operand.
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("cat", "SP=Felis catus", virtual = TRUE)
- query("catkw", "PK cat", virtual = TRUE)
+ query("cat","SP=Felis catus", virtual = TRUE)
+ query("catkw","PK cat", virtual = TRUE)
  catkw$nelem
 \end{Sinput}
 \begin{Soutput}
 [1] 540
 \end{Soutput}
 \begin{Sinput}
- query("KDexample", "KD catkw", virtual = TRUE)
+ query("KDexample","KD catkw", virtual = TRUE)
  KDexample$nelem
 \end{Sinput}
 \begin{Soutput}
@@ -1186,20 +1176,20 @@ keywords list operand.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 13:21:38 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 21:34:45 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
