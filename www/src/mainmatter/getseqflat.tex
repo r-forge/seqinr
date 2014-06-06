@@ -7,6 +7,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{getseqflat-concordance}
 %
 % To change the R input/output style:
 %
@@ -63,18 +64,14 @@ directory:
 
 \begin{Schunk}
 \begin{Sinput}
- list.files(path = system.file("sequences", package = "seqinr"), 
-     pattern = ".fasta")
+ list.files(path = system.file("sequences", package = "seqinr"), pattern = ".fasta")
 \end{Sinput}
 \begin{Soutput}
- [1] "Anouk.fasta"                "ATH1_pep_cm_20040228.fasta"
- [3] "bb.fasta"                   "bordetella.fasta"          
- [5] "ct.fasta"                   "DarrenObbard.fasta"        
- [7] "ecolicgpe5.fasta"           "gopher.fasta"              
- [9] "humanMito.fasta"            "legacy.fasta"              
-[11] "louse.fasta"                "malM.fasta"                
-[13] "ortho.fasta"                "seqAA.fasta"               
-[15] "smallAA.fasta"             
+ [1] "Anouk.fasta"        "bb.fasta"           "bordetella.fasta"  
+ [4] "ct.fasta"           "DarrenObbard.fasta" "ecolicgpe5.fasta"  
+ [7] "gopher.fasta"       "humanMito.fasta"    "legacy.fasta"      
+[10] "louse.fasta"        "malM.fasta"         "ortho.fasta"       
+[13] "seqAA.fasta"        "smallAA.fasta"     
 \end{Soutput}
 \end{Schunk}
 
@@ -82,8 +79,7 @@ Here is an example of a FASTA file:
 
 \begin{Schunk}
 \begin{Sinput}
- cat(readLines(system.file("sequences/seqAA.fasta", package = "seqinr")), 
-     sep = "\n")
+ cat(readLines(system.file("sequences/seqAA.fasta", package = "seqinr")), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 >A06852                  183 residues
@@ -98,8 +94,7 @@ Here is an example of a FASTA file with comment lines:
 
 \begin{Schunk}
 \begin{Sinput}
- cat(readLines(system.file("sequences/legacy.fasta", package = "seqinr")), 
-     sep = "\n")
+ cat(readLines(system.file("sequences/legacy.fasta", package = "seqinr")), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 >LEGACY  921 bp
@@ -283,7 +278,7 @@ The example file looks like:
 
 \begin{Schunk}
 \begin{Sinput}
- aafile <- system.file("sequences/seqAA.fasta", package = "seqinr")
+ aafile <-  system.file("sequences/seqAA.fasta", package = "seqinr")
  cat(readLines(aafile), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
@@ -342,8 +337,7 @@ Read 3 coding sequences sequences from a FASTA file:
 
 \begin{Schunk}
 \begin{Sinput}
- ortho <- read.fasta(file = system.file("sequences/ortho.fasta", 
-     package = "seqinr"))
+ ortho <- read.fasta(file = system.file("sequences/ortho.fasta", package = "seqinr"))
  length(ortho)
 \end{Sinput}
 \begin{Soutput}
@@ -361,8 +355,7 @@ Select only third codon positions:
 
 \begin{Schunk}
 \begin{Sinput}
- ortho3 <- lapply(ortho, function(x) x[seq(from = 3, to = length(x), 
-     by = 3)])
+ ortho3 <- lapply(ortho, function(x) x[seq(from = 3, to = length(x), by = 3)])
  ortho3[[1]][1:4]
 \end{Sinput}
 \begin{Soutput}
@@ -375,8 +368,7 @@ Write the modified sequences to a file:
 \begin{Schunk}
 \begin{Sinput}
  tmpf <- tempfile()
- write.fasta(sequences = ortho3, names = names(ortho3), nbchar = 80, 
-     file.out = tmpf)
+ write.fasta(sequences = ortho3, names = names(ortho3), nbchar = 80, file.out = tmpf)
 \end{Sinput}
 \end{Schunk}
 
@@ -403,12 +395,12 @@ paper with the following code:
 
 \begin{Schunk}
 \begin{Sinput}
- out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", 
-     package = "seqinr"), g2.coord = system.file("sequences/ct.coord", 
-     package = "seqinr"), oldoriloc = TRUE)
- plot(out$st, out$sk/1000, type = "l", xlab = "Map position in Kb", 
-     ylab = "Cumulated composite skew in Kb", main = expression(italic(Chlamydia ~ 
-         ~trachomatis) ~ ~complete ~ ~genome), las = 1)
+ out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+       g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+      oldoriloc = TRUE)
+ plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
+          ylab = "Cumulated composite skew in Kb", 
+          main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
  abline(h = 0, lty = 2)
  text(400, -4, "Terminus")
  text(850, 9, "Origin")
@@ -425,12 +417,11 @@ for a recent review on this topic.
 
 \begin{Schunk}
 \begin{Sinput}
- out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", 
-     package = "seqinr"), g2.coord = system.file("sequences/ct.coord", 
-     package = "seqinr"))
- plot(out$st, out$sk/1000, type = "l", xlab = "Map position in Kb", 
-     ylab = "Cumulated composite skew in Kb", main = expression(italic(Chlamydia ~ 
-         ~trachomatis) ~ ~complete ~ ~genome), las = 1)
+ out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+       g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+ plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
+          ylab = "Cumulated composite skew in Kb", 
+          main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
  mtext("New version")
  abline(h = 0, lty = 2)
  text(400, -4, "Terminus")
@@ -473,14 +464,15 @@ which contains the sequences of 21,161 proteins.
 
 \begin{Schunk}
 \begin{Sinput}
- athfile <- system.file("sequences/ATH1_pep_cm_20040228.fasta", 
-     package = "seqinr")
+ athfile <- "ATH1_pep_cm_20040228.fasta"
+ download.file(paste("http://seqinr.r-forge.r-project.org", athfile, sep = "/"),
+               athfile)
  system.time(ath <- read.fasta(athfile, seqtype = "AA", as.string = TRUE, 
-     set.attributes = FALSE))
+                               set.attributes = FALSE))
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  6.753   0.129   7.143 
+  3.766   0.022   3.789 
 \end{Soutput}
 \end{Schunk}
 
@@ -501,7 +493,7 @@ under unix and load them under Mac OS X, for instance, without problem.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.331   0.009   0.343 
+  0.151   0.001   0.153 
 \end{Soutput}
 \end{Schunk}
 
@@ -514,7 +506,7 @@ the flat file size on disk:
  object.size(ath)/2^20
 \end{Sinput}
 \begin{Soutput}
-14.6553726196289 bytes
+16.2128143310547 bytes
 \end{Soutput}
 \begin{Sinput}
  file.info(athfile)$size/2^20
@@ -535,9 +527,9 @@ this data set. This is a simple and direct task under \Rlogo{}:
 \begin{Schunk}
 \begin{Sinput}
  nres <- nchar(ath) - 1
- hist(log10(nres), col = grey(0.7), xlab = "Protein size (log10 scale)", 
-     ylab = "Protein count", main = expression(italic(Arabidopsis ~ 
-         ~thaliana)))
+ hist(log10(nres), col = grey(0.7), xlab = "Protein size (log10 scale)",
+ ylab = "Protein count", 
+ main = expression(italic(Arabidopsis~~thaliana)))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-athdistriprotsize}
@@ -588,10 +580,10 @@ of glycine:
 
 \begin{Schunk}
 \begin{Sinput}
- ngly <- function(data) {
-     res <- sapply(data, function(x) sum(s2c(x) == "G"))
-     names(res) <- NULL
-     return(res)
+ ngly <- function(data){
+  res <- sapply(data, function(x) sum(s2c(x) == "G"))
+  names(res) <- NULL
+  return(res)
  }
 \end{Sinput}
 \end{Schunk}
@@ -615,10 +607,10 @@ And we can have a look at the distribution:
 
 \begin{Schunk}
 \begin{Sinput}
- hist(fgly, col = grey(0.7), main = "Distribution of Glycine frequency", 
-     xlab = "Glycine content", ylab = "Protein count")
+ hist(fgly, col = grey(0.7), main = "Distribution of Glycine frequency",
+ xlab = "Glycine content", ylab = "Protein count")
  abline(v = 0.08, col = "red")
- legend("topright", inset = 0.01, lty = 1, col = "red", legend = "Threshold for hydrophilines")
+ legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-histgly}
@@ -627,10 +619,10 @@ Let's use a boxplot instead:
 
 \begin{Schunk}
 \begin{Sinput}
- boxplot(fgly, horizontal = TRUE, col = grey(0.7), main = "Distribution of Glycine frequency", 
-     xlab = "Glycine content", ylab = "Protein count")
+ boxplot(fgly, horizontal = TRUE, col = grey(0.7), main = "Distribution of Glycine frequency",
+ xlab = "Glycine content", ylab = "Protein count")
  abline(v = 0.08, col = "red")
- legend("topright", inset = 0.01, lty = 1, col = "red", legend = "Threshold for hydrophilines")
+ legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-boxplotgly}
@@ -696,7 +688,7 @@ coefficient according to their amino acid :
 
 \begin{Schunk}
 \begin{Sinput}
- names(EXP$KD) <- sapply(words(), function(x) translate(s2c(x)))
+ names(EXP$KD) <- sapply(words(),function(x) translate(s2c(x)))
 \end{Sinput}
 \end{Schunk}
 
@@ -759,17 +751,17 @@ frequencies:
 
 \begin{Schunk}
 \begin{Sinput}
- linform <- function(data, coef) {
-     f <- function(x) {
-         aaseq <- s2c(x)
-         freq <- table(factor(aaseq, levels = names(coef)))/length(aaseq)
-         return(coef %*% freq)
-     }
-     res <- sapply(data, f)
-     names(res) <- NULL
-     return(res)
+ linform <- function(data, coef){
+  f <- function(x){
+    aaseq <- s2c(x)
+    freq <- table(factor(aaseq, levels = names(coef)))/length(aaseq)
+    return(coef %*% freq)
+  }
+  res <- sapply(data, f)
+  names(res) <- NULL
+  return(res)
  }
- kdath <- linform(ath, kdc)
+ kdath <- linform(ath,kdc)
 \end{Sinput}
 \end{Schunk}
 
@@ -777,10 +769,11 @@ Let's have a look at the distribution:
 
 \begin{Schunk}
 \begin{Sinput}
- boxplot(kdath, horizontal = TRUE, col = grey(0.7), main = "Distribution of Hydropathy index", 
-     xlab = "Kyte and Doolittle GRAVY score")
+ boxplot(kdath, horizontal = TRUE, col = grey(0.7),
+ main = "Distribution of Hydropathy index",
+ xlab = "Kyte and Doolittle GRAVY score")
  abline(v = 1, col = "red")
- legend("topleft", inset = 0.01, lty = 1, col = "red", legend = "Threshold for hydrophilines")
+ legend("topleft",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-distriKD}
@@ -804,19 +797,19 @@ Check with a simple graph that there is no mistake here:
 \begin{Schunk}
 \begin{Sinput}
  library(MASS)
- dst <- kde2d(kdath, fgly, n = 50)
- filled.contour(x = dst, color.palette = topo.colors, plot.axes = {
-     axis(1)
-     axis(2)
-     title(xlab = "Kyte and Doolittle GRAVY score", ylab = "Glycine content", 
-         main = "Hydrophilines location")
-     abline(v = 1, col = "yellow")
-     abline(h = 0.08, col = "yellow")
-     points(kdath[hydrophilines], fgly[hydrophilines], col = "white")
-     legend("topleft", inset = 0.02, lty = 1, col = "yellow", 
-         bg = "white", legend = "Threshold for hydrophilines", 
-         cex = 0.8)
- })
+ dst <- kde2d(kdath,fgly, n = 50)
+ filled.contour(x = dst, color.palette = topo.colors,
+ plot.axes = {
+   axis(1)
+   axis(2)
+   title(xlab="Kyte and Doolittle GRAVY score", ylab = "Glycine content",
+     main = "Hydrophilines location")
+   abline(v=1, col = "yellow")
+   abline(h=0.08, col = "yellow")
+   points(kdath[hydrophilines], fgly[hydrophilines], col = "white")
+   legend("topleft",inset=0.02,lty=1,col="yellow", bg="white", legend="Threshold for hydrophilines", cex = 0.8)
+   }
+ )
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-chekhydro}
@@ -825,7 +818,8 @@ Everything seems to be OK, we can save the results in a data frame:
 
 \begin{Schunk}
 \begin{Sinput}
- athres <- data.frame(list(name = names(ath), KD = kdath, Gly = fgly))
+ data.frame(list("name"=names(ath), 
+ "KD"=kdath, "Gly"=fgly)) -> athres
  head(athres)
 \end{Sinput}
 \begin{Soutput}
@@ -864,8 +858,7 @@ extracted:
 
 \begin{Schunk}
 \begin{Sinput}
- hannah <- read.table(system.file("sequences/hannah.txt", package = "seqinr"), 
-     sep = "\t", header = TRUE)
+ read.table(system.file("sequences/hannah.txt", package = "seqinr"), sep = "\t", header = TRUE)->hannah
  head(hannah)
 \end{Sinput}
 \begin{Soutput}
@@ -907,13 +900,13 @@ We join now the two data frames thanks to their common key:
  head(join)
 \end{Sinput}
 \begin{Soutput}
-          AGI Hydrophilicity Glycine         KD        Gly
-1 At1g01120.1          -0.10    0.06 0.10699433 0.05871212
-2 At1g01390.1           0.02    0.06 0.00914761 0.06458333
-3 At1g01390.1           0.02    0.06 0.00914761 0.06458333
-4 At1g01420.1          -0.05    0.07 0.06203320 0.07276507
-5 At1g01420.1          -0.05    0.07 0.06203320 0.07276507
-6 At1g01480.1          -0.20    0.07 0.20080483 0.06653226
+          AGI Hydrophilicity Glycine          KD        Gly
+1 At1g01120.1          -0.10    0.06 0.106994329 0.05871212
+2 At1g01390.1           0.02    0.06 0.009147609 0.06458333
+3 At1g01390.1           0.02    0.06 0.009147609 0.06458333
+4 At1g01420.1          -0.05    0.07 0.062033195 0.07276507
+5 At1g01420.1          -0.05    0.07 0.062033195 0.07276507
+6 At1g01480.1          -0.20    0.07 0.200804829 0.06653226
 \end{Soutput}
 \end{Schunk}
 
@@ -921,9 +914,9 @@ Let's compare the glycine content :
 
 \begin{Schunk}
 \begin{Sinput}
- plot(join$Glycine, join$Gly, xlab = "Glycine content in Hannah et al. (2005)", 
-     ylab = "Glycine content here", main = "Comparison of Glycine content results")
- abline(c(0, 1), col = "red")
+ plot(join$Glycine, join$Gly, xlab = "Glycine content in Hannah et al. (2005)",
+ ylab = "Glycine content here", main = "Comparison of Glycine content results")
+ abline(c(0,1), col = "red")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-comparegly}
@@ -937,12 +930,11 @@ and references therein.
 
 \begin{Schunk}
 \begin{Sinput}
- plot(join$Hydrophilicity, join$KD, xlab = "GRAVY score in Hannah et al. (2005)", 
-     ylab = "GRAVY score here", main = "Comparison of hydropathy score results", 
-     las = 1)
- abline(c(0, -1), col = "red")
- abline(v = 0, lty = 2)
- abline(h = 0, lty = 2)
+ plot(join$Hydrophilicity, join$KD, xlab = "GRAVY score in Hannah et al. (2005)",
+ ylab = "GRAVY score here", main = "Comparison of hydropathy score results", las = 1)
+ abline(c(0,-1), col = "red")
+ abline(v=0, lty=2)
+ abline(h=0, lty=2)
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-comparekd}
@@ -1025,7 +1017,7 @@ The residue number may be displayed at the end of the first line of each block.
 
 \begin{Schunk}
 \begin{Sinput}
- clustalf <- system.file("sequences/test.aln", package = "seqinr")
+ clustalf <-system.file("sequences/test.aln", package = "seqinr")
  cat(readLines(clustalf), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
@@ -1271,15 +1263,29 @@ produced by common external programs for multiple sequence alignment.
  example(read.alignment)
 \end{Sinput}
 \begin{Soutput}
-rd.lgn mase <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
+rd.lgn mase.res   <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
 
-rd.lgn clustal <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
+rd.lgn clustal.res <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
 
-rd.lgn phylip <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+rd.lgn phylip.res  <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
 
-rd.lgn msf <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
+rd.lgn msf.res      <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
 
-rd.lgn fasta <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
+rd.lgn fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
+
+rd.lgn #
+rd.lgn # Quality control routine sanity checks:
+rd.lgn #
+rd.lgn 
+rd.lgn data(mase); stopifnot(identical(mase, mase.res))
+
+rd.lgn data(clustal); stopifnot(identical(clustal, clustal.res))
+
+rd.lgn data(phylip); stopifnot(identical(phylip, phylip.res))
+
+rd.lgn data(msf); stopifnot(identical(msf, msf.res))
+
+rd.lgn data(fasta); stopifnot(identical(fasta, fasta.res))
 \end{Soutput}
 \end{Schunk}
 
@@ -1298,26 +1304,32 @@ are distributed along with the \seqinr{} package:
 
 \begin{Schunk}
 \begin{Sinput}
- louse <- read.alignment(system.file("sequences/louse.fasta", 
-     package = "seqinr"), format = "fasta")
+ louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
  louse$nam
 \end{Sinput}
 \begin{Soutput}
-[1] "gi|548117|gb|L32667.1|GYDCYTOXIB" "gi|548119|gb|L32668.1|GYDCYTOXIC"
-[3] "gi|548121|gb|L32669.1|GYDCYTOXID" "gi|548125|gb|L32671.1|GYDCYTOXIF"
-[5] "gi|548127|gb|L32672.1|GYDCYTOXIG" "gi|548131|gb|L32675.1|GYDCYTOXII"
-[7] "gi|548133|gb|L32676.1|GYDCYTOXIJ" "gi|548137|gb|L32678.1|GYDCYTOXIL"
+[1] "gi|548117|gb|L32667.1|GYDCYTOXIB Geomydoecus chapini mitochondrial cytochrome oxidase I gene, partial cds"      
+[2] "gi|548119|gb|L32668.1|GYDCYTOXIC Geomydoecus cherriei mitochondrial cytochrome oxidase I gene, partial cds"     
+[3] "gi|548121|gb|L32669.1|GYDCYTOXID Geomydoecus costaricensis mitochondrial cytochrome oxidase I gene, partial cds"
+[4] "gi|548125|gb|L32671.1|GYDCYTOXIF Geomydoecus ewingi mitochondrial cytochrome oxidase I gene, partial cds"       
+[5] "gi|548127|gb|L32672.1|GYDCYTOXIG Geomydoecus geomydis mitochondrial cytochrome oxidase I gene, partial cds"     
+[6] "gi|548131|gb|L32675.1|GYDCYTOXII Geomydoecus oklahomensis mitochondrial cytochrome oxidase I gene, partial cds" 
+[7] "gi|548133|gb|L32676.1|GYDCYTOXIJ Geomydoecus panamensis mitochondrial cytochrome oxidase I gene, partial cds"   
+[8] "gi|548137|gb|L32678.1|GYDCYTOXIL Geomydoecus setzeri mitochondrial cytochrome oxidase I gene, partial cds"      
 \end{Soutput}
 \begin{Sinput}
- gopher <- read.alignment(system.file("sequences/gopher.fasta", 
-     package = "seqinr"), format = "fasta")
+ gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
  gopher$nam
 \end{Sinput}
 \begin{Soutput}
-[1] "gi|548223|gb|L32683.1|PPGCYTOXIA" "gi|548197|gb|L32686.1|OGOCYTOXIA"
-[3] "gi|548199|gb|L32687.1|OGOCYTOXIB" "gi|548201|gb|L32691.1|OGOCYTOXIC"
-[5] "gi|548203|gb|L32692.1|OGOCYTOXID" "gi|548229|gb|L32693.1|PPGCYTOXID"
-[7] "gi|548231|gb|L32694.1|PPGCYTOXIE" "gi|548205|gb|L32696.1|OGOCYTOXIE"
+[1] "gi|548223|gb|L32683.1|PPGCYTOXIA Geomys breviceps mitochondrial cytochrome oxidase I gene, partial cds"      
+[2] "gi|548197|gb|L32686.1|OGOCYTOXIA Orthogeomys cavator mitochondrial cytochrome oxidase I gene, partial cds"   
+[3] "gi|548199|gb|L32687.1|OGOCYTOXIB Orthogeomys cherriei mitochondrial cytochrome oxidase I gene, partial cds"  
+[4] "gi|548201|gb|L32691.1|OGOCYTOXIC Orthogeomys underwoodi mitochondrial cytochrome oxidase I gene, partial cds"
+[5] "gi|548203|gb|L32692.1|OGOCYTOXID Orthogeomys hispidus mitochondrial cytochrome oxidase I gene, partial cds"  
+[6] "gi|548229|gb|L32693.1|PPGCYTOXID Geomys bursarius mitochondrial cytochrome oxidase I gene, partial cds"      
+[7] "gi|548231|gb|L32694.1|PPGCYTOXIE Geomys bursarius mitochondrial cytochrome oxidase I gene, partial cds"      
+[8] "gi|548205|gb|L32696.1|OGOCYTOXIE Orthogeomys heterodus mitochondrial cytochrome oxidase I gene, partial cds" 
 \end{Soutput}
 \end{Schunk}
 
@@ -1343,8 +1355,7 @@ gopher hosts (a subset of rodents), see figure \ref{lousegopher} :
 
 \begin{Schunk}
 \begin{Sinput}
- l.names <- readLines(system.file("sequences/louse.names", 
-     package = "seqinr"))
+ l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
  l.names
 \end{Sinput}
 \begin{Soutput}
@@ -1352,8 +1363,7 @@ gopher hosts (a subset of rodents), see figure \ref{lousegopher} :
 [6] "G.oklahome " "G.panamens " "G.setzeri  "
 \end{Soutput}
 \begin{Sinput}
- g.names <- readLines(system.file("sequences/gopher.names", 
-     package = "seqinr"))
+ g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
  g.names
 \end{Sinput}
 \begin{Soutput}
@@ -1409,13 +1419,12 @@ we can play with graphics :
 \begin{Sinput}
  g$tip.label <- paste(1:8, g.names)
  l$tip.label <- paste(1:8, l.names)
- layout(matrix(data = 1:2, nrow = 1, ncol = 2), width = c(1.4, 
-     1))
- par(mar = c(2, 1, 2, 1))
- plot(g, adj = 0.8, cex = 1.4, use.edge.length = FALSE, main = "gopher (host)", 
-     cex.main = 2)
- plot(l, direction = "l", use.edge.length = FALSE, cex = 1.4, 
-     main = "louse (parasite)", cex.main = 2)
+ layout(matrix(data = 1:2, nrow = 1, ncol = 2), width=c(1.4, 1))
+ par(mar=c(2,1,2,1))
+ plot(g, adj = 0.8, cex = 1.4, use.edge.length=FALSE, 
+   main = "gopher (host)", cex.main = 2)
+ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
+   main = "louse (parasite)", cex.main = 2)                                         
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-face2face}
@@ -1504,20 +1513,20 @@ the updated dataset.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
+    xtable~1.7-3
+  \item Loaded via a namespace (and not attached): lattice~0.20-29,
+    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 11:19:19 2009
+  \item \Rlogo{} compilation time was: Fri Jun  6 18:34:24 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

@@ -6,6 +6,7 @@
 \author{Charif, D. \and Lobry, J.R.}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 \maketitle
 \tableofcontents
@@ -195,8 +196,11 @@ Information Ressource (TAIR at \url{http://www.arabidopsis.org/})
 which contains the sequences of 21,161 proteins.
 
 <<readath,fig=F, eval=T>>=
-athfile <- system.file("sequences/ATH1_pep_cm_20040228.fasta", package = "seqinr")
-system.time(ath <- read.fasta(athfile, seqtype = "AA", as.string = TRUE, set.attributes = FALSE))
+athfile <- "ATH1_pep_cm_20040228.fasta"
+download.file(paste("http://seqinr.r-forge.r-project.org", athfile, sep = "/"),
+              athfile)
+system.time(ath <- read.fasta(athfile, seqtype = "AA", as.string = TRUE, 
+                              set.attributes = FALSE))
 @
 
 It's about 10 seconds here to read 21,161 protein sequences. We save them
