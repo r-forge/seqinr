@@ -42,18 +42,19 @@ fclose($handle);
 echo $contents; } ?>
 
 <!-- end of project description -->
-<p>Documentation is available <a href="seqinr_2_0-7.pdf">here</a>. This is
-version 2.0-7 of the seqinr manual.</p>
 
-<p>We have moved seqinr sources on R-forge in summer 2008. The old seqinr web site 
-is <a href="http://pbil.univ-lyon1.fr/software/seqinr">here</a>, but please note that 
-some items are now obsolete in the old web site. For instance, if you want to browse 
-the source repository, now it's 
-<a href="https://r-forge.r-project.org/scm/viewvc.php/?root=seqinr">here</a> 
-thanks to R-forge's tools. We are planing to move progressively the old web site to this new one.
+<img src="SeqinRGenericCover.png">
+
+<p>Version 2.0-7 of the seqinr manual is available <a href="seqinr_2_0-7.pdf">here</a>.</p>
+
+<p>Release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
+
+<p>You can browse the seqinr source repository 
+<a href="https://r-forge.r-project.org/scm/viewvc.php/?root=seqinr">here</a>.
 </p>
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p>The <strong>project summary page</strong> is <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">here</a>.
+</p>
 
 </body>
 </html>
