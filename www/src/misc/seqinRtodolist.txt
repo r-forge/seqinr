@@ -53,13 +53,7 @@ o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
 
 ------ PENDING --------
 
-o D'un e-mail de Manolo du 05-MARS-2007 :
-  QUOTE
-  J'ai ajoute 2 criteres de selection:
-  NS= et NK= pour mettre une espece ou un mot-cle (@ possible) dans une liste
-  UNQUOTE
-  --> Mettre a jour la doc de query() et le manuel.
-  --> Doc query.Rd mise à jour dans 3.0-11, reste manuel à faire.
+
 
 o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
   Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
@@ -70,6 +64,13 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+o D'un e-mail de Manolo du 05-MARS-2007 :
+  QUOTE
+  J'ai ajoute 2 criteres de selection:
+  NS= et NK= pour mettre une espece ou un mot-cle (@ possible) dans une liste
+  UNQUOTE
+  --> Mettre a jour la doc de query() et le manuel.
+  --> Doc query.Rd et querylang.rnw mise à jour dans 3.0-11.
 
 o faire de m16.seq un dataset standard (oriC chez E. coli). --> 1.1-3
 
