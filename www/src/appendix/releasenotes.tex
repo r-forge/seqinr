@@ -57,6 +57,12 @@ most recent on top.
 
 \begin{itemize}
 
+\item In \texttt{query()}, \texttt{NS=taxon\_name} and \texttt{NK=keyword\_name}
+are now documented. The manual was also updated.
+
+\item The broken default link in \texttt{get.db.growth()} has been fixed so
+that now \texttt{dia.db.growth()} works as well.
+
 \item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument
 so that it can handle sequences provided as strings instead of vectors of single
 character.
@@ -1019,9 +1025,6 @@ Une entrée BibTeX pour les utilisateurs LaTeX est
     publisher = {Springer Verlag},
     note = {{ISBN :} 978-3-540-35305-8},
   }
-
-Note that the orginal article updated is available in the
-/Users/lobry/seqinr/pkg.Rcheck/seqinr/doc/ folder in PDF format
 \end{Soutput}
 \end{Schunk}
 
@@ -1063,7 +1066,7 @@ This part was compiled under the following \Rlogo{}~environment:
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
   \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
-    MASS~7.3-31, seqinr~3.0-10, tseries~0.10-32, XML~3.98-1.1,
+    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
     xtable~1.7-3
   \item Loaded via a namespace (and not attached): lattice~0.20-29,
     nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
@@ -1071,7 +1074,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 12:53:58 2014
+  \item \Rlogo{} compilation time was: Wed Jun 11 11:09:12 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

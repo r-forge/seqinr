@@ -21,6 +21,9 @@ most recent on top.
 
 \begin{itemize}
 
+\item In \texttt{query()}, \texttt{NS=taxon\_name} and \texttt{NK=keyword\_name}
+are now documented. The manual was also updated.
+
 \item The broken default link in \texttt{get.db.growth()} has been fixed so
 that now \texttt{dia.db.growth()} works as well.
 
