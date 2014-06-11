@@ -495,6 +495,46 @@ SQ   Sequence 783 BP; 342 A; 124 C; 145 G; 172 T; 0 other;
 \end{Sinput}
 \end{Schunk}
 
+\subsection{\texttt{NS=taxon\_name}}
+
+This is used to get the number of taxon of given name, with the use of the at sign @ to 
+substitute as a wildcard character for any zero or more characters 
+possible here. For instance, we want to know how many taxon have \textit{sapiens} inside~:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("emblTP")
+ query("NSexample","NS=@sapiens@")
+ NSexample
+\end{Sinput}
+\begin{Soutput}
+26 SP for NS=@sapiens@
+\end{Soutput}
+\begin{Sinput}
+ closebank()
+\end{Sinput}
+\end{Schunk}
+
+\subsection{\texttt{NK=keyword\_name}}
+
+This is used to get the number of keyword of given name, with the use of the at sign @ to 
+substitute as a wildcard character for any zero or more characters 
+possible here. For instance, we want to know how many keywords have \textit{sex} inside~:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("emblTP")
+ query("NKexample","NK=@sex@")
+ NKexample
+\end{Sinput}
+\begin{Soutput}
+277 KW for NK=@sex@
+\end{Soutput}
+\begin{Sinput}
+ closebank()
+\end{Sinput}
+\end{Schunk}
+
 \subsection{\texttt{Y=year} or \texttt{Y>year} or \texttt{Y<year}}
 
 This is used to select sequences published in a given year (\texttt{Y=year}),
@@ -1189,7 +1229,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 21:34:45 2014
+  \item \Rlogo{} compilation time was: Wed Jun 11 10:58:16 2014
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

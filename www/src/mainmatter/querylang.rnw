@@ -214,6 +214,32 @@ cat(annotations, sep ="\n")
 closebank()
 @
 
+\subsection{\texttt{NS=taxon\_name}}
+
+This is used to get the number of taxon of given name, with the use of the at sign @ to 
+substitute as a wildcard character for any zero or more characters 
+possible here. For instance, we want to know how many taxon have \textit{sapiens} inside~:
+
+<<exampleNS,fig=F,eval=T>>=
+choosebank("emblTP")
+query("NSexample","NS=@sapiens@")
+NSexample
+closebank()
+@
+
+\subsection{\texttt{NK=keyword\_name}}
+
+This is used to get the number of keyword of given name, with the use of the at sign @ to 
+substitute as a wildcard character for any zero or more characters 
+possible here. For instance, we want to know how many keywords have \textit{sex} inside~:
+
+<<exampleNK,fig=F,eval=T>>=
+choosebank("emblTP")
+query("NKexample","NK=@sex@")
+NKexample
+closebank()
+@
+
 \subsection{\texttt{Y=year} or \texttt{Y>year} or \texttt{Y<year}}
 
 This is used to select sequences published in a given year (\texttt{Y=year}),
