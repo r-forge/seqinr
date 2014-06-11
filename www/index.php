@@ -43,7 +43,7 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<img align=LEFT src="SeqinRGenericCover.png">
+<img src="SeqinRGenericCover.png" />
 
 <p>Version 2.0-7 of the seqinr manual is available <a href="seqinr_2_0-7.pdf">here</a>.</p>
 
