@@ -97,13 +97,7 @@ keywords. The status of the bank was
 and the release information was
 \texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$release, "???")}}.
 For specialized databases, some relevant informations are also given in the
-\texttt{details} component, for instance:
-
-<<exdetails,fig=F, eval=T>>=
-choosebank("taxobacgen")
-cat(banknameSocket$details, sep = "\n")
-closebank()
-@
+\texttt{details} component.
 
 As from \seqinr~1.0-3, the result of the \texttt{choosebank()} function is automatically
 stored in a global variable named \texttt{banknameSocket}, so that if no socket argument
@@ -192,7 +186,7 @@ in a given database is given by the function \texttt{getType()}, for example the
 of available subsequences in GenBank is given in table \ref{genbank}.
 
 %
-% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres spéciaux Latex, ici "_"
+% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres sp?ciaux Latex, ici "_"
 %
 <<xtablegenbank, fig = FALSE, echo = FALSE,eval=FALSE>>=
 choosebank("genbank") -> bank
