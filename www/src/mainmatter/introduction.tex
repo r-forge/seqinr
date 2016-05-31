@@ -135,16 +135,16 @@ release with the same format as the ACNUC book:
 \end{Sinput}
 \begin{Soutput}
 [1] "             ****     ACNUC Data Base Content      ****                         " 
-[2] "         GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014"          
-[3] "160,671,579,040 bases; 172,482,713 sequences; 18,666,226 subseqs; 786,167 refers."
-[4] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "    
+[2] "         GenBank Release 213 (15 April 2016) Last Updated: May 22, 2016"          
+[3] "212,493,047,396 bases; 194,219,757 sequences; 31,530,545 subseqs; 876,736 refers."
+[4] "Software M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "       
 \end{Soutput}
 \begin{Sinput}
  unlist(strsplit(mybank$details[3], split=" "))[1] -> bpbk
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "160,671,579,040"
+[1] "212,493,047,396"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), collapse = ""))
@@ -152,15 +152,15 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 13.73246
+[1] 18.16159
 \end{Soutput}
 \end{Schunk}
 
-It would be about 13.7
+It would be about 18.2
 kilometer long in ACNUC book format to print GenBank today (\today). As a
-matter of comparison, our local universitary library buiding\footnote{
-Université de Lyon, F-69000, Lyon ; Université Lyon 1 ; 
-Biblioth$\grave{\mathrm{e}}$que Universitaire Sciences,
+matter of comparison, our local universitary library buiding\footnote{%
+UniversitÃ© de Lyon, F-69000, Lyon ; UniversitÃ© Lyon 1 ; 
+BibliothÃ¨que Universitaire Sciences,
 18-25-27 Avenue Claude BERNARD,
 F-69622, Villeurbanne, France.
 } contains about
@@ -185,7 +185,7 @@ around the world that store identical, up-to-date, versions of code and document
 for R. At compilation time of this document, there were
 95 
 mirrors available 
-from 45 countries.
+from 50 countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
 selected with the function \texttt{chooseCRANmirror()}.
@@ -195,8 +195,8 @@ selected with the function \texttt{chooseCRANmirror()}.
 In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document 
 is a package \emph{vignette}, which means that all code outputs present 
 here were actually obtained by runing them.
-The examples given thereafter were run under \texttt{R version 3.1.0 (2014-04-10)}
-on Fri Jun  6 19:34:34 2014 with Sweave \cite{Sweave}. There is a section at the end of
+The examples given thereafter were run under \texttt{R version 3.2.4 (2016-03-10)}
+on Tue May 31 18:00:24 2016 with Sweave \cite{Sweave}. There is a section at the end of
 each chapter called \textbf{Session Informations} that gives details about
 packages and package versions that were involved\footnote{
 Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
@@ -293,7 +293,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-5098
+8463
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -441,7 +441,7 @@ to update the figure:
 \setkeys{Gin}{width=0.8\textwidth}
 
 
-The doubling time is now 18.3 months.
+The doubling time is now 18.8 months.
 
 
 \begin{figure}
@@ -473,20 +473,20 @@ is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
-    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
-    xtable~1.7-3
-  \item Loaded via a namespace (and not attached): lattice~0.20-29,
-    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.0-11, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 19:34:40 2014
+  \item \Rlogo{} compilation time was: Tue May 31 18:00:39 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

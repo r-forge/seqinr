@@ -104,9 +104,9 @@ widthcm <- acnucbooksize*bpbk/acnucbp
 
 It would be about \Sexpr{ifelse(exists("widthkm"), round(widthkm, 1), "???")}
 kilometer long in ACNUC book format to print GenBank today (\today). As a
-matter of comparison, our local universitary library buiding\footnote{
-Université de Lyon, F-69000, Lyon ; Université Lyon 1 ; 
-Biblioth$\grave{\mathrm{e}}$que Universitaire Sciences,
+matter of comparison, our local universitary library buiding\footnote{%
+UniversitÃ© de Lyon, F-69000, Lyon ; UniversitÃ© Lyon 1 ; 
+BibliothÃ¨que Universitaire Sciences,
 18-25-27 Avenue Claude BERNARD,
 F-69622, Villeurbanne, France.
 } contains about
