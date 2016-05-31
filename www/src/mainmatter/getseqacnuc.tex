@@ -81,10 +81,10 @@ This function initiates a remote access to an ACNUC database. Called without arg
  [9] "hovergen"        "hogenom5"        "hogenom5dna"     "hogenom4"       
 [13] "hogenom4dna"     "homolens"        "homolensdna"     "hobacnucl"      
 [17] "hobacprot"       "phever2"         "phever2dna"      "refseq"         
-[21] "greviews"        "bacterial"       "protozoan"       "ensprotists"    
-[25] "ensfungi"        "ensmetazoa"      "ensplants"       "ensemblbacteria"
-[29] "mito"            "polymorphix"     "emglib"          "taxobacgen"     
-[33] "refseqViruses"  
+[21] "greviews"        "bacterial"       "archaeal"        "protozoan"      
+[25] "ensprotists"     "ensfungi"        "ensmetazoa"      "ensplants"      
+[29] "ensemblbacteria" "mito"            "polymorphix"     "emglib"         
+[33] "refseqViruses"   "ribodb"          "taxodb"         
 \end{Soutput}
 \end{Schunk}
  
@@ -106,9 +106,9 @@ at the compilation time (\today) of this document:
 2    embl     on
 3 emblwgs     on
                                                                          info
-1              GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014
-2 EMBL Nucleotide Archive Release 119 (March 2014) Last Updated: Jun  1, 2014
-3               EMBL Whole Genome Shotgun sequences Release 119  (March 2014)
+1              GenBank Release 213 (15 April 2016) Last Updated: May 22, 2016
+2 EMBL Nucleotide Archive Release 127 (March 2016) Last Updated: May 21, 2016
+3                EMBL Whole Genome Shotgun sequences Release 127 (March 2016)
 \end{Soutput}
 \end{Schunk}
 
@@ -149,13 +149,12 @@ available frozen databases at the default server are:
 
 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
-with \texttt{"genbank"} as its first argument, the result is saved in the variable
-\texttt{banknameSocket} in the workspace:
+with \texttt{"genbank"} as its first argument:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("genbank")
- str(banknameSocket)
+ mybank <- choosebank("genbank")
+ str(mybank)
 \end{Sinput}
 \begin{Soutput}
 List of 9
@@ -163,67 +162,36 @@ List of 9
   .. ..- attr(*, "conn_id")=<externalptr> 
  $ bankname: chr "genbank"
  $ banktype: chr "GENBANK"
- $ totseqs : num 1.91e+08
- $ totspecs: num 1242014
- $ totkeys : num 43531291
- $ release : chr "         GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014"
+ $ totseqs : num 2.26e+08
+ $ totspecs: num 1585615
+ $ totkeys : num 69548858
+ $ release : chr "         GenBank Release 213 (15 April 2016) Last Updated: May 22, 2016"
  $ status  :Class 'AsIs'  chr "on"
- $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "         GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014" "160,671,579,040 bases; 172,482,713 sequences; 18,666,226 subseqs; 786,167 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
+ $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "         GenBank Release 213 (15 April 2016) Last Updated: May 22, 2016" "212,493,047,396 bases; 194,219,757 sequences; 31,530,545 subseqs; 876,736 refers." "Software M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
 \end{Soutput}
 \begin{Sinput}
  closebank()
 \end{Sinput}
 \end{Schunk}
 
-The components of \texttt{banknameSocket} means that in the database
+The components of \texttt{mybank} means that in the database
 called \texttt{genbank} at the compilation time
 of this document there were 
-\texttt{191,148,940}
+\texttt{225,750,303}
 sequences from
-\texttt{1,242,014}
+\texttt{1,585,615}
 species and a total of
-\texttt{43,531,291}
+\texttt{69,548,858}
 keywords. The status of the bank was
 \texttt{on}, 
 and the release information was
-\texttt{         GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014}.
+\texttt{         GenBank Release 213 (15 April 2016) Last Updated: May 22, 2016}.
 For specialized databases, some relevant informations are also given in the
-\texttt{details} component, for instance:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("taxobacgen")
- cat(banknameSocket$details, sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-               ****     ACNUC Data Base Content      ****
-                 TaxoBacGen Rel. 7 (September 2005)
-1,151,149,763 bases; 254,335 sequences; 847,767 subseqs; 63,879 refers.
-	Data compiled from GenBank by Gregory Devulder 
-        Laboratoire de Biometrie & Biologie Evolutive, Univ Lyon I
-------------------------------
-This database is a taxonomic genomic database. 
-It results from an expertise crossing the data nomenclature database DSMZ
-[http://www.dsmz.de/species/bacteria.htm Deutsche Sammlung von
-Mikroorganismen und Zellkulturen GmbH, Braunschweig, Germany]
-and GenBank. 
-- Only contains sequences described under species present in 
-Bacterial Nomenclature Up-to-date.
-- Names of species and genus validly published according to the
-Bacteriological Code (names with standing in nomenclature) is 
-added in field "DEFINITION".
-- A keyword "type strain" is added in field "FEATURES/source/strain" in
-GenBank format definition to easyly identify Type Strain.
-Taxobacgen is a genomic database designed for studies based on a strict
-respect of up-to-date nomenclature and taxonomy.
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
+\texttt{details} component.
 
 As from \seqinr~1.0-3, the result of the \texttt{choosebank()} function is automatically
-stored in a global variable named \texttt{banknameSocket}, so that if no socket argument
+stored in a variable named \texttt{banknameSocket} in the \texttt{.seqinrEnv}
+environment, so that if no socket argument
 is given to the \texttt{query()} function, the last opened database will be used by default
 for your requests.
 This is just a matter of convenience so that you don't have to explicitly specify the details of the
@@ -231,7 +199,7 @@ socket connection when working with the last opened database. You have, however,
 full control of the process since \texttt{choosebank()} returns (invisibly) all the
 required details. There is no trouble to open \emph{simultaneously} many databases.
 You are just limited by the number of simultaneous connections your build of \Rlogo{}~is
-allowed\footnote{
+allowed\footnote{%
 As from \Rlogo{}~2.4.0 he maximum number of open connections has been increased from
 50 to 128. Note also that 
 there is a very convenient function called \texttt{closeAllConnections()} in the \Rlogo{}~base package if
@@ -254,7 +222,7 @@ close them as soon as the information has been retrieved.
    if(inherits(bkopenres, "try-error")){
      ntaxa[i] <- NA
    } else {
-     ntaxa[i] <- as.numeric(banknameSocket$totspecs)
+     ntaxa[i] <- as.numeric(bkopenres$totspecs)
      closebank()
    }
  }
@@ -263,6 +231,7 @@ close them as soon as the information has been retrieved.
 \end{Schunk}
 \begin{Schunk}
 \begin{Sinput}
+ ntaxa <- ntaxa[!is.na(ntaxa)]
  dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
  main = "Number of taxa in available databases",
  xlab = "Log10(number of taxa)")
@@ -273,12 +242,37 @@ close them as soon as the information has been retrieved.
 \section{Make your query}
 
 For this section, set up the default bank to GenBank, so that you don't have 
-to provide the sockets details for the \texttt{query()} function:
+to provide the sockets details for the \texttt{query()} function. We set the
+\texttt{verbose} argument to \texttt{TRUE}, just for the fun\footnote{%
+This option is however usefull for trouble shooting.}, this is not
+really usefull here:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("genbank")
+ choosebank("genbank", verbose = TRUE)
 \end{Sinput}
+\begin{Soutput}
+Verbose mode is on, parameter values are:
+  bank =  "genbank" 
+  host =  "pbil.univ-lyon1.fr" 
+  port =  5558 
+  timeout =  5 seconds 
+  infobank =  FALSE 
+  tagbank =  NA 
+I'm ckecking that sockets are available on this build of R...
+... yes, sockets are available on this build of R.
+I'm trying to open the socket connection...
+... yes, I was able to open the socket connection.
+I'm trying to read answer from server...
+... answer from server is: OK acnuc socket started 
+clientid(): sending clientid&id=seqinr_3.0-11 
+... answer from server is: code=0 
+parser.socket received: -->code=0<--
+I'm trying to open the bank from server...
+... and everything is OK up to now.
+I'm trying to get information on the bank...
+... and everything is OK up to now.
+\end{Soutput}
 \end{Schunk}
 
 Then, you have to say what you want, that is to compose a query
@@ -295,7 +289,7 @@ We want the result to be stored in an object called \texttt{completeCatsCDS}.
 
 \begin{Schunk}
 \begin{Sinput}
- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
+ completeCatsCDS <- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
 \end{Sinput}
 \end{Schunk}
 
@@ -324,9 +318,6 @@ subsequence with a biological meaning, typically a gene. The list of available s
 in a given database is given by the function \texttt{getType()}, for example the list
 of available subsequences in GenBank is given in table \ref{genbank}.
 
-%
-% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres spéciaux Latex, ici "_"
-%
 \input{../tables/genbank.tex}
 
 
@@ -355,7 +346,7 @@ to get only the list of sequences that were published in 2004:
 
 \begin{Schunk}
 \begin{Sinput}
- query("ccc2004", "completeCatsCDS AND y=2004")
+ ccc2004 <- query("ccc2004", "completeCatsCDS AND y=2004")
  length(ccc2004$req)
 \end{Sinput}
 \begin{Soutput}
@@ -378,20 +369,16 @@ with many elements, for instance :
 
 \begin{Schunk}
 \begin{Sinput}
- query("allcds", "t=cds", virtual = TRUE)
+ allcds <- query("allcds", "t=cds", virtual = TRUE)
  allcds$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 20580107
+[1] 34260201
 \end{Soutput}
 \end{Schunk}
 
-There are therefore \texttt{20,580,107} coding
-sequences in this version of GenBank\footnote{
-which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
-and current value is today (\today): \texttt{banknameSocket\$release = 
-         GenBank Release 201 (15 April 2014) Last Updated: Jun  2, 2014}.
-}. 
+There are therefore \texttt{34,260,201} coding
+sequences in this version of GenBank. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
 component of the list has not been documented:
@@ -405,7 +392,7 @@ component of the list has not been documented:
 \end{Soutput}
 \end{Schunk}
 
-However, the list can still be re-used\footnote{
+However, the list can still be re-used\footnote{%
 of course, as long as the socket connection with the server has not been lost: virtual lists details are only
 known by the server.}, 
 for instance we may extract from this list all the sequences
@@ -413,21 +400,21 @@ from, say, \textit{Mycoplasma genitalium}:
 
 \begin{Schunk}
 \begin{Sinput}
- query("small", "allcds AND sp=mycoplasma genitalium", virtual = TRUE)
+ small <- query("small", "allcds AND sp=mycoplasma genitalium", virtual = TRUE)
  small$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 3346
+[1] 3382
 \end{Soutput}
 \end{Schunk}
 
-There are then \texttt{3,346} elements in
+There are then \texttt{3,382} elements in
 the list \texttt{small}, so that we can safely repeat the previous query without asking for a
 virtual list:
 
 \begin{Schunk}
 \begin{Sinput}
- query("small", "allcds et sp=mycoplasma genitalium")
+ small <- query("small", "allcds AND sp=mycoplasma genitalium")
  getName(small$req[1:10])
 \end{Sinput}
 \begin{Soutput}
@@ -443,59 +430,59 @@ current GenBank release.
 \item[\textbf{Man.}] How many sequences are available for our species?
 \begin{Schunk}
 \begin{Sinput}
- query("man","sp=homo sapiens",virtual=T)
+ man <- query("man","sp=homo sapiens",virtual=T)
  man$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 20581455
+[1] 23519997
 \end{Soutput}
 \end{Schunk}
-There are \texttt{20,581,455} sequences from \textit{Homo sapiens}.
+There are \texttt{23,519,997} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 \begin{Schunk}
 \begin{Sinput}
- query("sex","k=sex@",virtual=T)
+ sex <- query("sex","k=sex@",virtual=T)
  sex$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 2977
+[1] 3577
 \end{Soutput}
 \end{Schunk}
-There are \texttt{2,977} such sequences.
+There are \texttt{3,577} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 \begin{Schunk}
 \begin{Sinput}
- query("trna","t=trna AND NOT k=partial",virtual=T)
+ trna <- query("trna","t=trna AND NOT k=partial",virtual=T)
  trna$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1260401
+[1] 1810833
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,260,401} complete tRNA sequences.
+There are \texttt{1,810,833} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 \begin{Schunk}
 \begin{Sinput}
- query("nature","j=nature",virtual=T)
+ nature <- query("nature","j=nature",virtual=T)
  nature$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 2619977
+[1] 2645373
 \end{Soutput}
 \begin{Sinput}
- query("science","j=science",virtual=T)
+ science <- query("science","j=science",virtual=T)
  science$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 2227746
+[1] 2244003
 \end{Soutput}
 \end{Schunk}
-There are \texttt{2,619,977} sequences published
+There are \texttt{2,645,373} sequences published
 in \textit{Nature} and
-\texttt{2,227,746} sequences published in
+\texttt{2,244,003} sequences published in
 \textit{Science}, so that the winner is 
 \textit{Nature}.
 
@@ -506,47 +493,47 @@ in \textit{Nature} and
 \item[\textbf{Smith.}] How many sequences have Smith (last name) as author?
 \begin{Schunk}
 \begin{Sinput}
- query("smith","au=smith",virtual=T)
+ smith <- query("smith","au=smith",virtual=T)
  smith$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 6239128
+[1] 6433901
 \end{Soutput}
 \end{Schunk}
-There are \texttt{6,239,128} such sequences.
+There are \texttt{6,433,901} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 \begin{Schunk}
 \begin{Sinput}
- query("yk2","y>2000",virtual=T)
+ yk2 <- query("yk2","y>2000",virtual=T)
  yk2$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 160690121
+[1] 182398606
 \end{Soutput}
 \end{Schunk}
-There are \texttt{160,690,121} sequences published after year 2000.
+There are \texttt{182,398,606} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 \begin{Schunk}
 \begin{Sinput}
- query("chloro","o=chloroplast",virtual=T)
+ chloro <- query("chloro","o=chloroplast",virtual=T)
  chloro$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 644245
+[1] 870722
 \end{Soutput}
 \begin{Sinput}
- query("mito","o=mitochondrion",virtual=T)
+ mito <- query("mito","o=mitochondrion",virtual=T)
  mito$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 2235491
+[1] 3479548
 \end{Soutput}
 \end{Schunk}
-There are \texttt{644,245} sequences from
+There are \texttt{870,722} sequences from
 chloroplast genomes and
-\texttt{2,235,491} sequences from mitochondrion
+\texttt{3,479,548} sequences from mitochondrion
 genomes, so that the winner is 
 mitochondrion.
 
@@ -564,15 +551,6 @@ mitochondrion.
 
 \subsection{Introduction}
 
-There are two functions to get the sequences. The first one, 
-\texttt{getSequence()}, uses regular socket connections, the
-second one, \texttt{extractseqs()}, uses zlib compressed sockets,
-which is faster but the function is experimental (details in
-chapter \ref{extractseqs} page \pageref{extractseqs}).
-
-\subsection{Extacting sequences with \texttt{getSequence()}}
-
-
 For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
@@ -587,7 +565,7 @@ coding sequences from \textit{Felis catus} :
 
 \begin{Schunk}
 \begin{Sinput}
- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
+ completeCatsCDS <- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
  (nseq <- completeCatsCDS$nelem)
 \end{Sinput}
 \begin{Soutput}
@@ -647,7 +625,7 @@ instance the following coding sequence from sequence \texttt{AE003734}:
 
 \begin{Schunk}
 \begin{Sinput}
- query("trs","N=AE003734.PE35")
+ trs <- query("trs","N=AE003734.PE35")
  getAnnot(trs$req[[1]]) -> annots
  cat(annots, sep="\n")
 \end{Sinput}
@@ -684,7 +662,7 @@ query with the sequence name:
 
 \begin{Schunk}
 \begin{Sinput}
- query("transspliced", "N=AE003734.PE35")
+ transspliced <- query("transspliced", "N=AE003734.PE35")
  length(transspliced$req)
 \end{Sinput}
 \begin{Soutput}
@@ -715,7 +693,7 @@ is the name of the sequence you wanted). Let see the first 50 base of this seque
 \end{Schunk}
 
 All the complex trans-splicing operations have been done here. You can check that there is no
-in-frame stop codons\footnote{
+in-frame stop codons\footnote{%
 Stop codons are represented by the character \texttt{*} when translated into protein.} 
 with the \texttt{getTrans()} function to translate this coding sequence into protein:
 
@@ -774,7 +752,7 @@ Consider the following CDS from \texttt{M19233}:
 
 \begin{Schunk}
 \begin{Sinput}
- query("multi", "AC=M19233 AND T=CDS")
+ multi <- query("multi", "AC=M19233 AND T=CDS")
  cat(getAnnot(multi$req[[1]]), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
@@ -834,13 +812,16 @@ Val
 \end{Schunk}
 
 There is no stop codon here because the sequence is partial.
-
+If you are experiencing a strong closure issue problem here,
+just close the bank:
 
 \begin{Schunk}
 \begin{Sinput}
  closebank()
 \end{Sinput}
 \end{Schunk}
+
+\noindent Feeling better now ?
 
 
 \section*{Session Informations}
@@ -850,20 +831,20 @@ There is no stop codon here because the sequence is partial.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
-    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
-    xtable~1.7-3
-  \item Loaded via a namespace (and not attached): lattice~0.20-29,
-    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.0-11, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 18:11:38 2014
+  \item \Rlogo{} compilation time was: Tue May 31 21:23:09 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

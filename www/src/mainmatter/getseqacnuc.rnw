@@ -75,32 +75,32 @@ choosebank(tagbank = "TP", infobank = TRUE)
 
 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
-with \texttt{"genbank"} as its first argument, the result is saved in the variable
-\texttt{banknameSocket} in the workspace:
+with \texttt{"genbank"} as its first argument:
 
 <<choixbanque2, eval=T>>=
-choosebank("genbank")
-str(banknameSocket)
+mybank <- choosebank("genbank")
+str(mybank)
 closebank()
 @
 
-The components of \texttt{banknameSocket} means that in the database
-called \texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$bankname, "???")}} at the compilation time
+The components of \texttt{mybank} means that in the database
+called \texttt{\Sexpr{ifelse(exists("mybank"), mybank$bankname, "???")}} at the compilation time
 of this document there were 
-\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totseqs), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totseqs), big.mark=","), "???")}}
 sequences from
-\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totspecs), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totspecs), big.mark=","), "???")}}
 species and a total of
-\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totkeys), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totkeys), big.mark=","), "???")}}
 keywords. The status of the bank was
-\texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$status, "???")}}, 
+\texttt{\Sexpr{ifelse(exists("mybank"), mybank$status, "???")}}, 
 and the release information was
-\texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$release, "???")}}.
+\texttt{\Sexpr{ifelse(exists("mybank"), mybank$release, "???")}}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component.
 
 As from \seqinr~1.0-3, the result of the \texttt{choosebank()} function is automatically
-stored in a global variable named \texttt{banknameSocket}, so that if no socket argument
+stored in a variable named \texttt{banknameSocket} in the \texttt{.seqinrEnv}
+environment, so that if no socket argument
 is given to the \texttt{query()} function, the last opened database will be used by default
 for your requests.
 This is just a matter of convenience so that you don't have to explicitly specify the details of the
@@ -108,7 +108,7 @@ socket connection when working with the last opened database. You have, however,
 full control of the process since \texttt{choosebank()} returns (invisibly) all the
 required details. There is no trouble to open \emph{simultaneously} many databases.
 You are just limited by the number of simultaneous connections your build of \Rlogo{}~is
-allowed\footnote{
+allowed\footnote{%
 As from \Rlogo{}~2.4.0 he maximum number of open connections has been increased from
 50 to 128. Note also that 
 there is a very convenient function called \texttt{closeAllConnections()} in the \Rlogo{}~base package if
@@ -130,13 +130,14 @@ for(i in seq_len(nbanks)){
   if(inherits(bkopenres, "try-error")){
     ntaxa[i] <- NA
   } else {
-    ntaxa[i] <- as.numeric(banknameSocket$totspecs)
+    ntaxa[i] <- as.numeric(bkopenres$totspecs)
     closebank()
   }
 }
 names(ntaxa) <- banks
 @ 
 <<plottaxaperbank,fig=T,eval=T,width=6,height=8>>=
+ntaxa <- ntaxa[!is.na(ntaxa)]
 dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
 main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")
@@ -145,10 +146,13 @@ xlab = "Log10(number of taxa)")
 \section{Make your query}
 
 For this section, set up the default bank to GenBank, so that you don't have 
-to provide the sockets details for the \texttt{query()} function:
+to provide the sockets details for the \texttt{query()} function. We set the
+\texttt{verbose} argument to \texttt{TRUE}, just for the fun\footnote{%
+This option is however usefull for trouble shooting.}, this is not
+really usefull here:
 
 <<settogenbankbeforequery, eval=T>>=
-choosebank("genbank")
+choosebank("genbank", verbose = TRUE)
 @
 
 Then, you have to say what you want, that is to compose a query
@@ -164,7 +168,7 @@ We want the result to be stored in an object called \texttt{completeCatsCDS}.
 \tiny{\textit{Felis catus}. Source: wikipedia}}
 
 <<query1,eval=T>>=
-query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
+completeCatsCDS <- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
 @
 
 Now, there is in the workspace an object called \texttt{completeCatsCDS}, which
@@ -185,17 +189,13 @@ subsequence with a biological meaning, typically a gene. The list of available s
 in a given database is given by the function \texttt{getType()}, for example the list
 of available subsequences in GenBank is given in table \ref{genbank}.
 
-%
-% Besoin d'edition manuelle du fichier genbank.tex pour virer les caracteres sp?ciaux Latex, ici "_"
-%
-<<xtablegenbank, fig = FALSE, echo = FALSE,eval=FALSE>>=
+<<xtablegenbank, fig = FALSE, echo = FALSE,eval=F>>=
 choosebank("genbank") -> bank
-tmp <- getType(bank$s)
-tmp <- t(data.frame(tmp))
+tmp <- getType(bank$socket)
 row.names(tmp)<-1:nrow(tmp)
 names(tmp)<-NULL
 colnames(tmp) <- c("Type","Description")
-print(xtable(tmp, digits = rep(0,3), caption = paste("Available subsequences in", bank$bankname), label = "genbank"), 
+print(xtable(tmp, digits = rep(0,3), caption = paste("Available subsequences in", bank$release), label = "genbank"), 
 file = "../tables/genbank.tex")
 @
 \input{../tables/genbank.tex}
@@ -220,7 +220,7 @@ is that a list of sequences can be re-used. For instance, we can re-use \texttt{
 to get only the list of sequences that were published in 2004:
 
 <<query2,eval=T>>=
-query("ccc2004", "completeCatsCDS AND y=2004")
+ccc2004 <- query("ccc2004", "completeCatsCDS AND y=2004")
 length(ccc2004$req)
 ccc2004$nelem
 @
@@ -233,16 +233,12 @@ which allows to disable the automatic retrieval of information for all list elem
 with many elements, for instance :
 
 <<queryvirtual,eval=T>>=
-query("allcds", "t=cds", virtual = TRUE)
+allcds <- query("allcds", "t=cds", virtual = TRUE)
 allcds$nelem
 @
 
 There are therefore \texttt{\Sexpr{ifelse(exists("allcds"), formatC(as.integer(allcds$nelem), big.mark=","), "???")}} coding
-sequences in this version of GenBank\footnote{
-which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
-and current value is today (\today): \texttt{banknameSocket\$release = 
-\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$release, "???")}}.
-}. 
+sequences in this version of GenBank. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
 component of the list has not been documented:
@@ -251,14 +247,14 @@ component of the list has not been documented:
 allcds$req
 @
 
-However, the list can still be re-used\footnote{
+However, the list can still be re-used\footnote{%
 of course, as long as the socket connection with the server has not been lost: virtual lists details are only
 known by the server.}, 
 for instance we may extract from this list all the sequences
 from, say, \textit{Mycoplasma genitalium}:
 
 <<chtouille,eval=T>>=
-query("small", "allcds AND sp=mycoplasma genitalium", virtual = TRUE)
+small <- query("small", "allcds AND sp=mycoplasma genitalium", virtual = TRUE)
 small$nelem
 @
 
@@ -267,7 +263,7 @@ the list \texttt{small}, so that we can safely repeat the previous query without
 virtual list:
 
 <<chtouille2,eval=T>>=
-query("small", "allcds et sp=mycoplasma genitalium")
+small <- query("small", "allcds AND sp=mycoplasma genitalium")
 getName(small$req[1:10])
 @
 
@@ -277,30 +273,30 @@ current GenBank release.
 \begin{description}
 \item[\textbf{Man.}] How many sequences are available for our species?
 <<man, eval=T>>=
-query("man","sp=homo sapiens",virtual=T)
+man <- query("man","sp=homo sapiens",virtual=T)
 man$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("man"), formatC(man$nelem, big.mark=","), "???")}} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 <<sex, eval=T>>=
-query("sex","k=sex@",virtual=T)
+sex <- query("sex","k=sex@",virtual=T)
 sex$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("sex"), formatC(sex$nelem, big.mark=","), "???")}} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 <<trnacplt, eval=T>>=
-query("trna","t=trna AND NOT k=partial",virtual=T)
+trna <- query("trna","t=trna AND NOT k=partial",virtual=T)
 trna$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("trna"), formatC(trna$nelem, big.mark=","), "???")}} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 <<natvsscience, eval=T>>= 
-query("nature","j=nature",virtual=T)
+nature <- query("nature","j=nature",virtual=T)
 nature$nelem
-query("science","j=science",virtual=T)
+science <- query("science","j=science",virtual=T)
 science$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("nature"), formatC(nature$nelem, big.mark=","), "???")}} sequences published
@@ -315,23 +311,23 @@ in \textit{Nature} and
 
 \item[\textbf{Smith.}] How many sequences have Smith (last name) as author?
 <<smith, eval=T>>=
-query("smith","au=smith",virtual=T)
+smith <- query("smith","au=smith",virtual=T)
 smith$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("smith"), formatC(smith$nelem, big.mark=","), "???")}} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 <<yk2, eval=T>>=
-query("yk2","y>2000",virtual=T)
+yk2 <- query("yk2","y>2000",virtual=T)
 yk2$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("yk2"), formatC(yk2$nelem, big.mark=","), "???")}} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 <<organelles, eval=T>>=
-query("chloro","o=chloroplast",virtual=T)
+chloro <- query("chloro","o=chloroplast",virtual=T)
 chloro$nelem
-query("mito","o=mitochondrion",virtual=T)
+mito <- query("mito","o=mitochondrion",virtual=T)
 mito$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("chloro"), formatC(chloro$nelem, big.mark=","), "???")}} sequences from
@@ -352,15 +348,6 @@ closebank()
 
 \subsection{Introduction}
 
-There are two functions to get the sequences. The first one, 
-\texttt{getSequence()}, uses regular socket connections, the
-second one, \texttt{extractseqs()}, uses zlib compressed sockets,
-which is faster but the function is experimental (details in
-chapter \ref{extractseqs} page \pageref{extractseqs}).
-
-\subsection{Extacting sequences with \texttt{getSequence()}}
-
-
 For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
@@ -372,7 +359,7 @@ We suppose that the sequences we are interested in are all the complete
 coding sequences from \textit{Felis catus} :
 
 <<requeryccc, fig=F, eval=T>>=
-query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
+completeCatsCDS <- query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
 (nseq <- completeCatsCDS$nelem)
 @
 
@@ -410,7 +397,7 @@ Consider for
 instance the following coding sequence from sequence \texttt{AE003734}:
 
 <<transann,fig=F,eval=T>>=
-query("trs","N=AE003734.PE35")
+trs <- query("trs","N=AE003734.PE35")
 getAnnot(trs$req[[1]]) -> annots
 cat(annots, sep="\n")
 @
@@ -421,7 +408,7 @@ With \texttt{getSequence()} you don't have to think about this. Just make a
 query with the sequence name:
 
 <<transplicing1, eval=T>>=
-query("transspliced", "N=AE003734.PE35")
+transspliced <- query("transspliced", "N=AE003734.PE35")
 length(transspliced$req)
 getName(transspliced$req[[1]])
 @
@@ -436,7 +423,7 @@ getSequence(transspliced$req[[1]])[1:50]
 @
 
 All the complex trans-splicing operations have been done here. You can check that there is no
-in-frame stop codons\footnote{
+in-frame stop codons\footnote{%
 Stop codons are represented by the character \texttt{*} when translated into protein.} 
 with the \texttt{getTrans()} function to translate this coding sequence into protein:
 
@@ -473,7 +460,7 @@ and genetic code for your coding sequence.
 Consider the following CDS from \texttt{M19233}:
 
 <<multi,fig=F>>=
-query("multi", "AC=M19233 AND T=CDS")
+multi <- query("multi", "AC=M19233 AND T=CDS")
 cat(getAnnot(multi$req[[1]]), sep = "\n")
 @ 
 
@@ -486,11 +473,14 @@ table(aaa(getTrans(multi$req[[1]])))
 @ 
 
 There is no stop codon here because the sequence is partial.
+If you are experiencing a strong closure issue problem here,
+just close the bank:
 
-
-<<closebanembltp,fig=F>>=
+<<closebanembltp,fig=F,echo=T>>=
 closebank()
 @ 
+
+\noindent Feeling better now ?
 
 \SweaveInput{../config/sessionInfo.rnw}
 
