@@ -168,7 +168,7 @@ includepart("../mainmatter/introduction.tex")
 <<getseqflat, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
 @ 
-<<getseqacnuc, echo=F,results=tex, fig = F,eval=F>>=
+<<getseqacnuc, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 @
 <<getquerylang, echo=F,results=tex, fig = F,eval=F>>=
