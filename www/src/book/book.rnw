@@ -170,12 +170,26 @@ includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
 @ 
 <<getseqacnuc, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
+@
+<<getquerylang, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/querylang.tex")    #  273
+@
+<<getextracseqs, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/extractseqs.tex")  #  233
+@
+<<getdealseq, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/dealseq.tex")      #  1
+@
+<<getacnucsocket, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/acnucsocket.tex")  #  55.4
+@
+<<getmultivariate, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/multivariate.tex") #  31.4
+@
+<<getnonparastats, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
+@
+<<getrisa, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/risa.tex") #  draft
 @
 
