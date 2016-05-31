@@ -49,7 +49,7 @@ options(prompt=" ", continue=" ", width = 77)
 .GetFileName()
 rm(".GetFileName")
 r <- getOption("repos")
-r["CRAN"] <- "http://cran.univ-lyon1.fr"
+r["CRAN"] <- "https://cran.univ-lyon1.fr"
 options(repos = r)
 # if seqinr was checked with "R CMD check pkg", then this should load
 # the last development version:
