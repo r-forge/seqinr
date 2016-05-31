@@ -50,6 +50,7 @@ for statistical computing devoted to biological sequences retrieval and analysis
 \input{../config/authors}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \SweaveInput{../config/commonrnw.rnw}
 
 %
@@ -58,6 +59,8 @@ for statistical computing devoted to biological sequences retrieval and analysis
 
 <<includepart, echo=F, fig=F>>=
 includepart <- function(filename, withminiTOC = FALSE, withchapter = TRUE){
+
+  if(!file.exists(filename)) stop(paste("File", filename, "not found"))
 
   cat(paste("%%%%% begin of", filename), sep = "\n")
   infile <- file(description = filename, open = "r")
@@ -156,7 +159,8 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 \part{Mainmatter}
 
 %
-% In R comments the observed compilation times in seconds for Sweaving the corresponding *.rnw file
+% In R comments the observed compilation times in seconds for Sweaving 
+% the corresponding *.rnw file
 %
 <<introduction, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/introduction.tex")
@@ -164,7 +168,7 @@ includepart("../mainmatter/introduction.tex")
 <<getseqflat, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
 @ 
-<<getseqacnuc, echo=F,results=tex, fig = F,eval=T>>=
+<<getseqacnuc, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 includepart("../mainmatter/querylang.tex")    #  273
 includepart("../mainmatter/extractseqs.tex")  #  233
@@ -189,7 +193,7 @@ includepart("../mainmatter/risa.tex") #  draft
 % rundontrun.rnw # 259.5 .. 280 (need two sweave passes)
 %
 
-<<appendix, echo=F,results=tex, fig = F,eval=T>>=
+<<appendix, echo=F,results=tex, fig = F,eval=F>>=
 for(part in appendix) includepart(part, withminiTOC = F)
 @
 
