@@ -27,7 +27,7 @@
 % R output options and libraries to be loaded.
 %
 <<options, echo=FALSE, fig=FALSE, results=hide, eval=TRUE>>=
-options(prompt=" ", continue=" ", width = 77)
+options(prompt = " ", continue = " ", width = 77, encoding = "UTF-8")
 .RversionName <-strsplit(R.version.string, ",")[[1]]
 .CurFileName <- NULL
 .PrefixName <- NULL
