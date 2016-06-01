@@ -542,7 +542,7 @@ the following CDS:
 
 <<querycds,fig=F,eval=T>>=
 choosebank("greviews")
-query("coli","N=U00096_GR ET T=CDS ET K=2.3.1.79@")
+coli <- query("coli","N=U00096_GR ET T=CDS ET K=2.3.1.79@")
 sequence <- getSequence(coli$req[[1]])
 annot <- getAnnot(coli$req[[1]])
 closebank()
