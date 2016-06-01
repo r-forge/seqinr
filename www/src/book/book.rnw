@@ -208,6 +208,10 @@ includepart("../mainmatter/risa.tex") #  draft
 includepart("../appendix/FAQ.tex")
 @
 
+<<getfdl, echo=F,results=tex, fig = F,eval=T>>=
+includepart("../appendix/fdl.tex")
+@
+
 %\appendix
 
 %
