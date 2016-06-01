@@ -171,13 +171,16 @@ includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
 <<getseqacnuc, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 @
-<<getquerylang, echo=F,results=tex, fig = F,eval=F>>=
+<<getquerylang, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/querylang.tex")    #  273
 @
+
+% C'est dans ce fichier qu'on teste les sockets compressées
+% avec zlib, mais c'est obsolète non ?
 <<getextracseqs, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/extractseqs.tex")  #  233
 @
-<<getdealseq, echo=F,results=tex, fig = F,eval=F>>=
+<<getdealseq, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/dealseq.tex")      #  1
 @
 <<getacnucsocket, echo=F,results=tex, fig = F,eval=F>>=
