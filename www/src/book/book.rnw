@@ -183,10 +183,13 @@ includepart("../mainmatter/extractseqs.tex")  #  233
 <<getdealseq, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/dealseq.tex")      #  1
 @
+
+% Ça c'est la doc de Simon pour faire sa propre banque ACNUC,
+% ne passe pas la compil chez moi à cause du hostname
 <<getacnucsocket, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/acnucsocket.tex")  #  55.4
 @
-<<getmultivariate, echo=F,results=tex, fig = F,eval=F>>=
+<<getmultivariate, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/multivariate.tex") #  31.4
 @
 <<getnonparastats, echo=F,results=tex, fig = F,eval=F>>=
