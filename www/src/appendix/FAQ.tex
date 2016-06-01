@@ -6,6 +6,7 @@
 
 \usepackage{Sweave}
 \begin{document}
+\input{FAQ-concordance}
 %
 % To change the R input/output style:
 %
@@ -93,15 +94,13 @@ for a given string \texttt{x}:
 
 \begin{Schunk}
 \begin{Sinput}
- gcskew <- function(x) {
-     if (!is.character(x) || length(x) > 1) 
-         stop("single string expected")
-     tmp <- tolower(s2c(x))
-     nC <- sum(tmp == "c")
-     nG <- sum(tmp == "g")
-     if (nC + nG == 0) 
-         return(NA)
-     return(100 * (nC - nG)/(nC + nG))
+ gcskew <- function(x){
+   if( !is.character(x) || length(x) > 1 ) stop("single string expected")
+   tmp <- tolower(s2c(x))
+   nC <- sum(tmp == "c")
+   nG <- sum(tmp == "g")
+   if( nC + nG == 0 ) return(NA)
+   return(100*(nC - nG)/(nC + nG))
  }
  gcskew("GCCC")
 \end{Sinput}
@@ -137,17 +136,16 @@ We move now along the sequence to compute the GC-skew:
  step <- 10000
  wsize <- 10000
  starts <- seq(from = 1, to = nchar(myseq), by = step)
- starts <- starts[-length(starts)]
+ starts <- starts[-length(starts)] # remove last one
  n <- length(starts)
  result <- numeric(n)
- for (i in seq_len(n)) {
-     result[i] <- gcskew(substr(myseq, starts[i], starts[i] + 
-         wsize - 1))
+ for(i in seq_len(n)){
+ 	result[i] <- gcskew(substr(myseq, starts[i], starts[i] + wsize - 1))
  }
 \end{Sinput}
 \end{Schunk}
 
-The following code\footnote{
+The following code\footnote{%
 This code is adapted from the code at \url{http://www.stat.auckland.ac.nz/~paul/RGraphics/chapter3.html} for
 figure 3.25 in Paul Murrell's book \cite{MurrellP2005}. This book is a must read if you are interested
 by \Rlogo{}'s \textit{force de frappe} in the graphic domain. 
@@ -159,19 +157,17 @@ by \Rlogo{}'s \textit{force de frappe} in the graphic domain.
  yy <- result
  n <- length(result)
  hline <- 0
- plot(yy ~ xx, type = "n", axes = FALSE, ann = FALSE, ylim = c(-10, 
-     10))
- polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", 
-     border = NA)
+ plot (yy ~ xx, type="n", axes=FALSE, ann=FALSE, ylim = c(-10, 10))
+ polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", border=NA)
  usr <- par("usr")
- rect(usr[1], usr[3], usr[2], hline, col = "white", border = NA)
+ rect(usr[1], usr[3], usr[2], hline, col="white", border=NA)
  lines(xx, yy)
- abline(h = hline)
+ abline (h=hline)
  box()
- axis(1, at = seq(0, 1600, by = 200))
- axis(2, las = 1)
- title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %", main = expression(paste("GC skew in ", 
-     italic(Escherichia ~ ~coli))))
+ axis(1, at = seq(0,1600, by = 200))
+ axis(2, las = 1) 
+ title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %", 
+ main = expression(paste("GC skew in ", italic(Escherichia~~coli))))
  arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
  text(860, 5.5, "origin of replication", pos = 4)
 \end{Sinput}
@@ -198,21 +194,17 @@ is as follows:
 
 \begin{Schunk}
 \begin{Sinput}
- plot(xx, yy, col = "grey", type = "b", ylim = c(-10, 10), 
-     las = 1, xaxt = "n", main = expression(paste("GC skew in ", 
-         italic(Escherichia ~ ~coli))), xlab = "position (Kbp)", 
-     ylab = "(C-G)/(C+G) %")
- axis(1, at = seq(0, 1600, by = 200))
- lines(smooth <- lowess(xx, yy, f = 0.05), lwd = 1)
- polycurve <- function(x, y, base.y = min(y), ...) polygon(x = c(min(x), 
-     x, max(x)), y = c(base.y, y, base.y), ...)
+ plot(xx,yy, col = "grey", type = "b", ylim = c(-10,10), las = 1, xaxt = "n",
+ main = expression(paste("GC skew in ", italic(Escherichia~~coli))),
+ xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %")
+ axis(1, at = seq(0,1600, by = 200))
+ lines(smooth <- lowess(xx,yy, f = 0.05), lwd = 1)
+ polycurve <- function(x, y, base.y = min(y), ...) polygon(x = c(min(x), x, max(x)), y = c(base.y, y, base.y), ...)
  up <- smooth$y > 0
- polycurve(smooth$x[up], smooth$y[up], base.y = 0, col = rgb(0, 
-     0, 1, 0.5))
- lines(lowess(xx, yy, f = 0.2), lwd = 2, col = "red")
- legend("topright", inset = 0.01, legend = c("f = 0.05", "f = 0.20"), 
-     lwd = c(1, 2), col = c("black", "red"))
- abline(h = 0)
+ polycurve(smooth$x[up], smooth$y[up], base.y = 0, col = rgb(0,0,1,0.5))
+ lines(lowess(xx,yy, f = 0.2), lwd = 2, col = "red")
+ legend("topright", inset = 0.01, legend = c("f = 0.05", "f = 0.20"), lwd = c(1,2), col = c("black", "red"))
+ abline(h=0)
  arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
  text(860, 5.5, "origin of replication", pos = 4)
 \end{Sinput}
@@ -238,7 +230,7 @@ Use the generic function \texttt{getFrag()} :
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("mylist", "AC=A00001")
+ mylist <- query("mylist", "AC=A00001")
  getFrag(mylist$req[[1]], begin = 10, end = 20)
 \end{Sinput}
 \begin{Soutput}
@@ -265,7 +257,7 @@ positions for complete ribosomal CDS from \textit{Escherichia coli}:
 \begin{Schunk}
 \begin{Sinput}
  choosebank("emblTP")
- query("ecribo", "sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
+ ecribo <- query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
  myseqs <- sapply(ecribo$req, getSequence)
  (gc3 <- sapply(myseqs, GC3))
 \end{Sinput}
@@ -288,17 +280,17 @@ the proteins this way:
 
 \begin{Schunk}
 \begin{Sinput}
- sapply(sapply(myseqs, getTrans), computePI)
+ sapply( sapply(myseqs, getTrans), computePI)
 \end{Sinput}
 \begin{Soutput}
  [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
  [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
-[15]  9.435422  4.310745  6.145496  4.876054 11.006430 10.876041  6.624309
+[15]  9.435422  4.310747  6.145496  4.876054 11.006430 10.876041  6.624309
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
 [36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
-[43]  5.858421 11.777511 11.777511 10.619175 11.365738  9.460987 10.864793
-[50] 13.002381  9.845859 10.584868 11.421252 10.248325 11.031943 10.402075
+[43]  5.858421 11.777516 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002373  9.845859 10.584868 11.421252 10.248320 11.031943 10.402075
 [57]  4.863862  6.612505  9.681066 11.150310 11.182505 11.043607  6.624309
 [64]  6.612505  6.624309  4.310747
 \end{Soutput}
@@ -312,8 +304,7 @@ within a function this way:
 
 \begin{Schunk}
 \begin{Sinput}
- GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], 
-     getSequence), GC3)
+ GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
  GC3m(ecribo)
 \end{Sinput}
 \begin{Soutput}
@@ -348,8 +339,7 @@ computations. Here is one way of removing the stop codon under \Rlogo{}:
 
 \begin{Schunk}
 \begin{Sinput}
- gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 
-     3)]))
+ gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 3)]))
 \end{Sinput}
 \end{Schunk}
 
@@ -357,9 +347,9 @@ As compared with the previous result, the difference is small but visible:
 
 \begin{Schunk}
 \begin{Sinput}
- plot(x = gc3, y = gc3nos, las = 1, main = "Stop codon removal effect on G+C content\nin third codon positions", 
-     xlab = "With stop codon", ylab = "Stop codons removed")
- abline(c(0, 1))
+ plot(x = gc3, y = gc3nos, las =1, main="Stop codon removal effect on G+C content
+ in third codon positions", xlab = "With stop codon", ylab ="Stop codons removed")
+ abline(c(0,1))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/FAQ-stopcodonremovaleffect}
@@ -370,7 +360,7 @@ the first 10 lines of the file copied from \texttt{CodonWSourceCode\_1\_4\_4}:
 \begin{Schunk}
 \begin{Sinput}
  inputdatfile <- system.file("sequences/input.dat", package = "seqinr")
- cat(readLines(inputdatfile, n = 10), sep = "\n")
+ cat(readLines(inputdatfile,n=10), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 >YCG9 Probable          1377 residues Pha 0 Code 0
@@ -422,7 +412,7 @@ for the GC content and GC3s content:
 \begin{Schunk}
 \begin{Sinput}
  inputoutfile <- system.file("sequences/input.out", package = "seqinr")
- cat(readLines(inputoutfile, n = 10), sep = "\n")
+ cat(readLines(inputoutfile, n=10), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 title                    	GC3s	GC	
@@ -456,17 +446,17 @@ remove the last stop codon:
 
 \begin{Schunk}
 \begin{Sinput}
- input.gc <- sapply(input, function(s) GC(s[1:(length(s) - 
-     3)]))
+ input.gc <- sapply(input, function(s) GC(s[1:(length(s)-3)]))
  max(abs(input.gc - input.res$GC))
 \end{Sinput}
 \begin{Soutput}
 [1] 0.0004946237
 \end{Soutput}
 \begin{Sinput}
- plot(x = input.gc, y = input.res$GC, las = 1, xlab = "Results with GC()", 
-     ylab = "Results from codonW", main = "Comparison of G+C content results")
- abline(c(0, 1))
+ plot(x = input.gc, y = input.res$GC, las = 1,
+ xlab = "Results with GC()", ylab = "Results from codonW",
+ main = "Comparison of G+C content results")
+ abline(c(0,1))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/FAQ-inputgc}
@@ -477,17 +467,17 @@ for G+C in third codon positions:
 
 \begin{Schunk}
 \begin{Sinput}
- input.gc3 <- sapply(input, function(s) GC3(s[1:(length(s) - 
-     3)]))
+ input.gc3 <- sapply(input, function(s) GC3(s[1:(length(s)-3)]))
  max(abs(input.gc3 - input.res$GC3s))
 \end{Sinput}
 \begin{Soutput}
 [1] 0.054
 \end{Soutput}
 \begin{Sinput}
- plot(x = input.gc3, y = input.res$GC3s, las = 1, xlab = "Results with GC3()", 
-     ylab = "Results from codonW", main = "Comparison of G+C content in third codon positions results")
- abline(c(0, 1))
+ plot(x = input.gc3, y = input.res$GC3s, las = 1,
+ xlab = "Results with GC3()", ylab = "Results from codonW",
+ main = "Comparison of G+C content in third codon positions results")
+ abline(c(0,1))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/FAQ-inputgc3}
@@ -500,14 +490,13 @@ Let's remove these codons:
 \begin{Schunk}
 \begin{Sinput}
  codons <- words()
- names(codons) <- sapply(codons, function(c) aaa(translate(s2c(c), 
-     numcode = 1)))
- okcodons <- codons[!names(codons) %in% c("Met", "Trp", "Stp")]
- gc3s <- function(s) {
-     tmp <- splitseq(s)
-     tmp <- tmp[tmp %in% okcodons]
-     tmp <- s2c(paste(tmp, collapse = ""))
-     GC3(tmp)
+ names(codons) <- sapply(codons, function(c) aaa(translate(s2c(c), numcode = 1)))
+ okcodons <- codons[! names(codons) %in% c("Met", "Trp", "Stp")]
+ gc3s <- function(s){
+   tmp <- splitseq(s)
+   tmp <- tmp[tmp %in% okcodons]
+   tmp <- s2c(paste(tmp, collapse = ""))
+   GC3(tmp)
  }
  input.gc3s <- sapply(input, gc3s)
  max(abs(input.gc3s - input.res$GC3s))
@@ -516,9 +505,10 @@ Let's remove these codons:
 [1] 0.0004980843
 \end{Soutput}
 \begin{Sinput}
- plot(x = input.gc3s, y = input.res$GC3s, las = 1, xlab = "Results with GC3()", 
-     ylab = "Results from codonW", main = "Comparison of G+C content in third codon positions results\n(Met, Trp and Stp codons excluded)")
- abline(c(0, 1))
+ plot(x = input.gc3s, y = input.res$GC3s, las = 1,
+ xlab = "Results with GC3()", ylab = "Results from codonW",
+ main = "Comparison of G+C content in third codon positions results\n(Met, Trp and Stp codons excluded)")
+ abline(c(0,1))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/FAQ-inputgc3s}
@@ -560,13 +550,12 @@ Let's compute $P_{3}$ and compare it with GC3s:
 
 \begin{Schunk}
 \begin{Sinput}
- P3codons <- codons[!names(codons) %in% c("Met", "Trp", "Ile", 
-     "Stp")]
- P3 <- function(s) {
-     tmp <- splitseq(s)
-     tmp <- tmp[tmp %in% P3codons]
-     tmp <- s2c(paste(tmp, collapse = ""))
-     GC3(tmp)
+ P3codons <- codons[! names(codons) %in% c("Met", "Trp", "Ile", "Stp")]
+ P3 <- function(s){
+   tmp <- splitseq(s)
+   tmp <- tmp[tmp %in% P3codons]
+   tmp <- s2c(paste(tmp, collapse = ""))
+   GC3(tmp)
  }
  input.P3 <- sapply(input, P3)
  max(abs(input.P3 - input.res$GC3s))
@@ -575,9 +564,10 @@ Let's compute $P_{3}$ and compare it with GC3s:
 [1] 0.02821505
 \end{Soutput}
 \begin{Sinput}
- plot(x = input.P3, y = input.res$GC3s, las = 1, xlab = "Results with P3", 
-     ylab = "Results from codonW GC3s", main = "Comparison of P3 and GC3s")
- abline(c(0, 1))
+ plot(x = input.P3, y = input.res$GC3s, las = 1,
+ xlab = "Results with P3", ylab = "Results from codonW GC3s",
+ main = "Comparison of P3 and GC3s")
+ abline(c(0,1))
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/FAQ-inputP3}
@@ -589,16 +579,16 @@ In practice, $P_{3}$, GC3, and GC3s are only slightly different \cite{noboru99}.
 
 This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
 I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
-if I know its name\footnote{
+if I know its name\footnote{%
 More exactly, this is the accession number. Sequence names are not stable over time,
 it's always better to use the accession numbers. 
 }, how can I get the sequence?
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("swissprot")
- query("myprot", "AC=P08758")
- getSequence(myprot$req[[1]])
+ choosebank("swissprot") 
+ myprot <- query("myprot","AC=P08758")
+ getSequence(myprot$req[[1]])       
 \end{Sinput}
 \begin{Soutput}
   [1] "M" "A" "Q" "V" "L" "R" "G" "T" "V" "T" "D" "F" "P" "G" "F" "D" "E" "R"
@@ -630,20 +620,20 @@ it's always better to use the accession numbers.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
-    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
-    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
-  \item Loaded via a namespace (and not attached): gee~4.13-14,
-    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.1-5, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  5 14:57:01 2009
+  \item \Rlogo{} compilation time was: Wed Jun  1 17:13:01 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
