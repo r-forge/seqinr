@@ -195,11 +195,18 @@ includepart("../mainmatter/multivariate.tex") #  31.4
 <<getnonparastats, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
 @
+
+% Ça c'est très long à compiler, je laisse tomber pour
+% le moment
 <<getrisa, echo=F,results=tex, fig = F,eval=F>>=
 includepart("../mainmatter/risa.tex") #  draft
 @
 
 \part{Appendix}
+
+<<getFAQ, echo=F,results=tex, fig = F,eval=T>>=
+includepart("../appendix/FAQ.tex")
+@
 
 %\appendix
 
@@ -212,17 +219,17 @@ includepart("../mainmatter/risa.tex") #  draft
 % gencodes.rnw # 0.9 .. 0.97
 % rundontrun.rnw # 259.5 .. 280 (need two sweave passes)
 %
+%
+%<<appendix, echo=F,results=tex, fig = F,eval=F>>=
+%for(part in appendix) includepart(part, withminiTOC = F)
+%@
 
-<<appendix, echo=F,results=tex, fig = F,eval=F>>=
-for(part in appendix) includepart(part, withminiTOC = F)
-@
 
+%\listoftables
+%\addcontentsline{toc}{chapter}{List of tables}
 
-\listoftables
-\addcontentsline{toc}{chapter}{List of tables}
-
-\listoffigures
-\addcontentsline{toc}{chapter}{List of figures}
+%\listoffigures
+%\addcontentsline{toc}{chapter}{List of figures}
 
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{plain}
