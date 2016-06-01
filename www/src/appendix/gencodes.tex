@@ -4,8 +4,9 @@
 \title{Genetic codes}
 \author{Lobry, J.R.}
 
-\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\usepackage{Sweave}
 \begin{document}
+\input{gencodes-concordance}
 %
 % To change the R input/output style:
 %
@@ -54,8 +55,8 @@ the text.
 
 \begin{Schunk}
 \begin{Sinput}
- tablecode(latexfile = "../tables/stdcode.tex", label = "stdcode", 
-     size = "small")
+ tablecode( latexfile = "../tables/stdcode.tex",
+ label = "stdcode", size = "small")
 \end{Sinput}
 \end{Schunk}
 
@@ -74,7 +75,7 @@ and Vladimir Soussov is based primarily on two previous reviews
 \begin{Sinput}
  codes <- SEQINR.UTIL$CODES.NCBI
  availablecodes <- which(codes$CODES != "deleted")
- codes[availablecodes, "ORGANISMES", drop = FALSE]
+ codes[availablecodes,"ORGANISMES", drop = FALSE]
 \end{Sinput}
 \begin{Soutput}
                            ORGANISMES
@@ -103,20 +104,17 @@ following \Rlogo{}~code:
 
 \begin{Schunk}
 \begin{Sinput}
- cdorder <- paste(paste(rep(s2c("tcag"), each = 16), s2c("tcag"), 
-     sep = ""), rep(s2c("tcag"), each = 4), sep = "")
- stdcode <- sapply(lapply(cdorder, s2c), translate, numcode = 1)
- for (cd in availablecodes[-1]) {
-     Tfile <- paste("../tables/codnum", cd, ".tex", sep = "")
-     preemph <- "\\textcolor{red}{\\textbf{"
-     postemph <- "}}"
-     stcodon <- (stdcode == sapply(lapply(cdorder, s2c), translate, 
-         numcode = cd))
-     pre <- ifelse(stcodon, "", preemph)
-     post <- ifelse(stcodon, "", postemph)
-     tablecode(numcode = cd, latexfile = Tfile, size = "small", 
-         preaa = pre, postaa = post)
-     cat(paste("\\input{", Tfile, "}", sep = ""), sep = "\n")
+ cdorder <- paste(paste(rep(s2c("tcag"), each =16), s2c("tcag"), sep = ""), rep(s2c("tcag"), each = 4), sep = "")
+ stdcode <- sapply(lapply(cdorder,s2c),translate, numcode = 1)
+ for(cd in availablecodes[-1]){
+   Tfile <- paste("../tables/codnum", cd, ".tex", sep = "")
+   preemph <- "\\textcolor{red}{\\textbf{"
+   postemph <- "}}"
+   stcodon <- (stdcode ==  sapply(lapply(cdorder,s2c),translate, numcode = cd))
+   pre <- ifelse(stcodon, "", preemph)
+   post <- ifelse(stcodon, "", postemph)
+   tablecode(numcode = cd, latexfile = Tfile, size = "small", preaa = pre, postaa = post)
+   cat(paste("\\input{", Tfile, "}", sep = ""), sep = "\n")
  }
 \end{Sinput}
 \input{../tables/codnum2.tex}
@@ -139,25 +137,29 @@ following \Rlogo{}~code:
 
 \section*{Session Informations}
 
+\begin{scriptsize}
+
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
-  \item Base packages: base, datasets, grDevices, graphics, methods,
-    stats, utils
-  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
-    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
-    xtable~1.5-4, zoo~1.5-4
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-15
+\begin{itemize}\raggedright
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
+  \item Base packages: base, datasets, graphics, grDevices, grid,
+    methods, stats, utils
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.1-5, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Oct 26 18:37:37 2008
+  \item \Rlogo{} compilation time was: Wed Jun  1 17:53:09 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
+
+\end{scriptsize}
 
 %
 % END - DO NOT REMOVE THIS LINE
