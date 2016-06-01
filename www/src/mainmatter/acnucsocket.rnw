@@ -302,7 +302,7 @@ You can query the database. For example:
 
 <<tryquery,fig=F,eval=T>>=
 choosebank(bank = "demoacnuc",host = hostname,port=49152)
-query("mylist", "k=rib@ prot@")
+mylist<-query("mylist", "k=rib@ prot@")
 mylist$nelem
 getName(mylist$req)
 @ 
