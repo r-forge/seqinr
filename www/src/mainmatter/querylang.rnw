@@ -28,8 +28,8 @@ The query language is case insensitive, for instance:
 
 <<lowervsupper,fig=F,eval=T>>=
 choosebank("emblTP")
-query("lowercase", "sp=escherichia coli", virtual = TRUE)
-query("uppercase", "SP=Escherichia coli", virtual = TRUE)
+lowercase <- query("lowercase", "sp=escherichia coli", virtual = TRUE)
+uppercase <- query("uppercase", "SP=Escherichia coli", virtual = TRUE)
 lowercase$nelem == uppercase$nelem
 closebank()
 @
@@ -41,7 +41,7 @@ criteria between escaped double quotes. For example:
 
 <<ambig,fig=F,eval=T>>=
 choosebank("emblTP")
-query("ambig","\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", virtual = T)
+ambig <- query("ambig","\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", virtual = T)
 ambig$nelem
 closebank()
 @
@@ -62,9 +62,9 @@ characters. Here are some examples:
 
 <<borreliaexample,fig=F,eval=T>>=
 choosebank("emblTP")
-query("bb","sp=Borrelia burgdorferi",virtual=T)
+bb <- query("bb","sp=Borrelia burgdorferi",virtual=T)
 bb$nelem
-query("borrelia","sp=Borrelia",virtual=T)
+borrelia <- query("borrelia","sp=Borrelia",virtual=T)
 borrelia$nelem
 closebank()
 @
@@ -73,9 +73,9 @@ Here is an example of use of the wildcard @ to look for sapiens species:
 
 <<sapiens,fig=F,eval=T>>=
 choosebank("emblTP")
-query("sapiens","sp=@sapiens@",virtual=T)
+sapiens <- query("sapiens","sp=@sapiens@",virtual=T)
 sapiens$nelem
-query("sapienspecies","PS sapiens")
+sapienspecies <- query("sapienspecies","PS sapiens")
 getName(sapienspecies)
 closebank()
 @
@@ -91,9 +91,9 @@ NCBI's taxonomy ID. For instance, the taxonomy ID for
 
 <<tidexample,fig=F,eval=T>>=
 choosebank("genbank")
-query("hsn","TID=63221", virtual=T)
+hsn <- query("hsn","TID=63221", virtual=T)
 hsn$nelem
-query("hsnsp","PS hsn")
+hsnsp <- query("hsnsp","PS hsn")
 getName(hsnsp)
 closebank()
 @
@@ -105,9 +105,9 @@ the tree. The at sign @ substitutes as a wildcard character for any zero or more
 characters. Example:
 
 <<exemplekw,fig=F,eval=T>>=
- choosebank("emblTP")
-query("ecoliribprot","sp=escherichia coli AND k=rib@ prot@", virtual=T)
- ecoliribprot$nelem
+choosebank("emblTP")
+ecoliribprot <- query("ecoliribprot","sp=escherichia coli AND k=rib@ prot@", virtual=T)
+ecoliribprot$nelem
 closebank()
 @
 
@@ -126,7 +126,7 @@ For instance, to select all coding sequences from \textit{Homo sapiens} we can u
 
 <<allhscds,fig=F,eval=T>>=
 choosebank("emblTP")
-query("hscds","sp=Homo sapiens AND t=cds", virtual=T)
+hscds <- query("hscds","sp=Homo sapiens AND t=cds", virtual=T)
 hscds$nelem
 closebank()
 @
@@ -138,7 +138,7 @@ For instance to select all sequences published in \textit{Science}:
 
 <<allseqsfromscience,fig=F,eval=T>>=
 choosebank("emblTP")
-query("allseqsfromscience","J=Science", virtual=TRUE)
+allseqsfromscience <- query("allseqsfromscience","J=Science", virtual=TRUE)
 allseqsfromscience$nelem
 closebank()
 @
@@ -163,7 +163,7 @@ we can use:
 
 <<refbibexample,fig=F,eval=T>>=
 choosebank("emblTP")
-query("rpro","R=Nature/396/133")
+rpro <- query("rpro","R=Nature/396/133")
 getName(rpro)
 closebank()
 @
@@ -174,7 +174,7 @@ This is used to select sequences having a specified author (only last name, no i
 
 <<authorexample,fig=F,eval=T>>=
 choosebank("emblTP")
-query("Graur","AU=Graur")
+Graur <- query("Graur","AU=Graur")
 Graur$nelem
 closebank()
 @
@@ -187,7 +187,7 @@ number AY382159:
 
 <<exampleAC,fig=F,eval=T>>=
 choosebank("emblTP")
-query("ACexample","AC=AY382159")
+ACexample <- query("ACexample","AC=AY382159")
 getName(ACexample$req[[1]])
 annotations <- getAnnot(ACexample$req[[1]])
 cat(annotations, sep ="\n")
@@ -207,7 +207,7 @@ is possible here.
 
 <<exampleN,fig=F,eval=T>>=
 choosebank("emblTP")
-query("Nexample","N=AY382159")
+Nexample <- query("Nexample","N=AY382159")
 getName(Nexample$req[[1]])
 annotations <- getAnnot(Nexample$req[[1]])
 cat(annotations, sep ="\n")
@@ -222,7 +222,7 @@ possible here. For instance, we want to know how many taxon have \textit{sapiens
 
 <<exampleNS,fig=F,eval=T>>=
 choosebank("emblTP")
-query("NSexample","NS=@sapiens@")
+NSexample <- query("NSexample","NS=@sapiens@")
 NSexample
 closebank()
 @
@@ -235,7 +235,7 @@ possible here. For instance, we want to know how many keywords have \textit{sex}
 
 <<exampleNK,fig=F,eval=T>>=
 choosebank("emblTP")
-query("NKexample","NK=@sex@")
+NKexample <- query("NKexample","NK=@sex@")
 NKexample
 closebank()
 @
@@ -248,7 +248,7 @@ year and before this year (\texttt{Y<year}).
 
 <<exampleY,fig=F,eval=T>>=
 choosebank("emblTP")
-query("Yexample","Y=1999", virtual=TRUE)
+Yexample <- query("Yexample","Y=1999", virtual=TRUE)
 Yexample$nelem
 closebank()
 @
@@ -262,9 +262,9 @@ this way:
 
 <<organellescodes,fig=F,eval=T>>=
 choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
-  smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname","libel")]
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname","libel")]
 closebank()
 @
 
@@ -272,7 +272,7 @@ To select for instance all sequences from chloroplast genome we can use:
 
 <<exampleO,fig=F,eval=T>>=
 choosebank("emblTP")
-query("Oexample","O=chloroplast", virtual=TRUE)
+Oexample <- query("Oexample","O=chloroplast", virtual=TRUE)
 Oexample$nelem
 closebank()
 @
@@ -286,9 +286,9 @@ this way:
 
 <<moleculescodes,fig=F,eval=T>>=
 choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
-  smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname","libel")]
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname","libel")]
 closebank()
 @
 
@@ -296,7 +296,7 @@ To select for instance all sequences sequenced from DNA we can use:
 
 <<exampleM,fig=F,eval=T>>=
 choosebank("emblTP")
-query("Mexample","M=DNA", virtual=TRUE)
+Mexample <- query("Mexample","M=DNA", virtual=TRUE)
 Mexample$nelem
 closebank()
 @
@@ -309,14 +309,14 @@ this way:
 
 <<emblstatus,fig=F,eval=T>>=
 choosebank("embl")
- nl <- readfirstrec(type = "SMJ")
-  smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
 closebank()
 choosebank("swissprot")
- nl <- readfirstrec(type = "SMJ")
-  smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
 closebank()
 @
 
@@ -324,7 +324,7 @@ To select for instance all fully annotated sequences from Uniprot we can use:
 
 <<exampleST,fig=F,eval=T>>=
 choosebank("swissprot")
-query("STexample","ST=REVIEWED", virtual=TRUE)
+STexample <- query("STexample","ST=REVIEWED", virtual=TRUE)
 STexample$nelem
 closebank()
 @
@@ -340,7 +340,7 @@ a file of sequence names distributed with the seqinR package:
 choosebank("emblTP")
 fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
 cat(readLines(fileSQ),sep="\n")
-clfcd("listSQ", file = fileSQ, type = "SQ")
+listSQ <-clfcd("listSQ", file = fileSQ, type = "SQ")
 getName(listSQ)
 closebank()
 @
@@ -357,7 +357,7 @@ a file of sequence accession numbers distributed with the seqinR package:
 choosebank("emblTP")
 fileAC <- system.file("sequences/bb.acc", package = "seqinr")
 cat(readLines(fileAC),sep="\n")
-clfcd("listAC", file = fileAC, type = "AC")
+listAC <- clfcd("listAC", file = fileAC, type = "AC")
 getName(listAC)
 closebank()
 @
@@ -374,7 +374,7 @@ a file of keywords distributed with the seqinR package:
 choosebank("emblTP")
 fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
 cat(readLines(fileKW),sep="\n")
-clfcd("listKW", file = fileKW, type = "KW")
+listKW <- clfcd("listKW", file = fileKW, type = "KW")
 getName(listKW) 
 closebank()
 @
@@ -390,7 +390,7 @@ a file of species names distributed with the seqinR package:
 choosebank("emblTP")
 fileSP <- system.file("sequences/bb.sp", package = "seqinr")
 cat(readLines(fileSP),sep="\n")
-clfcd("listSP", file = fileSP, type = "SP")
+listSP <- clfcd("listSP", file = fileSP, type = "SP")
 getName(listSP) 
 closebank()
 @
@@ -401,11 +401,11 @@ A list name can be re-used, for instance:
 
 <<examplereuselistname,fig=F,eval=T>>=
 choosebank("emblTP")
-query("MyFirstListName", "Y=2000", virtual = TRUE)
+MyFirstListName <- query("MyFirstListName", "Y=2000", virtual = TRUE)
 MyFirstListName$nelem
-query("MySecondListName", "SP=Borrelia burgdorferi", virtual = TRUE)
+MySecondListName <- query("MySecondListName", "SP=Borrelia burgdorferi", virtual = TRUE)
 MySecondListName$nelem
-query("MyThirdListName", "MyFirstListName AND MySecondListName", virtual = TRUE)
+MyThirdListName <- query("MyThirdListName", "MyFirstListName AND MySecondListName", virtual = TRUE)
 MyThirdListName$nelem
 closebank()
 @
@@ -421,7 +421,7 @@ also coding sequences we can use:
 
 <<exampleAND,fig=F,eval=T>>=
 choosebank("emblTP")
-query("ANDexample","SP=Borrelia burgdorferi AND T=CDS", virtual=TRUE)
+ANDexample <- query("ANDexample","SP=Borrelia burgdorferi AND T=CDS", virtual=TRUE)
 ANDexample$nelem
 closebank()
 @
@@ -436,7 +436,7 @@ from \textit{Escherichia coli} we can use:
 
 <<exampleOR,fig=F,eval=T>>=
 choosebank("emblTP")
-query("ORexample","SP=Borrelia burgdorferi OR SP=Escherichia coli", virtual=TRUE)
+ORexample <- query("ORexample","SP=Borrelia burgdorferi OR SP=Escherichia coli", virtual=TRUE)
 ORexample$nelem
 closebank()
 @
@@ -449,7 +449,7 @@ are not partial we can use:
 
 <<exampleOR,fig=F,eval=T>>=
 choosebank("emblTP")
-query("NOTexample","SP=Borrelia burgdorferi AND NOT K=PARTIAL", virtual=TRUE)
+NOTexample <- query("NOTexample","SP=Borrelia burgdorferi AND NOT K=PARTIAL", virtual=TRUE)
 NOTexample$nelem
 closebank()
 @
@@ -462,11 +462,11 @@ the reciprocity we can use for instance:
  
 <<examplePAR,fig=F,eval=T>>=
 choosebank("emblTP")
-query("A","T=TRNA", virtual=TRUE)
-query("B","PAR A", virtual=TRUE)
-query("C","SUB B", virtual=TRUE)
-query("D","PAR C", virtual=TRUE)
-query("emptySet", "B AND NOT D", virtual=TRUE)
+A <- query("A","T=TRNA", virtual=TRUE)
+B <- query("B","PAR A", virtual=TRUE)
+C <- query("C","SUB B", virtual=TRUE)
+D <- query("D","PAR C", virtual=TRUE)
+emptySet <- query("emptySet", "B AND NOT D", virtual=TRUE)
 emptySet$nelem
 closebank()
 @
@@ -477,9 +477,9 @@ This is a unary operator to add all subsequences of members of the single list o
 
 <<exampleSUB,fig=F,eval=T>>=
 choosebank("emblTP")
-query("SUBexample","AC=AE000783",virtual=T)
+SUBexample <- query("SUBexample","AC=AE000783",virtual=T)
 SUBexample$nelem
- query("SUBexample2","SUB SUBexample",virtual=T)
+SUBexample2 <- query("SUBexample2","SUB SUBexample",virtual=T)
 SUBexample2$nelem
 closebank()
 @
@@ -491,8 +491,8 @@ sequences of the operand list.
 
 <<examplePS,fig=F,eval=T>>=
 choosebank("emblTP")
-query("PSexample","K=hyperthermo@",virtual=T)
-query("PSexample2","PS PSexample")
+PSexample <- query("PSexample","K=hyperthermo@",virtual=T)
+PSexample2 <- query("PSexample2","PS PSexample")
 getName(PSexample2)
 closebank()
 @
@@ -504,8 +504,8 @@ of the operand list.
 
 <<examplePK,fig=F,eval=T>>=
 choosebank("emblTP")
-query("PKexample","AC=AE000783",virtual=T)
-query("PKexample2","PK PKexample")
+PKexample <- query("PKexample","AC=AE000783",virtual=T)
+PKexample2 <- query("PKexample2","PK PKexample")
 getName(PKexample2)
 closebank()
 @
@@ -519,8 +519,8 @@ of species or keywords.
 choosebank("emblTP")
 fileSP <- system.file("sequences/bb.sp", package = "seqinr")
 cat(readLines(fileSP),sep="\n")
-clfcd("listSP", file = fileSP, type = "SP")
-query("UNexample", "UN listSP", virtual = TRUE)
+listSP <- clfcd("listSP", file = fileSP, type = "SP")
+UNexample <- query("UNexample", "UN listSP", virtual = TRUE)
 UNexample$nelem 
 closebank()
 @
@@ -532,10 +532,10 @@ species list operand.
 
 <<exampleSD,fig=F,eval=T>>=
 choosebank("emblTP")
-query("hominidae","SP=Hominidae",virtual=T)
-query("hsp","PS hominidae",virtual=T)
+hominidae <- query("hominidae","SP=Hominidae",virtual=T)
+hsp <- query("hsp","PS hominidae",virtual=T)
 hsp$nelem
-query("SDexample","SD hsp")
+SDexample <- query("SDexample","SD hsp")
 getName(SDexample) 
 closebank()
 @
@@ -547,10 +547,10 @@ keywords list operand.
 
 <<exampleKD,fig=F,eval=T>>=
 choosebank("emblTP")
-query("cat","SP=Felis catus", virtual = TRUE)
-query("catkw","PK cat", virtual = TRUE)
+cat <- query("cat","SP=Felis catus", virtual = TRUE)
+catkw <- query("catkw","PK cat", virtual = TRUE)
 catkw$nelem
-query("KDexample","KD catkw", virtual = TRUE)
+KDexample <- query("KDexample","KD catkw", virtual = TRUE)
 KDexample$nelem
 closebank()
 @
