@@ -212,7 +212,20 @@ includepart("../appendix/FAQ.tex")
 includepart("../appendix/fdl.tex")
 @
 
-%\appendix
+<<getfdl, echo=F,results=tex, fig = F,eval=T>>=
+includepart("../appendix/releasenotes.tex")
+@
+
+% Ça c'est la génération des informations sur les banques
+% ACNUC disponibles sur le pbil, trop à compiler pour le
+% moment
+<<getfdl, echo=F,results=tex, fig = F,eval=F>>=
+includepart("../appendix/subsequences.tex")
+@
+
+<<getgencodes, echo=F,results=tex, fig = F,eval=T>>=
+includepart("../appendix/gencodes.tex")
+@
 
 %
 % FAQ.rnw  # 72 .. 60
