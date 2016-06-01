@@ -229,6 +229,7 @@ close them as soon as the information has been retrieved.
  names(ntaxa) <- banks
 \end{Sinput}
 \end{Schunk}
+
 \begin{Schunk}
 \begin{Sinput}
  ntaxa <- ntaxa[!is.na(ntaxa)]
@@ -237,7 +238,7 @@ close them as soon as the information has been retrieved.
  xlab = "Log10(number of taxa)")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{../figs/getseqacnuc-plottaxaperbank}
+\includegraphics{../figs/getseqacnuc-plotpb}
 
 \section{Make your query}
 
@@ -812,7 +813,7 @@ Val
 \end{Schunk}
 
 There is no stop codon here because the sequence is partial.
-If you are experiencing a strong closure issue problem here,
+If you are experiencing a strong closure issue here,
 just close the bank:
 
 \begin{Schunk}
@@ -844,7 +845,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue May 31 21:23:09 2016
+  \item \Rlogo{} compilation time was: Wed Jun  1 14:33:37 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
