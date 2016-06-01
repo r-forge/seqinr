@@ -94,40 +94,39 @@ To obtain the list of methods available for a given class, try this at your \Rlo
  methods(class = "SeqFastadna")
 \end{Sinput}
 \begin{Soutput}
-[1] getAnnot.SeqFastadna    getFrag.SeqFastadna     getLength.SeqFastadna  
-[4] getName.SeqFastadna     getSequence.SeqFastadna getTrans.SeqFastadna   
-[7] summary.SeqFastadna    
+[1] getAnnot    getFrag     getLength   getName     getSequence getTrans   
+[7] summary    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(class = "SeqFastaAA")
 \end{Sinput}
 \begin{Soutput}
-[1] getAnnot.SeqFastaAA    getFrag.SeqFastaAA     getLength.SeqFastaAA  
-[4] getName.SeqFastaAA     getSequence.SeqFastaAA summary.SeqFastaAA    
+[1] getAnnot    getFrag     getLength   getName     getSequence summary    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(class = "SeqAcnucWeb")
 \end{Sinput}
 \begin{Soutput}
- [1] getAnnot.SeqAcnucWeb    getFrag.SeqAcnucWeb     getKeyword.SeqAcnucWeb 
- [4] getLength.SeqAcnucWeb   getLocation.SeqAcnucWeb getName.SeqAcnucWeb    
- [7] getSequence.SeqAcnucWeb getTrans.SeqAcnucWeb    plot.SeqAcnucWeb       
-[10] print.SeqAcnucWeb      
+ [1] getAnnot    getFrag     getKeyword  getLength   getLocation getName    
+ [7] getSequence getTrans    plot        print      
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(class = "SeqFrag")
 \end{Sinput}
 \begin{Soutput}
-[1] getFrag.SeqFrag     getLength.SeqFrag   getName.SeqFrag    
-[4] getSequence.SeqFrag getTrans.SeqFrag   
+[1] getFrag     getLength   getName     getSequence getTrans   
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(class = "qaw")
 \end{Sinput}
 \begin{Soutput}
-[1] getAnnot.qaw    getFrag.qaw     getKeyword.qaw  getLength.qaw  
-[5] getLocation.qaw getName.qaw     getSequence.qaw getTrans.qaw   
-[9] print.qaw      
+[1] getAnnot    getFrag     getKeyword  getLength   getLocation getName    
+[7] getSequence getTrans    print      
+see '?methods' for accessing help and source code
 \end{Soutput}
 \end{Schunk}
 
@@ -143,6 +142,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getFrag.character   getFrag.default     getFrag.list       
 [4] getFrag.logical     getFrag.qaw         getFrag.SeqAcnucWeb
 [7] getFrag.SeqFastaAA  getFrag.SeqFastadna getFrag.SeqFrag    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getSequence)
@@ -151,6 +151,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getSequence.character   getSequence.default     getSequence.list       
 [4] getSequence.logical     getSequence.qaw         getSequence.SeqAcnucWeb
 [7] getSequence.SeqFastaAA  getSequence.SeqFastadna getSequence.SeqFrag    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getName)
@@ -159,6 +160,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getName.default     getName.list        getName.logical    
 [4] getName.qaw         getName.SeqAcnucWeb getName.SeqFastaAA 
 [7] getName.SeqFastadna getName.SeqFrag    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getLength)
@@ -167,6 +169,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getLength.character   getLength.default     getLength.list       
 [4] getLength.logical     getLength.qaw         getLength.SeqAcnucWeb
 [7] getLength.SeqFastaAA  getLength.SeqFastadna getLength.SeqFrag    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getTrans)
@@ -175,6 +178,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getTrans.character   getTrans.default     getTrans.list       
 [4] getTrans.logical     getTrans.qaw         getTrans.SeqAcnucWeb
 [7] getTrans.SeqFastadna getTrans.SeqFrag    
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getAnnot)
@@ -183,6 +187,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 [1] getAnnot.default     getAnnot.list        getAnnot.logical    
 [4] getAnnot.qaw         getAnnot.SeqAcnucWeb getAnnot.SeqFastaAA 
 [7] getAnnot.SeqFastadna
+see '?methods' for accessing help and source code
 \end{Soutput}
 \begin{Sinput}
  methods(getLocation)
@@ -190,6 +195,7 @@ To obtain the list of classes for which a given method exists, try this at your 
 \begin{Soutput}
 [1] getLocation.default     getLocation.list        getLocation.logical    
 [4] getLocation.qaw         getLocation.SeqAcnucWeb
+see '?methods' for accessing help and source code
 \end{Soutput}
 \end{Schunk}
 
@@ -450,20 +456,20 @@ the codon usage in the sequence:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
-    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
-    xtable~1.7-3
-  \item Loaded via a namespace (and not attached): lattice~0.20-29,
-    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.1-5, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 13:51:36 2014
+  \item \Rlogo{} compilation time was: Wed Jun  1 16:24:00 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
