@@ -388,10 +388,30 @@ Read them again from the same file and check that sequences are preserved:
 
 \subsubsection{Oriloc example (\textit{Chlamydia trachomatis} complete genome)}
 
+\begin{figure}[ht!]
+\fbox{\begin{minipage}{0.98\textwidth}
+  \begin{center}\includegraphics[width=0.98\textwidth]{../figs/fig1oriloc}
+  \caption{\label{fig1oriloc}. Screenshot copy of figure 1 from \cite{oriloc}.
+  The complete genome sequence of \textit{Chlamydia trachomatis}
+  (accession number: \texttt{AE001273}) was used to illustrate 
+  the method used by oriloc. (\textbf{a}) A DNA-walk is performed 
+  by reading the sequence in the third 
+  codon positions predicted by glimmer and walking into the plane according to the four 
+  directions defined by the four bases as indicated on the bottom left of the figure. 
+  The resulting DNA-walk is then summarized by projection onto the orthogonal 
+  regression line pointing out at about 11 o’clock in the figure. 
+  (\textbf{b}) The projected values are used as a composite skew index 
+  plotted versus map position on the chromosome. The origin is predicted at 
+  the maximum skew value while the terminus is predicted at the minimum.
+  }
+  \end{center}
+\end{minipage}}
+\end{figure}
+
 A more consequent example is given in the fasta file \texttt{ct.fasta.gz} which
 contains the complete genome of \textit{Chlamydia trachomatis} that was
 used in \cite{oriloc}. You should be able to reproduce figure 1b from this
-paper with the following code:
+paper (\textit{cf.} screenshot in figure \ref{fig1oriloc}) with the following code:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -413,12 +433,11 @@ more advisable to use the default option \texttt{oldoriloc = FALSE}
 if you are interested in the prediction of origins and terminus of
 replication from base composition biases (more on this at
 \url{http://pbil.univ-lyon1.fr/software/oriloc.html}). See also \cite{smorfland}
-for a recent review on this topic.
+for a review on this topic. Here is the improved version:
 
 \begin{Schunk}
 \begin{Sinput}
- out <- oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package ="seqinr"),
-       g2.coord = system.file("sequences/ct.predict", package = "seqinr"))
+ out <- oriloc()
  plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
           ylab = "Cumulated composite skew in Kb", 
           main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
@@ -429,6 +448,22 @@ for a recent review on this topic.
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/getseqflat-oriloc2}
+
+You can also call the \texttt{draw.oriloc()} function for the simultaneous
+representation of the CDS, AT and GC skew along with the combined skew
+of the previous plots:
+
+\begin{Schunk}
+\begin{Sinput}
+ draw.oriloc(out, 
+   main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome),
+   ta.mtext = "TA skew", ta.col = "red",
+   cg.mtext = "CG skew", cg.col = "blue",
+   cds.mtext = "CDS skew", cds.col = "seagreen",
+   add.grid = FALSE)
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/getseqflat-oriloc3}
 
 \subsubsection{Example with 21,161 proteins from \textit{Arabidobpsis thaliana}}
 
@@ -472,7 +507,7 @@ which contains the sequences of 21,161 proteins.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  3.822   0.031   3.851 
+  3.908   0.035   3.948 
 \end{Soutput}
 \end{Schunk}
 
@@ -493,7 +528,7 @@ under unix and load them under Mac OS X, for instance, without problem.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.158   0.002   0.159 
+  0.164   0.002   0.167 
 \end{Soutput}
 \end{Schunk}
 
@@ -1531,7 +1566,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Jun  2 13:57:06 2016
+  \item \Rlogo{} compilation time was: Thu Jun  2 14:42:23 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
