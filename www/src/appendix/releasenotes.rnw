@@ -15,6 +15,26 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{3.1 series}
+
+\subsection*{release 3.1-5}
+
+\begin{itemize}
+
+\item As pointed out by e-mail on 30-MAY-2016 by Haruo Suzuki a
+call to \texttt{getLength(ec999)} yielded spurious output and
+many warnings. This is now fixed.
+
+\item As pointed out by e-mail on 30-MAY-2016 by Haruo Suzuki there 
+was a bug in the documentation of the functions \texttt{recstat()},
+\texttt{draw.recstat()}, \texttt{test.co.recstat()} and
+\texttt{test.li.recstat()}. They were all looking for data in
+a package \texttt{seqinr2} that doesn't exist. This is now
+fixed and the \texttt{dontrun} directive has been removed to
+detect automatically any further problem.
+
+\end{itemize}
+
 \section*{3.0 series}
 
 \subsection*{release 3.0-11}
