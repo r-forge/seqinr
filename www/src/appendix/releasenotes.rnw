@@ -42,6 +42,13 @@ you try to read directly the sequences from a compressed file
 accessed via its URL. A workaround now given in the manual
 is to use a construct like \texttt{read.fasta(gzcon(url(myurl)))}.
 
+\item As pointed out by e-mail on 12-MAY-2016 by Haruo Suzuki the
+documentation for the \texttt{rho()} function was misleading
+because in the refered article \cite{KarlinS1994} the statistic
+was computed from the sequence concatenated with its inverted complement.
+This is now fixed.
+
+
 \end{itemize}
 
 \section*{3.0 series}
