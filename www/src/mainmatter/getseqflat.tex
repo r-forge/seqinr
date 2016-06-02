@@ -330,6 +330,89 @@ $A06852
 \end{Soutput}
 \end{Schunk}
 
+\subsubsection{Compressed file example}
+
+The original file before compression looks like:
+
+\begin{Schunk}
+\begin{Sinput}
+ uncompressed <- system.file("sequences/smallAA.fasta", package = "seqinr")
+ cat(readLines(uncompressed), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>smallAA    A very small AA file in FASTA format
+SEQINRSEQINRSEQINRSEQINR*
+\end{Soutput}
+\end{Schunk}
+
+The compressed file example is full of mojibakes because of its
+binary nature, but the \texttt{readLines()} is still able to read
+it correctly:
+
+\begin{Schunk}
+\begin{Sinput}
+ compressed <- system.file("sequences/smallAA.fasta.gz", package = "seqinr")
+ readChar(compressed, nchar = 1000, useBytes = TRUE)
+\end{Sinput}
+\begin{Soutput}
+[1] "\037\x8b\b\b\xd4\024PW"
+\end{Soutput}
+\begin{Sinput}
+ cat(readLines(compressed), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>smallAA    A very small AA file in FASTA format
+SEQINRSEQINRSEQINRSEQINR*
+\end{Soutput}
+\end{Schunk}
+
+We can therefore import the sequences directly from a gzipped file:
+
+\begin{Schunk}
+\begin{Sinput}
+ res1 <- read.fasta(uncompressed)
+ res2 <- read.fasta(compressed)
+ identical(res1, res2)
+\end{Sinput}
+\begin{Soutput}
+[1] TRUE
+\end{Soutput}
+\end{Schunk}
+
+This automatic conversion works well for local files but is no more
+active when you read the data from an URL, for instance:
+
+\begin{Schunk}
+\begin{Sinput}
+ myurl <- "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/plasmid/plasmid.1.rna.fna.gz"
+ try.res <- try(read.fasta(myurl))
+ try.res
+\end{Sinput}
+\begin{Soutput}
+[1] "Error in read.fasta(myurl) : no line starting with a > character found\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in read.fasta(myurl): no line starting with a > character found>
+\end{Soutput}
+\end{Schunk}
+
+A simple workthrough is to encapsulate this into \texttt{gzcon()} :
+
+\begin{Schunk}
+\begin{Sinput}
+ myseq <- read.fasta(gzcon(url(myurl)))
+ getName(myseq)
+\end{Sinput}
+\begin{Soutput}
+[1] "gi|470467018|ref|NR_074151.1|" "gi|444303868|ref|NR_074290.1|"
+[3] "gi|452192228|ref|NR_075742.1|" "gi|451991842|ref|NR_075394.1|"
+[5] "gi|451991838|ref|NR_075390.1|" "gi|444303919|ref|NR_074342.1|"
+[7] "gi|470486111|ref|NR_076736.1|" "gi|470480648|ref|NR_076426.1|"
+[9] "gi|470478007|ref|NR_076423.1|"
+\end{Soutput}
+\end{Schunk}
+
 \subsection{The function \texttt{write.fasta()}}
 
 This function writes sequences to a file in FASTA format.
@@ -507,7 +590,7 @@ which contains the sequences of 21,161 proteins.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  3.908   0.035   3.948 
+  3.827   0.036   3.863 
 \end{Soutput}
 \end{Schunk}
 
@@ -528,7 +611,7 @@ under unix and load them under Mac OS X, for instance, without problem.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.164   0.002   0.167 
+  0.161   0.002   0.162 
 \end{Soutput}
 \end{Schunk}
 
@@ -1566,7 +1649,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Jun  2 14:42:23 2016
+  \item \Rlogo{} compilation time was: Thu Jun  2 15:58:57 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

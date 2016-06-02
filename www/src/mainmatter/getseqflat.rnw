@@ -97,6 +97,49 @@ The same, but as string and without attributes setting, looks like:
 read.fasta(aafile, seqtype = "AA", as.string = TRUE, set.attributes = FALSE)
 @
 
+\subsubsection{Compressed file example}
+
+The original file before compression looks like:
+
+<<examplegzip1,eval=T>>=
+uncompressed <- system.file("sequences/smallAA.fasta", package = "seqinr")
+cat(readLines(uncompressed), sep = "\n")
+@
+
+The compressed file example is full of mojibakes because of its
+binary nature, but the \texttt{readLines()} is still able to read
+it correctly:
+
+<<examplegzip2,eval=T>>=
+compressed <- system.file("sequences/smallAA.fasta.gz", package = "seqinr")
+readChar(compressed, nchar = 1000, useBytes = TRUE)
+cat(readLines(compressed), sep = "\n")
+@
+
+We can therefore import the sequences directly from a gzipped file:
+
+<<examplegzip3,eval=T>>=
+res1 <- read.fasta(uncompressed)
+res2 <- read.fasta(compressed)
+identical(res1, res2)
+@
+
+This automatic conversion works well for local files but is no more
+active when you read the data from an URL, for instance:
+
+<<ftpgz1,eval=T>>=
+myurl <- "ftp://ftp.ncbi.nlm.nih.gov/refseq/release/plasmid/plasmid.1.rna.fna.gz"
+try.res <- try(read.fasta(myurl))
+try.res
+@
+
+A simple workthrough is to encapsulate this into \texttt{gzcon()} :
+
+<<ftpgz2,eval=T>>=
+myseq <- read.fasta(gzcon(url(myurl)))
+getName(myseq)
+@
+
 \subsection{The function \texttt{write.fasta()}}
 
 This function writes sequences to a file in FASTA format.
