@@ -45,7 +45,7 @@ echo $contents; } ?>
 
 <img src="SeqinRGenericCover.png" />
 
-<p>Version 2.0-7 of the seqinr manual is available <a href="seqinr_2_0-7.pdf">here</a>.</p>
+<p>Version 2.0-7 of the seqinr manual is available <a href="seqinr_3_1-5.pdf">here</a>.</p>
 
 <p>Release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
 
