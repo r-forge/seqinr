@@ -67,11 +67,11 @@ directory:
  list.files(path = system.file("sequences", package = "seqinr"), pattern = ".fasta")
 \end{Sinput}
 \begin{Soutput}
- [1] "Anouk.fasta"        "bb.fasta"           "bordetella.fasta"  
- [4] "ct.fasta"           "DarrenObbard.fasta" "ecolicgpe5.fasta"  
- [7] "gopher.fasta"       "humanMito.fasta"    "legacy.fasta"      
-[10] "louse.fasta"        "malM.fasta"         "ortho.fasta"       
-[13] "seqAA.fasta"        "smallAA.fasta"     
+ [1] "Anouk.fasta"        "bordetella.fasta"   "ct.fasta"          
+ [4] "DarrenObbard.fasta" "ecolicgpe5.fasta"   "gopher.fasta"      
+ [7] "humanMito.fasta"    "legacy.fasta"       "louse.fasta"       
+[10] "malM.fasta"         "ortho.fasta"        "seqAA.fasta"       
+[13] "smallAA.fasta"     
 \end{Soutput}
 \end{Schunk}
 
@@ -396,7 +396,7 @@ paper with the following code:
 \begin{Schunk}
 \begin{Sinput}
  out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
-       g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+       g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
       oldoriloc = TRUE)
  plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
           ylab = "Cumulated composite skew in Kb", 
@@ -418,7 +418,7 @@ for a recent review on this topic.
 \begin{Schunk}
 \begin{Sinput}
  out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
-       g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+       g2.coord = system.file("sequences/ct.predict", package = "seqinr"))
  plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
           ylab = "Cumulated composite skew in Kb", 
           main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
@@ -472,7 +472,7 @@ which contains the sequences of 21,161 proteins.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  3.766   0.022   3.789 
+  3.790   0.034   3.824 
 \end{Soutput}
 \end{Schunk}
 
@@ -493,7 +493,7 @@ under unix and load them under Mac OS X, for instance, without problem.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.151   0.001   0.153 
+  0.164   0.002   0.165 
 \end{Soutput}
 \end{Schunk}
 
@@ -1263,15 +1263,20 @@ produced by common external programs for multiple sequence alignment.
  example(read.alignment)
 \end{Sinput}
 \begin{Soutput}
-rd.lgn mase.res   <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
+rd.lgn mase.res   <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"),
+rd.lgn  format = "mase")
 
-rd.lgn clustal.res <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
+rd.lgn clustal.res <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"),
+rd.lgn  format="clustal")
 
-rd.lgn phylip.res  <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+rd.lgn phylip.res  <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"),
+rd.lgn  format = "phylip")
 
-rd.lgn msf.res      <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
+rd.lgn msf.res      <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"),
+rd.lgn  format = "msf")
 
-rd.lgn fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
+rd.lgn fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"),
+rd.lgn  format = "fasta")
 
 rd.lgn #
 rd.lgn # Quality control routine sanity checks:
@@ -1513,20 +1518,20 @@ the updated dataset.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.1.0 (2014-04-10), \verb|x86_64-apple-darwin13.1.0|
+  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.6-2, ape~3.1-2, grImport~0.9-0,
-    MASS~7.3-31, seqinr~3.0-11, tseries~0.10-32, XML~3.98-1.1,
-    xtable~1.7-3
-  \item Loaded via a namespace (and not attached): lattice~0.20-29,
-    nlme~3.1-117, quadprog~1.5-5, tools~3.1.0, zoo~1.7-11
+  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.1-5, tseries~0.10-35, XML~3.98-1.4,
+    xtable~1.8-2
+  \item Loaded via a namespace (and not attached): lattice~0.20-33,
+    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  6 18:34:24 2014
+  \item \Rlogo{} compilation time was: Thu Jun  2 11:16:34 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

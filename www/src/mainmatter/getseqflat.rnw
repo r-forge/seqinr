@@ -140,7 +140,7 @@ paper with the following code:
 
 <<oriloc, fig=TRUE, results = hide, eval=T>>=
 out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
-      g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+      g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
      oldoriloc = TRUE)
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
          ylab = "Cumulated composite skew in Kb", 
@@ -159,7 +159,7 @@ for a recent review on this topic.
 
 <<oriloc2, fig=TRUE, results = hide, eval=T>>=
 out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
-      g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+      g2.coord = system.file("sequences/ct.predict", package = "seqinr"))
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
          ylab = "Cumulated composite skew in Kb", 
          main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome), las = 1)
