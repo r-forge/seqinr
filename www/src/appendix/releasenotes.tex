@@ -69,6 +69,15 @@ a package \texttt{seqinr2} that doesn't exist. This is now
 fixed and the \texttt{dontrun} directive has been removed to
 detect automatically any further problem.
 
+\item As pointed out by e-mail on 25-MAY-2016 by Haruo Suzuki the
+\texttt{read.fasta()} function can import sequences directly from
+\textit{local} gzipped files. A new \texttt{smallAA.fasta.gz} file
+has been added to document this in the examples of the
+\texttt{read.fasta()} function. This is however no more true if
+you try to read directly the sequences from a compressed file
+accessed via its URL. A workaround now given in the manual
+is to use a construct like \texttt{read.fasta(gzcon(url(myurl)))}.
+
 \end{itemize}
 
 \section*{3.0 series}
@@ -1094,7 +1103,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Jun  2 12:44:22 2016
+  \item \Rlogo{} compilation time was: Thu Jun  2 16:09:38 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
