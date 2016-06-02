@@ -133,13 +133,13 @@ identical(ortho3bis, ortho3)
 
 \subsubsection{Oriloc example (\textit{Chlamydia trachomatis} complete genome)}
 
-A more consequent example is given in the fasta file \texttt{ct.fasta} which
+A more consequent example is given in the fasta file \texttt{ct.fasta.gz} which
 contains the complete genome of \textit{Chlamydia trachomatis} that was
 used in \cite{oriloc}. You should be able to reproduce figure 1b from this
 paper with the following code:
 
 <<oriloc, fig=TRUE, results = hide, eval=T>>=
-out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+out <- oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package ="seqinr"),
       g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
      oldoriloc = TRUE)
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
@@ -158,7 +158,7 @@ replication from base composition biases (more on this at
 for a recent review on this topic.
 
 <<oriloc2, fig=TRUE, results = hide, eval=T>>=
-out <- oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
+out <- oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package ="seqinr"),
       g2.coord = system.file("sequences/ct.predict", package = "seqinr"))
 plot(out$st, out$sk/1000, type="l", xlab = "Map position in Kb",
          ylab = "Cumulated composite skew in Kb", 
