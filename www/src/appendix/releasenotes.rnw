@@ -104,6 +104,28 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 
 
+\subsection*{release 3.0-9}
+
+\begin{itemize}
+
+\item As suggested by e-mail on 17-JANUARY-2014 by Peter Hraber, the \texttt{dist.alignment()} function include a new  option  for nucleotide sequences:  if set to 1, gaps will be counted in the identity measure. (in case there is a gap aligned with and a non-gap, the number of difference is incremented.).
+
+\end{itemize}
+
+
+
+\subsection*{release 3.0-7}
+
+\begin{itemize}
+
+\item As pointed out by e-mail on 04-OCTOBER-2013 by Jeremy Shearman, the  \texttt{comp()} function  was misleading when N's (instead of n's) were present in the sequence.  This is now fixed.
+
+
+
+\end{itemize}
+
+
+
 \subsection*{release 3.0-0}
 
 \begin{itemize}
@@ -112,7 +134,6 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 diffusion list on 20-MAY-2010 there was no constructor for objects
 of class alignment. There is now a \texttt{as.alignment()} function.
 \end{itemize}
-
 
 \section*{2.0 series}
 
