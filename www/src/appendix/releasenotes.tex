@@ -91,7 +91,7 @@ This is now fixed.
 \begin{itemize}
 
 \item As pointed out by e-mail on 27-APRIL-2016 by Matthias D\"oring,
- R and Y were note correctly implemented in the  \texttt{comp()} function. This is now fixed.
+ R and Y were not correctly implemented in the  \texttt{comp()} function. This is now fixed.
 
 
 \item As suggested by e-mail on 23-DECEMBER-2014 by Matt Huska, ade4 package has been switched from "Depends" to "Imports" in the DESCRIPTION file.
@@ -130,6 +130,14 @@ character.
 \end{itemize}
 
 \subsection*{release 3.0-10}
+
+\begin{itemize}
+
+\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik Troesemeier, the  \texttt{read.alignment()} was sending segfault with non-mase data. 
+This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesemeier suggestion.
+
+\end{itemize}
+
 
 
 \subsection*{release 3.0-0}
@@ -1134,7 +1142,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  3 15:43:17 2016
+  \item \Rlogo{} compilation time was: Fri Jun  3 16:06:48 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

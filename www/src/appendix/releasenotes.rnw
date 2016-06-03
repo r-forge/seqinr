@@ -95,6 +95,14 @@ character.
 
 \subsection*{release 3.0-10}
 
+\begin{itemize}
+
+\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik Troesemeier, the  \texttt{read.alignment()} was sending segfault with non-mase data. 
+This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesemeier suggestion.
+
+\end{itemize}
+
+
 
 \subsection*{release 3.0-0}
 
