@@ -48,6 +48,14 @@ because in the refered article \cite{KarlinS1994} the statistic
 was computed from the sequence concatenated with its inverted complement.
 This is now fixed.
 
+\end{itemize}
+
+\subsection*{release 3.1-4}
+
+\begin{itemize}
+
+\item As pointed out by e-mail on 27-APRIL-2016 by Matthias D\"oring,
+ R and Y were note correctly implemented in the  \texttt{comp()} function. This is now fixed.
 
 \end{itemize}
 
