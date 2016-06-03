@@ -55,7 +55,7 @@ This is now fixed.
 \begin{itemize}
 
 \item As pointed out by e-mail on 27-APRIL-2016 by Matthias D\"oring,
- R and Y were note correctly implemented in the  \texttt{comp()} function. This is now fixed.
+ R and Y were not correctly implemented in the  \texttt{comp()} function. This is now fixed.
 
 
 \item As suggested by e-mail on 23-DECEMBER-2014 by Matt Huska, ade4 package has been switched from "Depends" to "Imports" in the DESCRIPTION file.
@@ -69,7 +69,7 @@ This is now fixed.
 
 \begin{itemize}
 
-\item As suggested by e-mail on 19-NOVEMBER-2014 by Tang Chin Cheung, examples involving the  \texttt{query()} function  have been modified according to the new features of R-3.1.2:  since R-3.1.2 it is not possible to change an object belonging to the  global environment from a package.
+\item As suggested by e-mail on 19-NOVEMBER-2014 by Tang Chin Cheung, examples involving the  \texttt{query()} function  have been modified according to the new features of R-3.1.2.  Indeed since R-3.1.2 it is not possible to change an object belonging to the  global environment from a package, as spotted by e-mail on 4-NOVEMBER-2014 by T.J. Agin.
 
 
 \end{itemize}
