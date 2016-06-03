@@ -57,6 +57,10 @@ This is now fixed.
 \item As pointed out by e-mail on 27-APRIL-2016 by Matthias D\"oring,
  R and Y were note correctly implemented in the  \texttt{comp()} function. This is now fixed.
 
+
+\item As suggested by e-mail on 23-DECEMBER-2014 by Matt Huska, ade4 package has been switched from "Depends" to "Imports" in the DESCRIPTION file.
+
+
 \end{itemize}
 
 \section*{3.0 series}
