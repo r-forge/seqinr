@@ -158,6 +158,7 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \item As pointed out by e-mail on 29-MAY-2013 by Domenico Cozzetto, the  \texttt{read.alignment()} function was chopping sequence names after the first space .  This is now fixed for FASTA, CLUSTAL and MASE formats.
 
+
 \end{itemize}
 
 \subsection*{release 3.0-6}
@@ -170,6 +171,12 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \item As suggested by e-mail on 8-FEBRUARY-2012 by Juanjo Abellan, the   \texttt{kaks()}  function has been modified : new  verbose option for  display  values of L0,L2,L4,A0,A2,A4,B0,B2,B4 has been added. 
 
+\end{itemize}
+
+\subsection*{release 3.0-5}
+\begin{itemize}
+
+\item As pointed out by e-mail on 3-FEBRUARY-2012 by Dave Gerrard, the \texttt{consensus()}  function returns NA for all invariant sites when threshold is 1.  Changing  'superior' into 'superior or equal' in the consenus function fixed this bug.
 
 \end{itemize}
 
@@ -1176,7 +1183,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon Jun  6 15:11:16 2016
+  \item \Rlogo{} compilation time was: Mon Jun  6 15:25:14 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
