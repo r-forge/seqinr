@@ -133,7 +133,7 @@ character.
 
 \begin{itemize}
 
-\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik Troesemeier, the  \texttt{read.alignment()} was sending segfault with non-mase data. 
+\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik Troesemeier, the  \texttt{read.alignment()} function  was sending segfault with non-mase data. 
 This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesemeier suggestion.
 
 \end{itemize}
@@ -155,6 +155,8 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 \begin{itemize}
 
 \item As pointed out by e-mail on 04-OCTOBER-2013 by Jeremy Shearman, the  \texttt{comp()} function  was misleading when N's (instead of n's) were present in the sequence.  This is now fixed.
+
+\item As pointed out by e-mail on 29-MAY-2013 by Domenico Cozzetto, the  \texttt{read.alignment()} function was chopping sequence names after the first space .  This is now fixed for FASTA, CLUSTAL and MASE formats.
 
 
 
@@ -1163,7 +1165,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Jun  3 16:53:45 2016
+  \item \Rlogo{} compilation time was: Mon Jun  6 14:31:29 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
