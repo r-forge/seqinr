@@ -122,7 +122,14 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \item As pointed out by e-mail on 29-MAY-2013 by Domenico Cozzetto, the  \texttt{read.alignment()} function was chopping sequence names after the first space .  This is now fixed for FASTA, CLUSTAL and MASE formats.
 
+\end{itemize}
 
+\subsection*{release 3.0-6}
+
+
+\begin{itemize}
+
+\item As pointed out by e-mail on 13-AUGUST-2012 by Grabor Grothendieck, the pipe caracter was not correctly processed in \texttt{stresc()} function. This is now fixed.
 
 \end{itemize}
 
