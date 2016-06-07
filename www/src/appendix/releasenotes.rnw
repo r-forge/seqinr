@@ -63,7 +63,13 @@ This is now fixed.
 
 \end{itemize}
 
+\subsection*{release 3.1-1}
 
+\begin{itemize}
+
+\item Removal of zlib code and headers  with help from Prof. Ripley
+
+\end{itemize}
 
 \subsection*{release 3.1-0}
 
@@ -186,6 +192,8 @@ is now fixed for the fasta format, but the remaining formats have
 not been checked for this problem.
 
 \end{itemize}
+
+
 
 \subsection*{release 2.0-8}
 
