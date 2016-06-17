@@ -15,6 +15,22 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{3.2 series}
+
+\begin{itemize}
+
+\item As from \seqinr{} 3.2-0 we are switching to a lazy sticky
+scheme for \seqinr{} release numbers. Release 3.2-x means that
+\seqinr{} was checked against R release 3.2-y. In short, we are
+trying to follow R major revision numbers. This does not mean
+that you need a brand new version of R to run \seqinr{}, for
+instance at this point (\texttt{2016-06-17}) you need at least
+R version 2.10.0 that was released in 2009. This new numbering
+scheme is just a matter of convenience.
+
+\end{itemize}
+
+
 \section*{3.1 series}
 
 \subsection*{release 3.1-5}
