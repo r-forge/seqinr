@@ -19,6 +19,11 @@ most recent on top.
 
 \begin{itemize}
 
+\item As pointed out by e-mail on 11-JUN-2016 by Haruo Suzuki a
+call to \texttt{AAstat()} function may yield uninformative warning
+messages. The culprit is the \texttt{computePI()} function. This
+is now fixed.
+  
 \item As from \seqinr{} 3.2-0 we are switching to a lazy sticky
 scheme for \seqinr{} release numbers. Release 3.2-x means that
 \seqinr{} was checked against R release 3.2-y. In short, we are
