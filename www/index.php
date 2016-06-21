@@ -43,9 +43,12 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<img src="SeqinRGenericCover.png" />
+<p><img src="SeqinRGenericCover.png"></p>
 
-<p>Version 3.1-5 of the seqinr manual is available <a href="seqinr_3_1-5.pdf">here</a>.</p>
+<p>Download the last under development version of seqinR from 
+<a href=http://r-forge.r-project.org/R/?group_id=220>here</a>.</p>
+
+<p>Version 3.1-5 of the seqinR manual is available <a href="seqinr_3_1-5.pdf">here</a>.</p>
 
 <p>Release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
 
