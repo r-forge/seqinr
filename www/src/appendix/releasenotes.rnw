@@ -19,6 +19,8 @@ most recent on top.
 
 \begin{itemize}
 
+\item Function \texttt{gb2fasta()} now uses a local file example.
+
 \item As pointed out by e-mail on 11-JUN-2016 by Haruo Suzuki a
 call to \texttt{AAstat()} function may yield uninformative warning
 messages. The culprit is the \texttt{computePI()} function. This
