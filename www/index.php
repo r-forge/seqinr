@@ -50,7 +50,10 @@ echo $contents; } ?>
 
 <p>Version 3.1-5 of the seqinR manual is available <a href="seqinr_3_1-5.pdf">here</a>.</p>
 
-<p>Release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
+<p>Reading FASTA files (help from the very last version of
+ the manual) is <a href="./src/mainmatter/getseqflat.pdf">here</a>.</p>
+
+<p>Last release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
 
 <p>You can browse the seqinr source repository 
 <a href="https://r-forge.r-project.org/scm/viewvc.php/?root=seqinr">here</a>.
