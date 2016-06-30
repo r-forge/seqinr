@@ -73,7 +73,7 @@ not to be confused with the ANALYSEQ program by Rodger Staden \cite{analyseq}.
 development in our lab. ANALSEQ has never been published as a regular
 paper (although it is mentioned in one of the ACNUC paper \cite{acnuc1984}),
 there is only a reference manual in french \cite{analseq} also available on-line
-at \url{http://biomserv.univ-lyon1.fr/doclogi/docanals/manuel.html}. ANALSEQ
+at \url{http://pbil.univ-lyon1.fr/software/doclogi/docanals/manuel.html}. ANALSEQ
 was entirely written in FORTRAN-77, and although you won't find any fossil
 code from it within \seqinr{}, we wanted to credit symbolically ANALSEQ as 
 a kind of spiritual ancestor of \seqinr{}~with the cover.
