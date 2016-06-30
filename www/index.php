@@ -53,6 +53,8 @@ echo $contents; } ?>
 <p>Reading FASTA files (help from the very last version of
  the manual) is <a href="./src/mainmatter/getseqflat.pdf">here</a>.</p>
 
+<p>FAQ are <a href="./src/appendix/FAQ.pdf">here</a>.</p>
+
 <p>Last release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
 
 <p>You can browse the seqinr source repository 
