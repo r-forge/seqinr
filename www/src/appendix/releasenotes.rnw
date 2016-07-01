@@ -19,6 +19,10 @@ most recent on top.
 
 \begin{itemize}
 
+\item Images have been inserted in the documentation for datasets
+\texttt{aacost}, \texttt{chargaff}, \texttt{m16j}, \texttt{waterabs} 
+and for the function \texttt{dia.db.growth()}.
+
 \item Function \texttt{gb2fasta()} now uses a local file example.
 
 \item As pointed out by e-mail on 11-JUN-2016 by Haruo Suzuki a
