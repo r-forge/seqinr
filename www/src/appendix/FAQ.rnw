@@ -10,6 +10,66 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section{How can I extract the mitochondrial D-loop/Control Region?}
+
+This question from Sam Borstein was raised by e-mail on 2016-07-10
+with an example based on the following genBank entry:
+
+\begin{scriptsize}
+\begin{verbatim}
+LOCUS       JF979198               16569 bp    DNA     circular PRI 10-MAY-2012
+DEFINITION  Homo sapiens isolate 02_C4c1a(S635848) mitochondrion, complete
+            genome.
+ACCESSION   JF979198
+[...]
+FEATURES             Location/Qualifiers
+     source          1..16569
+                     /organism="Homo sapiens"
+                     /organelle="mitochondrion"
+                     /mol_type="genomic DNA"
+                     /isolate="02_C4c1a(S635848)"
+                     /db_xref="taxon:9606"
+                     /haplotype="C4c1a"
+                     /country="USA: Oklahoma, Flint District"
+                     /note="Cherokee"
+     D-loop          complement(join(16104..16569,1..191))
+     tRNA            577..647
+                     /product="tRNA-Phe"
+     rRNA            648..1601
+                     /product="12S ribosomal RNA"
+[...]
+\end{verbatim}
+\end{scriptsize}
+
+The D-loop control region is listed under the \texttt{FEATURES} but is not turned
+out automatically into subsequences:
+
+<<getype,fig=FALSE>>=
+choosebank("genbank")
+getType()
+@
+
+The more general question is then: can I extract the sequence of something
+which is documented in the \texttt{FEATURES} but not directly available 
+as a subsequence? The answer is yes: the function \texttt{extractseqs()} can
+do the job, dealing with all the tedious \texttt{join} or \texttt{complement}
+operations. As from \seqinr{} 3.2-1 the function has been changed not to
+use zlib compressed sockets by default so that it works on all platforms:
+
+<<demoext,fig=FALSE>>=
+mito <- query("mito","AC=JF979198")
+myseq <- extractseqs("mito", operation = "feature", feature = "D-loop")
+myseq
+@
+
+You can then read this just as a FASTA file with:
+
+<<asfasta,fig=FALSE>>=
+myfasta <- read.fasta(textConnection(myseq))
+summary(myfasta)
+@
+
+\newpage
 \section{How can I compute a score over a moving window?}
 
 As an illustration, suppose that we want to reproduce a part
