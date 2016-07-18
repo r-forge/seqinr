@@ -15,9 +15,9 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
-\section*{3.2 series}
+\section*{3.3 series}
 
-\subsection*{release 3.2-1}
+\subsection*{release 3.3-0 \textit{in memoriam} 2016-07-14}
 
 \begin{itemize}
 
@@ -27,6 +27,8 @@ from a request by Sam Borstein on 10-JUL-2016 on how to extract D-loop/control
 region in mitochondrial genomes. An example is not given in the FAQ.
 
 \end{itemize}
+
+\section*{3.2 series}
 
 \subsection*{release 3.2-0}
 

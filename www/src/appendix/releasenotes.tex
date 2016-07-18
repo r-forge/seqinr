@@ -51,9 +51,28 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
-\section*{3.2 series}
+\section*{3.3 series}
+
+\subsection*{release 3.3-0 \textit{in memoriam} 2016-07-14}
 
 \begin{itemize}
+
+\item Function \texttt{extractseqs()} has gained an extra argument \texttt{zlib}
+defaulting to \texttt{FALSE} so that it can be used on any platform. This follows
+from a request by Sam Borstein on 10-JUL-2016 on how to extract D-loop/control
+region in mitochondrial genomes. An example is not given in the FAQ.
+
+\end{itemize}
+
+\section*{3.2 series}
+
+\subsection*{release 3.2-0}
+
+\begin{itemize}
+
+\item Images have been inserted in the documentation for datasets
+\texttt{aacost}, \texttt{chargaff}, \texttt{m16j}, \texttt{waterabs} 
+and for the function \texttt{dia.db.growth()}.
 
 \item Function \texttt{gb2fasta()} now uses a local file example.
 
@@ -1201,20 +1220,20 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.2.4 (2016-03-10), \verb|x86_64-apple-darwin13.4.0|
+  \item R version 3.3.1 (2016-06-21), \verb|x86_64-apple-darwin13.4.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
   \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
-    MASS~7.3-45, seqinr~3.2-0, tseries~0.10-35, XML~3.98-1.4,
+    MASS~7.3-45, seqinr~3.3-0, tseries~0.10-35, XML~3.98-1.4,
     xtable~1.8-2
   \item Loaded via a namespace (and not attached): lattice~0.20-33,
-    nlme~3.1-125, quadprog~1.5-5, tools~3.2.4, zoo~1.7-12
+    nlme~3.1-128, quadprog~1.5-5, tools~3.3.1, zoo~1.7-13
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Jun 21 14:41:56 2016
+  \item \Rlogo{} compilation time was: Mon Jul 18 18:29:30 2016
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
