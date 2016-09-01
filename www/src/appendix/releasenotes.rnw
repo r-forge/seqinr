@@ -26,6 +26,11 @@ defaulting to \texttt{FALSE} so that it can be used on any platform. This follow
 from a request by Sam Borstein on 10-JUL-2016 on how to extract D-loop/control
 region in mitochondrial genomes. An example is now given in the FAQ.
 
+\item Function \texttt{read.alignment()} has been modified according to Matthew Krause in order to read abreviated path like '\texttildelow{}login/alignment.txt' as  filename. The C source code as been modified as well according to Matthew Krause in order to avoid  problems due to corrupted or empty files.
+
+
+
+
 \end{itemize}
 
 \section*{3.2 series}
