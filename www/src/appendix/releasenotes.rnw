@@ -17,6 +17,15 @@ most recent on top.
 
 \section*{3.3 series}
 
+\subsection*{release 3.3-2}
+
+\begin{itemize}
+
+\item As pointed by e-mail on 04-OCT-2016 by Paulo Jorge Moura Pinto da Costa Dias three new genetic code were missing. They are now included.
+\end{itemize}
+
+\subsection*{release 3.3-1}
+
 \subsection*{release 3.3-0 \textit{in memoriam} 2016-07-14}
 
 \begin{itemize}
