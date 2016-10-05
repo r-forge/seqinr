@@ -28,22 +28,24 @@ label = "stdcode", size = "small")
 
 The genetic code numbers are those from the NCBI\footnote{
 National Center for Biotechnology Information, Bethesda, Maryland, U.S.A.
-} (\url{http://130.14.29.110/Taxonomy/Utils/wprintgc.cgi?mode=c}).
+} (\url{https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi}).
 This compilation from Andrzej (Anjay) Elzanowski, Jim Ostell, Detlef Leipe, 
 and Vladimir Soussov is based primarily on two previous reviews
 \cite{OsawaS1992, JukesTH1993}.
 
 <<availcodes,fig=F,eval=T>>=
+data("SEQINR.UTIL")
 codes <- SEQINR.UTIL$CODES.NCBI
 availablecodes <- which(codes$CODES != "deleted")
-codes[availablecodes,"ORGANISMES", drop = FALSE]
+codes[availablecodes, "ORGANISMES", drop = FALSE]
 @
 
 The tables of variant genetic codes outlining the differences were produced with the
 following \Rlogo{}~code:
 
 <<allcodes,fig=F,results=tex,eval=T>>=
-cdorder <- paste(paste(rep(s2c("tcag"), each =16), s2c("tcag"), sep = ""), rep(s2c("tcag"), each = 4), sep = "")
+cdorder <- paste(paste(rep(s2c("tcag"), each =16), s2c("tcag"), sep = ""), 
+                 rep(s2c("tcag"), each = 4), sep = "")
 stdcode <- sapply(lapply(cdorder,s2c),translate, numcode = 1)
 for(cd in availablecodes[-1]){
   Tfile <- paste("../tables/codnum", cd, ".tex", sep = "")
@@ -57,6 +59,7 @@ for(cd in availablecodes[-1]){
 }
 @
 
+\newpage
 \SweaveInput{../config/sessionInfo.rnw}
 
 %
