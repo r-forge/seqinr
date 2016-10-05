@@ -55,6 +55,8 @@ echo $contents; } ?>
 
 <p>FAQ are <a href="./src/appendix/FAQ.pdf">here</a>.</p>
 
+<p>The list of available genetic codes is <a href="./src/appendix/gencodes.pdf">here</a>.</p>
+
 <p>Last release notes are <a href="./src/appendix/releasenotes.pdf">here</a>.</p>
 
 <p>You can browse the seqinr source repository 
