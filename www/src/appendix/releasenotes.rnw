@@ -20,6 +20,8 @@ most recent on top.
 \subsection*{release 3.3-3}
 
 \begin{itemize}
+\item New dataset \texttt{gcO2} that was used in \cite{naya}.
+
 \item New dataset \texttt{gcT} that was used in \cite{galtierlobry}. For instance to reproduce figure 2:
 
 <<fig2fromgaltierlobry,fig=T>>=
