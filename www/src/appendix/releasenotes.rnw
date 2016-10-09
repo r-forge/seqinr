@@ -17,6 +17,19 @@ most recent on top.
 
 \section*{3.3 series}
 
+\subsection*{release 3.3-3}
+
+\begin{itemize}
+\item New dataset \texttt{gcT} that was used in \cite{galtierlobry}. For instance to reproduce figure 2:
+
+<<fig2fromgaltierlobry,fig=T>>=
+data(gcT)
+with(gcT[["genus"]], plot(Topt, GC, las = 1, 
+  main ="Figure 2 from Galtier & Lobry 1997 (n = 224 genera)",
+  xlab = "Optimal growth temperature [C]", ylab = "Genomic G+C content [%]"))
+@
+\end{itemize}
+
 \subsection*{release 3.3-2}
 
 \begin{itemize}
