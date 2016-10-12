@@ -20,7 +20,27 @@ most recent on top.
 \subsection*{release 3.3-3}
 
 \begin{itemize}
-\item New dataset \texttt{gcO2} that was used in \cite{naya}.
+
+\item As requested by Kurt Hornik on 12-OCT-2016 the name \texttt{seqinR} was changed to \texttt{seqinr} in the \texttt{CITATION} file.
+
+\item New dataset \texttt{gcO2} that was used in Naya \textit{et al} \cite{naya}. For instance to show the dramatic effect of aerobiosis on genomic G+C content in bacteria:
+
+<<figNaya, fig=T>>=
+data(gcO2)
+vby <- function(...) as.vector(by(...))
+first <- function(x) as.character(x[1])
+GCbyGenus <- with(gcO2, data.frame(
+  Genus = vby(Genus, Genus, first),
+  GC = vby(GC, Genus, mean),
+  aerobiosis = vby(aerobiosis, Genus, first),
+  n.species = vby(GC, Genus, length)))
+with(GCbyGenus, boxplot(GC~aerobiosis, col = c("pink", "lightblue"),
+  las = 1, ylab = "Genomic G+C content [%]", 
+  main = paste("Distribution of G+C content in", length(GC), "bacterial genera"),
+  names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"), 
+  paste("Anaerobic (n =", sum(aerobiosis == "Anaerobic"), ")")),
+  varwidth = TRUE, notch = TRUE))
+@
 
 \item New dataset \texttt{gcT} that was used in \cite{galtierlobry}. For instance to reproduce figure 2:
 
