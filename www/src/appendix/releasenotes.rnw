@@ -34,12 +34,21 @@ GCbyGenus <- with(gcO2, data.frame(
   GC = vby(GC, Genus, mean),
   aerobiosis = vby(aerobiosis, Genus, first),
   n.species = vby(GC, Genus, length)))
-with(GCbyGenus, boxplot(GC~aerobiosis, col = c("pink", "lightblue"),
-  las = 1, ylab = "Genomic G+C content [%]", 
-  main = paste("Distribution of G+C content in", length(GC), "bacterial genera"),
-  names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"), 
-  paste("Anaerobic (n =", sum(aerobiosis == "Anaerobic"), ")")),
-  varwidth = TRUE, notch = TRUE))
+with(GCbyGenus, {
+  mybxp <- boxplot(GC~aerobiosis, xaxt = "n", yaxt = "n", ann = FALSE,
+    names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"), 
+    paste("Anaerobic (n =", sum(aerobiosis == "Anaerobic"), ")")),
+    varwidth = TRUE, notch = TRUE)
+  y1 <- median(GC[aerobiosis == "Anaerobic"])
+  y2 <- median(GC[aerobiosis == "Aerobic"])
+  arrows(1.5, y1, 1.5, y2, code = 3, angle = 10, length = 0.1)
+  abline(h = y1, col = grey(0.9))
+  abline(h = y2, col = grey(0.9))
+  text(1.5, 60, bquote(paste(Delta == .(y2 - y1), "%")), pos = 4)
+  bxp(mybxp, varwidth = TRUE, notch = TRUE, add = TRUE,
+    main = paste("Distribution of G+C content in", length(GC), "bacterial genera"),
+    las = 1, ylab = "Genomic G+C content [%]", boxfill = c("pink", "lightblue"))}
+)
 @
 
 \item New dataset \texttt{gcT} that was used in \cite{galtierlobry}. For instance to reproduce figure 2:
