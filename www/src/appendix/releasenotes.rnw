@@ -17,6 +17,20 @@ most recent on top.
 
 \section*{3.3 series}
 
+\subsection*{release 3.3-4}
+
+\begin{itemize}
+
+\item As pointed by e-mail on 14-OCT-2016 by Christine Oger there was a bug in the function \texttt{dotchart.uco()} yielding points with an excessive size. This now fixed, for instance:
+
+<<dotchartfixed,fig=T>>=
+data(ec999)
+ec999.uco <- rowSums(sapply(ec999, uco, index="eff"))
+dotchart.uco(ec999.uco, main = "Codon usage in 999 E. coli coding sequences") 
+@
+
+\end{itemize}
+
 \subsection*{release 3.3-3}
 
 \begin{itemize}
