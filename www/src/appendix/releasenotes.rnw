@@ -17,6 +17,16 @@ most recent on top.
 
 \section*{3.3 series}
 
+\subsection*{release 3.3-5}
+
+\begin{itemize}
+
+\item Outdated URL in the documentation of function \texttt{oriloc()} were fixed.
+
+\item Addition of \texttt{packagename\_init.c} and modifications for registered routines.
+
+\end{itemize}
+
 \subsection*{release 3.3-4}
 
 \begin{itemize}
