@@ -53,6 +53,92 @@ most recent on top.
 
 \section*{3.3 series}
 
+\subsection*{release 3.3-6}
+
+\begin{itemize}
+
+\item Outdated URL in the documentation of function \texttt{oriloc()} were fixed.
+
+\item Addition of \texttt{packagename\_init.c} and modifications for registered routines.
+
+\end{itemize}
+
+\subsection*{release 3.3-4}
+
+\begin{itemize}
+
+\item As pointed by e-mail on 14-OCT-2016 by Christine Oger there was a bug in the function \texttt{dotchart.uco()} yielding points with an excessive size. This now fixed, for instance:
+
+\begin{Schunk}
+\begin{Sinput}
+ data(ec999)
+ ec999.uco <- rowSums(sapply(ec999, uco, index="eff"))
+ dotchart.uco(ec999.uco, main = "Codon usage in 999 E. coli coding sequences") 
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/releasenotes-dotchartfixed}
+
+\end{itemize}
+
+\subsection*{release 3.3-3}
+
+\begin{itemize}
+
+\item As requested by Kurt Hornik on 12-OCT-2016 the name \texttt{seqinR} was changed to \texttt{seqinr} in the \texttt{CITATION} file.
+
+\item New dataset \texttt{gcO2} that was used in Naya \textit{et al} \cite{naya}. For instance to show the dramatic effect of aerobiosis on genomic G+C content in bacteria:
+
+\begin{Schunk}
+\begin{Sinput}
+ data(gcO2)
+ vby <- function(...) as.vector(by(...))
+ first <- function(x) as.character(x[1])
+ GCbyGenus <- with(gcO2, data.frame(
+   Genus = vby(Genus, Genus, first),
+   GC = vby(GC, Genus, mean),
+   aerobiosis = vby(aerobiosis, Genus, first),
+   n.species = vby(GC, Genus, length)))
+ with(GCbyGenus, {
+   mybxp <- boxplot(GC~aerobiosis, xaxt = "n", yaxt = "n", ann = FALSE,
+     names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"), 
+     paste("Anaerobic (n =", sum(aerobiosis == "Anaerobic"), ")")),
+     varwidth = TRUE, notch = TRUE)
+   y1 <- median(GC[aerobiosis == "Anaerobic"])
+   y2 <- median(GC[aerobiosis == "Aerobic"])
+   arrows(1.5, y1, 1.5, y2, code = 3, angle = 10, length = 0.1)
+   abline(h = y1, col = grey(0.9))
+   abline(h = y2, col = grey(0.9))
+   text(1.5, 60, bquote(paste(Delta == .(y2 - y1), "%")), pos = 4)
+   bxp(mybxp, varwidth = TRUE, notch = TRUE, add = TRUE,
+     main = paste("Distribution of G+C content in", length(GC), "bacterial genera"),
+     las = 1, ylab = "Genomic G+C content [%]", boxfill = c("pink", "lightblue"))}
+ )
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/releasenotes-figNaya}
+
+\item New dataset \texttt{gcT} that was used in \cite{galtierlobry}. For instance to reproduce figure 2:
+
+\begin{Schunk}
+\begin{Sinput}
+ data(gcT)
+ with(gcT[["genus"]], plot(Topt, GC, las = 1, 
+   main ="Figure 2 from Galtier & Lobry 1997 (n = 224 genera)",
+   xlab = "Optimal growth temperature [C]", ylab = "Genomic G+C content [%]"))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/releasenotes-fig2fromgaltierlobry}
+\end{itemize}
+
+\subsection*{release 3.3-2}
+
+\begin{itemize}
+
+\item As pointed by e-mail on 04-OCT-2016 by Paulo Jorge Moura Pinto da Costa Dias three new genetic code were missing. They are now included.
+\end{itemize}
+
+\subsection*{release 3.3-1}
+
 \subsection*{release 3.3-0 \textit{in memoriam} 2016-07-14}
 
 \begin{itemize}
@@ -61,6 +147,11 @@ most recent on top.
 defaulting to \texttt{FALSE} so that it can be used on any platform. This follows
 from a request by Sam Borstein on 10-JUL-2016 on how to extract D-loop/control
 region in mitochondrial genomes. An example is now given in the FAQ.
+
+\item Function \texttt{read.alignment()} has been modified according to Matthew Krause in order to read abreviated path like '\texttildelow{}login/alignment.txt' as  filename. The C source code as been modified as well according to Matthew Krause in order to avoid  problems due to corrupted or empty files.
+
+
+
 
 \end{itemize}
 
@@ -1166,7 +1257,7 @@ reference for now, you may use \texttt{citation("seqinr")} to check if it is com
  citation("seqinr")
 \end{Sinput}
 \begin{Soutput}
-To cite seqinR in publications use:
+To cite seqinr in publications use:
 
   Charif, D. and Lobry, J.R. (2007)
 
@@ -1224,16 +1315,17 @@ This part was compiled under the following \Rlogo{}~environment:
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.7-4, ape~3.5, grImport~0.9-0,
-    MASS~7.3-45, seqinr~3.3-0, tseries~0.10-35, XML~3.98-1.4,
+  \item Other packages: ade4~1.7-5, ape~4.0, grImport~0.9-0,
+    MASS~7.3-45, seqinr~3.3-4, tseries~0.10-37, XML~3.98-1.4,
     xtable~1.8-2
-  \item Loaded via a namespace (and not attached): lattice~0.20-33,
-    nlme~3.1-128, quadprog~1.5-5, tools~3.3.1, zoo~1.7-13
+  \item Loaded via a namespace (and not attached): lattice~0.20-34,
+    nlme~3.1-131, parallel~3.3.1, quadprog~1.5-5, tools~3.3.1,
+    zoo~1.7-13
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon Jul 18 19:11:05 2016
+  \item \Rlogo{} compilation time was: Wed Apr  5 14:17:41 2017
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
