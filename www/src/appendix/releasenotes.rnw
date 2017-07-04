@@ -21,6 +21,8 @@ most recent on top.
 
 \begin{itemize}
 
+\item New test file \texttt{kaks-torture.fasta} and corresponding dataset \texttt{kaksTorture} to check results of function \texttt{kaks()}.
+
 \item Function \texttt{read.alignment()} can now handle legacy fasta format with commented lines starting with a semicolon.
 
 \item Function \texttt{kaks()} has gained a new argument \texttt{rmgap} to control gap removal option.
