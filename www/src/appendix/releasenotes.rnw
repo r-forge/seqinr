@@ -21,6 +21,8 @@ most recent on top.
 
 \begin{itemize}
 
+\item Function \texttt{read.alignment()} can now handle legacy fasta format with commented lines starting with a semicolon.
+
 \item Function \texttt{kaks()} has gained a new argument \texttt{rmgap} to control gap removal option.
 
 \item As pointed by e-mail on 27-JUN-2017 by Sylvain \textsc{Charlat} the function \texttt{kaks()} could return non-finite values especially with short sequences. This is no more the case and a routine test checks now that computing the $K_a$ and $K_s$ values between all possible pairs of codons doesn't yield non-finite values.
