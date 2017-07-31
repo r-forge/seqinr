@@ -51,6 +51,32 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{3.4 series (JUL 2017)}
+
+\subsection*{release 3.4-2}
+
+Minor CRAN submission release to add a DOI to ACNUC~\cite{acnuc1984} in the \texttt{DESCRIPTION} file as requested by e-mail by Uwe \textsc{Ligges} on 2017-07-30 21:17.
+
+\subsection*{release 3.4-1}
+
+Minor CRAN submission release to add a reference to ACNUC~\cite{acnuc1984} in the \texttt{DESCRIPTION} file as requested by e-mail by Uwe \textsc{Ligges} on 2017-07-25 23:19.
+
+\subsection*{release 3.4-0}
+
+\begin{itemize}
+
+\item New test file \texttt{kaks-torture.fasta} and corresponding dataset \texttt{kaksTorture} to check results of function \texttt{kaks()}.
+
+\item Function \texttt{read.alignment()} can now handle legacy fasta format with commented lines starting with a semicolon.
+
+\item Function \texttt{kaks()} has gained a new argument \texttt{rmgap} to control gap removal option. The C code was modified to increase numeric stability.
+
+\item As pointed by e-mail on 27-JUN-2017 by Sylvain \textsc{Charlat} the function \texttt{kaks()} could return non-finite values especially with short sequences. This is no more the case and a routine test checks now that computing the $K_a$ and $K_s$ values between all possible pairs of codons doesn't yield non-finite values.
+
+\item The routine check in the documentation of the \texttt{kaks()} function with \texttt{data(AnoukResult)} is active again.
+
+\end{itemize}
+
 \section*{3.3 series}
 
 \subsection*{release 3.3-6}
@@ -67,7 +93,7 @@ most recent on top.
 
 \begin{itemize}
 
-\item As pointed by e-mail on 14-OCT-2016 by Christine Oger there was a bug in the function \texttt{dotchart.uco()} yielding points with an excessive size. This now fixed, for instance:
+\item As pointed by e-mail on 14-OCT-2016 by Christine \textsc{Oger} there was a bug in the function \texttt{dotchart.uco()} yielding points with an excessive size. This now fixed, for instance:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -84,9 +110,9 @@ most recent on top.
 
 \begin{itemize}
 
-\item As requested by Kurt Hornik on 12-OCT-2016 the name \texttt{seqinR} was changed to \texttt{seqinr} in the \texttt{CITATION} file.
+\item As requested by Kurt \textsc{Hornik} on 12-OCT-2016 the name \texttt{seqinR} was changed to \texttt{seqinr} in the \texttt{CITATION} file.
 
-\item New dataset \texttt{gcO2} that was used in Naya \textit{et al} \cite{naya}. For instance to show the dramatic effect of aerobiosis on genomic G+C content in bacteria:
+\item New dataset \texttt{gcO2} that was used in \textsc{Naya} \textit{et al} \cite{naya}. For instance to show the dramatic effect of aerobiosis on genomic G+C content in bacteria:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -134,7 +160,7 @@ most recent on top.
 
 \begin{itemize}
 
-\item As pointed by e-mail on 04-OCT-2016 by Paulo Jorge Moura Pinto da Costa Dias three new genetic code were missing. They are now included.
+\item As pointed by e-mail on 04-OCT-2016 by Paulo Jorge Moura Pinto da Costa \textsc{Dias} three new genetic code were missing. They are now included.
 \end{itemize}
 
 \subsection*{release 3.3-1}
@@ -145,13 +171,10 @@ most recent on top.
 
 \item Function \texttt{extractseqs()} has gained an extra argument \texttt{zlib}
 defaulting to \texttt{FALSE} so that it can be used on any platform. This follows
-from a request by Sam Borstein on 10-JUL-2016 on how to extract D-loop/control
+from a request by Sam \textsc{Borstein} on 10-JUL-2016 on how to extract D-loop/control
 region in mitochondrial genomes. An example is now given in the FAQ.
 
-\item Function \texttt{read.alignment()} has been modified according to Matthew Krause in order to read abreviated path like '\texttildelow{}login/alignment.txt' as  filename. The C source code as been modified as well according to Matthew Krause in order to avoid  problems due to corrupted or empty files.
-
-
-
+\item Function \texttt{read.alignment()} has been modified according to Matthew \textsc{Krause} in order to read abreviated path like '\texttildelow{}login/alignment.txt' as  filename. The C source code as been modified as well according to Matthew \textsc{Krause} in order to avoid  problems due to corrupted or empty files.
 
 \end{itemize}
 
@@ -167,7 +190,7 @@ and for the function \texttt{dia.db.growth()}.
 
 \item Function \texttt{gb2fasta()} now uses a local file example.
 
-\item As pointed out by e-mail on 11-JUN-2016 by Haruo Suzuki a
+\item As pointed out by e-mail on 11-JUN-2016 by Haruo \textsc{Suzuki} a
 call to \texttt{AAstat()} function may yield uninformative warning
 messages. The culprit is the \texttt{computePI()} function. This
 is now fixed.
@@ -190,11 +213,11 @@ scheme is just a matter of convenience.
 
 \begin{itemize}
 
-\item As pointed out by e-mail on 30-MAY-2016 by Haruo Suzuki a
+\item As pointed out by e-mail on 30-MAY-2016 by Haruo \textsc{Suzuki} a
 call to \texttt{getLength(ec999)} yielded spurious output and
 many warnings. This is now fixed.
 
-\item As pointed out by e-mail on 30-MAY-2016 by Haruo Suzuki there 
+\item As pointed out by e-mail on 30-MAY-2016 by Haruo \textsc{Suzuki} there 
 was a bug in the documentation of the functions \texttt{recstat()},
 \texttt{draw.recstat()}, \texttt{test.co.recstat()} and
 \texttt{test.li.recstat()}. They were all looking for data in
@@ -202,7 +225,7 @@ a package \texttt{seqinr2} that doesn't exist. This is now
 fixed and the \texttt{dontrun} directive has been removed to
 detect automatically any further problem.
 
-\item As pointed out by e-mail on 25-MAY-2016 by Haruo Suzuki the
+\item As pointed out by e-mail on 25-MAY-2016 by Haruo \textsc{Suzuki} the
 \texttt{read.fasta()} function can import sequences directly from
 \textit{local} gzipped files. A new \texttt{smallAA.fasta.gz} file
 has been added to document this in the examples of the
@@ -211,7 +234,7 @@ you try to read directly the sequences from a compressed file
 accessed via its URL. A workaround now given in the manual
 is to use a construct like \texttt{read.fasta(gzcon(url(myurl)))}.
 
-\item As pointed out by e-mail on 12-MAY-2016 by Haruo Suzuki the
+\item As pointed out by e-mail on 12-MAY-2016 by Haruo \textsc{Suzuki} the
 documentation for the \texttt{rho()} function was misleading
 because in the refered article \cite{KarlinS1994} the statistic
 was computed from the sequence concatenated with its inverted complement.
@@ -223,11 +246,10 @@ This is now fixed.
 
 \begin{itemize}
 
-\item As pointed out by e-mail on 27-APRIL-2016 by Matthias D\"oring,
- R and Y were not correctly implemented in the  \texttt{comp()} function. This is now fixed.
+\item As pointed out by e-mail on 27-APRIL-2016 by Matthias \textsc{D\"oring}, R and Y were not correctly implemented in the  \texttt{comp()} function. This is now fixed.
 
 
-\item As suggested by e-mail on 23-DECEMBER-2014 by Matt Huska, ade4 package has been switched from "Depends" to "Imports" in the DESCRIPTION file.
+\item As suggested by e-mail on 23-DECEMBER-2014 by Matt \textsc{Huska}, ade4 package has been switched from "Depends" to "Imports" in the \texttt{DESCRIPTION} file.
 
 
 \end{itemize}
@@ -236,7 +258,7 @@ This is now fixed.
 
 \begin{itemize}
 
-\item Removal of zlib code and headers  with help from Prof. Ripley
+\item Removal of zlib code and headers with help from Prof. \textsc{Ripley}.
 
 \end{itemize}
 
@@ -244,7 +266,7 @@ This is now fixed.
 
 \begin{itemize}
 
-\item As suggested by e-mail on 19-NOVEMBER-2014 by Tang Chin Cheung, examples involving the  \texttt{query()} function  have been modified according to the new features of R-3.1.2.  Indeed since R-3.1.2 it is not possible to change an object belonging to the  global environment from a package, as spotted by e-mail on 4-NOVEMBER-2014 by T.J. Agin.
+\item As suggested by e-mail on 19-NOVEMBER-2014 by Tang Chin \textsc{Cheung}, examples involving the  \texttt{query()} function  have been modified according to the new features of R-3.1.2.  Indeed since R-3.1.2 it is not possible to change an object belonging to the global environment from a package, as spotted by e-mail on 4-NOVEMBER-2014 by T.J. \textsc{Agin}.
 
 
 \end{itemize}
@@ -256,15 +278,12 @@ This is now fixed.
 
 \begin{itemize}
 
-\item In \texttt{query()}, \texttt{NS=taxon\_name} and \texttt{NK=keyword\_name}
-are now documented. The manual was also updated.
+\item In \texttt{query()}, \texttt{NS=taxon\_name} and \texttt{NK=keyword\_name} are now documented. The manual was also updated.
 
 \item The broken default link in \texttt{get.db.growth()} has been fixed so
 that now \texttt{dia.db.growth()} works as well.
 
-\item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument
-so that it can handle sequences provided as strings instead of vectors of single
-character.
+\item Function \texttt{write.fasta()} has gained an \texttt{as.string} argument so that it can handle sequences provided as strings instead of vectors of single character.
 
 \end{itemize}
 
@@ -272,8 +291,7 @@ character.
 
 \begin{itemize}
 
-\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik Troesemeier, the  \texttt{read.alignment()} function  was sending segfault with non-mase data. 
-This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesemeier suggestion.
+\item  As pointed out by e-mail on 5-MAY-2014 by Jan-Hendrik \textsc{Troesemeier}, the  \texttt{read.alignment()} function  was sending segfault with non-mase data. This is now fixed in the src/alignment.c source according to Jan-Hendrik \textsc{Troesemeier} suggestion.
 
 \end{itemize}
 
@@ -283,7 +301,7 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \begin{itemize}
 
-\item As suggested by e-mail on 17-JANUARY-2014 by Peter Hraber, the \texttt{dist.alignment()} function include a new  option  for nucleotide sequences:  if set to 1, gaps will be counted in the identity measure. (in case there is a gap aligned with and a non-gap, the number of difference is incremented.).
+\item As suggested by e-mail on 17-JANUARY-2014 by Peter \textsc{Hraber}, the \texttt{dist.alignment()} function include a new  option  for nucleotide sequences:  if set to 1, gaps will be counted in the identity measure. (in case there is a gap aligned with and a non-gap, the number of difference is incremented.).
 
 \end{itemize}
 
@@ -293,9 +311,9 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \begin{itemize}
 
-\item As pointed out by e-mail on 04-OCTOBER-2013 by Jeremy Shearman, the  \texttt{comp()} function  was misleading when N's (instead of n's) were present in the sequence.  This is now fixed.
+\item As pointed out by e-mail on 04-OCTOBER-2013 by Jeremy \textsc{Shearman}, the  \texttt{comp()} function  was misleading when N's (instead of n's) were present in the sequence.  This is now fixed.
 
-\item As pointed out by e-mail on 29-MAY-2013 by Domenico Cozzetto, the  \texttt{read.alignment()} function was chopping sequence names after the first space .  This is now fixed for FASTA, CLUSTAL and MASE formats.
+\item As pointed out by e-mail on 29-MAY-2013 by Domenico \textsc{Cozzetto}, the  \texttt{read.alignment()} function was chopping sequence names after the first space .  This is now fixed for FASTA, CLUSTAL and MASE formats.
 
 
 \end{itemize}
@@ -305,17 +323,17 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \begin{itemize}
 
-\item As pointed out by e-mail on 13-AUGUST-2012 by Grabor Grothendieck, the pipe caracter was not correctly processed in \texttt{stresc()} function. This is now fixed.
+\item As pointed out by e-mail on 13-AUGUST-2012 by Grabor \textsc{Grothendieck}, the pipe caracter was not correctly processed in \texttt{stresc()} function. This is now fixed.
 
 
-\item As suggested by e-mail on 8-FEBRUARY-2012 by Juanjo Abellan, the   \texttt{kaks()}  function has been modified : new  verbose option for  display  values of L0,L2,L4,A0,A2,A4,B0,B2,B4 has been added. 
+\item As suggested by e-mail on 8-FEBRUARY-2012 by Juanjo \textsc{Abellan}, the   \texttt{kaks()}  function has been modified : new  verbose option for  display  values of L0,L2,L4,A0,A2,A4,B0,B2,B4 has been added. 
 
 \end{itemize}
 
 \subsection*{release 3.0-5}
 \begin{itemize}
 
-\item As pointed out by e-mail on 3-FEBRUARY-2012 by Dave Gerrard, the \texttt{consensus()}  function returns NA for all invariant sites when threshold is 1.  Changing  'superior' into 'superior or equal' in the consenus function fixed this bug.
+\item As pointed out by e-mail on 3-FEBRUARY-2012 by Dave \textsc{Gerrard}, the \texttt{consensus()}  function returns NA for all invariant sites when threshold is 1.  Changing  'superior' into 'superior or equal' in the consenus function fixed this bug.
 
 \end{itemize}
 
@@ -325,9 +343,9 @@ This is now fixed in the src/alignment.c source according to Jan-Hendrik Troesem
 
 \begin{itemize}
 
-\item As pointed out by Leonor Palmeira on the \texttt{rpourlesnuls}
-diffusion list on 20-MAY-2010 there was no constructor for objects
+\item As pointed out by Leonor \textsc{Palmeira} on the \texttt{rpourlesnuls} diffusion list on 20-MAY-2010 there was no constructor for objects
 of class alignment. There is now a \texttt{as.alignment()} function.
+
 \end{itemize}
 
 \section*{2.0 series}
@@ -336,12 +354,10 @@ of class alignment. There is now a \texttt{as.alignment()} function.
 
 \begin{itemize}
 
-\item As pointed out by Avril Coghlan on the seqinR diffusion list on
-17-MAR-2010 there was a bug in the \texttt{getAnnot()} function.
+\item As pointed out by Avril \textsc{Coghlan} on the seqinR diffusion list on 17-MAR-2010 there was a bug in the \texttt{getAnnot()} function.
 This is now fixed.
 
-\item As suggested by Avril Coghlan on the seqinR diffusion list on
-02-MAR-2010 the function \texttt{rho()} has gained a \texttt{wordsize}
+\item As suggested by Avril \textsc{Coghlan} on the seqinR diffusion list on 02-MAR-2010 the function \texttt{rho()} has gained a \texttt{wordsize}
 argument.
 
 \item The argument \texttt{word} in function \texttt{count()} is
@@ -354,7 +370,7 @@ a new quality control sanity check.
 release 1.1-3 in function \texttt{read.alignment()} is no more valid.
 Just use \texttt{file} instead.
 
-\item As pointed by Darren Obbard on the seqinr diffusion list on
+\item As pointed by Darren \textsc{Obbard} on the seqinr diffusion list on
 05-MAR-2010 there was a memory leak problem when calling the
 \texttt{read.alignment()} function with the fasta format. This
 is now fixed for the fasta format, but the remaining formats have
@@ -368,10 +384,10 @@ not been checked for this problem.
 
 \begin{itemize}
 
-\item As pointed by Oliver Clay and Lionel Guy on the seqinr diffusion
+\item As pointed by Oliver \textsc{Clay} and Lionel \textsc{Guy} on the seqinr diffusion
 list on 19-FEB-2010 there was a bug in \texttt{getSequence.list()}
 function that confused \texttt{write.fasta()} when all sequences were
-of the same length (a similar bug was reported by Yann Lesecque
+of the same length (a similar bug was reported by Yann \textsc{Lesecque}
 on 30-MAR-2009 for the \texttt{getTrans()} function). This is now
 fixed.
 
@@ -402,14 +418,9 @@ Avril Coghlan, the function has an argument \texttt{stopAtFirst} defaulting
 to \texttt{TRUE} that stops the search at the first database found
 with the given accession number.
 
-\item As pointed out 05 Nov 2009 by Darren Obbard on the seqinr diffusion list
-the argument \texttt{forceToLower = FALSE} in function \texttt{comp()}
-was not honored. This is now fixed and a new sanity check was added in
-the example section of the documentation of the function.
+\item As pointed out 05 Nov 2009 by Darren \textsc{Obbard} on the seqinr diffusion list the argument \texttt{forceToLower = FALSE} in function \texttt{comp()} was not honored. This is now fixed and a new sanity check was added in the example section of the documentation of the function.
 
-\item Documentation for the function \texttt{uco()} for codon usage
-table computation was updated with new bibliographical 
-references \cite{lobrychessel, SuzukiH2008}.
+\item Documentation for the function \texttt{uco()} for codon usage table computation was updated with new bibliographical references \cite{lobrychessel, SuzukiH2008}.
 
 \item As basic regular expressions are defunct since R 2.11, the
 \texttt{extended} argument in functions \texttt{words.pos()} and
@@ -458,11 +469,9 @@ genetic profiles.
 and \texttt{readPanels()} functions are now available in the \texttt{abif}
 folder: \texttt{NGM\_Bins.txt} and \texttt{NGM\_Pa.txt}, respectively.
 
-\item New function \texttt{plotPanels()} to plot amplicon size ranges of STR
-kits data.
+\item New function \texttt{plotPanels()} to plot amplicon size ranges of STR kits data.
 
-\item New utility function \texttt{col2alpha()} to add a transparency 
-chanel to a standard R color.
+\item New utility function \texttt{col2alpha()} to add a transparency chanel to a standard R color.
 
 \item New ABIF example file \texttt{samplefsa2ps.fsa} used in the
 \texttt{read.abif()} function to reproduce figure 1A from \cite{Krawczyk2009}.
@@ -507,7 +516,7 @@ The above mentioned test file is now used as a quality control.
 \begin{itemize}
 
 \item As pointed out on the seqinr diffusion list on 23-APR-2009
-by Darren Obbard there was an obscure error message when function
+by Darren \textsc{Obbard} there was an obscure error message when function
 \texttt{kaks()} was called with an alignment such that the number
 of nucleotides was not a multiple of 3 after gap removal. This check
 was partial as an alignment with out-of-frame gaps but with
@@ -523,7 +532,7 @@ is an extra column with possibly empty fields in data by forcing
 the \texttt{fill} argument of \texttt{read.table()} function to
 \texttt{TRUE}.
 
-\item As pointed out by e-mail on 30-MAR-2009 by Yann Lesecque there 
+\item As pointed out by e-mail on 30-MAR-2009 by Yann \textsc{Lesecque} there 
 was a bug in the \texttt{getTrans()} function: when applied to a 
 list of sequences with all the same length the returned result 
 was a matrix instead of a list. This is now fixed.
@@ -620,7 +629,7 @@ of the seqinr sources on R-forge.
 
 \begin{itemize}
 
-\item As suggested by Kurt Hornik two extra \texttt{cr} in the
+\item As suggested by Kurt \textsc{Hornik} two extra \texttt{cr} in the
   documentation file for \texttt{ec999} were deleted.
 
 \item Function \texttt{read.fasta()} has gained four new arguments
@@ -630,9 +639,7 @@ of the seqinr sources on R-forge.
   in the \texttt{sequences} folder to check for the MAQ format
   reading.
 
-\item New dataset \texttt{pK} for the values for the side chain of 
-  charged amino acids from various sources compiled by Joanna Kiraga
-  \cite{KiragaJ2008}.
+\item New dataset \texttt{pK} for the values for the side chain of charged amino acids from various sources compiled by Joanna \textsc{Kiraga}~\cite{KiragaJ2008}.
 
 \item Function \texttt{words.pos()} has gained new arguments that
   are passed to \texttt{regexpr()} including the dot-dot-dot
@@ -640,7 +647,7 @@ of the seqinr sources on R-forge.
   been modified to better explain the difference with the standard
   \texttt{gregexpr()} function.
 
-\item As pointed by e-mail on 28 May 2008 by Kim Milferstedt a
+\item As pointed by e-mail on 28 May 2008 by Kim \textsc{Milferstedt} a
   function to compute the consensus for a set of aligned sequences
   would be helpful. There is now a function \texttt{consensus()}
   aliased to \texttt{con()} for this. The input is either an object
@@ -663,12 +670,12 @@ of the seqinr sources on R-forge.
 \item The encoding of line ends in the example file \texttt{test.mase}
   is now an unix-like one.
 
-\item As pointed by e-mail on 31 May 2008 by Marie S{\'e}mon there was
+\item As pointed by e-mail on 31 May 2008 by Marie \textsc{S{\'e}mon} there was
   no convenient function to compute the Codon Adaptation Index \cite{CAI}.
   A new function \texttt{cai()} was introduced with the aim of reproducing
   exactly the results from the program \texttt{codonW} that was written
-  by John Peden during his PhD thesis \cite{codonW} under the supervision 
-  of P.M. Sharp (the most authorative source for CAI computation). A new 
+  by John \textsc{Peden} during his PhD thesis \cite{codonW} under the supervision 
+  of P.M. \textsc{Sharp} (the most authorative source for CAI computation). A new 
   dataset \texttt{caitab} that was hard-encoded in \texttt{codonW} for
   the \texttt{w} values for some species (\textit{viz}
   \textit{Escherichia coli}, \textit{Bacillus subtilis},
@@ -697,7 +704,7 @@ of the seqinr sources on R-forge.
   restricted to work only with \texttt{X11}, \texttt{windows} and
   \texttt{quartz} devices.
 
-\item As pointed by e-mail on 12 May 2008 by Indranuj Mukherjee there
+\item As pointed by e-mail on 12 May 2008 by Indranuj \textsc{Mukherjee} there
   was a bug in the function \texttt{oriloc()}: when called with a
   \texttt{gbk = NULL} argument the function was trying to remove
   non-existent files, yielding an error. The bug has been fixed and
@@ -708,7 +715,7 @@ of the seqinr sources on R-forge.
 \item A reference to \cite{GautierC1985} was missing in the documentation
   of function \texttt{zscore()} for the codon model.
 
-\item As suggested by e-mail on 11 Mar 2008 by Christian Gautier,
+\item As suggested by e-mail on 11 Mar 2008 by Christian \textsc{Gautier},
   the function \texttt{count()}
   has gained a new argument \texttt{by} to control the window step,
   allowing for instant to count dinucleotides in codon position III-I
@@ -736,7 +743,7 @@ aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
   There is now a new dataset \texttt{revaligntest} used to check
   the result in the example section of \texttt{reverse.align()}.
 
-\item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge Clay
+\item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge \textsc{Clay}
   function \texttt{modifylist()} failed to scan in GenBank FEATURES
   annotation lines. There is now a new function called
   \texttt{prepgetannots()}, aliased to \texttt{pga()}, that allows
@@ -760,7 +767,7 @@ aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
   The bug was fixed by opening the socket with the native encoding,
   which is the current default.
 
-\item As pointed by e-mail on 15 Jan 2008 by Stefanie Hartmann, the
+\item As pointed by e-mail on 15 Jan 2008 by Stefanie \textsc{Hartmann}, the
   argument \texttt{frame} in function \texttt{count()} was misleading
   for someone with a molecular biology background. The argument has
   been replaced by \texttt{start}. The old argument name is maintained
@@ -801,7 +808,7 @@ Minor release to fix mainly problems in the documentation.
 
 \subsection*{release 1.1-4 (10-Dec-2007)}
 
-Minor release to fix problems found by Kurt Hornik.
+Minor release to fix problems found by Kurt \textsc{Hornik}.
 
 \begin{itemize}
 
@@ -825,7 +832,7 @@ Minor release to fix problems found by Kurt Hornik.
   \cite{LobryMBE96}.
 
 \item New dataset \texttt{waterabs} giving the absorption of light 
-  by water. This dataset was compiled by Palmeira \cite{PalmeiraL2007}
+  by water. This dataset was compiled by \textsc{Palmeira} \cite{PalmeiraL2007}
   from \cite{LitjensRA1999, QuickendenTI1980}.
 
 \item Generic functions \texttt{getAnnot()}, \texttt{getFrag()},
@@ -959,7 +966,7 @@ Minor release to fix problems found by Kurt Hornik.
   \texttt{doc/src/template/} folder.
 
 \item A bug in function \texttt{oriloc()} was reported on 23 Jul 2007
-  by Michael Kube: using directly genBank files was no more possible.
+  by Michael \textsc{Kube}: using directly genBank files was no more possible.
   The culprit was \texttt{gbk2g2()} that turns genBank files into
   glimmer files version 2 when \texttt{oriloc()} default is to use
   version 3 files. The \texttt{glimmer.version} argument is now forced
@@ -978,7 +985,7 @@ Minor release to fix problems found by Kurt Hornik.
 
 
 \begin{itemize}
-\item A bug was reported by Sylvain Mousset on 14 Jul 2007 in function
+\item A bug was reported by Sylvain \textsc{Mousset} on 14 Jul 2007 in function
 \texttt{dist.alignment()}: when called with sequences in lower case
 letters, some sequences were modified. This should no more be the case:
 \begin{Schunk}
@@ -1051,11 +1058,11 @@ Preliminary tests suggest that working with about 100,000 CDS is possible with
 a home ADSL connection. See the manual for some \texttt{system.time()}
 examples.
 
-\item As pointed by e-mail on 16 Nov 2006 by Emmanuel Prestat the URL
+\item As pointed by e-mail on 16 Nov 2006 by Emmanuel \textsc{Prestat} the URL
 used in \texttt{dia.bactgensize()} was no more available, this has been fixed
 in the current version.
 
-\item As pointed by e-mail on 16 Nov 2006 by Guy Perri{\`e}re, the
+\item As pointed by e-mail on 16 Nov 2006 by Guy \textsc{Perri{\`e}re}, the
 function \texttt{oriloc()} was no more compatible with glimmer\footnote{
 Glimmer is a program to predict coding sequences in microbial genomes \cite{SalzbergSL1998, DelcherAL1999}.
 } 3.0
@@ -1063,7 +1070,7 @@ outputs. The function has gained a new argument \texttt{glimmer.version}
 defaulting to 3, but the value 2 is still functional for backward compatibility
 with old glimmer outputs.
 
-\item As pointed by e-mail on 24 Oct 2006 by Lionel Guy 
+\item As pointed by e-mail on 24 Oct 2006 by Lionel \textsc{Guy} 
 (\url{http://pbil.univ-lyon1.fr/seqinr/seqinrhtmlannuel/03/0089.html})
 there was no default value for the \texttt{as.string} argument in
 the \texttt{getSequence.SeqFastadna()}. A default \texttt{FALSE}
@@ -1102,9 +1109,9 @@ eukaryotic sequences, \textit{i.e.} with introns. The output file will contain
 the coordinates of the exons, along with the name of the CDS to which
 they belong.
 
-\item After an e-mail by Marcelo Bertalan on 26 Mar 2007, a bug in
+\item After an e-mail by Marcelo \textsc{Bertalan} on 26 Mar 2007, a bug in
 \texttt{oriloc()} when the \texttt{gbk} argument was \texttt{NULL}
-was found and fixed by Anamaria Nec\c{s}ulea.
+was found and fixed by Anamaria \textsc{Nec\c{s}ulea}.
 
 \item Functions \texttt{translate()} and \texttt{getTrans()} have gained
 a new argument \texttt{NAstring} to represent untranslatable amino-
@@ -1124,7 +1131,7 @@ for instance GGN is translated to Gly in the standard genetic code.
 a given IUPAC nucleotide symbol.
 
 \item Function \texttt{count()} has gained a new argument \texttt{alphabet}
-so that oligopeptides counts are now possible. Thanks to Gabriel Valiente
+so that oligopeptides counts are now possible. Thanks to Gabriel \textsc{Valiente}
 for this suggestion. The functions \texttt{zscore()}, \texttt{rho()} and
 \texttt{summary.SeqFastadna()} have also an argument \texttt{alphabet} which
 is forwarded to \texttt{count()}.
@@ -1133,7 +1140,7 @@ is forwarded to \texttt{count()}.
 
 \subsection*{release 1.0-6}
 
-Release 1.0-6 is a minor release to fix a problem found and solved by Kurt Hornik
+Release 1.0-6 is a minor release to fix a problem found and solved by Kurt \textsc{Hornik}
 (namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
 in C code for \texttt{s2c()} in file \texttt{util.c}). The few changes are
 as follows.
@@ -1168,18 +1175,18 @@ accession numbers, species names, or keywords names.
 \item A new function \texttt{pmw()} to compute the molecular weight of
 a protein is now available.
 
-\item A new function \texttt{reverse.align()} contributed by Anamaria Nec\c{s}ulea
+\item A new function \texttt{reverse.align()} contributed by Anamaria \textsc{Nec\c{s}ulea}
 is now available to align CDS at the protein level and then reverse translate this at
 the nucleic acid level from a \texttt{clustalw} output. This can be done on the fly
 if \texttt{clustalw} is available on your platform.
 
-\item An undocumented behavior was reported by Guy Perri{\`e}re for \texttt{uco()}
+\item An undocumented behavior was reported by Guy \textsc{Perri{\`e}re} for \texttt{uco()}
 when computing RSCU on sequences where an amino-acid is missing. There is
 now a new argument \texttt{NA.rscu} that allows the user to force the
 missing values to his favorite magic value.
 
 \item There was a bug in \texttt{read.fasta()}: some sequence names were
-truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
+truncated, this is now fixed (thanks to Marcus G. \textsc{Daniels} for pointing this).
 In order to be more consistent with standard functions such as \texttt{read.table()}
 or \texttt{scan()}, the file argument starts now with a lower case letter (\texttt{file})
 in function \texttt{read.fasta()}, but the old-style \texttt{File} is still
@@ -1244,8 +1251,7 @@ tables in a \LaTeX~document, for instance table \ref{../tables/code3.tex} and ta
 \subsection*{release 1.0-3}
 
 \begin{itemize}
-\item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
-laboratory that issued \seqinr~(\texttt{penel@biomserv.univ-lyon1.fr}). Delphine Charif was
+\item The new package maintainer is Dr. Simon \textsc{Penel}, PhD, who has now a fixed position in the laboratory that issued \seqinr~(\texttt{penel@biomserv.univ-lyon1.fr}). Delphine \textsc{Charif} was
 successful too to get a fixed position in the same lab, with now a different research task (but who knows?).
 Thanks to the close vicinity of our pioneering maintainers the transition was sweet. The DESCRIPTION
 file of the \seqinr{} package has been updated to take this into account.
@@ -1311,21 +1317,25 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.3.1 (2016-06-21), \verb|x86_64-apple-darwin13.4.0|
+  \item R version 3.4.1 (2017-06-30), \verb|x86_64-apple-darwin15.6.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
+  \item Running under: \verb|macOS Sierra 10.12.5|
+  \item Matrix products: default
+  \item BLAS: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib|
+  \item LAPACK: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.7-5, ape~4.0, grImport~0.9-0,
-    MASS~7.3-45, seqinr~3.3-4, tseries~0.10-37, XML~3.98-1.4,
+  \item Other packages: ade4~1.7-6, ape~4.1, grImport~0.9-0,
+    MASS~7.3-47, seqinr~3.4-0, tseries~0.10-41, XML~3.98-1.9,
     xtable~1.8-2
-  \item Loaded via a namespace (and not attached): lattice~0.20-34,
-    nlme~3.1-131, parallel~3.3.1, quadprog~1.5-5, tools~3.3.1,
-    zoo~1.7-13
+  \item Loaded via a namespace (and not attached): compiler~3.4.1,
+    lattice~0.20-35, nlme~3.1-131, parallel~3.4.1, quadprog~1.5-5,
+    quantmod~0.4-10, tools~3.4.1, TTR~0.23-1, xts~0.9-7, zoo~1.8-0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Apr  5 14:17:41 2017
+  \item \Rlogo{} compilation time was: Mon Jul 31 08:44:55 2017
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
