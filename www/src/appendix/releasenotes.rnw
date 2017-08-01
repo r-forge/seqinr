@@ -17,6 +17,10 @@ most recent on top.
 
 \section*{3.4 series (JUL 2017)}
 
+\subsection*{release 3.4-4}
+
+Minor CRAN submission release to add a period at the end of the Description field in the \texttt{DESCRIPTION} file as requested by e-mail by Uwe \textsc{Ligges} on 2017-08-01 00:04.
+
 \subsection*{release 3.4-3}
 
 \begin{itemize}
