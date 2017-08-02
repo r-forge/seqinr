@@ -1,8 +1,8 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Release notes}
-\author{Lobry, J.R. \and Nec\c{s}ulea, A. \and Palmeira, L. \and Penel, S.}
+\title{\Seqinr{} release notes}
+%\author{Lobry, J.R. \and Nec\c{s}ulea, A. \and Palmeira, L. \and Penel, S.}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -10,14 +10,15 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+
 \section*{Introduction}
 
-The release notes are listed in reverse chronological order:
+These release notes are listed in reverse chronological order:
 most recent on top.
 
-\section*{3.4 series (JUL 2017)}
+\section*{3.4 series}
 
-\subsection*{release 3.4-5}
+\subsection*{release 3.4-5 (current)}
 
 Minor CRAN submission release which supersedes 3.4-4 that failed to
 build properly on R-forge for an unknown reason.
@@ -61,7 +62,7 @@ Minor CRAN submission release to add a reference to ACNUC~\cite{acnuc1984} in th
 
 \section*{3.3 series}
 
-\subsection*{release 3.3-6}
+\subsection*{release 3.3-6 (06-APR-2016)}
 
 \begin{itemize}
 
@@ -85,7 +86,7 @@ dotchart.uco(ec999.uco, main = "Codon usage in 999 E. coli coding sequences")
 
 \end{itemize}
 
-\subsection*{release 3.3-3}
+\subsection*{release 3.3-3 (13-OCT-2016)}
 
 \begin{itemize}
 
@@ -129,14 +130,14 @@ with(gcT[["genus"]], plot(Topt, GC, las = 1,
 @
 \end{itemize}
 
-\subsection*{release 3.3-2}
+\subsection*{release 3.3-2 (07-OCT-2016)}
 
 \begin{itemize}
 
 \item As pointed by e-mail on 04-OCT-2016 by Paulo Jorge Moura Pinto da Costa \textsc{Dias} three new genetic code were missing. They are now included.
 \end{itemize}
 
-\subsection*{release 3.3-1}
+\subsection*{release 3.3-1 (07-SEP-2016)}
 
 \subsection*{release 3.3-0 \textit{in memoriam} 2016-07-14}
 
@@ -153,7 +154,7 @@ region in mitochondrial genomes. An example is now given in the FAQ.
 
 \section*{3.2 series}
 
-\subsection*{release 3.2-0}
+\subsection*{release 3.2-0 (07-JUL-2016)}
 
 \begin{itemize}
 
@@ -182,7 +183,7 @@ scheme is just a matter of convenience.
 
 \section*{3.1 series}
 
-\subsection*{release 3.1-5}
+\subsection*{release 3.1-5 (08-JUN-2016)}
 
 \begin{itemize}
 
@@ -214,6 +215,10 @@ was computed from the sequence concatenated with its inverted complement.
 This is now fixed.
 
 \end{itemize}
+
+\subsection*{release 3.1-5 (08-JUN-2016)}
+
+Undocumented for this release.
 
 \subsection*{release 3.1-4}
 
@@ -303,16 +308,26 @@ that now \texttt{dia.db.growth()} works as well.
 
 \end{itemize}
 
-\subsection*{release 3.0-5}
+\subsection*{release 3.0-5 (13-OCT-2011)}
 \begin{itemize}
 
-\item As pointed out by e-mail on 3-FEBRUARY-2012 by Dave \textsc{Gerrard}, the \texttt{consensus()}  function returns NA for all invariant sites when threshold is 1.  Changing  'superior' into 'superior or equal' in the consenus function fixed this bug.
+\item As pointed out by e-mail on 3-FEBRUARY-2012 by Dave \textsc{Gerrard}, the \texttt{consensus()} function returns NA for all invariant sites when threshold is 1. Changing 'superior' into 'superior or equal' in the consenus function fixed this bug.
 
 \end{itemize}
 
+\subsection*{release 3.0-4 (24-SEP-2011)}
 
+Was published on CRAN but no release note are available.
 
-\subsection*{release 3.0-0}
+\subsection*{release 3.0-3 (07-APR-2011)}
+
+Was published on CRAN but no release note are available.
+
+\subsection*{release 3.0-1 (15-NOV-2010)}
+
+Was published on CRAN but no release note are available.
+
+\subsection*{release 3.0-0 (30-AUG-2010)}
 
 \begin{itemize}
 
@@ -323,7 +338,7 @@ of class alignment. There is now a \texttt{as.alignment()} function.
 
 \section*{2.0 series}
 
-\subsection*{release 2.0-9}
+\subsection*{release 2.0-9 (20-MAR-2010)}
 
 \begin{itemize}
 
@@ -353,7 +368,7 @@ not been checked for this problem.
 
 
 
-\subsection*{release 2.0-8}
+\subsection*{release 2.0-8 (28-FEB-2010)}
 
 \begin{itemize}
 
@@ -377,7 +392,7 @@ to use it by position during function call.
 
 \end{itemize}
 
-\subsection*{release 2.0-7}
+\subsection*{release 2.0-7 (17-NOV-2009)}
 
 \begin{itemize}
 
@@ -401,7 +416,7 @@ with the given accession number.
 
 \end{itemize}
 
-\subsection*{release 2.0-6}
+\subsection*{release 2.0-6 (18-OCT-2009)}
 
 \begin{itemize}
 
@@ -432,7 +447,7 @@ genetic profiles.
 
 \end{itemize}
 
-\subsection*{release 2.0-5}
+\subsection*{release 2.0-5 (18-SEP-2009)}
 
 \begin{itemize}
 
@@ -456,7 +471,7 @@ an object without deep copy.
 
 \end{itemize}
 
-\subsection*{release 2.0-4}
+\subsection*{release 2.0-4 (01-JUL-2009)}
 
 \begin{itemize}
 
@@ -484,7 +499,7 @@ The above mentioned test file is now used as a quality control.
 
 \end{itemize}
 
-\subsection*{release 2.0-3}
+\subsection*{release 2.0-3 (28-APR-2009)}
 
 \begin{itemize}
 
@@ -527,7 +542,7 @@ repeat with 3 bp.
 
 \end{itemize}
 
-\subsection*{release 2.0-2}
+\subsection*{release 2.0-2 (06-FEV-2009)}
 
 \begin{itemize}
 
@@ -550,7 +565,7 @@ ladders from the same batch experiment.
 
 \end{itemize}
 
-\subsection*{release 2.0-1}
+\subsection*{release 2.0-1 (14-DEC-2008)}
 
 \begin{itemize}
 
@@ -565,7 +580,7 @@ ladders from the same batch experiment.
 
 \end{itemize}
 
-\subsection*{release 2.0-0}
+\subsection*{release 2.0-0 (27-OCT-2008)}
 
 \begin{itemize}
 
@@ -598,7 +613,7 @@ of the seqinr sources on R-forge.
 
 \section*{1.1 series}
 
-\subsection*{release 1.1-7}
+\subsection*{release 1.1-7 (29-JUL-2009)}
 
 \begin{itemize}
 
@@ -667,7 +682,7 @@ of the seqinr sources on R-forge.
 
 \end{itemize}
 
-\subsection*{release 1.1-6}
+\subsection*{release 1.1-6 (21-MAY-2008)}
 
 \begin{itemize}
 
@@ -743,7 +758,7 @@ stopifnot(all( resIIIpI == 1))
   \texttt{sequences} directory.
 \end{itemize}
 
-\subsection*{release 1.1-5}
+\subsection*{release 1.1-5 (18-DEC-2007)}
 
 Minor release to fix mainly problems in the documentation.
 
@@ -913,7 +928,7 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
 
 \end{itemize}
 
-\subsection*{release 1.1-2}
+\subsection*{release 1.1-2 (27-SEP-2007)}
 
 
 \begin{itemize}
@@ -946,7 +961,7 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
   default for backward compatibility.
 \end{itemize}
 
-\subsection*{release 1.1-1}
+\subsection*{release 1.1-1 (20-JUL-2007)}
 
 
 \begin{itemize}
@@ -995,7 +1010,7 @@ a string of characters.
 
 \section*{1.0 series}
 
-\subsection*{release 1.0-7}
+\subsection*{release 1.0-7 (19-APR-2007)}
 
 \begin{itemize}
 
@@ -1085,7 +1100,7 @@ is forwarded to \texttt{count()}.
 
 \end{itemize}
 
-\subsection*{release 1.0-6}
+\subsection*{release 1.0-6 (06-SEP-2006)}
 
 Release 1.0-6 is a minor release to fix a problem found and solved by Kurt \textsc{Hornik}
 (namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
@@ -1109,7 +1124,7 @@ in function \texttt{tablecode()}.
 
 \end{itemize}
 
-\subsection*{release 1.0-5}
+\subsection*{release 1.0-5 (21-JUL-2006)}
 
 \begin{itemize}
 
@@ -1152,7 +1167,7 @@ argument \texttt{forceUpperCase} to \texttt{FALSE}.
 
 \end{itemize}
 
-\subsection*{release 1.0-4}
+\subsection*{release 1.0-4 (30-MAR-2006)}
 
 \begin{itemize}
 \item The scaling factor $n_{\bullet\bullet}$ was missing in equation \ref{chi}.
@@ -1195,7 +1210,7 @@ tables in a \LaTeX~document, for instance table \ref{../tables/code3.tex} and ta
 
 \end{itemize}
 
-\subsection*{release 1.0-3}
+\subsection*{release 1.0-3 (26-JUL-2005)}
 
 \begin{itemize}
 \item The new package maintainer is Dr. Simon \textsc{Penel}, PhD, who has now a fixed position in the laboratory that issued \seqinr~(\texttt{penel@biomserv.univ-lyon1.fr}). Delphine \textsc{Charif} was
@@ -1233,6 +1248,27 @@ now possible.
 
 \end{itemize}
 
+\subsection*{release 1.0-2 (07 MAR 2005)}
+
+The citation~\cite{seqinr} for the \seqinr{} package is based on this release.
+
+\subsection*{release 1.0-1 (21 FEV 2005)}
+
+There were no release notes for the \seqinr{} package at that time.
+
+\subsection*{release 1.0 (22 NOV 2004)}
+
+This is the only release that does not respect the \texttt{X.Y-Z} scheme for release numbers. There were no release notes for the \seqinr{} package at that time. The first public presentation of \seqinr{} was a seminar (02-JUL-2003, Lausanne University, Swiss) and the first public release on the CRAN was in october 2004.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+\fbox{\begin{minipage}{\textwidth}
+\includegraphics[width=\textwidth]{../figs/wayback}
+\caption{\label{wayback} Screenshot from the internet archive wayback machine showing the \seqinr{} archive listing on CRAN on 09-JUN-2013. Releases from 1.0-7 to 3.1-1, included, are lost for ever in the present CRAN archive for \seqinr{}.}
+\end{minipage}}
+\end{figure}
 
 \SweaveInput{../config/sessionInfo.rnw}
 
