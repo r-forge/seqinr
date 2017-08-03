@@ -1,8 +1,8 @@
 \documentclass{article}
 \input{../config/commontex}
 
-\title{Introduction}
-\author{Lobry, J.R.}
+\title{Introduction to \seqinr{}}
+\author{Pr. Jean R. \textsc{Lobry}}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -10,6 +10,8 @@
 \maketitle
 \tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
+
+\newpage
 \section{About ACNUC}
 
 \marginpar{
@@ -21,22 +23,13 @@
 \tiny{Cover of ACNUC book vol. 2}
 }
 
-ACNUC\footnote{
-A contraction of ACides NUCl{\'e}iques, that is \emph{NUCleic ACids}
-in french (\url{http://pbil.univ-lyon1.fr/databases/acnuc/acnuc.html})}
-was first a database of nucleic acids developed in the early
-80's in the same lab (Lyon, France) that issued \seqinr{}. ACNUC was first published
-as a printed book in two volumes \cite{GautierC1982a, GautierC1982b}
-whose covers are reproduced in margin there. At about the same time, two
-other databases were created, one in the USA (GenBank,
-at Los Alamos and now managed by the NCBI\footnote{National Center for Biotechnology Information}), 
-and another one in Germany
-(created in K{\"o}ln by K. St{\"u}ber). To avoid duplication of efforts at the
-european level, a single repository database was initiated in Germany yielding
-the EMBL\footnote{European Molecular Biology Laboratory} database that moved from K{\"o}ln
-to Heidelberg, and then to its current location at the EBI\footnote{European Bioinformatic
-Institute} near Cambridge. The DDBJ\footnote{DNA Data Bank of Japan} started
-in 1986 at the NIG\footnote{National Institute of Genetics} in Mishima. These three
+ACNUC\footnote{%
+A contraction of ACides NUCl{\'e}iques, that is \emph{NUCleic ACids} in french (\url{http://pbil.univ-lyon1.fr/databases/acnuc/acnuc.html})}
+was the first database of nucleic acids developed in the early 80's in the same lab (Lyon, France) that issued \seqinr{}. ACNUC was  published as a printed book in two volumes \cite{GautierC1982a, GautierC1982b} whose covers are reproduced in margin there. At about the same time, two other databases were created, one in the USA (GenBank, at Los Alamos and now managed by the NCBI\footnote{National Center for Biotechnology Information}), and another one in Germany (created in K{\"o}ln by K. St{\"u}ber). To avoid duplication of efforts at the european level, a single repository database was initiated in Germany yielding the EMBL\footnote{European Molecular Biology Laboratory} database that moved from K{\"o}ln to Heidelberg, and then to its current location at the EBI\footnote{%
+European Bioinformatic Institute} 
+near Cambridge. The DDBJ\footnote{%
+DNA Data Bank of Japan} 
+started in 1986 at the NIG\footnote{National Institute of Genetics} in Mishima. These three
 main repository DNA databases are now collaborating to maintain the INSD\footnote{
 International Nucleotide Sequence Database (\url{http://www.insdc.org/})} 
 and are sharing data on a daily basis.
@@ -191,8 +184,7 @@ provide an efficient access to sequence databases under R.
 
 You need a computer connected to the Internet. First, install \Rlogo{} on your computer.
 There are distributions for Linux, Mac and Windows users
-on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{ape}, 
-\texttt{ade4} and \texttt{seqinr} packages. This can be done directly in an \Rlogo{} console
+on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{seqinr} package. This can be done directly in an \Rlogo{} console
 with for instance the command \texttt{install.packages("seqinr")}. 
 Last, load the \seqinr{} package with:
 
@@ -310,6 +302,7 @@ strand for 7 bacterial chromosomes.
 example(chargaff, ask = FALSE)
 @
 \setkeys{Gin}{width=0.8\textwidth}
+\medskip
 
 This is a very specialised graph. The filled areas correspond to non-allowed values beause the sum 
 of the four bases frequencies cannot exceed 100\%. The white areas correspond to possible values 
@@ -356,37 +349,35 @@ The tables were then inserted in the \LaTeX~file with:
 
 \subsection{Data as fast moving targets}
  
-In research area, data are not always stable. 
-Consider figure 1 from \cite{lobrylncs} which is reproduced here in figure \ref{fig1lncs2004}.
-Data have been updated since then, but we can re-use  the same \Rlogo{}~code\footnote{
-This code was adapted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.
-}
+In research area, data are not always stable. Consider figure 1 from \cite{lobrylncs} which is reproduced here in figure~\ref{fig1lncs2004} page~\pageref{fig1lncs2004} here. Data have been updated since then, but we can re-use the same \Rlogo{}~code\footnote{%
+This code was adapted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.}
 to update the figure:
 
 \setkeys{Gin}{width=\textwidth}
-<<dbg, fig = TRUE, eval=T, width=9.2, height=6>>=
+<<dbg, fig = TRUE, eval=T, width=9.2, height=7>>=
 data <- get.db.growth()
 scale <- 1
-   ltymoore <- 1 # line type for Moore's law
-    date <- data$date
-    Nucleotides <- data$Nucleotides
-    Month <- data$Month
-    plot.default(date, log10(Nucleotides), 
-        main = "Update of Fig. 1 from Lobry (2004) LNCS, 3039:679:\nThe exponential growth of genome sequence data", xlab = "Year", 
-        ylab = "Log10 number of nucleotides", pch = 19, las = 1,
-        cex = scale, cex.axis = scale, cex.lab = scale)
-    abline(lm(log10(Nucleotides) ~ date), lwd = 2)
-    lm1 <- lm(log(Nucleotides) ~ date)
-    mu <- lm1$coef[2]
-    dbt <- log(2)/mu
-    dbt <- 12 * dbt
-    x <- mean(date)
-    y <- mean(log10(Nucleotides))
-    a <- log10(2)/1.5
-    b <- y - a * x
-    lm10 <- lm(log10(Nucleotides) ~ date)
-    for (i in seq(-10, 10, by = 1)) if (i != 0) 
-            abline(coef = c(b + i, a), col = "black", lty = ltymoore)
+ltymoore <- 1 # line type for Moore's law
+date <- data$date
+Nucleotides <- data$Nucleotides
+Month <- data$Month
+plot.default(date, log10(Nucleotides), 
+  main = "Update of Fig. 1 from Lobry (2004) LNCS, 3039:679:
+  \nThe exponential growth of genome sequence data", xlab = "Year", 
+  ylab = "Log10 number of nucleotides", pch = 19, las = 1,
+  cex = scale, cex.axis = scale, cex.lab = scale)
+abline(lm(log10(Nucleotides) ~ date), lwd = 2)
+lm1 <- lm(log(Nucleotides) ~ date)
+mu <- lm1$coef[2]
+dbt <- log(2)/mu
+dbt <- 12 * dbt
+x <- mean(date)
+y <- mean(log10(Nucleotides))
+a <- log10(2)/1.5
+b <- y - a * x
+lm10 <- lm(log10(Nucleotides) ~ date)
+for (i in seq(-10, 10, by = 1)) if (i != 0) 
+  abline(coef = c(b + i, a), col = "black", lty = ltymoore)
 @
 \setkeys{Gin}{width=0.8\textwidth}
 
@@ -395,16 +386,10 @@ The doubling time is now \Sexpr{ifelse(exists("dbt"), round(dbt, 1), "???")} mon
 
 
 \begin{figure}
-\begin{center}
+\fbox{\begin{minipage}{\textwidth}
 \includegraphics[width=\textwidth]{../figs/fig1lncs2004}
-\end{center}
-\caption{Screenshot of figure 1 from \cite{lobrylncs}.
-The exponential growth of genomic sequence data mimics Moore's law.
-The source of data is the december 2003 release note (realnote.txt) from the EMBL database
-available at \protect\url{http://www.ebi.ac.uk/}. External lines correspond to what would be expected with
-a doubling time of 18 months. The central line through points is the best least square fit,
-corresponding to a doubling time of 16.9 months.}
-\label{fig1lncs2004}
+\caption{\label{fig1lncs2004} Screenshot of figure 1 from \cite{lobrylncs}. The exponential growth of genomic sequence data mimics \textsc{Moore}'s law. The source of data was the december 2003 release note (\texttt{realnote.txt}) from the EMBL database that was available at \protect\url{http://www.ebi.ac.uk/}. External lines correspond to what would be expected with a doubling time of 18 months. The central line through points is the best least square fit, corresponding here to a doubling time of 16.9 months.}
+\end{minipage}}
 \end{figure}
 
 \subsection{\texttt{Sweave()} and \texttt{xtable()}}
