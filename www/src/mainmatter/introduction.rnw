@@ -12,7 +12,9 @@
 % BEGIN - DO NOT REMOVE THIS LINE
 
 \newpage
-\section{About ACNUC}
+\section{About}
+
+\subsection{ACNUC}
 
 \marginpar{
 \includegraphics[width=\marginparwidth]{../figs/acnucbook1}\\
@@ -110,7 +112,7 @@ F-69622, Villeurbanne, France.
 4 linear km of journals. That wouldn't be enough to store a printed
 version of GenBank. Picture by Lionel Clouzeau.}
 }
-\section{About R and CRAN}
+\subsection{\Rlogo{} and CRAN}
 
 \Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
 which provides a wide variety of statistical and graphical techniques: linear and 
@@ -151,7 +153,7 @@ Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
 selected with the function \texttt{chooseCRANmirror()}.
 
-\section{About this document}
+\subsection{This document}
 
 In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document 
 is a package \emph{vignette}, which means that all code outputs present 
@@ -167,7 +169,7 @@ The last compiled version of this document is available at the \seqinr{}
 home page at \url{http://seqinr.r-forge.r-project.org/.}
 
 
-\section{About sequin and \seqinr{}}
+\subsection{sequin and \seqinr{}}
 
 Sequin is the well known sofware used to submit sequences to GenBank, \seqinr{}
 \cite{seqinr} has definitively no connection with sequin. \seqinr{} is just a shortcut, with
@@ -180,7 +182,7 @@ to Genbank, with \seqinr{} you can {\bf{R}}etrieve sequences from Genbank
 a very good summary of a major functionality of the \seqinr{} package: to
 provide an efficient access to sequence databases under R.
 
-\section{About getting started}
+\subsection{Getting started}
 
 You need a computer connected to the Internet. First, install \Rlogo{} on your computer.
 There are distributions for Linux, Mac and Windows users
@@ -204,7 +206,7 @@ We have printed here only the first 9 entries because they are too numerous.
 To get help on a specific function, say \texttt{aaa()}, just prefix its name
 with a question mark, as in \texttt{?aaa} and press enter.
 
-\section{About running R in batch mode}
+\subsection{Running \Rlogo{} in batch mode}
 
 Although \Rlogo{} is usually run in an interactive mode, some data pre-processing 
 and analyses could be too long. You can run your \Rlogo{} code in batch mode
@@ -233,7 +235,7 @@ so as to be able to restore them later efficiently in the interactive mode (with
 like \texttt{load("mybigdata.RData")}).
 
 
-\section{About the learning curve}
+\section{The learning curve}
 
 \subsection*{Introduction}
 
@@ -400,6 +402,7 @@ called \texttt{Sweave()} that allows for the automatic insertion
 of \Rlogo{}~outputs (including graphics) in a \LaTeX~document. In the same spirit, there
 is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
 
+\clearpage
 \SweaveInput{../config/sessionInfo.rnw}
 
 % END - DO NOT REMOVE THIS LINE
