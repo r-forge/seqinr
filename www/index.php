@@ -48,7 +48,7 @@ echo $contents; } ?>
 <p>Download the last under development version of seqinR from 
 <a href=http://r-forge.r-project.org/R/?group_id=220>here</a>.</p>
 
-<p>Before reading the full manual, a very short introduction to seqinr is available <a href="./src/mainmatter/introduction.pdf">here</a>, but you will miss the beauty of the cover. Believe it or not, there's nothing more beautiful than a cover.</p>
+<p>Before reading the full manual, a short introduction to seqinr is available <a href="./src/mainmatter/introduction.pdf">here</a></p>
 
 <p>Version 3.1-5 of the seqinR manual is available <a href="seqinr_3_1-5.pdf">here</a>.</p>
 
