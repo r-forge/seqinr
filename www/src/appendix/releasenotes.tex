@@ -52,9 +52,20 @@
 These release notes are listed in reverse chronological order:
 most recent on top.
 
+
+
 \section*{3.4 series}
 
-\subsection*{release 3.4-5 (current)}
+\subsection*{release 3.4-6}
+
+\begin{itemize}
+
+\item As suggested by e-mail on 22-FEB-2018 by Haruo \textsc{Suzuki} the \texttt{read.fasta()} function has gained a new argument \texttt{whole.header} to control whether the header line should be truncated or not to produce the sequence name. The function \texttt{read.alignment()} now transmits extra arguments to \texttt{read.fasta()} in the fasta format case. An example is given the \texttt{read.alignment()} documentation.
+
+
+\end{itemize}
+
+\subsection*{release 3.4-5 (current on CRAN)}
 
 Minor CRAN submission release which supersedes 3.4-4 that failed to
 build properly on R-forge for an unknown reason.
@@ -1373,14 +1384,14 @@ This part was compiled under the following \Rlogo{}~environment:
 \begin{itemize}\raggedright
   \item R version 3.4.1 (2017-06-30), \verb|x86_64-apple-darwin15.6.0|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
-  \item Running under: \verb|macOS Sierra 10.12.5|
+  \item Running under: \verb|macOS Sierra 10.12.6|
   \item Matrix products: default
   \item BLAS: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib|
   \item LAPACK: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.7-6, ape~4.1, grImport~0.9-0,
-    MASS~7.3-47, seqinr~3.4-5, tseries~0.10-41, XML~3.98-1.9,
+  \item Other packages: ade4~1.7-8, ape~4.1, grImport~0.9-0,
+    MASS~7.3-47, seqinr~3.4-6, tseries~0.10-41, XML~3.98-1.9,
     xtable~1.8-2
   \item Loaded via a namespace (and not attached): compiler~3.4.1,
     lattice~0.20-35, nlme~3.1-131, parallel~3.4.1, quadprog~1.5-5,
@@ -1389,7 +1400,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Aug  2 21:47:52 2017
+  \item \Rlogo{} compilation time was: Sat Feb 24 11:46:24 2018
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
