@@ -53,8 +53,79 @@ These release notes are listed in reverse chronological order:
 most recent on top.
 
 
+\section*{4.2 series}
+
+\subsection*{release 4.2-12}
+\begin{itemize}
+\item
+Fixing bug spotted by Danny Arends: gap option in dist.alignment is now working for protein sequence.
+\end{itemize}
+
+
+\subsection*{release 4.2-10}
+\begin{itemize}
+\item Fixing a bug in dotchart.uco caused by the new offset parameter in dotchart
+\end{itemize}
+
+
+\subsection*{release 4.2-8}
+\begin{itemize}
+\item Fixing bug ncbicg->ncbigc in ClasseSeq.R (spotted by F. Villatoro)
+\item  Correction of comp.R function according to  Haruo Suzuki (check for N is done only with ambigous option)
+\item Argument gap is now a boolean in dist.alignment function.
+\item Identity is the default matrix in dist.alignment function.
+\item Replace ftp by https when it was possible since ftp is not allowed  anymore.
+\item Remove function get.ncbi  since ftp is not allowed  anymore.
+\end{itemize}
+
+
+\subsection*{release 4.2-7}
+\begin{itemize}
+
+
+\item Fixing bug in the function  summary of ClasseSeq.R (spotted by Jean-Baka Domelevo Entfellner)
+
+\end{itemize}
+
+
+
+
+\subsection*{release 4.2-6}
+\begin{itemize}
+
+\item Sequence check modification in  s2n.R according to M. A. Birk suggestion
+
+\end{itemize}
+
+
+\subsection*{release 4.2-4}
+\begin{itemize}
+
+\item Modify GC.R and read.alignment.R according to Haruo Suzuki suggestions
+
+\end{itemize}
+
+% \section*{4.1 series}
+
+% \section*{4.0 series}
+
+
+\section*{3.6 series}
+
+\subsection*{release 3.6-2}
+\begin{itemize}
+\item Function extract.breakpoints is modified as suggested by Sofia Rigou
+\end{itemize}
+
+% \subsection*{release 3.6-1}
 
 \section*{3.4 series}
+
+% \subsection*{release 3.4-9}
+
+%\subsection*{release 3.4-8}
+
+% \subsection*{release 3.4-7}
 
 \subsection*{release 3.4-6}
 
@@ -129,7 +200,7 @@ Minor CRAN submission release to add a reference to ACNUC~\cite{acnuc1984} in th
 \begin{Sinput}
  data(ec999)
  ec999.uco <- rowSums(sapply(ec999, uco, index="eff"))
- dotchart.uco(ec999.uco, main = "Codon usage in 999 E. coli coding sequences") 
+ dotchart.uco(ec999.uco, main = "Codon usage in 999 E. coli coding sequences")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{../figs/releasenotes-dotchartfixed}
@@ -156,7 +227,7 @@ Minor CRAN submission release to add a reference to ACNUC~\cite{acnuc1984} in th
    n.species = vby(GC, Genus, length)))
  with(GCbyGenus, {
    mybxp <- boxplot(GC~aerobiosis, xaxt = "n", yaxt = "n", ann = FALSE,
-     names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"), 
+     names = c(paste("Aerobic (n =", sum(aerobiosis == "Aerobic"), ")"),
      paste("Anaerobic (n =", sum(aerobiosis == "Anaerobic"), ")")),
      varwidth = TRUE, notch = TRUE)
    y1 <- median(GC[aerobiosis == "Anaerobic"])
@@ -178,7 +249,7 @@ Minor CRAN submission release to add a reference to ACNUC~\cite{acnuc1984} in th
 \begin{Schunk}
 \begin{Sinput}
  data(gcT)
- with(gcT[["genus"]], plot(Topt, GC, las = 1, 
+ with(gcT[["genus"]], plot(Topt, GC, las = 1,
    main ="Figure 2 from Galtier & Lobry 1997 (n = 224 genera)",
    xlab = "Optimal growth temperature [C]", ylab = "Genomic G+C content [%]"))
 \end{Sinput}
@@ -215,7 +286,7 @@ region in mitochondrial genomes. An example is now given in the FAQ.
 \begin{itemize}
 
 \item Images have been inserted in the documentation for datasets
-\texttt{aacost}, \texttt{chargaff}, \texttt{m16j}, \texttt{waterabs} 
+\texttt{aacost}, \texttt{chargaff}, \texttt{m16j}, \texttt{waterabs}
 and for the function \texttt{dia.db.growth()}.
 
 \item Function \texttt{gb2fasta()} now uses a local file example.
@@ -224,7 +295,7 @@ and for the function \texttt{dia.db.growth()}.
 call to \texttt{AAstat()} function may yield uninformative warning
 messages. The culprit is the \texttt{computePI()} function. This
 is now fixed.
-  
+
 \item As from \seqinr{} 3.2-0 we are switching to a lazy sticky
 scheme for \seqinr{} release numbers. Release 3.2-x means that
 \seqinr{} was checked against R release 3.2-y. In short, we are
@@ -247,7 +318,7 @@ scheme is just a matter of convenience.
 call to \texttt{getLength(ec999)} yielded spurious output and
 many warnings. This is now fixed.
 
-\item As pointed out by e-mail on 30-MAY-2016 by Haruo \textsc{Suzuki} there 
+\item As pointed out by e-mail on 30-MAY-2016 by Haruo \textsc{Suzuki} there
 was a bug in the documentation of the functions \texttt{recstat()},
 \texttt{draw.recstat()}, \texttt{test.co.recstat()} and
 \texttt{test.li.recstat()}. They were all looking for data in
@@ -360,7 +431,7 @@ that now \texttt{dia.db.growth()} works as well.
 \item As pointed out by e-mail on 13-AUGUST-2012 by Grabor \textsc{Grothendieck}, the pipe caracter was not correctly processed in \texttt{stresc()} function. This is now fixed.
 
 
-\item As suggested by e-mail on 8-FEBRUARY-2012 by Juanjo \textsc{Abellan}, the   \texttt{kaks()}  function has been modified : new  verbose option for  display  values of L0,L2,L4,A0,A2,A4,B0,B2,B4 has been added. 
+\item As suggested by e-mail on 8-FEBRUARY-2012 by Juanjo \textsc{Abellan}, the   \texttt{kaks()}  function has been modified : new  verbose option for  display  values of L0,L2,L4,A0,A2,A4,B0,B2,B4 has been added.
 
 \end{itemize}
 
@@ -443,7 +514,7 @@ instead of a genuine accession number.
 \item The title in the documentation for the function \texttt{write.fasta()}
 was changed to make clear that more than one sequence can be written at once.
 The function now does not return anything instead of \texttt{NULL} previously.
-The argument \texttt{file.out} was moved to the left so that it is easier now 
+The argument \texttt{file.out} was moved to the left so that it is easier now
 to use it by position during function call.
 
 \end{itemize}
@@ -457,7 +528,7 @@ to loop over all availabale ACNUC databases to look for
 a given sequence accession number. This is useful when you have
 a sequence accession number and you don't know in which database
 it is present. The documentation of the function \texttt{choosebank()}
-was also changed to make a link to this function. As suggested by 
+was also changed to make a link to this function. As suggested by
 Avril Coghlan, the function has an argument \texttt{stopAtFirst} defaulting
 to \texttt{TRUE} that stops the search at the first database found
 with the given accession number.
@@ -468,7 +539,7 @@ with the given accession number.
 
 \item As basic regular expressions are defunct since R 2.11, the
 \texttt{extended} argument in functions \texttt{words.pos()} and
-\texttt{trimSpace()} was no more necessary. It is now deleted. 
+\texttt{trimSpace()} was no more necessary. It is now deleted.
 
 \end{itemize}
 
@@ -576,12 +647,12 @@ is an extra column with possibly empty fields in data by forcing
 the \texttt{fill} argument of \texttt{read.table()} function to
 \texttt{TRUE}.
 
-\item As pointed out by e-mail on 30-MAR-2009 by Yann \textsc{Lesecque} there 
-was a bug in the \texttt{getTrans()} function: when applied to a 
-list of sequences with all the same length the returned result 
+\item As pointed out by e-mail on 30-MAR-2009 by Yann \textsc{Lesecque} there
+was a bug in the \texttt{getTrans()} function: when applied to a
+list of sequences with all the same length the returned result
 was a matrix instead of a list. This is now fixed.
 
-\item New utility functions \texttt{readPanels()} and \texttt{readBins()} 
+\item New utility functions \texttt{readPanels()} and \texttt{readBins()}
 to import data from GeneMapper configuration files. Four example files
 are now in the \texttt{abif} folder.
 
@@ -591,9 +662,9 @@ surfaces of peaks in addition to their location.
 \item New utility function \texttt{al2bp()} to convert
 a forensic microsatellite allele name into its length in base pairs.
 Conventions used to name forensic microsatellite alleles (STR) are described
-in Bar \emph{et al.} (1994) \cite{BarW1994}. 
+in Bar \emph{et al.} (1994) \cite{BarW1994}.
 The name \texttt{9.3} means for instance that there are
-9 repetitions of the complete base oligomer and an incomplete 
+9 repetitions of the complete base oligomer and an incomplete
 repeat with 3 bp.
 
 \end{itemize}
@@ -614,7 +685,7 @@ now used as a quality check for the \texttt{read.abif()} function.
 
 \item A new folder called \texttt{abif} has been created under the
 \texttt{inst} folder. The purpose of this folder is to contain examples
-of files in ABIF format so that the results of the \texttt{read.abif()} 
+of files in ABIF format so that the results of the \texttt{read.abif()}
 function can be checked against expected results for quality check.
 It contains for now two duplicated genetic profiles and two allelic
 ladders from the same batch experiment.
@@ -656,7 +727,7 @@ ladders from the same batch experiment.
   compatibility issue that will not be maintained in the future.
   The function \texttt{autosocket()} works hard to check that everything
   is OK with the last opened database, especially with the socket
-  infos available in \texttt{banknameSocket\$socket} thru its 
+  infos available in \texttt{banknameSocket\$socket} thru its
   \texttt{summary()} generic. In old R versions (\textit{e.g.} 2.6.2) this
   was returning \texttt{socket} instead of \texttt{sockconn} for the
   class, yielding an error in seqinR 1.1-7. The old result is now
@@ -698,7 +769,7 @@ of the seqinr sources on R-forge.
   from class \texttt{alignment} or a matrix of characters. The
   output is either a consensus sequence (using the majority rule,
   the majority rule with a threshold, or IUPAC symbols for RNA
-  and DNA sequences) or a profile, that is a matrix with the count 
+  and DNA sequences) or a profile, that is a matrix with the count
   of each possible character at each position in the alignment.
 
 \item In the documentation of the \texttt{read.alignment()} function
@@ -718,8 +789,8 @@ of the seqinr sources on R-forge.
   no convenient function to compute the Codon Adaptation Index \cite{CAI}.
   A new function \texttt{cai()} was introduced with the aim of reproducing
   exactly the results from the program \texttt{codonW} that was written
-  by John \textsc{Peden} during his PhD thesis \cite{codonW} under the supervision 
-  of P.M. \textsc{Sharp} (the most authorative source for CAI computation). A new 
+  by John \textsc{Peden} during his PhD thesis \cite{codonW} under the supervision
+  of P.M. \textsc{Sharp} (the most authorative source for CAI computation). A new
   dataset \texttt{caitab} that was hard-encoded in \texttt{codonW} for
   the \texttt{w} values for some species (\textit{viz}
   \textit{Escherichia coli}, \textit{Bacillus subtilis},
@@ -727,7 +798,7 @@ of the seqinr sources on R-forge.
   original sources. The \textit{E. coli} data that was uncredited is
   from \cite{CAI}. The \textit{B. subtilis} data that was uncredited
   is from \cite{ShieldsDC1987} (see the note of caution in \texttt{?caitab}
-  before using this one directly to compute CAI in \textit{B. subtilis}). 
+  before using this one directly to compute CAI in \textit{B. subtilis}).
   The \textit{S. cerevisiae} data that was
   credited to \cite{SharpPM1991} dates back from \cite{CAI}. A new
   text file \texttt{scuco.txt} produced by \texttt{codonW} was added
@@ -782,7 +853,7 @@ aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
 \end{Schunk}
 
 \item Function \texttt{reverse.align()} has gained two arguments
-  \texttt{forceDNAtolower = TRUE} and \texttt{forceAAtolower = FALSE} 
+  \texttt{forceDNAtolower = TRUE} and \texttt{forceAAtolower = FALSE}
   that are passed to the functions used to read the sequences.
   There is now a new dataset \texttt{revaligntest} used to check
   the result in the example section of \texttt{reverse.align()}.
@@ -815,10 +886,10 @@ aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt
   argument \texttt{frame} in function \texttt{count()} was misleading
   for someone with a molecular biology background. The argument has
   been replaced by \texttt{start}. The old argument name is maintained
-  as an alias for backward compatibility. The example section has 
+  as an alias for backward compatibility. The example section has
   been extended to
   give an example with the complete human mitochondrion sequence, the
-  corresponding fasta file (\texttt{humanMito.fasta}) has been added in the 
+  corresponding fasta file (\texttt{humanMito.fasta}) has been added in the
   \texttt{sequences} directory.
 \end{itemize}
 
@@ -839,10 +910,10 @@ Minor release to fix mainly problems in the documentation.
 \item The description section was missing in \texttt{getFrag.Rd},
   \texttt{getLength.Rd}, \texttt{getName.Rd}, \texttt{getSequence.Rd}.
 
-\item Documentation of the function \texttt{dia.bactgensize()} to plot 
+\item Documentation of the function \texttt{dia.bactgensize()} to plot
   the distribution of bacterial genome size from GOLD data has been
   ammended to credit sources \cite{gold1, gold2, gold3, gold4}. It
-  has gained a new argument \texttt{maxgensize} defaulting to 20000 
+  has gained a new argument \texttt{maxgensize} defaulting to 20000
   to remove outliers. It has also gained a new argument \texttt{source}
   for the file to look for raw data, defaulting to an (outdated) local
   copy so that the function can be called even when there is no internet
@@ -858,7 +929,7 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
 
 \item In the \texttt{DESCRIPTION} file \texttt{License: GPL (>= 2)} instead
   of \texttt{License: GPL version 2 or newer}.
- 
+
 \item The files \texttt{inst/doc/src/mainmatter/acnuc\_sockets.rnw .tex}
   with non-portable file names were changed to \texttt{acnucsocket.rnw}
   and \texttt{acnucsocket.tex}.
@@ -875,7 +946,7 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
 \item New dataset \texttt{m16j} to make a GC skew plot as in
   \cite{LobryMBE96}.
 
-\item New dataset \texttt{waterabs} giving the absorption of light 
+\item New dataset \texttt{waterabs} giving the absorption of light
   by water. This dataset was compiled by \textsc{Palmeira} \cite{PalmeiraL2007}
   from \cite{LitjensRA1999, QuickendenTI1980}.
 
@@ -916,7 +987,7 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
   \texttt{forceToLower} defaulting to TRUE to force lower case in
   the character of the sequence (this is for a smoother interaction
   with the package \texttt{ape}). The argument \texttt{File} is now
-  deprecated and a warning is issued when used instead of \texttt{file}. 
+  deprecated and a warning is issued when used instead of \texttt{file}.
   The example in the function \texttt{kaks()} has been corrected
   to avoid this warning when reading the example files.
 
@@ -932,31 +1003,31 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
   get the number of free lists available in an ACNUC server.
 
 \item New low level utility function \texttt{knowndbs()} and its
-  shortcut \texttt{kdb()} to get a description of databases 
+  shortcut \texttt{kdb()} to get a description of databases
   known by an ACNUC server.
 
 \item New low level utility function \texttt{autosocket()} to get the
   socket connection to the last opened ACNUC database.
 
-\item New function \texttt{countsubseqs()} to get the number of 
+\item New function \texttt{countsubseqs()} to get the number of
   subsequences in an ACNUC list.
 
-\item New function \texttt{savelist()} to save sequence names or 
+\item New function \texttt{savelist()} to save sequence names or
   accession numbers from an ACNUC list into a local file.
 
 \item New function \texttt{ghelp()} to get help from an ACNUC server.
 
-\item New function \texttt{modifylist()} to modify a previously existing 
-  ACNUC list by selecting sequences either by length, either by date, 
+\item New function \texttt{modifylist()} to modify a previously existing
+  ACNUC list by selecting sequences either by length, either by date,
   either for the presence of a given string in annotations.
 
-\item New low level function \texttt{getlistate()} to ask for 
+\item New low level function \texttt{getlistate()} to ask for
   information about an ACNUC list.
 
-\item New low level function \texttt{setlistname()} to set the name of 
+\item New low level function \texttt{setlistname()} to set the name of
   a list from an ACNUC server.
 
-\item New function \texttt{residuecount()} to count the total number 
+\item New function \texttt{residuecount()} to count the total number
   of residues (nucleotides or aminoacids) in all sequences of an ACNUC
   list of specified rank.
 
@@ -964,10 +1035,10 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
   to get the ACNUC number of a sequence from its name or accession
   number.
 
-\item New function \texttt{prettyseq()} to get a text representation 
+\item New function \texttt{prettyseq()} to get a text representation
   of a sequence from an ACNUC server.
 
-\item New function \texttt{gfrag()} to extract sequence identified by 
+\item New function \texttt{gfrag()} to extract sequence identified by
   name or by number from an ACNUC server.
 
 \item The details of the socket connection are no more stored in
@@ -1015,11 +1086,11 @@ Minor release to fix problems found by Kurt \textsc{Hornik}.
   glimmer files version 2 when \texttt{oriloc()} default is to use
   version 3 files. The \texttt{glimmer.version} argument is now forced
   to 2 when working with genBank files to fix this problem.
- 
+
 \item Function \texttt{zscore()} has now a new argument
   \texttt{exact} (which is only effective for the option
-  \texttt{model = base}). This argument, when set to 
-  \texttt{TRUE} allows for the exact analytical computation 
+  \texttt{model = base}). This argument, when set to
+  \texttt{TRUE} allows for the exact analytical computation
   of the zscore under this model, instead of the approximation for
   large sequences. It is set to \texttt{FALSE} by
   default for backward compatibility.
@@ -1062,8 +1133,8 @@ speciesD        0        0        0
 \item The CITATION file has been updated so that now \texttt{citation("seqinr")} returns the full complete reference for the package seqinR.
 
 \item Non ASCII characters in documentation
-(*.Rd) files have been removed. Declaration of the encoding as 
-latin1 when necessary is now present. 
+(*.Rd) files have been removed. Declaration of the encoding as
+latin1 when necessary is now present.
 The updated documentation files are: \texttt{
 dinucl.Rd,
 gb2fasta.Rd,
@@ -1097,8 +1168,8 @@ a string of characters.
 \begin{itemize}
 
 \item A new \emph{experimental} function \texttt{extractseqs()} to download
-sequences thru zlib compressed sockets from an ACNUC server is released. 
-Preliminary tests suggest that working with about 100,000 CDS is possible with 
+sequences thru zlib compressed sockets from an ACNUC server is released.
+Preliminary tests suggest that working with about 100,000 CDS is possible with
 a home ADSL connection. See the manual for some \texttt{system.time()}
 examples.
 
@@ -1114,18 +1185,18 @@ outputs. The function has gained a new argument \texttt{glimmer.version}
 defaulting to 3, but the value 2 is still functional for backward compatibility
 with old glimmer outputs.
 
-\item As pointed by e-mail on 24 Oct 2006 by Lionel \textsc{Guy} 
+\item As pointed by e-mail on 24 Oct 2006 by Lionel \textsc{Guy}
 (\url{http://pbil.univ-lyon1.fr/seqinr/seqinrhtmlannuel/03/0089.html})
 there was no default value for the \texttt{as.string} argument in
 the \texttt{getSequence.SeqFastadna()}. A default \texttt{FALSE}
 value is now present for backward compatibility with older code.
 
-\item New utility vectorized function \texttt{stresc()}  to escape \LaTeX~special 
+\item New utility vectorized function \texttt{stresc()}  to escape \LaTeX~special
 characters present in a string.
 
 \item New low level function \texttt{readsmj()} available.
 
-\item A new function \texttt{readfirstrec()} to get 
+\item A new function \texttt{readfirstrec()} to get
 the record count of the specified ACNUC index file is now available.
 
 \item Function \texttt{getType()} called without arguments will now use
@@ -1146,7 +1217,7 @@ breakpoints in rearranged nucleotide skews. This function uses the
 \item New function \texttt{draw.rearranged.oriloc()} available, to plot
 nucleotide skews on artificially rearranged prokaryotic chromosomes.
 
-\item New function \texttt{gbk2g2.euk()} available. Similarly to 
+\item New function \texttt{gbk2g2.euk()} available. Similarly to
 \texttt{gbk2g2()}, this function extracts the coding sequence annotations
 from a GenBank format file. This function is specifically designed for
 eukaryotic sequences, \textit{i.e.} with introns. The output file will contain
@@ -1166,12 +1237,12 @@ the ACNUC books \cite{GautierC1982a, GautierC1982b} : 474,439 should be 526,506.
 
 \item Function \texttt{invers()} has been deleted.
 
-\item Functions \texttt{translate()}, \texttt{getTrans()} and \texttt{comp()} have gained a 
-new argument \texttt{ambiguous} defaulting to FALSE allowing to handle 
-ambiguous bases. If TRUE, ambiguous bases are taken into account so that 
+\item Functions \texttt{translate()}, \texttt{getTrans()} and \texttt{comp()} have gained a
+new argument \texttt{ambiguous} defaulting to FALSE allowing to handle
+ambiguous bases. If TRUE, ambiguous bases are taken into account so that
 for instance GGN is translated to Gly in the standard genetic code.
 
-\item New function \texttt{amb()} to return the list of nucleotide matching 
+\item New function \texttt{amb()} to return the list of nucleotide matching
 a given IUPAC nucleotide symbol.
 
 \item Function \texttt{count()} has gained a new argument \texttt{alphabet}
@@ -1244,7 +1315,7 @@ settings with the new logical argument \texttt{set.attributes}.
 \item A new function \texttt{write.fasta()} is now available.
 
 \item The function \texttt{kaks()} now forces character in sequences to upper case.
-This default behavior can be neutralized in order to save time by setting the 
+This default behavior can be neutralized in order to save time by setting the
 argument \texttt{forceUpperCase} to \texttt{FALSE}.
 
 \end{itemize}
@@ -1328,7 +1399,7 @@ Une entrée BibTeX pour les utilisateurs LaTeX est
 \end{Soutput}
 \end{Schunk}
 
-\item There was a bug when sending a \texttt{gfrag} request to the server for long (Mb range) 
+\item There was a bug when sending a \texttt{gfrag} request to the server for long (Mb range)
 sequences. The length argument was converted to scientific notations that are not understand by the
 server. This is now corrected and should work up the the Gb scale.
 
@@ -1337,9 +1408,9 @@ there are now download at once which is much more efficient. For example, a quer
 researcher-home ADSL connection with a list with about 1000 elements was 60 seconds and
 is now only 4 seconds (\textit{i.e.} 15 times faster now).
 
-\item A new parameter \texttt{virtual} has been added to \texttt{query()} 
+\item A new parameter \texttt{virtual} has been added to \texttt{query()}
 so that long lists can stay on the server without trying to download
-them automatically. A query like \texttt{query(s\$socket,"allcds","t=cds", virtual = TRUE)} is 
+them automatically. A query like \texttt{query(s\$socket,"allcds","t=cds", virtual = TRUE)} is
 now possible.
 
 \item Relevant genetic codes and frames are now automatically propagated.
@@ -1382,25 +1453,26 @@ This is the only release that does not respect the \texttt{X.Y-Z} scheme for rel
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}\raggedright
-  \item R version 3.4.1 (2017-06-30), \verb|x86_64-apple-darwin15.6.0|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
-  \item Running under: \verb|macOS Sierra 10.12.6|
+  \item R version 4.1.2 (2021-11-01), \verb|x86_64-pc-linux-gnu|
+  \item Locale: \verb|LC_CTYPE=fr_FR.UTF-8|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=fr_FR.UTF-8|, \verb|LC_COLLATE=fr_FR.UTF-8|, \verb|LC_MONETARY=fr_FR.UTF-8|, \verb|LC_MESSAGES=fr_FR.UTF-8|, \verb|LC_PAPER=fr_FR.UTF-8|, \verb|LC_NAME=C|, \verb|LC_ADDRESS=C|, \verb|LC_TELEPHONE=C|, \verb|LC_MEASUREMENT=fr_FR.UTF-8|, \verb|LC_IDENTIFICATION=C|
+  \item Running under: \verb|Ubuntu 20.04.2 LTS|
   \item Matrix products: default
-  \item BLAS: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib|
-  \item LAPACK: \verb|/Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib|
+  \item BLAS:   \verb|/usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0|
+  \item LAPACK: \verb|/usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.7-8, ape~4.1, grImport~0.9-0,
-    MASS~7.3-47, seqinr~3.4-6, tseries~0.10-41, XML~3.98-1.9,
-    xtable~1.8-2
-  \item Loaded via a namespace (and not attached): compiler~3.4.1,
-    lattice~0.20-35, nlme~3.1-131, parallel~3.4.1, quadprog~1.5-5,
-    quantmod~0.4-10, tools~3.4.1, TTR~0.23-1, xts~0.9-7, zoo~1.8-0
+  \item Other packages: ade4~1.7-18, ape~5.6-1, grImport~0.9-5,
+    MASS~7.3-54, seqinr~4.2-11, tseries~0.10-49, XML~3.99-0.8,
+    xtable~1.8-4
+  \item Loaded via a namespace (and not attached): compiler~4.1.2,
+    curl~4.3.2, lattice~0.20-45, nlme~3.1-153, parallel~4.1.2,
+    quadprog~1.5-8, quantmod~0.4.18, Rcpp~1.0.7, tools~4.1.2,
+    TTR~0.24.3, xts~0.12.1, zoo~1.8-9
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Feb 24 11:46:24 2018
+  \item \Rlogo{} compilation time was: Wed Feb 16 11:02:03 2022
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

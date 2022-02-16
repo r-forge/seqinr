@@ -19,6 +19,13 @@ most recent on top.
 
 \section*{4.2 series}
 
+\subsection*{release 4.2-12}
+\begin{itemize}
+\item
+Fixing bug spotted by Danny Arends: gap option in dist.alignment is now working for protein sequence.
+\end{itemize}
+
+
 \subsection*{release 4.2-10}
 \begin{itemize}
 \item Fixing a bug in dotchart.uco caused by the new offset parameter in dotchart
